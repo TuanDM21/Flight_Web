@@ -13,7 +13,12 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedProfileImport } from './routes/_authenticated/profile'
+import { Route as authLoginImport } from './routes/(auth)/login'
+import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
+import { Route as AuthenticatedTasksAssignImport } from './routes/_authenticated/tasks/assign'
 
 // Create Virtual Routes
 
@@ -21,10 +26,15 @@ const errors404LazyImport = createFileRoute('/(errors)/404')()
 
 // Create/Update Routes
 
-const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
-  id: '/_authenticated/',
-  path: '/',
+const AuthenticatedRoute = AuthenticatedImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedIndexRoute = AuthenticatedIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 const errors404LazyRoute = errors404LazyImport
@@ -35,10 +45,55 @@ const errors404LazyRoute = errors404LazyImport
   } as any)
   .lazy(() => import('./routes/(errors)/404.lazy').then((d) => d.Route))
 
+const AuthenticatedProfileRoute = AuthenticatedProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const authLoginRoute = authLoginImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexImport.update({
+  id: '/tasks/',
+  path: '/tasks/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
+const AuthenticatedTasksAssignRoute = AuthenticatedTasksAssignImport.update({
+  id: '/tasks/assign',
+  path: '/tasks/assign',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/(errors)/404': {
       id: '/(errors)/404'
       path: '/404'
@@ -51,46 +106,109 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/tasks/assign': {
+      id: '/_authenticated/tasks/assign'
+      path: '/tasks/assign'
+      fullPath: '/tasks/assign'
+      preLoaderRoute: typeof AuthenticatedTasksAssignImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/tasks/': {
+      id: '/_authenticated/tasks/'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksIndexImport
+      parentRoute: typeof AuthenticatedImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedTasksAssignRoute: typeof AuthenticatedTasksAssignRoute
+  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedTasksAssignRoute: AuthenticatedTasksAssignRoute,
+  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
+  '': typeof AuthenticatedRouteWithChildren
+  '/login': typeof authLoginRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/404': typeof errors404LazyRoute
   '/': typeof AuthenticatedIndexRoute
+  '/tasks/assign': typeof AuthenticatedTasksAssignRoute
+  '/tasks': typeof AuthenticatedTasksIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof authLoginRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/404': typeof errors404LazyRoute
   '/': typeof AuthenticatedIndexRoute
+  '/tasks/assign': typeof AuthenticatedTasksAssignRoute
+  '/tasks': typeof AuthenticatedTasksIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/(errors)/404': typeof errors404LazyRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/tasks/assign': typeof AuthenticatedTasksAssignRoute
+  '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/404' | '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/profile'
+    | '/404'
+    | '/'
+    | '/tasks/assign'
+    | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/404' | '/'
-  id: '__root__' | '/(errors)/404' | '/_authenticated/'
+  to: '/login' | '/profile' | '/404' | '/' | '/tasks/assign' | '/tasks'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/(auth)/login'
+    | '/_authenticated/profile'
+    | '/(errors)/404'
+    | '/_authenticated/'
+    | '/_authenticated/tasks/assign'
+    | '/_authenticated/tasks/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  authLoginRoute: typeof authLoginRoute
   errors404LazyRoute: typeof errors404LazyRoute
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  authLoginRoute: authLoginRoute,
   errors404LazyRoute: errors404LazyRoute,
-  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -103,15 +221,41 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/(errors)/404",
-        "/_authenticated/"
+        "/_authenticated",
+        "/(auth)/login",
+        "/(errors)/404"
       ]
+    },
+    "/_authenticated": {
+      "filePath": "_authenticated.tsx",
+      "children": [
+        "/_authenticated/profile",
+        "/_authenticated/",
+        "/_authenticated/tasks/assign",
+        "/_authenticated/tasks/"
+      ]
+    },
+    "/(auth)/login": {
+      "filePath": "(auth)/login.tsx"
+    },
+    "/_authenticated/profile": {
+      "filePath": "_authenticated/profile.tsx",
+      "parent": "/_authenticated"
     },
     "/(errors)/404": {
       "filePath": "(errors)/404.lazy.tsx"
     },
     "/_authenticated/": {
-      "filePath": "_authenticated/index.tsx"
+      "filePath": "_authenticated/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/tasks/assign": {
+      "filePath": "_authenticated/tasks/assign.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/tasks/": {
+      "filePath": "_authenticated/tasks/index.tsx",
+      "parent": "/_authenticated"
     }
   }
 }

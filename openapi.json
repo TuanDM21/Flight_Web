@@ -1,0 +1,2354 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Airport Control System API",
+    "description": "API documentation for Airport Control System",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "http://localhost:8080", "description": "Generated server url" }
+  ],
+  "security": [{ "bearerAuth": [] }],
+  "tags": [
+    { "name": "Authentication", "description": "APIs for user authentication" },
+    { "name": "Team Management", "description": "APIs for managing teams" }
+  ],
+  "paths": {
+    "/api/users/{id}": {
+      "get": {
+        "tags": ["user-controller"],
+        "summary": "Get user by ID",
+        "description": "Retrieve a user by their ID",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["user-controller"],
+        "summary": "Update user",
+        "description": "Update an existing user",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["user-controller"],
+        "summary": "Delete user",
+        "description": "Delete a user by ID",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-shifts/{id}": {
+      "get": {
+        "tags": ["user-shift-controller"],
+        "summary": "Lấy ca trực của user theo id",
+        "operationId": "getUserShiftById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["user-shift-controller"],
+        "summary": "Cập nhật ca trực của user",
+        "operationId": "updateUserShift",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AssignShiftRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["user-shift-controller"],
+        "summary": "Xóa ca trực của user",
+        "operationId": "deleteUserShift",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shifts/{id}": {
+      "get": {
+        "tags": ["shift-controller"],
+        "summary": "Lấy ca trực theo id",
+        "operationId": "getShiftById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["shift-controller"],
+        "summary": "Cập nhật ca trực",
+        "operationId": "updateShift",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Shift" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Mã lịch trực đã tồn tại",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["shift-controller"],
+        "summary": "Xóa ca trực",
+        "operationId": "deleteShift",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles/{id}": {
+      "get": {
+        "tags": ["role-controller"],
+        "summary": "Lấy vai trò theo id",
+        "operationId": "getRoleById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["role-controller"],
+        "summary": "Cập nhật vai trò",
+        "operationId": "updateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RoleDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["role-controller"],
+        "summary": "Xóa vai trò",
+        "operationId": "deleteRole",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/{id}": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Lấy chuyến bay theo id",
+        "operationId": "getFlightById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["flight-controller"],
+        "summary": "Cập nhật chuyến bay",
+        "operationId": "updateFlight",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Flight" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["flight-controller"],
+        "summary": "Xóa chuyến bay",
+        "operationId": "deleteFlight",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/airports/{id}": {
+      "get": {
+        "tags": ["airport-controller"],
+        "summary": "Lấy sân bay theo id",
+        "operationId": "getAirportById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["airport-controller"],
+        "summary": "Cập nhật sân bay",
+        "operationId": "updateAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Airport" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "404": {
+            "description": "Không tìm thấy",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["airport-controller"],
+        "summary": "Xóa sân bay",
+        "operationId": "deleteAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities/{id}": {
+      "get": {
+        "tags": ["activity-controller"],
+        "summary": "Lấy chi tiết hoạt động",
+        "operationId": "getActivity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lấy chi tiết hoạt động thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["activity-controller"],
+        "summary": "Cập nhật hoạt động",
+        "operationId": "updateActivity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ActivityDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật hoạt động thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["activity-controller"],
+        "summary": "Xóa hoạt động",
+        "operationId": "deleteActivity",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa hoạt động thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": ["user-controller"],
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all users",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["user-controller"],
+        "summary": "Create user",
+        "description": "Create a new user",
+        "operationId": "createUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/expo-push-token": {
+      "post": {
+        "tags": ["user-controller"],
+        "summary": "Save Expo Push Token",
+        "description": "Save Expo Push Token for the current user",
+        "operationId": "saveExpoPushToken",
+        "requestBody": {
+          "content": { "application/json": { "schema": { "type": "string" } } },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Expo push token saved successfully",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-shifts/assign": {
+      "post": {
+        "tags": ["user-shift-controller"],
+        "summary": "Gán ca trực cho user",
+        "operationId": "assignShiftToUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AssignShiftRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Gán thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-shifts/apply-multi": {
+      "post": {
+        "tags": ["user-shift-controller"],
+        "summary": "Áp dụng ca cho nhiều user",
+        "operationId": "applyShiftToUsers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ApplyShiftMultiDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Áp dụng thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/apply": {
+      "post": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Áp dụng ca trực chuyến bay cho user",
+        "operationId": "applyFlightShift",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyFlightShiftRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Lỗi dữ liệu",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Áp dụng thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/teams": {
+      "get": {
+        "tags": ["Team Management"],
+        "summary": "Get all teams",
+        "description": "Retrieve a list of all teams",
+        "operationId": "getAllTeams",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved all teams",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Team Management"],
+        "summary": "Create a new team",
+        "description": "Create a new team with the provided details",
+        "operationId": "createTeam",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TeamDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Team created successfully",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shifts": {
+      "get": {
+        "tags": ["shift-controller"],
+        "summary": "Lấy danh sách ca trực",
+        "operationId": "getAllShifts",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["shift-controller"],
+        "summary": "Tạo ca trực mới",
+        "operationId": "createShift",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Shift" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "409": {
+            "description": "Mã lịch trực đã tồn tại",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Tạo thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "tags": ["role-controller"],
+        "summary": "Lấy danh sách vai trò",
+        "operationId": "getAllRoles",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["role-controller"],
+        "summary": "Tạo vai trò mới",
+        "operationId": "createRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RoleDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Tạo thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/read/{id}": {
+      "post": {
+        "tags": ["notification-controller"],
+        "summary": "Đánh dấu thông báo đã đọc",
+        "operationId": "markAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa xác thực",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Lấy tất cả chuyến bay",
+        "operationId": "getAllFlights",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["flight-controller"],
+        "summary": "Tạo chuyến bay mới",
+        "operationId": "createFlight",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Flight" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Tạo thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User registration",
+        "description": "Register a new user",
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Registration successful",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiRegisterResponse" }
+              }
+            }
+          },
+          "409": {
+            "description": "Email already exists",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "User login",
+        "description": "Authenticate user and return JWT token",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiLoginResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/airports": {
+      "get": {
+        "tags": ["airport-controller"],
+        "summary": "Lấy danh sách tất cả các sân bay",
+        "operationId": "getAllAirports",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["airport-controller"],
+        "summary": "Tạo sân bay mới",
+        "operationId": "createAirport",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Airport" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Tạo thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities": {
+      "get": {
+        "tags": ["activity-controller"],
+        "summary": "Lấy danh sách hoạt động",
+        "operationId": "getAllActivities",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lấy danh sách hoạt động thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["activity-controller"],
+        "summary": "Tạo hoạt động mới",
+        "operationId": "createActivity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ActivityDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Tạo hoạt động thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities/{id}/participants": {
+      "post": {
+        "tags": ["activity-controller"],
+        "summary": "Thêm người tham gia hoạt động",
+        "operationId": "addParticipants",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ActivityParticipantDTO"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Thêm người tham gia thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["activity-controller"],
+        "summary": "Xóa người tham gia hoạt động",
+        "operationId": "removeParticipant",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "participantType",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "participantId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Xóa người tham gia thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/{id}/times": {
+      "patch": {
+        "tags": ["flight-controller"],
+        "summary": "Cập nhật thời gian chuyến bay",
+        "operationId": "updateFlightTimes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlightTimeUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/search": {
+      "get": {
+        "tags": ["user-controller"],
+        "summary": "Search users",
+        "description": "Search users by keyword (name or email)",
+        "operationId": "searchUsersByKeyword",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully searched users",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": ["user-controller"],
+        "summary": "Get current user",
+        "description": "Get the current user based on token",
+        "operationId": "getCurrentUser",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved current user",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/filter": {
+      "get": {
+        "tags": ["user-controller"],
+        "summary": "Filter users",
+        "description": "Filter users by team, unit, or search text",
+        "operationId": "filterUsers",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "unitId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "searchText",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully filtered users",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-shifts": {
+      "get": {
+        "tags": ["user-shift-controller"],
+        "summary": "Lấy tất cả ca trực của user",
+        "operationId": "getAllUserShifts",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-shifts/filter": {
+      "get": {
+        "tags": ["user-shift-controller"],
+        "summary": "Lọc lịch trực theo ngày, team, unit",
+        "operationId": "getSchedulesByCriteria",
+        "parameters": [
+          {
+            "name": "shiftDate",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "teamId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "unitId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/shifts": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lấy danh sách user-flight-shifts theo flightId và shiftDate",
+        "operationId": "getShiftsByFlightAndDate",
+        "parameters": [
+          {
+            "name": "flightId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/shifts/available": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lấy danh sách ca trực còn trống",
+        "operationId": "getAvailableShifts",
+        "parameters": [
+          {
+            "name": "flightId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/shifts/assigned": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lấy danh sách ca trực đã phân công",
+        "operationId": "getAssignedShifts",
+        "parameters": [
+          {
+            "name": "flightId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/isAssigned": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Kiểm tra user đã phục vụ chuyến bay chưa",
+        "operationId": "isUserAssigned",
+        "parameters": [
+          {
+            "name": "shiftDate",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/filter": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lọc lịch phục vụ chuyến bay",
+        "operationId": "getFlightSchedules",
+        "parameters": [
+          {
+            "name": "shiftDate",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "teamId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "unitId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "flightId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/by-user/{userId}": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lấy ca trực theo user",
+        "operationId": "getShiftsByUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts/by-date": {
+      "get": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Lấy ca trực theo ngày",
+        "operationId": "getShiftsByDate",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/units": {
+      "get": {
+        "tags": ["unit-controller"],
+        "summary": "Lấy tất cả đơn vị",
+        "description": "Lấy tất cả đơn vị hoặc đơn vị theo team nếu có teamId",
+        "operationId": "getUnits",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": ["notification-controller"],
+        "summary": "Lấy danh sách thông báo của người dùng hiện tại",
+        "operationId": "getNotifications",
+        "responses": {
+          "401": {
+            "description": "Chưa xác thực",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/unread-count": {
+      "get": {
+        "tags": ["notification-controller"],
+        "summary": "Đếm số lượng thông báo chưa đọc",
+        "operationId": "countUnread",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "401": {
+            "description": "Chưa xác thực",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/today": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Lấy chuyến bay hôm nay",
+        "operationId": "getTodayFlights",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/search": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Tìm kiếm chuyến bay theo keyword",
+        "operationId": "searchFlights",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/searchByDate": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Tìm kiếm chuyến bay theo ngày",
+        "operationId": "searchFlightByDate",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "400": {
+            "description": "Sai định dạng ngày",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/flights/searchByDateAndKeyword": {
+      "get": {
+        "tags": ["flight-controller"],
+        "summary": "Tìm kiếm chuyến bay theo ngày và keyword",
+        "operationId": "searchFlightByDateAndKeyword",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          },
+          "400": {
+            "description": "Sai định dạng ngày",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities/search": {
+      "get": {
+        "tags": ["activity-controller"],
+        "summary": "Tìm kiếm hoạt động theo tháng/năm",
+        "operationId": "searchActivitiesByMonthYear",
+        "parameters": [
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tìm kiếm thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/activities/my": {
+      "get": {
+        "tags": ["activity-controller"],
+        "summary": "Lấy hoạt động của tôi",
+        "operationId": "getMyActivities",
+        "responses": {
+          "200": {
+            "description": "Lấy hoạt động của tôi thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": ["home-controller"],
+        "summary": "Trang chủ API",
+        "operationId": "home",
+        "responses": {
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-flight-shifts": {
+      "delete": {
+        "tags": ["user-flight-shift-controller"],
+        "summary": "Xóa phân công ca trực chuyến bay",
+        "operationId": "removeFlightAssignment",
+        "parameters": [
+          {
+            "name": "flightId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "shiftDate",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Xóa thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Airport": {
+        "required": [
+          "airportCode",
+          "airportName",
+          "city",
+          "country",
+          "latitude",
+          "longitude"
+        ],
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "airportCode": { "maxLength": 3, "minLength": 3, "type": "string" },
+          "airportName": { "type": "string" },
+          "latitude": {
+            "maximum": 90.0,
+            "exclusiveMaximum": false,
+            "minimum": -90.0,
+            "exclusiveMinimum": false,
+            "type": "number"
+          },
+          "longitude": {
+            "maximum": 180.0,
+            "exclusiveMaximum": false,
+            "minimum": -180.0,
+            "exclusiveMinimum": false,
+            "type": "number"
+          },
+          "city": { "type": "string" },
+          "country": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Flight": {
+        "required": [
+          "arrivalTime",
+          "departureTime",
+          "flightDate",
+          "flightNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "flightNumber": { "type": "string" },
+          "departureAirport": { "$ref": "#/components/schemas/Airport" },
+          "arrivalAirport": { "$ref": "#/components/schemas/Airport" },
+          "departureTime": { "$ref": "#/components/schemas/LocalTime" },
+          "arrivalTime": { "$ref": "#/components/schemas/LocalTime" },
+          "flightDate": { "type": "string", "format": "date" },
+          "actualDepartureTime": { "$ref": "#/components/schemas/LocalTime" },
+          "actualArrivalTime": { "$ref": "#/components/schemas/LocalTime" },
+          "actualDepartureTimeAtArrival": {
+            "$ref": "#/components/schemas/LocalTime"
+          },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "LocalTime": {
+        "type": "object",
+        "properties": {
+          "hour": { "type": "integer", "format": "int32" },
+          "minute": { "type": "integer", "format": "int32" },
+          "second": { "type": "integer", "format": "int32" },
+          "nano": { "type": "integer", "format": "int32" }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "roleName": { "type": "string" },
+          "users": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/User" }
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "teamName": { "type": "string" },
+          "units": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Unit" }
+          },
+          "users": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/User" }
+          }
+        }
+      },
+      "Unit": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "unitName": { "type": "string" },
+          "team": { "$ref": "#/components/schemas/Team" },
+          "users": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/User" }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "password": { "type": "string" },
+          "expoPushToken": { "type": "string" },
+          "role": { "$ref": "#/components/schemas/Role" },
+          "team": { "$ref": "#/components/schemas/Team" },
+          "unit": { "$ref": "#/components/schemas/Unit" },
+          "userFlightShifts": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/UserFlightShift" }
+          }
+        }
+      },
+      "UserFlightShift": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "user": { "$ref": "#/components/schemas/User" },
+          "flight": { "$ref": "#/components/schemas/Flight" },
+          "shiftDate": { "type": "string", "format": "date" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ApiResponseCustom": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Thông báo kết quả",
+            "example": "Thành công"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Mã trạng thái HTTP",
+            "format": "int32",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "description": "Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể."
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Trạng thái thành công hay thất bại",
+            "example": true
+          }
+        },
+        "description": "Response chuẩn cho tất cả API"
+      },
+      "AssignShiftRequest": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "integer", "format": "int32" },
+          "shiftDate": { "type": "string" },
+          "shiftId": { "type": "integer", "format": "int32" }
+        }
+      },
+      "Shift": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "shiftCode": { "type": "string" },
+          "startTime": { "$ref": "#/components/schemas/LocalTime" },
+          "endTime": { "$ref": "#/components/schemas/LocalTime" },
+          "location": { "type": "string" },
+          "description": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "RoleDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "roleName": { "type": "string" }
+        }
+      },
+      "ActivityDTO": {
+        "required": ["endTime", "location", "name", "startTime"],
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "maxLength": 255, "minLength": 0, "type": "string" },
+          "location": { "maxLength": 255, "minLength": 0, "type": "string" },
+          "startTime": { "type": "string", "format": "date-time" },
+          "endTime": { "type": "string", "format": "date-time" },
+          "notes": { "maxLength": 1000, "minLength": 0, "type": "string" },
+          "participants": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ActivityParticipantDTO" }
+          },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ActivityParticipantDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int64" },
+          "participantType": { "type": "string" },
+          "participantId": { "type": "integer", "format": "int64" },
+          "participantName": { "type": "string" }
+        }
+      },
+      "ApplyShiftMultiDTO": {
+        "type": "object",
+        "properties": {
+          "shiftDate": { "type": "string", "format": "date" },
+          "userIds": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int32" }
+          },
+          "shiftCode": { "type": "string" }
+        }
+      },
+      "ApplyFlightShiftRequest": {
+        "type": "object",
+        "properties": {
+          "flightId": { "type": "integer", "format": "int64" },
+          "userIds": {
+            "type": "array",
+            "items": { "type": "integer", "format": "int32" }
+          },
+          "shiftDate": { "type": "string", "format": "date" }
+        }
+      },
+      "TeamDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "teamName": { "type": "string" }
+        }
+      },
+      "RegisterRequest": {
+        "required": ["email", "name", "password"],
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 6,
+            "type": "string"
+          },
+          "roleId": { "type": "integer", "format": "int32" },
+          "teamId": { "type": "integer", "format": "int32" },
+          "unitId": { "type": "integer", "format": "int32" }
+        }
+      },
+      "ApiRegisterResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Thông báo kết quả",
+            "example": "Thành công"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Mã trạng thái HTTP",
+            "format": "int32",
+            "example": 200
+          },
+          "data": { "$ref": "#/components/schemas/RegisterResponse" },
+          "success": {
+            "type": "boolean",
+            "description": "Trạng thái thành công hay thất bại",
+            "example": true
+          }
+        },
+        "description": "API response for register, data is RegisterResponse"
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "role": { "$ref": "#/components/schemas/RoleDTO" },
+          "team": { "$ref": "#/components/schemas/TeamDTO" },
+          "unit": { "$ref": "#/components/schemas/UnitDTO" }
+        },
+        "description": "Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể."
+      },
+      "UnitDTO": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "format": "int32" },
+          "unitName": { "type": "string" },
+          "teamId": { "type": "integer", "format": "int32" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "password": { "type": "string" }
+        }
+      },
+      "ApiLoginResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Thông báo kết quả",
+            "example": "Thành công"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Mã trạng thái HTTP",
+            "format": "int32",
+            "example": 200
+          },
+          "data": { "$ref": "#/components/schemas/LoginResponse" },
+          "success": {
+            "type": "boolean",
+            "description": "Trạng thái thành công hay thất bại",
+            "example": true
+          }
+        },
+        "description": "API response for login, data is LoginResponse"
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": { "type": "string" },
+          "tokenType": { "type": "string" },
+          "expiresIn": { "type": "integer", "format": "int64" }
+        },
+        "description": "Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể."
+      },
+      "FlightTimeUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "actualDepartureTime": { "type": "string" },
+          "actualArrivalTime": { "type": "string" },
+          "actualDepartureTimeAtArrival": { "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
