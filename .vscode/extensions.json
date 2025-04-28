@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "antfu.goto-alias",
+    "bradlc.vscode-tailwindcss",
+    "streetsidesoftware.code-spell-checker",
+    "EditorConfig.EditorConfig",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "YoavBls.pretty-ts-errors"
+  ]
+}
