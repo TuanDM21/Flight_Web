@@ -61,10 +61,10 @@ export default function AppSidebar() {
           size='lg'
           className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
         >
-          <div className='bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+          <div className='bg-primary text-sidebar-primary-foreground dark:bg-dark-primary dark:text-dark-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
             <Plane className='size-4' />
           </div>
-          <div className='flex flex-col gap-0.5 leading-none'>
+          <div className='dark:text-dark-sidebar-primary-foreground flex flex-col gap-0.5 leading-none'>
             <span className=''>Flight</span>
           </div>
         </SidebarMenuButton>

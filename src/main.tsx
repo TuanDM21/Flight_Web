@@ -2,9 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { NuqsAdapter } from 'nuqs/adapters/react'
 import '~/assets/styles/globals.css'
 import '~/assets/styles/theme.css'
 import { AuthProvider, useAuth } from './context/auth'
+import { ThemeProvider } from './context/theme'
 import { loadEnvVariables } from './lib/env'
 import { routeTree } from './routeTree.gen'
 
@@ -39,11 +41,15 @@ if (rootElement && !rootElement.innerHTML) {
   const root = createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </QueryClientProvider>
+      <NuqsAdapter>
+        <ThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </NuqsAdapter>
     </StrictMode>
   )
 }

@@ -3,6 +3,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import KBar from '~/components/kbar'
 import AppSidebar from '~/components/layout/app-sidebar'
 import Header from '~/components/layout/header'
+import PageContainer from '~/components/layout/page-container'
 import { SidebarInset, SidebarProvider } from '~/components/ui/sidebar'
 
 export const Route = createFileRoute('/_authenticated')({
@@ -28,7 +29,9 @@ function BaseRouteLayout() {
         <AppSidebar />
         <SidebarInset>
           <Header />
-          <Outlet />
+          <PageContainer>
+            <Outlet />
+          </PageContainer>
         </SidebarInset>
       </SidebarProvider>
     </KBar>
