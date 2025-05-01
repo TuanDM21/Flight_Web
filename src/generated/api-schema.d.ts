@@ -1028,6 +1028,59 @@ export interface components {
             id?: number;
             teamName?: string;
         };
+        /** @description Response cho các trường hợp thành công */
+        ApiResponseSuccess: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null) */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /**
+         * @description Response cho các trường hợp lỗi
+         * @example {
+         *       "message": "Không tìm thấy tài nguyên",
+         *       "statusCode": 404,
+         *       "errorDetails": null,
+         *       "success": false
+         *     }
+         */
+        ApiErrorResponse: {
+            /**
+             * @description Thông báo lỗi
+             * @example Không tìm thấy tài nguyên
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 404
+             */
+            statusCode?: number;
+            /**
+             * @description Chi tiết lỗi (nếu có)
+             * @example null
+             */
+            errorDetails?: Record<string, never> | null;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example false
+             */
+            success?: boolean;
+        };
         RegisterRequest: {
             name: string;
             email: string;
@@ -1077,8 +1130,8 @@ export interface components {
             teamId?: number;
         };
         LoginRequest: {
-            email?: string;
-            password?: string;
+            email: string;
+            password: string;
         };
         /** @description API response for login, data is LoginResponse */
         ApiLoginResponse: {
@@ -1111,6 +1164,59 @@ export interface components {
             actualDepartureTime?: string;
             actualArrivalTime?: string;
             actualDepartureTimeAtArrival?: string;
+        };
+        /** @description API response for current user, data is UserDTO */
+        ApiMeResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["MeResponse"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        MeResponse: {
+            /**
+             * Format: int32
+             * @description ID of the user
+             */
+            id: number;
+            /** @description Name of the user */
+            name: string;
+            /** @description Email of the user */
+            email: string;
+            /** @description Role name of the user */
+            roleName: string;
+            /** @description Team name of the user */
+            teamName: string;
+            /** @description Unit name of the user */
+            unitName: string;
+            /**
+             * Format: int32
+             * @description Role ID of the user
+             */
+            roleId: number;
+            /**
+             * Format: int32
+             * @description Team ID of the user
+             */
+            teamId: number;
+            /**
+             * Format: int32
+             * @description Unit ID of the user
+             */
+            unitId: number;
         };
     };
     responses: never;
@@ -2071,7 +2177,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiResponseSuccess"];
                 };
             };
             /** @description Chưa xác thực */
@@ -2080,7 +2186,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -2157,16 +2263,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
-                };
-            };
-            /** @description Email already exists */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -2199,16 +2296,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
-                };
-            };
-            /** @description Access denied */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -2418,7 +2506,16 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiMeResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -2718,7 +2815,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiResponseSuccess"];
                 };
             };
             /** @description Chưa xác thực */
@@ -2727,7 +2824,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };

@@ -17,7 +17,7 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
     return (
       <>
         <Outlet />
-        <Toaster />
+        <Toaster richColors />
         {/* {import.meta.env.MODE === 'development' && (
           <>
             <ReactQueryDevtools buttonPosition='bottom-left' />

@@ -1,9 +1,10 @@
 'use client'
 
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import {
-  IconCircleCheck,
   IconBell,
   IconChevronsDown,
+  IconCircleCheck,
   IconCreditCard,
   IconLogout,
   IconSparkles,
@@ -24,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '~/components/ui/sidebar'
+import { useAuth } from '~/context/auth'
 
 export function NavUser({
   user,
@@ -35,6 +37,17 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter()
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = async () => {
+    await logout()
+    navigate({ to: '/login' })
+    router.invalidate().finally(() => {
+      navigate({ to: '/' })
+    })
+  }
 
   return (
     <SidebarMenu>
@@ -97,7 +110,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout className='mr-2 h-4 w-4' />
               Log out
             </DropdownMenuItem>

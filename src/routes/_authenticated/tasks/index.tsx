@@ -30,148 +30,212 @@ export const Route = createFileRoute('/_authenticated/tasks/')({
   component: TaskListPage,
 })
 
-interface Project {
-  id: string
-  title: string
-  status: 'active' | 'inactive'
-  budget: number
+// Đầu file: Thêm interface cho Task
+interface Task {
+  id: number
+  content: string
+  created_at: string
+  updated_at: string
+  created_by: {
+    id: number
+    name: string
+  }
+  assignments: {
+    recipient_id: number
+    recipient_type: 'user' | 'team' | 'unit'
+    status: 0 | 1 | 2
+    assigned_at: string
+    due_at: string
+    completed_at: string | null
+    completed_by: number | null
+  }[]
 }
 
-const data: Project[] = [
-  {
-    id: '1',
-    title: 'Project Alpha',
-    status: 'active',
-    budget: 50000,
+// Mock data
+const mockTasks: {
+  status: 'success'
+  data: Task[]
+  pagination: {
+    total: number
+    page: number
+    limit: number
+  }
+} = {
+  status: 'success',
+  data: [
+    {
+      id: 101,
+      content: 'Prepare Q1 financial report',
+      created_at: '2025-04-01T10:00:00Z',
+      updated_at: '2025-04-05T14:30:00Z',
+      created_by: { id: 1, name: 'Alice' },
+      assignments: [
+        {
+          recipient_id: 10,
+          recipient_type: 'user',
+          status: 1,
+          assigned_at: '2025-04-01T11:00:00Z',
+          due_at: '2025-04-10T00:00:00Z',
+          completed_at: null,
+          completed_by: null,
+        },
+      ],
+    },
+    {
+      id: 102,
+      content: 'Team meeting for project roadmap',
+      created_at: '2025-04-02T09:00:00Z',
+      updated_at: '2025-04-04T16:00:00Z',
+      created_by: { id: 2, name: 'Bob' },
+      assignments: [
+        {
+          recipient_id: 5,
+          recipient_type: 'team',
+          status: 2,
+          assigned_at: '2025-04-02T10:00:00Z',
+          due_at: '2025-04-07T00:00:00Z',
+          completed_at: '2025-04-06T15:00:00Z',
+          completed_by: 3,
+        },
+      ],
+    },
+    {
+      id: 103,
+      content: 'Update security protocols',
+      created_at: '2025-03-28T08:30:00Z',
+      updated_at: '2025-04-01T12:00:00Z',
+      created_by: { id: 3, name: 'Charlie' },
+      assignments: [
+        {
+          recipient_id: 7,
+          recipient_type: 'unit',
+          status: 0,
+          assigned_at: '2025-03-28T09:00:00Z',
+          due_at: '2025-04-15T00:00:00Z',
+          completed_at: null,
+          completed_by: null,
+        },
+      ],
+    },
+  ],
+  pagination: {
+    total: 3,
+    page: 1,
+    limit: 10,
   },
-  {
-    id: '2',
-    title: 'Project Beta',
-    status: 'inactive',
-    budget: 75000,
-  },
-  {
-    id: '3',
-    title: 'Project Gamma',
-    status: 'active',
-    budget: 25000,
-  },
-  {
-    id: '4',
-    title: 'Project Delta',
-    status: 'active',
-    budget: 100000,
-  },
-]
+}
 
 export function TaskListPage() {
   const [title] = useQueryState('title', parseAsString.withDefault(''))
-  const [status] = useQueryState(
-    'status',
-    parseAsArrayOf(parseAsString).withDefault([])
-  )
+  const [creator] = useQueryState('creator', parseAsString.withDefault(''))
 
-  // Ideally we would filter the data server-side, but for the sake of this example, we'll filter the data client-side
   const filteredData = React.useMemo(() => {
-    return data.filter((project) => {
-      const matchesTitle =
-        title === '' ||
-        project.title.toLowerCase().includes(title.toLowerCase())
-      const matchesStatus =
-        status.length === 0 || status.includes(project.status)
-
-      return matchesTitle && matchesStatus
+    return mockTasks.data.filter((task) => {
+      const matchTitle =
+        title === '' || task.content.toLowerCase().includes(title.toLowerCase())
+      const matchCreator =
+        creator === '' ||
+        task.created_by.name.toLowerCase().includes(creator.toLowerCase())
+      return matchTitle && matchCreator
     })
-  }, [title, status])
+  }, [title, creator])
 
-  const columns = React.useMemo<ColumnDef<Project>[]>(
+  const columns = React.useMemo<ColumnDef<Task>[]>(
     () => [
       {
-        id: 'select',
-        header: ({ table }) => (
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && 'indeterminate')
-            }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-            aria-label='Select all'
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label='Select row'
-          />
-        ),
-        size: 32,
-        enableSorting: false,
-        enableHiding: false,
+        id: 'id',
+        header: 'ID',
+        accessorKey: 'id',
+        cell: ({ row }) => <div>{row.original.id}</div>,
       },
       {
-        id: 'title',
-        accessorKey: 'title',
-        header: ({ column }: { column: Column<Project, unknown> }) => (
-          <DataTableColumnHeader column={column} title='Title' />
-        ),
-        cell: ({ cell }) => <div>{cell.getValue<Project['title']>()}</div>,
-        meta: {
-          label: 'Title',
-          placeholder: 'Search titles...',
-          variant: 'text',
-          icon: Text,
+        id: 'id',
+        header: 'ID123',
+        accessorKey: 'id',
+        cell: ({ row }) => <div>{row.original.id}</div>,
+      },
+      {
+        id: 'content',
+        header: 'Content',
+        accessorKey: 'content',
+        cell: ({ row }) => <div>{row.original.content}</div>,
+      },
+      {
+        id: 'content',
+        header: 'Content123',
+        accessorKey: 'content',
+        cell: ({ row }) => <div>{row.original.content}</div>,
+      },
+      {
+        id: 'created_by',
+        header: 'Created By',
+        accessorFn: (row) => row.created_by.name,
+        cell: ({ row }) => <div>{row.original.created_by.name}</div>,
+      },
+      {
+        id: 'created_at',
+        header: 'Created At',
+        accessorFn: (row) => new Date(row.created_at).toLocaleString(),
+        cell: ({ cell }) => <div>{cell.getValue<string>()}</div>,
+      },
+      {
+        id: 'updated_at',
+        header: 'Updated At',
+        accessorFn: (row) => new Date(row.updated_at).toLocaleString(),
+        cell: ({ cell }) => <div>{cell.getValue<string>()}</div>,
+      },
+      {
+        id: 'assignees_count',
+        header: '# Assignees',
+        accessorFn: (row) => row.assignments.length,
+        cell: ({ cell }) => <div>{cell.getValue<number>()}</div>,
+      },
+      {
+        id: 'completed_count',
+        header: '# Completed',
+        accessorFn: (row) =>
+          row.assignments.filter((a) => a.status === 2).length,
+        cell: ({ cell }) => <div>{cell.getValue<number>()}</div>,
+      },
+      {
+        id: 'nearest_due',
+        header: 'Due At (Nearest)',
+        accessorFn: (row) => {
+          const dueDates = row.assignments
+            .map((a) => new Date(a.due_at))
+            .filter((d) => !isNaN(d.getTime()))
+          if (dueDates.length === 0) return 'N/A'
+          const nearest = dueDates.reduce((a, b) => (a < b ? a : b))
+          return nearest.toLocaleDateString()
         },
-        enableColumnFilter: true,
+        cell: ({ cell }) => <div>{cell.getValue<string>()}</div>,
       },
       {
         id: 'status',
-        accessorKey: 'status',
-        header: ({ column }: { column: Column<Project, unknown> }) => (
-          <DataTableColumnHeader column={column} title='Status' />
-        ),
-        cell: ({ cell }) => {
-          const status = cell.getValue<Project['status']>()
-          const Icon = status === 'active' ? CheckCircle2 : XCircle
-
-          return (
-            <Badge variant='outline' className='capitalize'>
-              <Icon />
-              {status}
-            </Badge>
-          )
+        header: 'Status',
+        accessorFn: (row) => {
+          const statuses = row.assignments.map((a) => a.status)
+          if (statuses.length === 0) return 'Unassigned'
+          if (statuses.every((s) => s === 2)) return 'Done'
+          if (statuses.some((s) => s === 1)) return 'In Progress'
+          return 'Pending'
         },
-        meta: {
-          label: 'Status',
-          variant: 'multiSelect',
-          options: [
-            { label: 'Active', value: 'active', icon: CheckCircle },
-            { label: 'Inactive', value: 'inactive', icon: XCircle },
-          ],
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'budget',
-        accessorKey: 'budget',
-        header: ({ column }: { column: Column<Project, unknown> }) => (
-          <DataTableColumnHeader column={column} title='Budget' />
-        ),
         cell: ({ cell }) => {
-          const budget = cell.getValue<Project['budget']>()
-
-          return (
-            <div className='flex items-center gap-1'>
-              <DollarSign className='size-4' />
-              {budget.toLocaleString()}
-            </div>
-          )
+          const value = cell.getValue<string>()
+          const color =
+            value === 'Done'
+              ? 'text-green-600'
+              : value === 'In Progress'
+                ? 'text-yellow-600'
+                : value === 'Pending'
+                  ? 'text-gray-500'
+                  : 'text-muted-foreground'
+          return <span className={`font-medium ${color}`}>{value}</span>
         },
       },
       {
         id: 'actions',
+        header: '',
         cell: function Cell() {
           return (
             <DropdownMenu>
@@ -201,10 +265,10 @@ export function TaskListPage() {
     columns,
     pageCount: 1,
     initialState: {
-      sorting: [{ id: 'title', desc: true }],
+      sorting: [{ id: 'content', desc: false }],
       columnPinning: { right: ['actions'] },
     },
-    getRowId: (row) => row.id,
+    getRowId: (row) => row.id.toString(),
   })
 
   return (

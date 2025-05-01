@@ -1,51 +1,71 @@
 import * as React from 'react'
-import { LoginCredentials } from '~/types/auth'
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+import $queryClient from '~/api'
+import { AuthorizedUser, LoginCredentials } from '~/types/auth'
 
 export interface AuthContext {
   isAuthenticated: boolean
   login: (credentials: LoginCredentials) => Promise<void>
   logout: () => Promise<void>
-  user: string | null
+  user: AuthorizedUser | null
 }
 
 const AuthContext = React.createContext<AuthContext | null>(null)
 
-const key = 'tanstack.auth.user'
+const tokenKey = 'tanstack.auth.token'
 
-function getStoredUser() {
-  return localStorage.getItem(key)
+function getStoredToken() {
+  return localStorage.getItem(tokenKey)
 }
 
-function setStoredUser(user: string | null) {
-  if (user) {
-    localStorage.setItem(key, user)
+function setStoredToken(token: string | null) {
+  if (token) {
+    localStorage.setItem(tokenKey, token)
   } else {
-    localStorage.removeItem(key)
+    localStorage.removeItem(tokenKey)
   }
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = React.useState<string | null>(getStoredUser())
-  const isAuthenticated = !!user
+  const [token, setToken] = React.useState<string | null>(getStoredToken())
+  const isAuthenticated = !!token
+
+  const loginMutation = $queryClient.useMutation('post', '/api/auth/login')
+  const getMeQuery = $queryClient.useQuery(
+    'get',
+    '/api/users/me',
+    {},
+    {
+      enabled: isAuthenticated,
+    }
+  )
 
   const logout = React.useCallback(async () => {
-    await sleep(250)
-
-    setStoredUser(null)
-    setUser(null)
+    setStoredToken(null)
+    setToken(null)
   }, [])
 
-  const login = React.useCallback(async (credentials: LoginCredentials) => {
-    await sleep(500)
+  const login = React.useCallback(
+    async (credentials: LoginCredentials) => {
+      delete credentials.remember
+      const response = await loginMutation.mutateAsync({
+        body: credentials,
+      })
+      const token = response.data!.accessToken!
+      setStoredToken(token)
+      setToken(token)
+    },
+    [loginMutation]
+  )
 
-    setStoredUser(credentials.email)
-    setUser(credentials.email)
-  }, [])
+  const user = React.useMemo(() => {
+    const user = getMeQuery.data?.data
+    if (!user) return null
+
+    return user
+  }, [getMeQuery.data])
 
   React.useEffect(() => {
-    setUser(getStoredUser())
+    setToken(getStoredToken())
   }, [])
 
   return (

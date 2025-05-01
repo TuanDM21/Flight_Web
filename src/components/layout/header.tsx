@@ -4,6 +4,7 @@ import SearchInput from '../search-input'
 import { ThemeToggle } from '../theme-toggle'
 import { Separator } from '../ui/separator'
 import { SidebarTrigger } from '../ui/sidebar'
+import { UserNav } from './user-nav'
 
 export default function Header() {
   return (
@@ -21,7 +22,7 @@ export default function Header() {
         <div className='ml-auto flex items-center space-x-4'>
           <ThemeToggle />
         </div>
-        {/* <UserNav /> */}
+        <UserNav />
       </div>
     </header>
   )

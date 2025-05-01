@@ -9,6 +9,7 @@ import {
   useRouterState,
 } from '@tanstack/react-router'
 import { IconEye, IconEyeOff } from '@tabler/icons-react'
+import { toast } from 'sonner'
 import { Icons } from '~/components/icons'
 import { Button } from '~/components/ui/button'
 import { Checkbox } from '~/components/ui/checkbox'
@@ -22,11 +23,10 @@ import {
 } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { useAuth } from '~/context/auth'
-import { sleep } from '~/lib/utils'
 import { loginSchema } from '~/schemas/auth'
 import { LoginCredentials } from '~/types/auth'
 
-const fallback = '/dashboard' as const
+const fallback = '/' as const
 
 export const Route = createFileRoute('/(auth)/login')({
   validateSearch: z.object({
@@ -42,34 +42,28 @@ export const Route = createFileRoute('/(auth)/login')({
 
 export default function LoginPage() {
   const auth = useAuth()
-  const router = useRouter()
   const isLoading = useRouterState({ select: (s) => s.isLoading })
-  const navigate = Route.useNavigate()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
-
+  const router = useRouter()
   const search = Route.useSearch()
   const form = useForm<LoginCredentials>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: 'example@example.com',
-      password: 'example123',
+      email: 'nmhungify@gmail.com',
+      password: 'Abcd@123',
       remember: false,
     },
   })
-
   const [showPassword, setShowPassword] = useState(false)
 
   const onSubmit = async (data: LoginCredentials) => {
+    setIsSubmitting(true)
     try {
       await auth.login(data)
 
-      await router.invalidate()
-
-      await sleep(1)
-
-      await navigate({ to: search.redirect || fallback })
+      await router.navigate({ to: search.redirect || fallback })
     } catch (error) {
-      console.error('Error logging in: ', error)
+      toast.error(error instanceof Error ? error.message : 'Login failed')
     } finally {
       setIsSubmitting(false)
     }
@@ -78,14 +72,14 @@ export default function LoginPage() {
   const isLoggingIn = isLoading || isSubmitting
 
   return (
-    <div className='flex h-screen items-center justify-center bg-gray-50'>
-      <div className='mb- w-full max-w-md rounded bg-white p-8 shadow-md'>
+    <div className='bg-background text-foreground flex h-screen items-center justify-center'>
+      <div className='mb- bg-card w-full max-w-md rounded p-8 shadow-md'>
         <div className='mb-10 flex flex-col items-center'>
-          <Icons.logo className='h-12 w-12 text-blue-600' />
-          <h1 className='mt-4 text-2xl font-bold text-gray-800'>
+          <Icons.logo className='text-primary h-12 w-12' />
+          <h1 className='text-card-foreground mt-4 text-2xl font-bold'>
             Welcome Back!
           </h1>
-          <p className='mt-2 text-sm text-gray-600'>
+          <p className='text-muted-foreground mt-2 text-sm'>
             Stay signed in and get special benefits.
           </p>
         </div>
@@ -173,7 +167,7 @@ export default function LoginPage() {
           </form>
         </Form>
 
-        <p className='mt-4 text-center text-sm text-gray-600'>
+        <p className='mt-4 text-center text-sm text-gray-600 dark:text-gray-400'>
           Don't have an account?
         </p>
       </div>

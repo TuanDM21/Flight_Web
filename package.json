@@ -16,7 +16,7 @@
     "postinstall": "npx simple-git-hooks",
     "sizecheck": "npx vite-bundle-visualizer",
     "typecheck": "tsc --noEmit",
-    "op": "openapi-typescript openapi.json -o src/generated/api-schema.d.ts"
+    "op": "openapi-typescript http://localhost:8080/v3/api-docs -o src/generated/api-schema.d.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

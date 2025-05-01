@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import { Link, useRouter, useRouterState } from '@tanstack/react-router'
 import {
   IconBell,
@@ -8,10 +7,9 @@ import {
   IconChevronsDown,
   IconCreditCard,
   IconLogout,
-  IconPhotoUp,
   IconUserCircle,
 } from '@tabler/icons-react'
-import { Plane, PlaneTakeoff } from 'lucide-react'
+import { Plane } from 'lucide-react'
 import {
   Collapsible,
   CollapsibleContent,
@@ -42,17 +40,20 @@ import {
   SidebarRail,
 } from '~/components/ui/sidebar'
 import { sidebarItems } from '~/configs/layout'
-import { useMediaQuery } from '~/hooks/use-media-query'
+import { useAuth } from '~/context/auth'
 import { Icons } from '../icons'
+import { UserAvatarProfile } from '../user-avatar-profile'
 
 export default function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const { isOpen } = useMediaQuery()
   const router = useRouter()
+  const { logout } = useAuth()
+  const { user } = useAuth()
 
-  React.useEffect(() => {
-    // Side effects based on sidebar state changes
-  }, [isOpen])
+  const handleLogout = async () => {
+    await logout()
+    router.navigate({ to: '/login' })
+  }
 
   return (
     <Sidebar collapsible='icon'>
@@ -61,7 +62,7 @@ export default function AppSidebar() {
           size='lg'
           className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
         >
-          <div className='bg-primary text-sidebar-primary-foreground dark:bg-dark-primary dark:text-dark-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
+          <div className='bg-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
             <Plane className='size-4' />
           </div>
           <div className='dark:text-dark-sidebar-primary-foreground flex flex-col gap-0.5 leading-none'>
@@ -138,13 +139,13 @@ export default function AppSidebar() {
                   size='lg'
                   className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
-                  {/* {user && (
+                  {user && (
                     <UserAvatarProfile
                       className='h-8 w-8 rounded-lg'
                       showInfo
                       user={user}
                     />
-                  )} */}
+                  )}
                   <IconChevronsDown className='ml-auto size-4' />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -156,13 +157,13 @@ export default function AppSidebar() {
               >
                 <DropdownMenuLabel className='p-0 font-normal'>
                   <div className='px-1 py-1.5'>
-                    {/* {user && (
+                    {user && (
                       <UserAvatarProfile
                         className='h-8 w-8 rounded-lg'
                         showInfo
                         user={user}
                       />
-                    )} */}
+                    )}
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -184,8 +185,9 @@ export default function AppSidebar() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                   <IconLogout className='mr-2 h-4 w-4' />
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

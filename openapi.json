@@ -29,16 +29,16 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully retrieved user",
+          "404": {
+            "description": "User not found",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "User not found",
+          "200": {
+            "description": "Successfully retrieved user",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -69,16 +69,16 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "User updated successfully",
+          "404": {
+            "description": "User not found",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "User not found",
+          "200": {
+            "description": "User updated successfully",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -268,16 +268,16 @@
               }
             }
           },
-          "200": {
-            "description": "Cập nhật thành công",
+          "404": {
+            "description": "Không tìm thấy",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "Không tìm thấy",
+          "200": {
+            "description": "Cập nhật thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -363,16 +363,16 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Cập nhật thành công",
+          "404": {
+            "description": "Không tìm thấy",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "Không tìm thấy",
+          "200": {
+            "description": "Cập nhật thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -394,16 +394,16 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Xóa thành công",
+          "404": {
+            "description": "Không tìm thấy",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "Không tìm thấy",
+          "204": {
+            "description": "Xóa thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -466,16 +466,16 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Cập nhật thành công",
+          "404": {
+            "description": "Không tìm thấy",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "Không tìm thấy",
+          "200": {
+            "description": "Cập nhật thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -561,16 +561,16 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "Cập nhật thành công",
+          "404": {
+            "description": "Không tìm thấy",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "404": {
-            "description": "Không tìm thấy",
+          "200": {
+            "description": "Cập nhật thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -793,16 +793,16 @@
           "required": true
         },
         "responses": {
-          "409": {
-            "description": "Conflict",
+          "200": {
+            "description": "Áp dụng thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "200": {
-            "description": "Áp dụng thành công",
+          "409": {
+            "description": "Conflict",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -828,16 +828,16 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Lỗi dữ liệu",
+          "200": {
+            "description": "Áp dụng thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "200": {
-            "description": "Áp dụng thành công",
+          "400": {
+            "description": "Lỗi dữ liệu",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -926,16 +926,16 @@
           "required": true
         },
         "responses": {
-          "409": {
-            "description": "Mã lịch trực đã tồn tại",
+          "200": {
+            "description": "Tạo thành công",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
               }
             }
           },
-          "200": {
-            "description": "Tạo thành công",
+          "409": {
+            "description": "Mã lịch trực đã tồn tại",
             "content": {
               "*/*": {
                 "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
@@ -999,19 +999,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Thành công",
-            "content": {
-              "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
-              }
-            }
-          },
           "401": {
             "description": "Chưa xác thực",
             "content": {
               "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
+              }
+            }
+          },
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseSuccess" }
               }
             }
           }
@@ -1073,11 +1073,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Invalid input",
+          "409": {
+            "description": "Email already exists",
             "content": {
               "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
               }
             }
           },
@@ -1089,11 +1089,11 @@
               }
             }
           },
-          "409": {
-            "description": "Email already exists",
+          "400": {
+            "description": "Invalid input",
             "content": {
               "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
               }
             }
           }
@@ -1123,19 +1123,19 @@
               }
             }
           },
-          "403": {
-            "description": "Access denied",
-            "content": {
-              "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
-              }
-            }
-          },
           "401": {
             "description": "Invalid credentials",
             "content": {
               "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
               }
             }
           }
@@ -1754,19 +1754,19 @@
         "summary": "Đếm số lượng thông báo chưa đọc",
         "operationId": "countUnread",
         "responses": {
-          "200": {
-            "description": "Thành công",
-            "content": {
-              "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
-              }
-            }
-          },
           "401": {
             "description": "Chưa xác thực",
             "content": {
               "*/*": {
-                "schema": { "$ref": "#/components/schemas/ApiResponseCustom" }
+                "schema": { "$ref": "#/components/schemas/ApiErrorResponse" }
+              }
+            }
+          },
+          "200": {
+            "description": "Thành công",
+            "content": {
+              "*/*": {
+                "schema": { "$ref": "#/components/schemas/ApiResponseSuccess" }
               }
             }
           }
@@ -2235,6 +2235,59 @@
           "id": { "type": "integer", "format": "int32" },
           "teamName": { "type": "string" }
         }
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Thông báo lỗi",
+            "example": "Không tìm thấy tài nguyên"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Mã trạng thái HTTP",
+            "format": "int32",
+            "example": 404
+          },
+          "errorDetails": {
+            "type": "object",
+            "description": "Chi tiết lỗi (nếu có)",
+            "nullable": true
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Trạng thái thành công hay thất bại",
+            "example": false
+          }
+        },
+        "description": "Response cho các trường hợp lỗi"
+      },
+      "ApiResponseSuccess": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Thông báo kết quả",
+            "example": "Thành công"
+          },
+          "statusCode": {
+            "type": "integer",
+            "description": "Mã trạng thái HTTP",
+            "format": "int32",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "description": "Dữ liệu trả về (object, list hoặc null)"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Trạng thái thành công hay thất bại",
+            "example": true
+          }
+        },
+        "description": "Response cho các trường hợp thành công"
       },
       "RegisterRequest": {
         "required": ["email", "name", "password"],

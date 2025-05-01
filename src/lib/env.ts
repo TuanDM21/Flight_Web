@@ -33,6 +33,5 @@ export const loadEnvVariables = () => {
   if (!parsed.success) {
     throw new Error('Invalid environment variables')
   }
-  console.log('Environment variables loaded successfully')
   return parsed.data
 }

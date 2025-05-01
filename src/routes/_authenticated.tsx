@@ -29,9 +29,9 @@ function BaseRouteLayout() {
         <AppSidebar />
         <SidebarInset>
           <Header />
-          <PageContainer>
-            <Outlet />
-          </PageContainer>
+          {/* <PageContainer> */}
+          <Outlet />
+          {/* </PageContainer> */}
         </SidebarInset>
       </SidebarProvider>
     </KBar>
