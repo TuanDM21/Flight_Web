@@ -1,20 +1,26 @@
-import type { QueryClient } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-import { Toaster } from '~/components/ui/sonner'
-import GeneralError from '~/features/errors/general-error'
-import NotFoundError from '~/features/errors/not-found-error'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { envVariables } from '@/lib/env'
+import { AuthContext } from '@/context/auth'
+import { Toaster } from '@/components/ui/sonner'
+import { NavigationProgress } from '@/components/navigation-progress'
+import GeneralError from '@/features/errors/general-error'
+import NotFoundError from '@/features/errors/not-found-error'
 
-export const Route = createRootRouteWithContext<{
+interface AppRouterContext {
   queryClient: QueryClient
-}>()({
+  auth: AuthContext
+}
+export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: () => {
     return (
       <>
+        <NavigationProgress />
         <Outlet />
-        <Toaster />
-        {import.meta.env.MODE === 'development' && (
+        <Toaster duration={50000} />
+        {envVariables.mode === 'development' && (
           <>
             <ReactQueryDevtools buttonPosition='bottom-left' />
             <TanStackRouterDevtools position='bottom-right' />
