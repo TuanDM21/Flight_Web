@@ -60,7 +60,7 @@ const formSchema = z
         })
       }
 
-      if (!password.match(/[a-z]/)) {
+      if (!/[a-z]/.test(password)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Password must contain at least one lowercase letter.',
@@ -68,7 +68,7 @@ const formSchema = z
         })
       }
 
-      if (!password.match(/\d/)) {
+      if (!/\d/.test(password)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Password must contain at least one number.',

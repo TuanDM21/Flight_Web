@@ -12,7 +12,8 @@ import { UserNav } from '@/components/user-nav'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: ({ context, location }) => {
-    if (!context?.auth?.isAuthenticated) {
+    if (!context.auth.isAuthenticated) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({
         to: '/sign-in',
         search: {

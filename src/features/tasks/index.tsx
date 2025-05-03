@@ -42,7 +42,7 @@ export const mockTasks: Task[] = Array.from({ length: 10 }, (_, i) => ({
   },
   assignments: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }).map(
     () => {
-      const status = faker.helpers.arrayElement([0, 1, 2]) as 0 | 1 | 2
+      const status = faker.helpers.arrayElement([0, 1, 2])
       return {
         recipient_id: faker.number.int({ min: 1, max: 100 }),
         recipient_type: faker.helpers.arrayElement(['user', 'team', 'unit']),
@@ -90,16 +90,18 @@ export function TasksPage() {
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && 'indeterminate')
             }
-            onCheckedChange={(value) =>
+            onCheckedChange={(value) => {
               table.toggleAllPageRowsSelected(!!value)
-            }
+            }}
             aria-label='Select all'
           />
         ),
         cell: ({ row }) => (
           <Checkbox
             checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            onCheckedChange={(value) => {
+              row.toggleSelected(!!value)
+            }}
             aria-label='Select row'
           />
         ),
@@ -148,7 +150,7 @@ export function TasksPage() {
         cell: ({ row }) => {
           const status = row.original.assignments[0]?.status
           let label: string = 'Unknown'
-          let color:
+          const color:
             | 'default'
             | 'outline'
             | 'secondary'
@@ -158,18 +160,21 @@ export function TasksPage() {
           let Icon = XCircle
 
           switch (status) {
-            case 0:
+            case 0: {
               label = 'Pending'
               Icon = XCircle
               break
-            case 1:
+            }
+            case 1: {
               label = 'In Progress'
               Icon = Text
               break
-            case 2:
+            }
+            case 2: {
               label = 'Completed'
               Icon = CheckCircle2
               break
+            }
           }
 
           return (

@@ -11,13 +11,17 @@ export function TasksDialogs() {
       <TasksMutateDrawer
         key='task-create'
         open={open === 'create'}
-        onOpenChange={() => setOpen('create')}
+        onOpenChange={() => {
+          setOpen('create')
+        }}
       />
 
       <TasksImportDialog
         key='tasks-import'
         open={open === 'import'}
-        onOpenChange={() => setOpen('import')}
+        onOpenChange={() => {
+          setOpen('import')
+        }}
       />
 
       {currentRow && (

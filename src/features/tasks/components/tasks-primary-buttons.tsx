@@ -9,11 +9,18 @@ export function TasksPrimaryButtons() {
       <Button
         variant='outline'
         className='space-x-1'
-        onClick={() => setOpen('import')}
+        onClick={() => {
+          setOpen('import')
+        }}
       >
         <span>Import</span> <IconDownload size={18} />
       </Button>
-      <Button className='space-x-1' onClick={() => setOpen('create')}>
+      <Button
+        className='space-x-1'
+        onClick={() => {
+          setOpen('create')
+        }}
+      >
         <span>Create</span> <IconPlus size={18} />
       </Button>
     </div>

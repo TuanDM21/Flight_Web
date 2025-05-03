@@ -43,7 +43,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Button variant='outline' size='sm' className='h-8 border-dashed'>
           <PlusCircledIcon className='h-4 w-4' />
           {title}
-          {selectedValues?.size > 0 && (
+          {selectedValues.size > 0 && (
             <>
               <Separator orientation='vertical' className='mx-2 h-4' />
               <Badge
@@ -95,9 +95,9 @@ export function DataTableFacetedFilter<TData, TValue>({
                       } else {
                         selectedValues.add(option.value)
                       }
-                      const filterValues = Array.from(selectedValues)
+                      const filterValues = [...selectedValues]
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
+                        filterValues.length > 0 ? filterValues : undefined
                       )
                     }}
                   >

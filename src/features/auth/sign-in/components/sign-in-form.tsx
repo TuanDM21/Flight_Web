@@ -1,11 +1,9 @@
 import React, { HTMLAttributes } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate, useRouter, useRouterState } from '@tanstack/react-router'
-import { Route } from '@/routes/(auth)/sign-in'
+import { useNavigate, useRouterState } from '@tanstack/react-router'
 import { loginSchema } from '@/schemas/auth'
 import { LoginCredentials } from '@/types/auth'
-import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth'
 import { Button } from '@/components/ui/button'
@@ -39,15 +37,9 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
 
   async function onSubmit(data: LoginCredentials) {
     setIsSubmitting(true)
-    try {
-      await auth.login(data)
-
-      await navigate({ to: '/tasks' })
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed')
-    } finally {
-      setIsSubmitting(false)
-    }
+    await auth.login(data)
+    await navigate({ to: '/tasks' })
+    setIsSubmitting(false)
   }
 
   const isLoggingIn = isLoading || isSubmitting
@@ -55,6 +47,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
   return (
     <Form {...form}>
       <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn('grid gap-3', className)}
         {...props}

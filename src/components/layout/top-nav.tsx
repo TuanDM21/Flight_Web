@@ -33,7 +33,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
               <DropdownMenuItem key={`${title}-${href}`} asChild>
                 <Link
                   to={href}
-                  className={!isActive ? 'text-muted-foreground' : ''}
+                  className={isActive ? '' : 'text-muted-foreground'}
                   disabled={disabled}
                 >
                   {title}

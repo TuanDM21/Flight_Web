@@ -32,11 +32,11 @@ export function NavUser() {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    await logout()
-    navigate({ to: '/sign-in' })
-    router.invalidate().finally(() => {
-      navigate({ to: '/' })
+  const handleLogout = () => {
+    logout()
+    void navigate({ to: '/sign-in' })
+    void router.invalidate().finally(() => {
+      void navigate({ to: '/' })
     })
   }
 

@@ -74,7 +74,9 @@ export default function Chats() {
                 <Button
                   size='icon'
                   variant='ghost'
-                  onClick={() => setCreateConversationDialog(true)}
+                  onClick={() => {
+                    setCreateConversationDialog(true)
+                  }}
                   className='rounded-lg'
                 >
                   <IconEdit size={24} className='stroke-muted-foreground' />
@@ -89,7 +91,9 @@ export default function Chats() {
                   className='w-full flex-1 bg-inherit text-sm focus-visible:outline-hidden'
                   placeholder='Search chat...'
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    setSearch(e.target.value)
+                  }}
                 />
               </label>
             </div>
@@ -153,7 +157,9 @@ export default function Chats() {
                     size='icon'
                     variant='ghost'
                     className='-ml-2 h-full sm:hidden'
-                    onClick={() => setMobileSelectedUser(null)}
+                    onClick={() => {
+                      setMobileSelectedUser(null)
+                    }}
                   >
                     <IconArrowLeft />
                   </Button>
@@ -314,7 +320,9 @@ export default function Chats() {
                 </div>
                 <Button
                   className='bg-blue-500 px-6 text-white hover:bg-blue-600'
-                  onClick={() => setCreateConversationDialog(true)}
+                  onClick={() => {
+                    setCreateConversationDialog(true)
+                  }}
                 >
                   Send message
                 </Button>

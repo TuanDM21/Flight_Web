@@ -21,9 +21,9 @@ export const FontProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const applyFont = (font: string) => {
       const root = document.documentElement
-      root.classList.forEach((cls) => {
+      for (const cls of root.classList) {
         if (cls.startsWith('font-')) root.classList.remove(cls)
-      })
+      }
       root.classList.add(`font-${font}`)
     }
 
