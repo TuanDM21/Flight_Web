@@ -42,7 +42,7 @@ const items = [
 ] as const
 
 const displayFormSchema = z.object({
-  items: z.array(z.string()).refine((value) => value.some((item) => item), {
+  items: z.array(z.string()).refine((value) => value.some(Boolean), {
     message: 'You have to select at least one item.',
   }),
 })
@@ -63,7 +63,9 @@ export function DisplayForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => showSubmittedData(data))}
+        onSubmit={form.handleSubmit((data) => {
+          showSubmittedData(data)
+        })}
         className='space-y-8'
       >
         <FormField
@@ -90,12 +92,12 @@ export function DisplayForm() {
                       >
                         <FormControl>
                           <Checkbox
-                            checked={field.value?.includes(item.id)}
+                            checked={field.value.includes(item.id)}
                             onCheckedChange={(checked) => {
-                              return checked
+                              checked
                                 ? field.onChange([...field.value, item.id])
                                 : field.onChange(
-                                    field.value?.filter(
+                                    field.value.filter(
                                       (value) => value !== item.id
                                     )
                                   )

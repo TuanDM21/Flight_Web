@@ -30,10 +30,10 @@ export function NewChat({ users, onOpenChange, open }: Props) {
   const [selectedUsers, setSelectedUsers] = useState<User[]>([])
 
   const handleSelectUser = (user: User) => {
-    if (!selectedUsers.find((u) => u.id === user.id)) {
-      setSelectedUsers([...selectedUsers, user])
-    } else {
+    if (selectedUsers.find((u) => u.id === user.id)) {
       handleRemoveUser(user.id)
+    } else {
+      setSelectedUsers([...selectedUsers, user])
     }
   }
 
@@ -66,7 +66,9 @@ export function NewChat({ users, onOpenChange, open }: Props) {
                       handleRemoveUser(user.id)
                     }
                   }}
-                  onClick={() => handleRemoveUser(user.id)}
+                  onClick={() => {
+                    handleRemoveUser(user.id)
+                  }}
                 >
                   <IconX className='text-muted-foreground hover:text-foreground h-3 w-3' />
                 </button>
@@ -84,7 +86,9 @@ export function NewChat({ users, onOpenChange, open }: Props) {
                 {users.map((user) => (
                   <CommandItem
                     key={user.id}
-                    onSelect={() => handleSelectUser(user)}
+                    onSelect={() => {
+                      handleSelectUser(user)
+                    }}
                     className='flex items-center justify-between gap-2'
                   >
                     <div className='flex items-center gap-2'>
@@ -113,7 +117,9 @@ export function NewChat({ users, onOpenChange, open }: Props) {
           </Command>
           <Button
             variant={'default'}
-            onClick={() => showSubmittedData(selectedUsers)}
+            onClick={() => {
+              showSubmittedData(selectedUsers)
+            }}
             disabled={selectedUsers.length === 0}
           >
             Chat

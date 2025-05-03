@@ -61,7 +61,9 @@ export default function Apps() {
               placeholder='Filter apps...'
               className='h-9 w-40 lg:w-[250px]'
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value)
+              }}
             />
             <Select value={appType} onValueChange={setAppType}>
               <SelectTrigger className='w-36'>
@@ -113,7 +115,11 @@ export default function Apps() {
                 <Button
                   variant='outline'
                   size='sm'
-                  className={`${app.connected ? 'border border-blue-300 bg-blue-50 hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900' : ''}`}
+                  className={
+                    app.connected
+                      ? 'border border-blue-300 bg-blue-50 hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900'
+                      : ''
+                  }
                 >
                   {app.connected ? 'Connected' : 'Connect'}
                 </Button>

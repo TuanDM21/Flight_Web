@@ -18,6 +18,7 @@ import { Route as errors500Import } from './routes/(errors)/500'
 import { Route as errors404Import } from './routes/(errors)/404'
 import { Route as errors403Import } from './routes/(errors)/403'
 import { Route as errors401Import } from './routes/(errors)/401'
+import { Route as authSignOutImport } from './routes/(auth)/sign-out'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/users/index'
@@ -71,6 +72,12 @@ const errors403Route = errors403Import.update({
 const errors401Route = errors401Import.update({
   id: '/(errors)/401',
   path: '/401',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const authSignOutRoute = authSignOutImport.update({
+  id: '/(auth)/sign-out',
+  path: '/sign-out',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -178,6 +185,13 @@ declare module '@tanstack/react-router' {
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof authSignInImport
+      parentRoute: typeof rootRoute
+    }
+    '/(auth)/sign-out': {
+      id: '/(auth)/sign-out'
+      path: '/sign-out'
+      fullPath: '/sign-out'
+      preLoaderRoute: typeof authSignOutImport
       parentRoute: typeof rootRoute
     }
     '/(errors)/401': {
@@ -347,6 +361,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/sign-in': typeof authSignInRoute
+  '/sign-out': typeof authSignOutRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
   '/404': typeof errors404Route
@@ -367,6 +382,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/sign-in': typeof authSignInRoute
+  '/sign-out': typeof authSignOutRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
   '/404': typeof errors404Route
@@ -390,6 +406,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(auth)/sign-in': typeof authSignInRoute
+  '/(auth)/sign-out': typeof authSignOutRoute
   '/(errors)/401': typeof errors401Route
   '/(errors)/403': typeof errors403Route
   '/(errors)/404': typeof errors404Route
@@ -414,6 +431,7 @@ export interface FileRouteTypes {
     | ''
     | '/settings'
     | '/sign-in'
+    | '/sign-out'
     | '/401'
     | '/403'
     | '/404'
@@ -433,6 +451,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sign-in'
+    | '/sign-out'
     | '/401'
     | '/403'
     | '/404'
@@ -454,6 +473,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/_authenticated/settings'
     | '/(auth)/sign-in'
+    | '/(auth)/sign-out'
     | '/(errors)/401'
     | '/(errors)/403'
     | '/(errors)/404'
@@ -476,6 +496,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   authSignInRoute: typeof authSignInRoute
+  authSignOutRoute: typeof authSignOutRoute
   errors401Route: typeof errors401Route
   errors403Route: typeof errors403Route
   errors404Route: typeof errors404Route
@@ -486,6 +507,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   authSignInRoute: authSignInRoute,
+  authSignOutRoute: authSignOutRoute,
   errors401Route: errors401Route,
   errors403Route: errors403Route,
   errors404Route: errors404Route,
@@ -505,6 +527,7 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated",
         "/(auth)/sign-in",
+        "/(auth)/sign-out",
         "/(errors)/401",
         "/(errors)/403",
         "/(errors)/404",
@@ -537,6 +560,9 @@ export const routeTree = rootRoute
     },
     "/(auth)/sign-in": {
       "filePath": "(auth)/sign-in.tsx"
+    },
+    "/(auth)/sign-out": {
+      "filePath": "(auth)/sign-out.tsx"
     },
     "/(errors)/401": {
       "filePath": "(errors)/401.tsx"

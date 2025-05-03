@@ -22,11 +22,11 @@ export function UserNav() {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    await logout()
-    navigate({ to: '/sign-in' })
-    router.invalidate().finally(() => {
-      navigate({ to: '/' })
+  const handleLogout = () => {
+    logout()
+    void navigate({ to: '/sign-in' })
+    void router.invalidate().finally(() => {
+      void navigate({ to: '/' })
     })
   }
 
@@ -54,7 +54,9 @@ export function UserNav() {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => navigate({ to: '/settings' })}>
+            <DropdownMenuItem
+              onClick={() => void navigate({ to: '/settings' })}
+            >
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem>Billing</DropdownMenuItem>

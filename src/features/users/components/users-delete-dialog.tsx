@@ -57,7 +57,9 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
             Username:
             <Input
               value={value}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => {
+                setValue(e.target.value)
+              }}
               placeholder='Enter username to confirm deletion.'
             />
           </Label>

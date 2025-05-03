@@ -25,7 +25,7 @@ export const envVariables = {
   mode: import.meta.env.MODE as EnvVariables['mode'],
   prod: import.meta.env.PROD,
   ssr: import.meta.env.SSR,
-  viteBaseApi: import.meta.env.VITE_BASE_API,
+  viteBaseApi: import.meta.env.VITE_BASE_API as EnvVariables['viteBaseApi'],
 } satisfies EnvVariables
 
 export const loadEnvVariables = () => {

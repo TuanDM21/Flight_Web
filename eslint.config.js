@@ -52,6 +52,15 @@ export default tseslint.config(
       'unicorn/prevent-abbreviations': 'off',
       'no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
+      'unicorn/no-null': 'off',
+      'unicorn/no-array-reduce': 'off',
+      'unicorn/no-useless-undefined': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
       'unused-imports/no-unused-vars': [
         'warn',
         {

@@ -31,7 +31,7 @@ export default function SidebarNav({
 
   const handleSelect = (e: string) => {
     setVal(e)
-    navigate({ to: e })
+    void navigate({ to: e })
   }
 
   return (

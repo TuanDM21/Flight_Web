@@ -31,8 +31,8 @@ export function ThemeProvider({
   )
 
   useEffect(() => {
-    const root = window.document.documentElement
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const root = globalThis.document.documentElement
+    const mediaQuery = globalThis.matchMedia('(prefers-color-scheme: dark)')
 
     const applyTheme = (theme: Theme) => {
       root.classList.remove('light', 'dark') // Remove existing theme classes
@@ -51,7 +51,9 @@ export function ThemeProvider({
 
     mediaQuery.addEventListener('change', handleChange)
 
-    return () => mediaQuery.removeEventListener('change', handleChange)
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
   }, [theme])
 
   const setTheme = (theme: Theme) => {

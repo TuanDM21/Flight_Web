@@ -1,15 +1,7 @@
 'use client'
 
-import * as React from 'react'
 import { Table } from '@tanstack/react-table'
-import { CheckCircle2, Download, Trash2 } from 'lucide-react'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-} from '@/components/ui/select'
+import { Download, Trash2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
   DataTableActionBar,
@@ -17,12 +9,6 @@ import {
   DataTableActionBarSelection,
 } from '@/components/data-table/data-table-action-bar'
 import { Task } from '../data/schema'
-
-const STATUS_OPTIONS: { value: 0 | 1 | 2; label: string }[] = [
-  { value: 0, label: 'Pending' },
-  { value: 1, label: 'In Progress' },
-  { value: 2, label: 'Completed' },
-]
 
 interface TasksTableActionBarProps {
   table: Table<Task>

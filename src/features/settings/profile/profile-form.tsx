@@ -74,7 +74,9 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) => showSubmittedData(data))}
+        onSubmit={form.handleSubmit((data) => {
+          showSubmittedData(data)
+        })}
         className='space-y-8'
       >
         <FormField
@@ -168,7 +170,9 @@ export default function ProfileForm() {
             variant='outline'
             size='sm'
             className='mt-2'
-            onClick={() => append({ value: '' })}
+            onClick={() => {
+              append({ value: '' })
+            }}
           >
             Add URL
           </Button>

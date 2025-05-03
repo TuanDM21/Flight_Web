@@ -17,7 +17,7 @@ export function UserAvatarProfile({
       <Avatar className={className}>
         <AvatarImage src={user?.name || ''} alt={user?.name || ''} />
         <AvatarFallback className='rounded-lg'>
-          {user?.name?.slice(0, 2)?.toUpperCase() || 'CN'}
+          {user?.name.slice(0, 2).toUpperCase() || 'CN'}
         </AvatarFallback>
       </Avatar>
 

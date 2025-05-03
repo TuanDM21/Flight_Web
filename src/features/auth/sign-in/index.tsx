@@ -1,7 +1,7 @@
 import ViteLogo from '@/assets/vite.svg'
 import { SignInForm } from './components/sign-in-form'
 
-export default function SignIn() {
+export default function SignInPage() {
   return (
     <div className='relative container grid h-svh flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0'>
       <div className='bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r'>
