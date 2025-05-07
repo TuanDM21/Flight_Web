@@ -1,9 +1,12 @@
+import { useNavigate } from '@tanstack/react-router'
 import { IconDownload, IconPlus } from '@tabler/icons-react'
+import { useTasks } from '@/context/task'
 import { Button } from '@/components/ui/button'
-import { useTasks } from '../context/tasks-context'
 
 export function TasksPrimaryButtons() {
   const { setOpen } = useTasks()
+  const navigate = useNavigate()
+
   return (
     <div className='flex gap-2'>
       <Button
@@ -18,7 +21,7 @@ export function TasksPrimaryButtons() {
       <Button
         className='space-x-1'
         onClick={() => {
-          setOpen('create')
+          void navigate({ to: '/tasks/create' })
         }}
       >
         <span>Create</span> <IconPlus size={18} />
