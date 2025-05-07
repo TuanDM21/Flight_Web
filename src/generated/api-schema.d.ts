@@ -39,13 +39,26 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy ca trực của user theo id */
     get: operations['getUserShiftById']
-    /** Cập nhật ca trực của user */
     put: operations['updateUserShift']
     post?: never
-    /** Xóa ca trực của user */
     delete: operations['deleteUserShift']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/tasks/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: operations['getTaskDetailById']
+    put: operations['updateTask']
+    post?: never
+    delete: operations['deleteTask']
     options?: never
     head?: never
     patch?: never
@@ -58,12 +71,9 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy ca trực theo id */
     get: operations['getShiftById']
-    /** Cập nhật ca trực */
     put: operations['updateShift']
     post?: never
-    /** Xóa ca trực */
     delete: operations['deleteShift']
     options?: never
     head?: never
@@ -77,12 +87,9 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy vai trò theo id */
     get: operations['getRoleById']
-    /** Cập nhật vai trò */
     put: operations['updateRole']
     post?: never
-    /** Xóa vai trò */
     delete: operations['deleteRole']
     options?: never
     head?: never
@@ -96,13 +103,26 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy chuyến bay theo id */
     get: operations['getFlightById']
-    /** Cập nhật chuyến bay */
     put: operations['updateFlight']
     post?: never
-    /** Xóa chuyến bay */
     delete: operations['deleteFlight']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/assignments/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: operations['getAssignmentById']
+    put: operations['updateAssignment']
+    post?: never
+    delete: operations['deleteAssignment']
     options?: never
     head?: never
     patch?: never
@@ -115,12 +135,9 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy sân bay theo id */
     get: operations['getAirportById']
-    /** Cập nhật sân bay */
     put: operations['updateAirport']
     post?: never
-    /** Xóa sân bay */
     delete: operations['deleteAirport']
     options?: never
     head?: never
@@ -134,12 +151,9 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy chi tiết hoạt động */
     get: operations['getActivity']
-    /** Cập nhật hoạt động */
     put: operations['updateActivity']
     post?: never
-    /** Xóa hoạt động */
     delete: operations['deleteActivity']
     options?: never
     head?: never
@@ -170,6 +184,22 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/users/logout-cleanup': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: operations['logoutCleanup']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/users/expo-push-token': {
     parameters: {
       query?: never
@@ -190,6 +220,22 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/users/device-token/remove': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: operations['removeDeviceToken']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/user-shifts/assign': {
     parameters: {
       query?: never
@@ -199,7 +245,6 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Gán ca trực cho user */
     post: operations['assignShiftToUser']
     delete?: never
     options?: never
@@ -216,7 +261,6 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Áp dụng ca cho nhiều user */
     post: operations['applyShiftToUsers']
     delete?: never
     options?: never
@@ -233,7 +277,6 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Áp dụng ca trực chuyến bay cho user */
     post: operations['applyFlightShift']
     delete?: never
     options?: never
@@ -265,6 +308,22 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/tasks': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: operations['getAllTaskDetails']
+    put?: never
+    post: operations['createTask']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/shifts': {
     parameters: {
       query?: never
@@ -272,10 +331,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách ca trực */
     get: operations['getAllShifts']
     put?: never
-    /** Tạo ca trực mới */
     post: operations['createShift']
     delete?: never
     options?: never
@@ -290,10 +347,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách vai trò */
     get: operations['getAllRoles']
     put?: never
-    /** Tạo vai trò mới */
     post: operations['createRole']
     delete?: never
     options?: never
@@ -310,7 +365,6 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Đánh dấu thông báo đã đọc */
     post: operations['markAsRead']
     delete?: never
     options?: never
@@ -325,10 +379,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy tất cả chuyến bay */
     get: operations['getAllFlights']
     put?: never
-    /** Tạo chuyến bay mới */
     post: operations['createFlight']
     delete?: never
     options?: never
@@ -376,6 +428,22 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/assignments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: operations['createAssignment']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/airports': {
     parameters: {
       query?: never
@@ -383,10 +451,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách tất cả các sân bay */
     get: operations['getAllAirports']
     put?: never
-    /** Tạo sân bay mới */
     post: operations['createAirport']
     delete?: never
     options?: never
@@ -401,10 +467,8 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách hoạt động */
     get: operations['getAllActivities']
     put?: never
-    /** Tạo hoạt động mới */
     post: operations['createActivity']
     delete?: never
     options?: never
@@ -421,9 +485,7 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Thêm người tham gia hoạt động */
     post: operations['addParticipants']
-    /** Xóa người tham gia hoạt động */
     delete: operations['removeParticipant']
     options?: never
     head?: never
@@ -443,8 +505,23 @@ export interface paths {
     delete?: never
     options?: never
     head?: never
-    /** Cập nhật thời gian chuyến bay */
     patch: operations['updateFlightTimes']
+    trace?: never
+  }
+  '/api/flights/{id}/actual-time-notify': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch: operations['updateActualTimeAndNotify']
     trace?: never
   }
   '/api/users/search': {
@@ -514,7 +591,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy tất cả ca trực của user */
     get: operations['getAllUserShifts']
     put?: never
     post?: never
@@ -531,7 +607,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lọc lịch trực theo ngày, team, unit */
     get: operations['getSchedulesByCriteria']
     put?: never
     post?: never
@@ -548,7 +623,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách user-flight-shifts theo flightId và shiftDate */
     get: operations['getShiftsByFlightAndDate']
     put?: never
     post?: never
@@ -565,7 +639,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách ca trực còn trống */
     get: operations['getAvailableShifts']
     put?: never
     post?: never
@@ -582,7 +655,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách ca trực đã phân công */
     get: operations['getAssignedShifts']
     put?: never
     post?: never
@@ -599,7 +671,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Kiểm tra user đã phục vụ chuyến bay chưa */
     get: operations['isUserAssigned']
     put?: never
     post?: never
@@ -616,7 +687,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lọc lịch phục vụ chuyến bay */
     get: operations['getFlightSchedules']
     put?: never
     post?: never
@@ -633,7 +703,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy ca trực theo user */
     get: operations['getShiftsByUser']
     put?: never
     post?: never
@@ -650,7 +719,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy ca trực theo ngày */
     get: operations['getShiftsByDate']
     put?: never
     post?: never
@@ -667,10 +735,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /**
-     * Lấy tất cả đơn vị
-     * @description Lấy tất cả đơn vị hoặc đơn vị theo team nếu có teamId
-     */
     get: operations['getUnits']
     put?: never
     post?: never
@@ -687,7 +751,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy danh sách thông báo của người dùng hiện tại */
     get: operations['getNotifications']
     put?: never
     post?: never
@@ -704,7 +767,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Đếm số lượng thông báo chưa đọc */
     get: operations['countUnread']
     put?: never
     post?: never
@@ -721,7 +783,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy chuyến bay hôm nay */
     get: operations['getTodayFlights']
     put?: never
     post?: never
@@ -738,7 +799,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Tìm kiếm chuyến bay theo keyword */
     get: operations['searchFlights']
     put?: never
     post?: never
@@ -755,7 +815,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Tìm kiếm chuyến bay theo ngày */
     get: operations['searchFlightByDate']
     put?: never
     post?: never
@@ -772,8 +831,23 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Tìm kiếm chuyến bay theo ngày và keyword */
     get: operations['searchFlightByDateAndKeyword']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/assignments/task/{taskId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: operations['getAssignmentsByTaskId']
     put?: never
     post?: never
     delete?: never
@@ -789,7 +863,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Tìm kiếm hoạt động theo tháng/năm */
     get: operations['searchActivitiesByMonthYear']
     put?: never
     post?: never
@@ -806,7 +879,6 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Lấy hoạt động của tôi */
     get: operations['getMyActivities']
     put?: never
     post?: never
@@ -843,8 +915,23 @@ export interface paths {
     get?: never
     put?: never
     post?: never
-    /** Xóa phân công ca trực chuyến bay */
     delete: operations['removeFlightAssignment']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/notifications/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete: operations['deleteNotification']
     options?: never
     head?: never
     patch?: never
@@ -968,6 +1055,19 @@ export interface components {
       /** Format: int32 */
       shiftId?: number
     }
+    TaskDTO: {
+      /** Format: int32 */
+      id?: number
+      content?: string
+      instructions?: string
+      notes?: string
+      /** Format: date-time */
+      createdAt?: string
+      /** Format: date-time */
+      updatedAt?: string
+      /** Format: int32 */
+      createdBy?: number
+    }
     Shift: {
       /** Format: int32 */
       id?: number
@@ -985,6 +1085,50 @@ export interface components {
       /** Format: int32 */
       id?: number
       roleName?: string
+    }
+    AirportDTO: {
+      airportCode?: string
+      airportName?: string
+    }
+    FlightDTO: {
+      /** Format: int64 */
+      id?: number
+      flightNumber?: string
+      departureAirport?: components['schemas']['AirportDTO']
+      arrivalAirport?: components['schemas']['AirportDTO']
+      departureTime?: components['schemas']['LocalTime']
+      arrivalTime?: components['schemas']['LocalTime']
+      /** Format: date */
+      flightDate?: string
+      actualDepartureTime?: components['schemas']['LocalTime']
+      actualArrivalTime?: components['schemas']['LocalTime']
+      actualDepartureTimeAtArrival?: components['schemas']['LocalTime']
+      /** Format: date-time */
+      createdAt?: string
+      /** Format: date-time */
+      updatedAt?: string
+    }
+    AssignmentDTO: {
+      /** Format: int32 */
+      assignmentId?: number
+      /** Format: int32 */
+      taskId?: number
+      /** Format: int32 */
+      recipientId?: number
+      recipientType?: string
+      /** Format: int32 */
+      assignedBy?: number
+      /** Format: date-time */
+      assignedAt?: string
+      /** Format: date-time */
+      dueAt?: string
+      /** Format: date-time */
+      completedAt?: string
+      /** Format: int32 */
+      completedBy?: number
+      /** Format: int32 */
+      status?: number
+      note?: string
     }
     ActivityDTO: {
       /** Format: int64 */
@@ -1028,58 +1172,26 @@ export interface components {
       id?: number
       teamName?: string
     }
-    /** @description Response cho các trường hợp thành công */
-    ApiResponseSuccess: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      /** @description Dữ liệu trả về (object, list hoặc null) */
-      data?: Record<string, never>
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
+    AttachmentDTO: {
+      filePath?: string
+      fileName?: string
+      /** Format: int64 */
+      fileSize?: number
     }
-    /**
-     * @description Response cho các trường hợp lỗi
-     * @example {
-     *       "message": "Không tìm thấy tài nguyên",
-     *       "statusCode": 404,
-     *       "errorDetails": null,
-     *       "success": false
-     *     }
-     */
-    ApiErrorResponse: {
-      /**
-       * @description Thông báo lỗi
-       * @example Không tìm thấy tài nguyên
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 404
-       */
-      statusCode?: number
-      /**
-       * @description Chi tiết lỗi (nếu có)
-       * @example null
-       */
-      errorDetails?: Record<string, never> | null
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example false
-       */
-      success?: boolean
+    CreateTaskRequest: {
+      content?: string
+      instructions?: string
+      notes?: string
+      /** Format: int32 */
+      createdBy?: number
+      assignments?: components['schemas']['AssignmentDTO'][]
+      documents?: components['schemas']['DocumentDTO'][]
+    }
+    DocumentDTO: {
+      documentType?: string
+      content?: string
+      notes?: string
+      attachments?: components['schemas']['AttachmentDTO'][]
     }
     RegisterRequest: {
       name: string
@@ -1128,6 +1240,38 @@ export interface components {
       unitName?: string
       /** Format: int32 */
       teamId?: number
+    }
+    /**
+     * @description Response cho các trường hợp lỗi
+     * @example {
+     *       "message": "Không tìm thấy tài nguyên",
+     *       "statusCode": 404,
+     *       "errorDetails": null,
+     *       "success": false
+     *     }
+     */
+    ApiErrorResponse: {
+      /**
+       * @description Thông báo lỗi
+       * @example Không tìm thấy tài nguyên
+       */
+      message?: string
+      /**
+       * Format: int32
+       * @description Mã trạng thái HTTP
+       * @example 404
+       */
+      statusCode?: number
+      /**
+       * @description Chi tiết lỗi (nếu có)
+       * @example null
+       */
+      errorDetails?: Record<string, never> | null
+      /**
+       * @description Trạng thái thành công hay thất bại
+       * @example false
+       */
+      success?: boolean
     }
     LoginRequest: {
       email: string
@@ -1217,6 +1361,146 @@ export interface components {
        * @description Unit ID of the user
        */
       unitId: number
+    }
+    UserDTO: {
+      /**
+       * Format: int32
+       * @description ID of the user
+       */
+      id: number
+      /** @description Name of the user */
+      name: string
+      /** @description Email of the user */
+      email: string
+      /** @description Role name of the user */
+      roleName: string
+      /** @description Team name of the user */
+      teamName: string
+      /** @description Unit name of the user */
+      unitName: string
+      /**
+       * Format: int32
+       * @description Role ID of the user
+       */
+      roleId: number
+      /**
+       * Format: int32
+       * @description Team ID of the user
+       */
+      teamId: number
+      /**
+       * Format: int32
+       * @description Unit ID of the user
+       */
+      unitId: number
+    }
+    UserShiftDTO: {
+      /** Format: int32 */
+      id?: number
+      /** Format: int32 */
+      userId?: number
+      userName?: string
+      shiftCode?: string
+      startTime?: string
+      endTime?: string
+      user?: components['schemas']['UserDTO']
+      /** Format: date */
+      shiftDate?: string
+      /** Format: int32 */
+      shiftId?: number
+      /** Format: date-time */
+      createdAt?: string
+      /** Format: date-time */
+      updatedAt?: string
+    }
+    ScheduleDTO: {
+      /** Format: int32 */
+      scheduleId?: number
+      /** Format: date */
+      shiftDate?: string
+      /** Format: int32 */
+      userId?: number
+      userName?: string
+      /** Format: int32 */
+      teamId?: number
+      teamName?: string
+      /** Format: int32 */
+      unitId?: number
+      unitName?: string
+      /** Format: int32 */
+      shiftId?: number
+      shiftCode?: string
+      /** Format: date-time */
+      startTime?: string
+      /** Format: date-time */
+      endTime?: string
+      location?: string
+      description?: string
+    }
+    UserFlightShiftResponseDTO: {
+      /** Format: int32 */
+      id?: number
+      /** Format: int32 */
+      userId?: number
+      userName?: string
+      /** Format: int64 */
+      flightId?: number
+      flightNumber?: string
+      /** Format: date */
+      shiftDate?: string
+    }
+    UserFlightShiftResponseSearchDTO: {
+      /** Format: int32 */
+      scheduleId?: number
+      userName?: string
+      teamName?: string
+      unitName?: string
+      /** Format: date */
+      shiftDate?: string
+      flightNumber?: string
+      departureTime?: components['schemas']['LocalTime']
+      arrivalTime?: components['schemas']['LocalTime']
+    }
+    DocumentDetailDTO: {
+      /** Format: int32 */
+      id?: number
+      documentType?: string
+      content?: string
+      notes?: string
+      /** Format: date-time */
+      createdAt?: string
+      /** Format: date-time */
+      updatedAt?: string
+      attachments?: components['schemas']['AttachmentDTO'][]
+    }
+    TaskDetailDTO: {
+      /** Format: int32 */
+      id?: number
+      content?: string
+      instructions?: string
+      notes?: string
+      /** Format: date-time */
+      createdAt?: string
+      /** Format: date-time */
+      updatedAt?: string
+      /** Format: int32 */
+      createdBy?: number
+      assignments?: components['schemas']['AssignmentDTO'][]
+      documents?: components['schemas']['DocumentDetailDTO'][]
+    }
+    Notification: {
+      /** Format: int32 */
+      id?: number
+      /** Format: int32 */
+      userId?: number
+      type?: string
+      title?: string
+      content?: string
+      /** Format: int32 */
+      relatedId?: number
+      /** Format: date-time */
+      createdAt?: string
+      isRead?: boolean
     }
   }
   responses: never
@@ -1326,22 +1610,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserShiftDTO']
         }
       }
     }
@@ -1361,22 +1636,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -1392,14 +1658,80 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
-      204: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  getTaskDetailById: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['TaskDetailDTO']
         }
+      }
+    }
+  }
+  updateTask: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TaskDTO']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['TaskDTO']
+        }
+      }
+    }
+  }
+  deleteTask: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
       }
     }
   }
@@ -1414,22 +1746,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Shift']
         }
       }
     }
@@ -1449,31 +1772,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Mã lịch trực đã tồn tại */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -1489,14 +1794,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
-      204: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
+        content?: never
       }
     }
   }
@@ -1511,22 +1814,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['RoleDTO']
         }
       }
     }
@@ -1546,22 +1840,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['RoleDTO']
         }
       }
     }
@@ -1577,23 +1862,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
-      204: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
+        content?: never
       }
     }
   }
@@ -1608,22 +1882,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO']
         }
       }
     }
@@ -1643,22 +1908,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO']
         }
       }
     }
@@ -1674,14 +1930,80 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
-      204: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
+      }
+    }
+  }
+  getAssignmentById: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['AssignmentDTO']
         }
+      }
+    }
+  }
+  updateAssignment: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AssignmentDTO']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['AssignmentDTO']
+        }
+      }
+    }
+  }
+  deleteAssignment: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
       }
     }
   }
@@ -1696,22 +2018,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Airport']
         }
       }
     }
@@ -1731,22 +2044,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Airport']
         }
       }
     }
@@ -1762,14 +2066,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
-      204: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
+        content?: never
       }
     }
   }
@@ -1784,13 +2086,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Lấy chi tiết hoạt động thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO']
         }
       }
     }
@@ -1810,13 +2112,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật hoạt động thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO']
         }
       }
     }
@@ -1832,14 +2134,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa hoạt động thành công */
-      204: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
+        content?: never
       }
     }
   }
@@ -1887,6 +2187,26 @@ export interface operations {
       }
     }
   }
+  logoutCleanup: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': Record<string, never>
+        }
+      }
+    }
+  }
   saveExpoPushToken: {
     parameters: {
       query?: never
@@ -1911,6 +2231,30 @@ export interface operations {
       }
     }
   }
+  removeDeviceToken: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': string
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': Record<string, never>
+        }
+      }
+    }
+  }
   assignShiftToUser: {
     parameters: {
       query?: never
@@ -1924,22 +2268,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Gán thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -1957,22 +2292,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Áp dụng thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -1990,22 +2316,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Áp dụng thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Lỗi dữ liệu */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -2025,7 +2342,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['TeamDTO']
         }
       }
     }
@@ -2049,7 +2366,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['TeamDTO']
         }
       }
       /** @description Invalid input */
@@ -2058,7 +2375,51 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['TeamDTO']
+        }
+      }
+    }
+  }
+  getAllTaskDetails: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['TaskDetailDTO'][]
+        }
+      }
+    }
+  }
+  createTask: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateTaskRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['TaskDTO']
         }
       }
     }
@@ -2072,13 +2433,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Shift'][]
         }
       }
     }
@@ -2096,22 +2457,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Tạo thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Mã lịch trực đã tồn tại */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
       }
     }
@@ -2125,13 +2477,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['RoleDTO'][]
         }
       }
     }
@@ -2149,13 +2501,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Tạo thành công */
-      201: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['RoleDTO']
         }
       }
     }
@@ -2171,23 +2523,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseSuccess']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
+        content?: never
       }
     }
   }
@@ -2200,13 +2541,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO'][]
         }
       }
     }
@@ -2224,13 +2565,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Tạo thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO']
         }
       }
     }
@@ -2301,6 +2642,30 @@ export interface operations {
       }
     }
   }
+  createAssignment: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['AssignmentDTO']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['AssignmentDTO']
+        }
+      }
+    }
+  }
   getAllAirports: {
     parameters: {
       query?: never
@@ -2310,13 +2675,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Airport'][]
         }
       }
     }
@@ -2334,13 +2699,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Tạo thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Airport']
         }
       }
     }
@@ -2357,13 +2722,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Lấy danh sách hoạt động thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO'][]
         }
       }
     }
@@ -2381,13 +2746,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Tạo hoạt động thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO']
         }
       }
     }
@@ -2407,13 +2772,13 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Thêm người tham gia thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityParticipantDTO'][]
         }
       }
     }
@@ -2432,14 +2797,12 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa người tham gia thành công */
-      204: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
+        content?: never
       }
     }
   }
@@ -2458,13 +2821,39 @@ export interface operations {
       }
     }
     responses: {
-      /** @description Cập nhật thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
+        }
+      }
+    }
+  }
+  updateActualTimeAndNotify: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['FlightTimeUpdateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': Record<string, never>
         }
       }
     }
@@ -2553,13 +2942,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserShiftDTO'][]
         }
       }
     }
@@ -2577,13 +2966,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ScheduleDTO'][]
         }
       }
     }
@@ -2600,13 +2989,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShiftResponseDTO'][]
         }
       }
     }
@@ -2623,13 +3012,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShiftResponseDTO'][]
         }
       }
     }
@@ -2646,13 +3035,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShiftResponseDTO'][]
         }
       }
     }
@@ -2669,13 +3058,15 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': {
+            [key: string]: boolean
+          }
         }
       }
     }
@@ -2694,13 +3085,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShiftResponseSearchDTO'][]
         }
       }
     }
@@ -2716,13 +3107,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShift'][]
         }
       }
     }
@@ -2738,13 +3129,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UserFlightShift'][]
         }
       }
     }
@@ -2760,13 +3151,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['UnitDTO'][]
         }
       }
     }
@@ -2780,22 +3171,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['Notification'][]
         }
       }
     }
@@ -2809,22 +3191,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseSuccess']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
+          '*/*': number
         }
       }
     }
@@ -2838,13 +3211,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO'][]
         }
       }
     }
@@ -2860,13 +3233,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO'][]
         }
       }
     }
@@ -2882,22 +3255,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Sai định dạng ngày */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO'][]
         }
       }
     }
@@ -2914,22 +3278,35 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['FlightDTO'][]
         }
       }
-      /** @description Sai định dạng ngày */
-      400: {
+    }
+  }
+  getAssignmentsByTaskId: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        taskId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['AssignmentDTO'][]
         }
       }
     }
@@ -2946,13 +3323,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Tìm kiếm thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO'][]
         }
       }
     }
@@ -2966,13 +3343,13 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Lấy hoạt động của tôi thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': components['schemas']['ActivityDTO'][]
         }
       }
     }
@@ -3010,14 +3387,34 @@ export interface operations {
     }
     requestBody?: never
     responses: {
-      /** @description Xóa thành công */
+      /** @description OK */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseCustom']
+          '*/*': Record<string, never>
         }
+      }
+    }
+  }
+  deleteNotification: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content?: never
       }
     }
   }
