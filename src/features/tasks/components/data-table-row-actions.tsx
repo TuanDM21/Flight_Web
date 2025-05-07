@@ -1,6 +1,8 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
+import { createTaskSchema } from '@/schemas/task'
+import { useTasks } from '@/context/task'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -15,9 +17,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useTasks } from '../context/tasks-context'
 import { labels } from '../data/data'
-import { taskSchema } from '../data/schema'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -26,7 +26,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const task = createTaskSchema.parse(row.original)
 
   const { setOpen, setCurrentRow } = useTasks()
 
