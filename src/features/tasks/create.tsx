@@ -6,13 +6,7 @@ import { createTaskSchema } from '@/schemas/task'
 import { Upload, X } from 'lucide-react'
 import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   FileUpload,
   FileUploadDropzone,
@@ -59,13 +53,9 @@ export default function CreateTaskPage() {
 
   return (
     <div className='px-4 py-2'>
-      <Card className='py-2'>
+      <Card className='py-4'>
         <CardHeader>
           <CardTitle>Create Task</CardTitle>
-          <CardDescription>
-            Add a new task by providing necessary information. Click save when
-            you're done.
-          </CardDescription>
         </CardHeader>
 
         <CardContent>

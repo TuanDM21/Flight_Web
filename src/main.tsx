@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   QueryCache,
@@ -75,18 +74,18 @@ const rootElement = document.querySelector('#root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
-      <NuqsAdapter>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-              <FontProvider>
-                <App />
-              </FontProvider>
-            </ThemeProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-      </NuqsAdapter>
-    </StrictMode>
+    // <StrictMode>
+    <NuqsAdapter>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+            <FontProvider>
+              <App />
+            </FontProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </NuqsAdapter>
+    // </StrictMode>
   )
 }

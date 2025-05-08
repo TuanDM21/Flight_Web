@@ -1,6 +1,7 @@
-import { useState } from 'react'
 import { format } from 'date-fns'
-import { useFieldArray, useFormContext } from 'react-hook-form'
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
+import $queryClient from '@/api'
+import { dateFormatPatterns } from '@/config/date'
 import { CalendarIcon, PlusCircle, UserIcon, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -33,41 +34,23 @@ const RECIPIENT_TYPES = [
   { label: 'User', value: 'user' },
   { label: 'Team', value: 'team' },
   { label: 'Unit', value: 'unit' },
-  { label: 'Role', value: 'role' },
 ]
 
-// Mock recipients - in a real app, these would be fetched based on the selected type
-const MOCK_RECIPIENTS = {
-  user: [
-    { id: 1, name: 'John Doe' },
-    { id: 2, name: 'Jane Smith' },
-    { id: 3, name: 'Robert Johnson' },
-  ],
-  team: [
-    { id: 101, name: 'Engineering' },
-    { id: 102, name: 'Marketing' },
-    { id: 103, name: 'Sales' },
-  ],
-  unit: [
-    { id: 201, name: 'North Division' },
-    { id: 202, name: 'South Division' },
-    { id: 203, name: 'East Division' },
-  ],
-  role: [
-    { id: 301, name: 'Manager' },
-    { id: 302, name: 'Developer' },
-    { id: 303, name: 'Designer' },
-  ],
-}
-
 export function TaskAssignmentField() {
+  const getTeamQuery = $queryClient.useQuery('get', '/api/teams')
+  const getUnitsQuery = $queryClient.useQuery('get', '/api/units')
+  const getUsersQuery = $queryClient.useQuery('get', '/api/users')
+
   const form = useFormContext()
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'assignments',
   })
 
-  const [selectedType, setSelectedType] = useState<string>('')
+  const assignmentValues = useWatch({
+    control: form.control,
+    name: 'assignments',
+  })
 
   const handleAddAssignment = () => {
     append({
@@ -79,7 +62,28 @@ export function TaskAssignmentField() {
   }
 
   const getRecipientOptions = (type: string) => {
-    return MOCK_RECIPIENTS[type as keyof typeof MOCK_RECIPIENTS] || []
+    if (type === 'team')
+      return (
+        (getTeamQuery.data?.data ?? []).map((team) => ({
+          value: team.id,
+          label: team.teamName,
+        })) ?? []
+      )
+
+    if (type === 'unit')
+      return (
+        (getUnitsQuery.data?.data ?? []).map((unit) => ({
+          value: unit.id,
+          label: unit.unitName,
+        })) ?? []
+      )
+
+    return (
+      (getUsersQuery.data?.data ?? []).map((user) => ({
+        value: user.id,
+        label: user.name,
+      })) ?? []
+    )
   }
 
   return (
@@ -133,9 +137,7 @@ export function TaskAssignmentField() {
           </Button>
 
           <CardContent className='pt-6'>
-            {/* Combined row for recipient selection and due date */}
             <div className='grid grid-cols-12 gap-4'>
-              {/* Recipient Type Selection - Takes 3 columns */}
               <FormField
                 control={form.control}
                 name={`assignments.${index}.recipientType`}
@@ -145,18 +147,21 @@ export function TaskAssignmentField() {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value)
-                        setSelectedType(value)
-                        // Clear recipient ID when type changes
                         form.setValue(
                           `assignments.${index}.recipientId`,
-                          undefined
+                          undefined,
+                          {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                            shouldValidate: true,
+                          }
                         )
                       }}
-                      defaultValue={field.value}
+                      value={field.value}
                     >
-                      <FormControl>
+                      <FormControl className='w-full'>
                         <SelectTrigger>
-                          <SelectValue placeholder='Type' />
+                          <SelectValue placeholder='Select recipient type' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -172,7 +177,6 @@ export function TaskAssignmentField() {
                 )}
               />
 
-              {/* Recipient Selection - Takes 5 columns */}
               <FormField
                 control={form.control}
                 name={`assignments.${index}.recipientId`}
@@ -188,20 +192,20 @@ export function TaskAssignmentField() {
                         !form.getValues(`assignments.${index}.recipientType`)
                       }
                     >
-                      <FormControl>
+                      <FormControl className='w-full'>
                         <SelectTrigger>
                           <SelectValue placeholder='Select recipient' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {getRecipientOptions(
-                          form.getValues(`assignments.${index}.recipientType`)
-                        ).map((recipient) => (
+                          assignmentValues?.[index]?.recipientType || ''
+                        )?.map((recipient) => (
                           <SelectItem
-                            key={recipient.id}
-                            value={recipient.id.toString()}
+                            key={recipient.value}
+                            value={(recipient.value ?? '').toString()}
                           >
-                            {recipient.name}
+                            {recipient.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -211,7 +215,6 @@ export function TaskAssignmentField() {
                 )}
               />
 
-              {/* Due Date - Takes 4 columns */}
               <FormField
                 control={form.control}
                 name={`assignments.${index}.dueAt`}
@@ -220,7 +223,7 @@ export function TaskAssignmentField() {
                     <FormLabel>Due Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <FormControl>
+                        <FormControl className='w-full'>
                           <Button
                             variant='outline'
                             className={cn(
@@ -229,9 +232,15 @@ export function TaskAssignmentField() {
                             )}
                           >
                             {field.value ? (
-                              format(new Date(field.value), 'PP')
+                              <span className='flex w-full items-center justify-between'>
+                                {' '}
+                                {format(
+                                  new Date(field.value),
+                                  dateFormatPatterns.fullDate
+                                )}
+                              </span>
                             ) : (
-                              <span>Pick a date</span>
+                              <span>Select due date</span>
                             )}
                             <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                           </Button>
@@ -248,8 +257,8 @@ export function TaskAssignmentField() {
                               date ? date.toISOString() : undefined
                             )
                           }}
-                          initialFocus
                           disabled={(date) => date < new Date()}
+                          className='rounded-md border'
                         />
                       </PopoverContent>
                     </Popover>
@@ -259,7 +268,6 @@ export function TaskAssignmentField() {
               />
             </div>
 
-            {/* Notes - Full width row */}
             <FormField
               control={form.control}
               name={`assignments.${index}.note`}
@@ -286,24 +294,33 @@ export function TaskAssignmentField() {
                     variant='outline'
                     className='border-dashed p-2 text-xs'
                   >
-                    Assignment {index + 1}:&nbsp;
-                    {
-                      RECIPIENT_TYPES.find(
+                    {(() => {
+                      const recipientTypeName = RECIPIENT_TYPES.find(
                         (t) =>
                           t.value ===
                           form.getValues(`assignments.${index}.recipientType`)
                       )?.label
-                    }
-                    &nbsp;
-                    {getRecipientOptions(
-                      form.getValues(`assignments.${index}.recipientType`)
-                    ).find(
-                      (r) =>
-                        r.id ===
-                        form.getValues(`assignments.${index}.recipientId`)
-                    )?.name || ''}
-                    {form.getValues(`assignments.${index}.dueAt`) &&
-                      ` - Due: ${format(new Date(form.getValues(`assignments.${index}.dueAt`)), 'PP')}`}
+                      const recipientType = form.getValues(
+                        `assignments.${index}.recipientType`
+                      )
+                      const recipientId = form.getValues(
+                        `assignments.${index}.recipientId`
+                      )
+                      const dueDate = form.getValues(
+                        `assignments.${index}.dueAt`
+                      )
+
+                      const recipientLabel =
+                        getRecipientOptions(recipientType).find(
+                          (r) => r.value === recipientId
+                        )?.label || ''
+
+                      const dueDateText = dueDate
+                        ? ` - Due: ${format(new Date(dueDate), dateFormatPatterns.fullDateTime)}`
+                        : ''
+
+                      return `Assignment ${index + 1}: ${recipientTypeName} ${recipientLabel} ${dueDateText}`
+                    })()}
                   </Badge>
                 </div>
               )}

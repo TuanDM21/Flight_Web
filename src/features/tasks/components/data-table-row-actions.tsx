@@ -1,7 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
-import { createTaskSchema } from '@/schemas/task'
 import { useTasks } from '@/context/task'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,7 +25,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = createTaskSchema.parse(row.original)
+  const task = row.original
 
   const { setOpen, setCurrentRow } = useTasks()
 
