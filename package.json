@@ -9,17 +9,16 @@
   "packageManager": "pnpm@10.10.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format:check": "prettier . --check",
     "format": "prettier . --write",
     "preview": "vite preview",
-    "postinstall": "npx simple-git-hooks",
     "sizecheck": "npx vite-bundle-visualizer",
     "typecheck": "tsc --noEmit",
     "knip": "knip",
-    "op": "openapi-typescript http://localhost:8080/v3/api-docs -o src/generated/api-schema.d.ts"
+    "op": "openapi-typescript ./openapi.json -o src/generated/api-schema.d.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -74,6 +73,8 @@
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.1.4",
     "tw-animate-css": "^1.2.5",
+    "use-debounce": "^10.0.4",
+    "vaul": "^1.1.2",
     "zod": "^3.24.2",
     "zustand": "^5.0.3"
   },

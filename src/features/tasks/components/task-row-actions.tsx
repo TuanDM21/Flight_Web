@@ -1,33 +1,26 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
+import { FileTextIcon, PencilIcon, UserSearchIcon } from 'lucide-react'
+import { useTasks } from '@/context/task'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useTasks } from '../context/tasks-context'
-import { labels } from '../data/data'
-import { taskSchema } from '../data/schema'
 
-interface DataTableRowActionsProps<TData> {
+interface TaskRowActionsProps<TData> {
   row: Row<TData>
 }
 
-export function DataTableRowActions<TData>({
-  row,
-}: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
-
+export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
+  const task = row.original as any
+  const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useTasks()
 
   return (
@@ -41,31 +34,43 @@ export function DataTableRowActions<TData>({
           <span className='sr-only'>Open menu</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[160px]'>
+      <DropdownMenuContent align='end' className='w-[220px]'>
         <DropdownMenuItem
           onClick={() => {
             setCurrentRow(task)
-            setOpen('update')
+            setOpen('view-assignment')
+          }}
+        >
+          View assignments
+          <DropdownMenuShortcut>
+            <UserSearchIcon />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(task)
+            setOpen('view-document')
+          }}
+        >
+          View documents
+          <DropdownMenuShortcut>
+            <FileTextIcon />
+          </DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => {
+            navigate({
+              to: '/tasks/$task-id/edit',
+              params: { 'task-id': task.id },
+            })
           }}
         >
           Edit
+          <DropdownMenuShortcut>
+            <PencilIcon />
+          </DropdownMenuShortcut>
         </DropdownMenuItem>
-        <DropdownMenuItem disabled>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem disabled>Favorite</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
-              {labels.map((label) => (
-                <DropdownMenuRadioItem key={label.value} value={label.value}>
-                  {label.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
             setCurrentRow(task)
@@ -74,7 +79,7 @@ export function DataTableRowActions<TData>({
         >
           Delete
           <DropdownMenuShortcut>
-            <IconTrash size={16} />
+            <IconTrash />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
