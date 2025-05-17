@@ -6,7 +6,7 @@ import type {
 } from '@/types/data-table'
 import { createParser } from 'nuqs/server'
 
-const sortingItemSchema = z.object({
+export const sortingItemSchema = z.object({
   id: z.string(),
   desc: z.boolean(),
 })
@@ -47,7 +47,7 @@ export const getSortingStateParser = <TData>(
   })
 }
 
-const filterItemSchema = z.object({
+export const filterItemSchema = z.object({
   id: z.string(),
   value: z.union([z.string(), z.array(z.string())]),
   variant: z.enum(dataTableConfig.filterVariants),
@@ -69,7 +69,7 @@ export const getFiltersStateParser = <TData>(
   return createParser({
     parse: (value) => {
       try {
-        const parsed: unknown = JSON.parse(value)
+        const parsed = JSON.parse(value)
         const result = z.array(filterItemSchema).safeParse(parsed)
 
         if (!result.success) return null

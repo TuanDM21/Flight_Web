@@ -20,20 +20,26 @@ export function getCommonPinningStyles<TData>({
     isPinned === 'right' && column.getIsFirstColumn('right')
 
   return {
-    boxShadow: withBorder
-      ? isLastLeftPinnedColumn
-        ? '-4px 0 4px -4px hsl(var(--border)) inset'
-        : isFirstRightPinnedColumn
-          ? '4px 0 4px -4px hsl(var(--border)) inset'
-          : undefined
-      : undefined,
+    boxShadow:
+      withBorder || isPinned
+        ? isLastLeftPinnedColumn
+          ? '4px 0 8px -2px rgba(0, 0, 0, 0.15)'
+          : isFirstRightPinnedColumn
+            ? '-4px 0 8px -2px rgba(0, 0, 0, 0.15)'
+            : isPinned === 'left'
+              ? '2px 0 4px -2px rgba(0, 0, 0, 0.1)'
+              : isPinned === 'right'
+                ? '-2px 0 4px -2px rgba(0, 0, 0, 0.1)'
+                : undefined
+        : undefined,
     left: isPinned === 'left' ? `${column.getStart('left')}px` : undefined,
     right: isPinned === 'right' ? `${column.getAfter('right')}px` : undefined,
-    opacity: isPinned ? 0.97 : 1,
+    opacity: isPinned ? 1 : 1,
     position: isPinned ? 'sticky' : 'relative',
     background: isPinned ? 'hsl(var(--background))' : 'hsl(var(--background))',
+    backdropFilter: isPinned ? 'blur(4px)' : undefined,
     width: column.getSize(),
-    zIndex: isPinned ? 1 : 0,
+    zIndex: isPinned ? 2 : 0,
   }
 }
 
