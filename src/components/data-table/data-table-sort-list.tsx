@@ -35,7 +35,6 @@ import {
   SortableOverlay,
 } from '@/components/ui/sortable'
 
-const OPEN_MENU_SHORTCUT = 's'
 const REMOVE_SORT_SHORTCUTS = new Set(['backspace', 'delete'])
 
 interface DataTableSortListProps<TData>

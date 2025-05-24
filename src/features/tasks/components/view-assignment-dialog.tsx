@@ -658,8 +658,7 @@ export function ViewAssignmentDialog({ open, onOpenChange, taskId }: Props) {
     pageCount: 1,
   })
 
-  const { setOpen, setOpenComments, currentTaskId, setCurrentAssignmentId } =
-    useTasks()
+  const { setOpenComments, currentTaskId, setCurrentAssignmentId } = useTasks()
 
   const taskAssignmentsMutation = useCreateTaskAssignmentsMutation()
 
