@@ -1,24 +1,9 @@
-'use client'
-
-import * as React from 'react'
+import React from 'react'
 import { format } from 'date-fns'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import type { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import { TaskListRoute } from '@/routes/_authenticated/tasks'
-import {
-  BadgeCheck,
-  CalendarSearch,
-  DollarSign,
-  Search,
-  Text,
-  UserSearch,
-} from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
-import { getValidFilters } from '@/lib/data-table'
-import { filterColumns } from '@/lib/filter-columns'
-import { sortColumns } from '@/lib/sort-columns'
-import TasksProvider from '@/context/task'
+import { CalendarSearch, FileText, FileTextIcon, Hash } from 'lucide-react'
 import { useDataTable } from '@/hooks/use-data-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
@@ -27,67 +12,42 @@ import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-adv
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
-import { Task, TaskFilters } from '@/features/tasks/types'
-import { TaskRowActions } from './components/task-row-actions'
-import { TaskDialogManager } from './components/tasks-dialogs'
-import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
-import { TasksTableActionBar } from './components/tasks-table-action-bar'
-import { getTaskListQueryOptions } from './hooks/use-view-task'
-import { taskSearchParamsCache, taskStatusOptions } from './utils'
+import { Search } from '@/components/search'
+import { DocumentRowActions } from './components/document-row-actions'
+import { DocumentsDialogManager } from './components/documents-dialog-manager'
+import { DocumentsPrimaryButtons } from './components/documents-primary-buttons'
+import { DocumentsTableActionBar } from './components/documents-table-action-bar'
+import DocumentsProvider from './context'
+import { getDocumentListQueryOptions } from './hooks/use-view-documents'
+import type { DocumentItem } from './types'
 
-export function TaskListPage() {
-  const { data: taskList } = useSuspenseQuery(getTaskListQueryOptions())
-  const [queryFilter, setQueryFilter] = useQueryState(
-    'q',
-    parseAsString.withDefault('')
-  )
+export function DocumentListPage() {
+  const { data: documentList } = useSuspenseQuery(getDocumentListQueryOptions())
+  const [queryFilter, setQueryFilter] = React.useState('')
 
-  const searchParams = TaskListRoute.useSearch()
-  const search = taskSearchParamsCache.parse(searchParams)
-  const validFilters = getValidFilters(search.filters as any[])
+  // Filter documents based on search
+  const filteredData = React.useMemo((): DocumentItem[] => {
+    const documents = documentList?.data ?? []
 
-  // Update isFiltering state based on both text search and column filters
-  const isFiltering = Boolean(queryFilter) || validFilters.length > 0
+    if (!queryFilter) return documents
 
-  const filteredData = React.useMemo((): Task[] => {
-    const tasks = taskList.data ?? []
+    const searchTerm = String(queryFilter).toLowerCase()
+    return documents.filter((document) => {
+      const content = (document.content || '').toLowerCase()
+      const documentType = (document.documentType || '').toLowerCase()
+      const notes = (document.notes || '').toLowerCase()
 
-    // Text search filter
-    let filteredTasks = tasks
-    if (queryFilter) {
-      const searchTerm = String(queryFilter).toLowerCase()
-      filteredTasks = tasks.filter((task) => {
-        // Search in multiple fields - adjust as needed for your data structure
-        const content = (task.content || '').toLowerCase()
-        const createdBy = (task.createdByUser?.name ?? '')
-          ?.toString()
-          .toLowerCase()
+      return (
+        content.includes(searchTerm) ||
+        documentType.includes(searchTerm) ||
+        notes.includes(searchTerm)
+      )
+    })
+  }, [documentList?.data, queryFilter])
 
-        return content.includes(searchTerm) || createdBy.includes(searchTerm)
-      })
-    }
+  const isFiltering = Boolean(queryFilter)
 
-    // Apply column filters using filterColumns
-    if (validFilters.length > 0) {
-      const filterFn = filterColumns<TaskFilters>({
-        filters: validFilters,
-        joinOperator: 'or',
-      })
-
-      if (filterFn) {
-        filteredTasks = filteredTasks.filter(filterFn)
-      }
-    }
-
-    // Apply sorting using sortColumns
-    if (search.sort.length > 0) {
-      filteredTasks = sortColumns<Task>(filteredTasks, search.sort as any[])
-    }
-
-    return filteredTasks
-  }, [taskList.data, queryFilter, validFilters, search.sort])
-
-  const columns = React.useMemo<ColumnDef<Task>[]>(
+  const columns = React.useMemo<ColumnDef<DocumentItem>[]>(
     () => [
       {
         id: 'select',
@@ -127,32 +87,33 @@ export function TaskListPage() {
         id: 'id',
         accessorKey: 'id',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Task ID' />
+          <DataTableColumnHeader column={column} title='Document ID' />
         ),
         cell: ({ cell }) => <div>#{cell.getValue<number>() ?? 'N/A'}</div>,
         meta: {
           className: '',
-          label: 'Task ID',
-          placeholder: 'Search task ID...',
+          label: 'Document ID',
+          placeholder: 'Search document ID...',
           variant: 'text',
-          icon: DollarSign,
+          icon: Hash,
         },
         enableColumnFilter: true,
       },
       {
-        id: 'status',
-        accessorKey: 'status',
+        id: 'documentType',
+        accessorKey: 'documentType',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Status' />
+          <DataTableColumnHeader column={column} title='Document Type' />
         ),
-        cell: ({ cell }) => <div>{cell.getValue<string>() ?? 'N/A'}</div>,
+        cell: ({ cell }) => (
+          <div className='capitalize'>{cell.getValue<string>() ?? 'N/A'}</div>
+        ),
         meta: {
           className: '',
-          label: 'Status',
-          placeholder: 'Search Status...',
-          variant: 'select',
-          options: taskStatusOptions,
-          icon: BadgeCheck,
+          label: 'Document Type',
+          placeholder: 'Search document type...',
+          variant: 'text',
+          icon: FileText,
         },
         enableColumnFilter: true,
       },
@@ -168,25 +129,7 @@ export function TaskListPage() {
           label: 'Content',
           placeholder: 'Search content...',
           variant: 'text',
-          icon: Text,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'createdBy',
-        accessorFn: (row) => row.createdByUser?.name,
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Created By' />
-        ),
-        cell: ({ cell }) => {
-          return <div>{cell.getValue<string | undefined>() || 'Unknown'}</div>
-        },
-        meta: {
-          className: '',
-          label: 'Created By',
-          placeholder: 'Search creator...',
-          variant: 'text',
-          icon: UserSearch,
+          icon: FileTextIcon,
         },
         enableColumnFilter: true,
       },
@@ -215,7 +158,6 @@ export function TaskListPage() {
       {
         id: 'updatedAt',
         accessorKey: 'updatedAt',
-        accessorFn: (row) => row.updatedAt,
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title='Updated At' />
         ),
@@ -240,7 +182,9 @@ export function TaskListPage() {
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title='Actions' />
         ),
-        cell: ({ row }) => <TaskRowActions row={row} />,
+        cell: ({ row }) => {
+          return <DocumentRowActions row={row} />
+        },
         size: 20,
         meta: {
           className: 'sticky right-0 bg-background border-l',
@@ -264,22 +208,22 @@ export function TaskListPage() {
   })
 
   return (
-    <TasksProvider>
-      <TaskDialogManager />
+    <DocumentsProvider>
+      <DocumentsDialogManager />
       <div className='px-4 py-2'>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Tasks</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>Documents</h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list of your tasks for this month!
+              Here&apos;s a list of your documents for this month!
             </p>
           </div>
-          <TasksPrimaryButtons />
+          <DocumentsPrimaryButtons />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <React.Suspense fallback={<div>Loading...</div>}>
             <DataTable table={table}>
-              <TasksTableActionBar table={table} />
+              <DocumentsTableActionBar table={table} />
               <DataTableAdvancedToolbar table={table}>
                 <DataTableSortList table={table} />
                 <DataTableFilterMenu
@@ -293,7 +237,7 @@ export function TaskListPage() {
                     className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
                   />
                   <Input
-                    placeholder='Search tasks...'
+                    placeholder='Search documents...'
                     className={`w-full pl-8 ${isFiltering ? 'border-primary' : ''}`}
                     value={queryFilter}
                     onChange={(e) => void setQueryFilter(e.target.value)}
@@ -304,6 +248,6 @@ export function TaskListPage() {
           </React.Suspense>
         </div>
       </div>
-    </TasksProvider>
+    </DocumentsProvider>
   )
 }

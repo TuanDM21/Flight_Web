@@ -127,7 +127,7 @@ export default function CreateTaskPage() {
               </form>
             </Form>
           </CardContent>
-          <div className='bg-background sticky bottom-0 z-10 flex items-center justify-end space-x-2 border-t px-2 pt-2'>
+          <div className='bg-background sticky bottom-0 z-10 flex items-center justify-end space-x-2 border-t px-2 pt-4'>
             <Button
               variant='outline'
               size='lg'
