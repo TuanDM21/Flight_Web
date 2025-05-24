@@ -5,10 +5,7 @@ import { format } from 'date-fns'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import type { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import {
-  getTaskListQueryOptions,
-  TaskListRoute,
-} from '@/routes/_authenticated/tasks'
+import { TaskListRoute } from '@/routes/_authenticated/tasks'
 import {
   BadgeCheck,
   CalendarSearch,
@@ -35,10 +32,11 @@ import { TaskRowActions } from './components/task-row-actions'
 import { TaskDialogManager } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import { TasksTableActionBar } from './components/tasks-table-action-bar'
+import { getTaskListQueryOptions } from './hooks/use-view-task'
 import { taskSearchParamsCache, taskStatusOptions } from './utils'
 
 export function TaskListPage() {
-  const { data: getTaskListQuery } = useSuspenseQuery(getTaskListQueryOptions())
+  const { data: taskList } = useSuspenseQuery(getTaskListQueryOptions())
   const [queryFilter, setQueryFilter] = useQueryState(
     'q',
     parseAsString.withDefault('')
@@ -52,7 +50,7 @@ export function TaskListPage() {
   const isFiltering = Boolean(queryFilter) || validFilters.length > 0
 
   const filteredData = React.useMemo((): Task[] => {
-    const tasks = getTaskListQuery.data ?? []
+    const tasks = taskList.data ?? []
 
     // Text search filter
     let filteredTasks = tasks
@@ -87,7 +85,7 @@ export function TaskListPage() {
     }
 
     return filteredTasks
-  }, [getTaskListQuery.data, queryFilter, validFilters, search.sort])
+  }, [taskList.data, queryFilter, validFilters, search.sort])
 
   const columns = React.useMemo<ColumnDef<Task>[]>(
     () => [
