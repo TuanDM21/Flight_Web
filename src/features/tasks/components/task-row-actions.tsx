@@ -21,7 +21,7 @@ interface TaskRowActionsProps<TData> {
 export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
   const task = row.original as any
   const navigate = useNavigate()
-  const { setOpen, setCurrentRow } = useTasks()
+  const { setOpen, setCurrentTaskId } = useTasks()
 
   return (
     <DropdownMenu modal={false}>
@@ -37,7 +37,7 @@ export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
       <DropdownMenuContent align='end' className='w-[220px]'>
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(task)
+            setCurrentTaskId(task.id)
             setOpen('view-assignment')
           }}
         >
@@ -48,7 +48,7 @@ export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(task)
+            setCurrentTaskId(task.id)
             setOpen('view-document')
           }}
         >
@@ -57,6 +57,7 @@ export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
             <FileTextIcon />
           </DropdownMenuShortcut>
         </DropdownMenuItem>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
@@ -73,7 +74,7 @@ export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(task)
+            setCurrentTaskId(task.id)
             setOpen('delete')
           }}
         >

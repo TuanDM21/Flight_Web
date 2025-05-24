@@ -1,6 +1,12 @@
 import { format } from 'date-fns'
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
-import $queryClient from '@/api'
+import {
+  useFieldArray,
+  useWatch,
+  UseFormReturn,
+  FieldValues,
+  Path,
+  ArrayPath,
+} from 'react-hook-form'
 import { dateFormatPatterns } from '@/config/date'
 import { CalendarIcon, PlusCircle, UserIcon, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -28,29 +34,30 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { CreateTasksForm } from '../create'
+import {
+  useRecipientOptions,
+  RECIPIENT_TYPES,
+} from '../hooks/use-recipient-options'
 
-// Mock recipient types - in a real app, these would come from an API
-const RECIPIENT_TYPES = [
-  { label: 'User', value: 'user' },
-  { label: 'Team', value: 'team' },
-  { label: 'Unit', value: 'unit' },
-]
+type TaskAssignmentFieldProps<T extends FieldValues = FieldValues> = {
+  form: UseFormReturn<T>
+  name: ArrayPath<T>
+}
 
-export function TaskAssignmentField() {
-  const getTeamQuery = $queryClient.useQuery('get', '/api/teams')
-  const getUnitsQuery = $queryClient.useQuery('get', '/api/units')
-  const getUsersQuery = $queryClient.useQuery('get', '/api/users')
+export function TaskAssignmentField<T extends FieldValues = FieldValues>({
+  form,
+  name,
+}: TaskAssignmentFieldProps<T>) {
+  const { getRecipientOptions } = useRecipientOptions()
 
-  const form = useFormContext<CreateTasksForm>()
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: 'assignments',
+    name: name as ArrayPath<T>,
   })
 
   const assignmentValues = useWatch({
     control: form.control,
-    name: 'assignments',
+    name: name as Path<T>,
   })
 
   const handleAddAssignment = () => {
@@ -59,32 +66,7 @@ export function TaskAssignmentField() {
       recipientType: '',
       dueAt: undefined!,
       note: '',
-    })
-  }
-
-  const getRecipientOptions = (type: string) => {
-    if (type === 'team')
-      return (
-        (getTeamQuery.data?.data ?? []).map((team) => ({
-          value: team.id,
-          label: team.teamName,
-        })) ?? []
-      )
-
-    if (type === 'unit')
-      return (
-        (getUnitsQuery.data?.data ?? []).map((unit) => ({
-          value: unit.id,
-          label: unit.unitName,
-        })) ?? []
-      )
-
-    return (
-      (getUsersQuery.data?.data ?? []).map((user) => ({
-        value: user.id,
-        label: user.name,
-      })) ?? []
-    )
+    } as any)
   }
 
   return (
@@ -138,18 +120,18 @@ export function TaskAssignmentField() {
           </Button>
 
           <CardContent className='pt-6'>
-            <div className='grid grid-cols-12 items-start gap-4'>
+            <div className='grid grid-cols-1 items-start gap-4 sm:grid-cols-2 md:grid-cols-3'>
               <FormField
                 control={form.control}
-                name={`assignments.${index}.recipientType`}
+                name={`${name}.${index}.recipientType` as Path<T>}
                 render={({ field }) => (
-                  <FormItem className='col-span-3'>
+                  <FormItem>
                     <FormLabel>Recipient Type</FormLabel>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value)
                         form.setValue(
-                          `assignments.${index}.recipientId`,
+                          `${name}.${index}.recipientId` as Path<T>,
                           undefined!,
                           {
                             shouldDirty: true,
@@ -161,16 +143,18 @@ export function TaskAssignmentField() {
                       value={field.value}
                     >
                       <FormControl className='w-full'>
-                        <SelectTrigger>
+                        <SelectTrigger className='min-w-0 truncate'>
                           <SelectValue placeholder='Select recipient type' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {RECIPIENT_TYPES.map((type) => (
-                          <SelectItem key={type.value} value={type.value}>
-                            {type.label}
-                          </SelectItem>
-                        ))}
+                        {RECIPIENT_TYPES.map(
+                          (type: { label: string; value: string }) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -180,21 +164,19 @@ export function TaskAssignmentField() {
 
               <FormField
                 control={form.control}
-                name={`assignments.${index}.recipientId`}
+                name={`${name}.${index}.recipientId` as Path<T>}
                 render={({ field }) => (
-                  <FormItem className='col-span-5'>
+                  <FormItem>
                     <FormLabel>Recipient</FormLabel>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(Number(value))
                       }}
                       value={field.value?.toString()}
-                      disabled={
-                        !form.getValues(`assignments.${index}.recipientType`)
-                      }
+                      disabled={!assignmentValues?.[index]?.recipientType}
                     >
                       <FormControl className='w-full'>
-                        <SelectTrigger>
+                        <SelectTrigger className='min-w-0 truncate'>
                           <SelectValue placeholder='Select recipient' />
                         </SelectTrigger>
                       </FormControl>
@@ -218,9 +200,9 @@ export function TaskAssignmentField() {
 
               <FormField
                 control={form.control}
-                name={`assignments.${index}.dueAt`}
+                name={`${name}.${index}.dueAt` as Path<T>}
                 render={({ field }) => (
-                  <FormItem className='col-span-4'>
+                  <FormItem>
                     <FormLabel>Due Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -271,7 +253,7 @@ export function TaskAssignmentField() {
 
             <FormField
               control={form.control}
-              name={`assignments.${index}.note`}
+              name={`${name}.${index}.note` as Path<T>}
               render={({ field }) => (
                 <FormItem className='mt-4'>
                   <FormLabel>Notes</FormLabel>
@@ -287,9 +269,8 @@ export function TaskAssignmentField() {
               )}
             />
 
-            {/* Show assignment status badge when data is present */}
-            {form.getValues(`assignments.${index}.recipientId`) &&
-              form.getValues(`assignments.${index}.recipientType`) && (
+            {assignmentValues?.[index]?.recipientId &&
+              assignmentValues?.[index]?.recipientType && (
                 <div className='mt-4'>
                   <Badge
                     variant='outline'
@@ -297,19 +278,13 @@ export function TaskAssignmentField() {
                   >
                     {(() => {
                       const recipientTypeName = RECIPIENT_TYPES.find(
-                        (t) =>
-                          t.value ===
-                          form.getValues(`assignments.${index}.recipientType`)
+                        (t: { label: string; value: string }) =>
+                          t.value === assignmentValues?.[index]?.recipientType
                       )?.label
-                      const recipientType = form.getValues(
-                        `assignments.${index}.recipientType`
-                      )
-                      const recipientId = form.getValues(
-                        `assignments.${index}.recipientId`
-                      )
-                      const dueDate = form.getValues(
-                        `assignments.${index}.dueAt`
-                      )
+                      const recipientType =
+                        assignmentValues?.[index]?.recipientType
+                      const recipientId = assignmentValues?.[index]?.recipientId
+                      const dueDate = assignmentValues?.[index]?.dueAt
 
                       const recipientLabel =
                         getRecipientOptions(recipientType).find(

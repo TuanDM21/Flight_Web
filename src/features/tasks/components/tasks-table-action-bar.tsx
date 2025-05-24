@@ -1,7 +1,6 @@
 'use client'
 
 import { Table } from '@tanstack/react-table'
-import { Task } from '@/types/task'
 import { Download, Trash2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -9,6 +8,7 @@ import {
   DataTableActionBarAction,
   DataTableActionBarSelection,
 } from '@/components/data-table/data-table-action-bar'
+import { Task } from '@/features/tasks/types'
 
 interface TasksTableActionBarProps {
   table: Table<Task>

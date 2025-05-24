@@ -9,8 +9,8 @@ import {
   getTaskListQueryOptions,
   TaskListRoute,
 } from '@/routes/_authenticated/tasks'
-import { Task, TaskFilters } from '@/types/task'
 import {
+  BadgeCheck,
   CalendarSearch,
   DollarSign,
   Search,
@@ -26,16 +26,16 @@ import { useDataTable } from '@/hooks/use-data-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { DataTable } from '@/components/data-table/data-table'
-import { DataTableActionBar } from '@/components/data-table/data-table-action-bar'
 import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
+import { Task, TaskFilters } from '@/features/tasks/types'
 import { TaskRowActions } from './components/task-row-actions'
 import { TaskDialogManager } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import { TasksTableActionBar } from './components/tasks-table-action-bar'
-import { taskSearchParamsCache } from './utils'
+import { taskSearchParamsCache, taskStatusOptions } from './utils'
 
 export function TaskListPage() {
   const { data: getTaskListQuery } = useSuspenseQuery(getTaskListQueryOptions())
@@ -138,6 +138,23 @@ export function TaskListPage() {
           placeholder: 'Search task ID...',
           variant: 'text',
           icon: DollarSign,
+        },
+        enableColumnFilter: true,
+      },
+      {
+        id: 'status',
+        accessorKey: 'status',
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title='Status' />
+        ),
+        cell: ({ cell }) => <div>{cell.getValue<string>() ?? 'N/A'}</div>,
+        meta: {
+          className: '',
+          label: 'Status',
+          placeholder: 'Search Status...',
+          variant: 'select',
+          options: taskStatusOptions,
+          icon: BadgeCheck,
         },
         enableColumnFilter: true,
       },
@@ -284,7 +301,6 @@ export function TaskListPage() {
                     onChange={(e) => void setQueryFilter(e.target.value)}
                   />
                 </div>
-                <DataTableActionBar table={table} />
               </DataTableAdvancedToolbar>
             </DataTable>
           </React.Suspense>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { DropdownMenu } from '@radix-ui/react-dropdown-menu'
 import clsx from 'clsx'
@@ -18,24 +19,23 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { TaskDocument } from '@/features/tasks/types'
 import { CreateTasksForm } from '../create'
 import { SelectDocumentDialog } from './select-document-dialog'
 
 export function TaskDocumentField() {
   const form = useFormContext<CreateTasksForm>()
-  const { open, setOpen } = useTasks()
+  const { openSelectDocuments, setOpen, setOpenSelectDocuments } = useTasks()
+  const [selectedDocuments, setSelectedDocuments] = useState<TaskDocument[]>([])
 
   return (
     <div className='space-y-4'>
       <SelectDocumentDialog
-        key='task-create'
-        open={open === 'create'}
-        onOpenChange={() => {
-          setOpen('create')
+        open={openSelectDocuments}
+        onOpenChange={(value) => {
+          setOpenSelectDocuments(value)
         }}
-        onSaveDocuments={(documents) => {
-          form.setValue('documents', documents)
-        }}
+        getSelectedDocumentIds={() => []}
       />
       <div className='flex items-center justify-between'>
         <FormLabel className='text-base font-medium dark:text-gray-200'>
@@ -56,9 +56,8 @@ export function TaskDocumentField() {
       <div className='rounded-md'>
         <FormField
           control={form.control}
-          name={`documents`}
+          name={`documentIds`}
           render={() => {
-            const selectedDocuments = form.getValues('documents')
             return (
               <div
                 role='list'
@@ -66,16 +65,17 @@ export function TaskDocumentField() {
               >
                 {selectedDocuments?.map((item) => (
                   <FormField
-                    key={item.documentId}
+                    key={item.id}
                     control={form.control}
-                    name='documents'
+                    name='documentIds'
                     render={() => {
-                      const totalFiles = item.attachments.length
-                      const attachments = item.attachments
+                      const currentAttachments = item.attachments || []
+                      const totalFiles = currentAttachments.length
+                      const documentId = String(item.id ?? 'N/A')
 
                       return (
                         <FormItem
-                          key={item.documentId}
+                          key={item.id}
                           className={clsx(
                             'border-l-primary bg-accent dark:bg-accent/20 col-span-1 flex divide-y divide-gray-200 overflow-hidden rounded-lg border border-l-4 border-gray-200 p-4 shadow-sm dark:divide-gray-700 dark:border-gray-700'
                           )}
@@ -84,12 +84,12 @@ export function TaskDocumentField() {
                             <div className='ml-3 flex flex-1 flex-col items-start'>
                               <div className='flex w-full items-center justify-between'>
                                 <FormLabel
-                                  htmlFor={item.documentId.toString()}
+                                  htmlFor={documentId}
                                   className={clsx(
                                     'text-primary dark:text-primary text-sm font-medium break-words'
                                   )}
                                 >
-                                  {item.documentId}
+                                  {documentId}
                                 </FormLabel>
                                 <div className='mt-2 flex items-center space-x-2'>
                                   <Button
@@ -97,13 +97,19 @@ export function TaskDocumentField() {
                                     size='sm'
                                     className='flex items-center gap-1 dark:border-gray-700 dark:hover:bg-gray-800/50'
                                     onClick={() => {
-                                      form.setValue(
-                                        'documents',
+                                      const updatedDocuments =
                                         selectedDocuments.filter(
-                                          (doc) =>
-                                            doc.documentId !== item.documentId
+                                          (doc) => doc.id !== item.id
                                         )
+                                      const updatedDocumentIds =
+                                        updatedDocuments.map(
+                                          (doc) => doc.id
+                                        ) as number[]
+                                      form.setValue(
+                                        'documentIds',
+                                        updatedDocumentIds
                                       )
+                                      setSelectedDocuments(updatedDocuments)
                                     }}
                                   >
                                     <X />
@@ -113,7 +119,7 @@ export function TaskDocumentField() {
                               <div className='flex flex-wrap items-center gap-1'>
                                 {totalFiles > 0 ? (
                                   <>
-                                    {attachments
+                                    {currentAttachments
                                       .slice(0, 2)
                                       .map((attachment, index) => (
                                         <div
@@ -142,7 +148,7 @@ export function TaskDocumentField() {
                                             Tất cả tệp đính kèm
                                           </DropdownMenuLabel>
                                           <DropdownMenuSeparator />
-                                          {attachments.map(
+                                          {currentAttachments.map(
                                             (attachment, index) => (
                                               <DropdownMenuItem key={index}>
                                                 {attachment.fileName}

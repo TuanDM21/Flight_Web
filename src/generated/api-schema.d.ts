@@ -100,22 +100,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/task-documents/update": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: operations["updateDocument"];
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/shifts/{id}": {
         parameters: {
             query?: never;
@@ -171,9 +155,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy chi tiết evaluation session
+         * @description Lấy chi tiết một evaluation session theo id
+         */
         get: operations["getEvaluationSessionById"];
+        /**
+         * Cập nhật evaluation session
+         * @description Cập nhật thông tin evaluation session
+         */
         put: operations["updateEvaluationSession"];
         post?: never;
+        /**
+         * Xoá evaluation session
+         * @description Xoá một evaluation session theo id
+         */
         delete: operations["deleteEvaluationSession"];
         options?: never;
         head?: never;
@@ -187,9 +183,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy chi tiết evaluation issue
+         * @description Lấy chi tiết một evaluation issue theo id
+         */
         get: operations["getIssueById"];
+        /**
+         * Cập nhật evaluation issue
+         * @description Cập nhật thông tin evaluation issue
+         */
         put: operations["updateIssue"];
         post?: never;
+        /**
+         * Xoá evaluation issue
+         * @description Xoá một evaluation issue theo id
+         */
         delete: operations["deleteIssue"];
         options?: never;
         head?: never;
@@ -204,6 +212,10 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
+        /**
+         * Cập nhật trạng thái evaluation issue
+         * @description Cập nhật trạng thái evaluation issue
+         */
         put: operations["updateIssueStatus"];
         post?: never;
         delete?: never;
@@ -219,9 +231,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy chi tiết evaluation group
+         * @description Lấy chi tiết một evaluation group theo id
+         */
         get: operations["getEvaluationGroupById"];
+        /**
+         * Cập nhật evaluation group
+         * @description Cập nhật thông tin evaluation group
+         */
         put: operations["updateEvaluationGroup"];
         post?: never;
+        /**
+         * Xoá evaluation group
+         * @description Xoá một evaluation group theo id
+         */
         delete: operations["deleteEvaluationGroup"];
         options?: never;
         head?: never;
@@ -235,9 +259,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy chi tiết document
+         * @description Lấy chi tiết một document theo id
+         */
         get: operations["getDocumentById"];
-        put: operations["updateDocument_1"];
+        /**
+         * Cập nhật document
+         * @description Cập nhật thông tin document
+         */
+        put: operations["updateDocument"];
         post?: never;
+        /**
+         * Xoá document
+         * @description Xoá một document theo id
+         */
         delete: operations["deleteDocument"];
         options?: never;
         head?: never;
@@ -251,9 +287,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /**
+         * Xem chi tiết file đính kèm
+         * @description Lấy chi tiết một file đính kèm theo id
+         */
+        get: operations["getAttachmentById"];
+        /**
+         * Cập nhật tên file đính kèm
+         * @description Chỉ cho phép cập nhật tên file đính kèm (fileName)
+         */
         put: operations["updateAttachment"];
         post?: never;
+        /**
+         * Xoá file đính kèm
+         * @description Xoá file đính kèm trên Azure Blob và database theo id
+         */
         delete: operations["deleteAttachment"];
         options?: never;
         head?: never;
@@ -267,9 +315,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy chi tiết assignment
+         * @description Lấy chi tiết một assignment theo id
+         */
         get: operations["getAssignmentById"];
+        /**
+         * Cập nhật assignment
+         * @description Cập nhật thông tin assignment
+         */
         put: operations["updateAssignment"];
         post?: never;
+        /**
+         * Xoá assignment
+         * @description Xoá một assignment theo id
+         */
         delete: operations["deleteAssignment"];
         options?: never;
         head?: never;
@@ -509,7 +569,31 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["attachDocument"];
+        /**
+         * Gắn document vào task
+         * @description Gắn một hoặc nhiều document vào task
+         */
+        post: operations["attachDocuments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/attach-bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gắn nhiều document vào task
+         * @description Gắn nhiều document vào một task (bulk)
+         */
+        post: operations["attachDocumentsBulk"];
         delete?: never;
         options?: never;
         head?: never;
@@ -587,8 +671,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách evaluation session
+         * @description Lấy tất cả evaluation session
+         */
         get: operations["getAllEvaluationSessions"];
         put?: never;
+        /**
+         * Tạo evaluation session
+         * @description Tạo mới một evaluation session
+         */
         post: operations["createEvaluationSession"];
         delete?: never;
         options?: never;
@@ -603,8 +695,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách evaluation issue
+         * @description Lấy tất cả evaluation issue
+         */
         get: operations["getAllIssues"];
         put?: never;
+        /**
+         * Tạo evaluation issue
+         * @description Tạo mới một evaluation issue
+         */
         post: operations["createIssue"];
         delete?: never;
         options?: never;
@@ -619,8 +719,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách evaluation group
+         * @description Lấy tất cả evaluation group
+         */
         get: operations["getAllEvaluationGroups"];
         put?: never;
+        /**
+         * Tạo evaluation group
+         * @description Tạo mới một evaluation group
+         */
         post: operations["createEvaluationGroup"];
         delete?: never;
         options?: never;
@@ -635,9 +743,37 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách document
+         * @description Lấy tất cả document
+         */
         get: operations["getAllDocuments"];
         put?: never;
+        /**
+         * Tạo document
+         * @description Tạo mới một document
+         */
         post: operations["createDocument"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/documents/{documentId}/attachments/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gán nhiều file đính kèm vào document
+         * @description Gán các attachment đã upload vào document theo documentId
+         */
+        post: operations["assignAttachmentsToDocument"];
         delete?: never;
         options?: never;
         head?: never;
@@ -684,16 +820,20 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/attachments/document/{documentId}": {
+    "/api/attachments/upload-multi": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["getAttachmentsByDocument"];
+        get?: never;
         put?: never;
-        post: operations["addAttachment"];
+        /**
+         * Upload nhiều file lên Azure Blob Storage
+         * @description Upload nhiều file và trả về thông tin file đính kèm
+         */
+        post: operations["uploadMultipleFiles"];
         delete?: never;
         options?: never;
         head?: never;
@@ -709,7 +849,31 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["createAssignment"];
+        /**
+         * Tạo assignment cho nhiều người
+         * @description Tạo mới nhiều assignment cùng lúc cho nhiều người nhận việc
+         */
+        post: operations["createAssignments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/{id}/comment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Thêm comment cho assignment
+         * @description Thêm comment vào assignment, nhận JSON {"comment": "..."}
+         */
+        post: operations["addAssignmentComment"];
         delete?: never;
         options?: never;
         head?: never;
@@ -796,6 +960,26 @@ export interface paths {
         patch: operations["updateActualTimeAndNotify"];
         trace?: never;
     };
+    "/api/documents/{documentId}/attachments/remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Gỡ nhiều file đính kèm khỏi document
+         * @description Gỡ các attachment khỏi document theo documentId
+         */
+        patch: operations["removeAttachmentsFromDocument"];
+        trace?: never;
+    };
     "/api/users/search": {
         parameters: {
             query?: never;
@@ -848,6 +1032,46 @@ export interface paths {
          * @description Filter users by team, unit, or search text
          */
         get: operations["filterUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/directors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get users with role DIRECTOR or VICE_DIRECTOR
+         * @description Retrieve a list of users with role DIRECTOR or VICE_DIRECTOR
+         */
+        get: operations["getDirectorsAndViceDirectors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/assignable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get assignable users
+         * @description Lấy danh sách user mà user hiện tại có thể giao việc cho theo phân quyền
+         */
+        get: operations["getAssignableUsers"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1108,6 +1332,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/task-documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách document của task
+         * @description Lấy tất cả document gắn với một task
+         */
+        get: operations["getDocumentsByTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/notifications": {
         parameters: {
             query?: never;
@@ -1227,7 +1471,51 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách evaluation issue theo session
+         * @description Lấy tất cả evaluation issue theo sessionId
+         */
         get: operations["getIssuesBySession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy tất cả file đính kèm
+         * @description Lấy tất cả file đính kèm đã upload
+         */
+        get: operations["getAllAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/{id}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách comment của assignment
+         * @description Lấy tất cả comment của assignment, gồm id, assignmentId, comment, createdAt, user
+         */
+        get: operations["getAssignmentComments"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1243,6 +1531,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Lấy danh sách assignment theo task
+         * @description Lấy danh sách assignment theo taskId
+         */
         get: operations["getAssignmentsByTaskId"];
         put?: never;
         post?: never;
@@ -1359,7 +1651,31 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
+        /**
+         * Gỡ document khỏi task
+         * @description Gỡ một document khỏi task
+         */
         delete: operations["removeDocument"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/remove-bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Gỡ nhiều document khỏi task
+         * @description Gỡ nhiều document khỏi một task (bulk)
+         */
+        delete: operations["removeDocumentsBulk"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1547,19 +1863,12 @@ export interface components {
             /** Format: date */
             shiftDate?: string;
         };
-        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-        TaskDTO: {
+        UpdateTaskDTO: {
             /** Format: int32 */
             id?: number;
             content?: string;
             instructions?: string;
             notes?: string;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
-            /** Format: int32 */
-            createdBy?: number;
         };
         /** @description API response for a single task, data is TaskDTO */
         ApiTaskResponse: {
@@ -1581,27 +1890,21 @@ export interface components {
              */
             success?: boolean;
         };
-        AttachmentDTO: {
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        TaskDTO: {
             /** Format: int32 */
             id?: number;
-            filePath?: string;
-            fileName?: string;
-            /** Format: int64 */
-            fileSize?: number;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        DocumentDTO: {
-            /** Format: int32 */
-            id?: number;
-            documentType?: string;
             content?: string;
+            instructions?: string;
             notes?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
-            attachments?: components["schemas"]["AttachmentDTO"][];
+            /** Format: int32 */
+            createdBy?: number;
+            /** @enum {string} */
+            status?: "NEW" | "ASSIGNED" | "IN_PROGRESS" | "UNDER_REVIEW" | "PARTIALLY_COMPLETED" | "COMPLETED" | "LATE_COMPLETED" | "CANCELLED";
         };
         Shift: {
             /** Format: int32 */
@@ -1656,6 +1959,7 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         EvaluationSessionDTO: {
             /** Format: int32 */
             id?: number;
@@ -1670,6 +1974,27 @@ export interface components {
             createdAt?: string;
             assignments?: components["schemas"]["EvaluationAssignmentDTO"][];
         };
+        /** @description API response for a single evaluation session */
+        ApiEvaluationSessionResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["EvaluationSessionDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         EvaluationIssueDTO: {
             /** Format: int32 */
             id?: number;
@@ -1689,21 +2014,8 @@ export interface components {
             createdAt?: string;
             documentIds?: number[];
         };
-        StatusUpdateRequest: {
-            isResolved?: boolean;
-            /** Format: date */
-            resolutionDate?: string;
-        };
-        EvaluationGroupDTO: {
-            /** Format: int32 */
-            id?: number;
-            groupName?: string;
-            description?: string;
-            /** Format: date-time */
-            createdAt?: string;
-        };
-        /** @description Response chuẩn cho tất cả API */
-        ApiResponseCustom: {
+        /** @description API response for a single evaluation issue */
+        ApiEvaluationIssueResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -1715,14 +2027,150 @@ export interface components {
              * @example 200
              */
             statusCode?: number;
-            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-            data?: Record<string, never>;
+            data?: components["schemas"]["EvaluationIssueDTO"];
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
              */
             success?: boolean;
         };
+        StatusUpdateRequest: {
+            isResolved?: boolean;
+            /** Format: date */
+            resolutionDate?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        EvaluationGroupDTO: {
+            /** Format: int32 */
+            id?: number;
+            groupName?: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description API response for a single evaluation group */
+        ApiEvaluationGroupResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["EvaluationGroupDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UpdateDocumentRequest: {
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            attachmentIds?: number[];
+        };
+        /** @description API response for a single document */
+        ApiDocumentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["DocumentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        AttachmentDTO: {
+            /** Format: int32 */
+            id?: number;
+            filePath?: string;
+            fileName?: string;
+            /** Format: int64 */
+            fileSize?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        DocumentDTO: {
+            /** Format: int32 */
+            id?: number;
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            attachments?: components["schemas"]["AttachmentDTO"][];
+        };
+        UpdateAttachmentFileNameRequest: {
+            fileName?: string;
+        };
+        /** @description API response for a single attachment */
+        ApiAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AttachmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UpdateAssignmentRequest: {
+            recipientType?: string;
+            /** Format: int32 */
+            recipientId?: number;
+            /** Format: date-time */
+            dueAt?: string;
+            /** @enum {string} */
+            status?: "ASSIGNED" | "IN_PROGRESS" | "SUBMITTED" | "REVIEWING" | "REJECTED" | "COMPLETED" | "LATE_COMPLETED" | "REOPENED" | "CANCELLED";
+            note?: string;
+        };
+        /** @description API response for a single assignment */
+        ApiAssignmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AssignmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         AssignmentDTO: {
             /** Format: int32 */
             assignmentId?: number;
@@ -1735,12 +2183,14 @@ export interface components {
             dueAt?: string;
             /** Format: date-time */
             completedAt?: string;
-            /** Format: int32 */
-            status?: number;
+            /** @enum {string} */
+            status?: "ASSIGNED" | "IN_PROGRESS" | "SUBMITTED" | "REVIEWING" | "REJECTED" | "COMPLETED" | "LATE_COMPLETED" | "REOPENED" | "CANCELLED";
             note?: string;
             assignedByUser?: components["schemas"]["UserDTO"];
             completedByUser?: components["schemas"]["UserDTO"];
             recipientUser?: components["schemas"]["UserDTO"];
+            /** Format: int32 */
+            recipientId?: number;
         };
         UserDTO: {
             /**
@@ -1821,6 +2271,27 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description Response chuẩn cho tất cả API */
+        ApiResponseCustom: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         ApplyShiftMultiDTO: {
             /** Format: date */
             shiftDate?: string;
@@ -1882,6 +2353,38 @@ export interface components {
             notes?: string;
             assignments?: components["schemas"]["AssignmentRequest"][];
             documentIds?: number[];
+        };
+        /** @description API response for task document action */
+        ApiTaskDocumentActionResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        CreateDocumentRequest: {
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            attachmentIds?: number[];
+        };
+        /** @description Request để gán các attachment vào document */
+        AttachmentAssignRequest: {
+            /** @description Danh sách id của attachment sẽ gán vào document */
+            attachmentIds: number[];
         };
         RegisterRequest: {
             name: string;
@@ -1994,6 +2497,96 @@ export interface components {
             tokenType?: string;
             /** Format: int64 */
             expiresIn?: number;
+        };
+        /** @description API response for list of attachments */
+        ApiAttachmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AttachmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        CreateAssignmentRequest: {
+            recipientType?: string;
+            /** Format: int32 */
+            recipientId?: number;
+            /** Format: date-time */
+            dueAt?: string;
+            note?: string;
+        };
+        CreateAssignmentsRequest: {
+            /** Format: int32 */
+            taskId?: number;
+            assignments?: components["schemas"]["CreateAssignmentRequest"][];
+        };
+        /** @description API response for list of assignments */
+        ApiAssignmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AssignmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        AssignmentCommentRequest: {
+            comment?: string;
+        };
+        /** @description API response for assignment comment history */
+        ApiAssignmentCommentHistoryResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AssignmentCommentHistoryDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        AssignmentCommentHistoryDTO: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            assignmentId?: number;
+            comment?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            user?: components["schemas"]["UserDTO"];
         };
         FlightTimeUpdateRequest: {
             actualDepartureTime?: string;
@@ -2425,6 +3018,8 @@ export interface components {
             createdByUser?: components["schemas"]["UserDTO"];
             assignments?: components["schemas"]["AssignmentDTO"][];
             documents?: components["schemas"]["DocumentDetailDTO"][];
+            /** @enum {string} */
+            status?: "NEW" | "ASSIGNED" | "IN_PROGRESS" | "UNDER_REVIEW" | "PARTIALLY_COMPLETED" | "COMPLETED" | "LATE_COMPLETED" | "CANCELLED";
         };
         /** @description API response for a single task detail, data is TaskDetailDTO */
         ApiTaskDetailResponse: {
@@ -2440,6 +3035,27 @@ export interface components {
              */
             statusCode?: number;
             data?: components["schemas"]["TaskDetailDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of task documents */
+        ApiTaskDocumentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["DocumentDTO"][];
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -2471,6 +3087,90 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
             isRead?: boolean;
+        };
+        /** @description API response for list of evaluation sessions */
+        ApiEvaluationSessionListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationSessionDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of evaluation issues */
+        ApiEvaluationIssueListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationIssueDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of evaluation groups */
+        ApiEvaluationGroupListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationGroupDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of documents */
+        ApiDocumentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["DocumentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
         };
         /** @description API response for delete user, data is Void */
         ApiDeleteUserResponse: {
@@ -2769,7 +3469,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TaskDTO"];
+                "application/json": components["schemas"]["UpdateTaskDTO"];
             };
         };
         responses: {
@@ -2811,33 +3511,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiTaskResponse"];
-                };
-            };
-        };
-    };
-    updateDocument: {
-        parameters: {
-            query: {
-                taskId: number;
-                documentId: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["DocumentDTO"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["DocumentDTO"];
                 };
             };
         };
@@ -3057,13 +3730,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy evaluation session thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationSessionDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation session */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
                 };
             };
         };
@@ -3083,13 +3765,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật evaluation session thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationSessionDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation session */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
                 };
             };
         };
@@ -3105,12 +3796,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xoá evaluation session thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
             };
         };
     };
@@ -3125,13 +3818,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy evaluation issue thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
                 };
             };
         };
@@ -3151,13 +3853,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật evaluation issue thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
                 };
             };
         };
@@ -3173,12 +3884,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xoá evaluation issue thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
             };
         };
     };
@@ -3197,13 +3910,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật trạng thái thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
                 };
             };
         };
@@ -3219,13 +3941,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy evaluation group thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationGroupDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation group */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
                 };
             };
         };
@@ -3245,13 +3976,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật evaluation group thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationGroupDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation group */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
                 };
             };
         };
@@ -3267,12 +4007,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xoá evaluation group thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
             };
         };
     };
@@ -3287,18 +4029,27 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy document thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+            /** @description Không tìm thấy document */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
                 };
             };
         };
     };
-    updateDocument_1: {
+    updateDocument: {
         parameters: {
             query?: never;
             header?: never;
@@ -3309,17 +4060,26 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["DocumentDTO"];
+                "application/json": components["schemas"]["UpdateDocumentRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật document thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+            /** @description Không tìm thấy document */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
                 };
             };
         };
@@ -3335,13 +4095,35 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Xoá document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    getAttachmentById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
             /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
                 };
             };
         };
@@ -3357,17 +4139,26 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AttachmentDTO"];
+                "application/json": components["schemas"]["UpdateAttachmentFileNameRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
                 };
             };
         };
@@ -3389,7 +4180,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
                 };
             };
         };
@@ -3405,13 +4196,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy assignment thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy assignment */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
                 };
             };
         };
@@ -3427,17 +4227,26 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AssignmentDTO"];
+                "application/json": components["schemas"]["UpdateAssignmentRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Cập nhật assignment thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy assignment */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
                 };
             };
         };
@@ -3453,13 +4262,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xoá assignment thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
                 };
             };
         };
@@ -3903,7 +4712,30 @@ export interface operations {
             };
         };
     };
-    attachDocument: {
+    attachDocuments: {
+        parameters: {
+            query: {
+                taskId: number;
+                documentIds: number[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Gắn document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    attachDocumentsBulk: {
         parameters: {
             query: {
                 taskId: number;
@@ -3914,17 +4746,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["DocumentDTO"];
+                "application/json": number[];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Gắn document thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["DocumentDTO"];
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
                 };
             };
         };
@@ -4090,13 +4922,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách evaluation session thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationSessionDTO"][];
+                    "*/*": components["schemas"]["ApiEvaluationSessionListResponse"];
                 };
             };
         };
@@ -4114,13 +4946,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Tạo evaluation session thành công */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationSessionDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
                 };
             };
         };
@@ -4134,13 +4966,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách evaluation issue thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"][];
+                    "*/*": components["schemas"]["ApiEvaluationIssueListResponse"];
                 };
             };
         };
@@ -4158,13 +4990,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Tạo evaluation issue thành công */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
                 };
             };
         };
@@ -4178,13 +5010,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách evaluation group thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationGroupDTO"][];
+                    "*/*": components["schemas"]["ApiEvaluationGroupListResponse"];
                 };
             };
         };
@@ -4202,13 +5034,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Tạo evaluation group thành công */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationGroupDTO"];
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
                 };
             };
         };
@@ -4222,13 +5054,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách document thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiDocumentListResponse"];
                 };
             };
         };
@@ -4242,7 +5074,33 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["DocumentDTO"];
+                "application/json": components["schemas"]["CreateDocumentRequest"];
+            };
+        };
+        responses: {
+            /** @description Tạo document thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    assignAttachmentsToDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                documentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachmentAssignRequest"];
             };
         };
         responses: {
@@ -4323,55 +5181,33 @@ export interface operations {
             };
         };
     };
-    getAttachmentsByDocument: {
+    uploadMultipleFiles: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                documentId: number;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
-                };
-            };
-        };
-    };
-    addAttachment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                documentId: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["AttachmentDTO"];
+                "multipart/form-data": {
+                    files: string[];
+                };
             };
         };
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Upload file thành công */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
                 };
             };
         };
     };
-    createAssignment: {
+    createAssignments: {
         parameters: {
             query?: never;
             header?: never;
@@ -4380,17 +5216,43 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["AssignmentDTO"];
+                "application/json": components["schemas"]["CreateAssignmentsRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Tạo assignment thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentListResponse"];
+                };
+            };
+        };
+    };
+    addAssignmentComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignmentCommentRequest"];
+            };
+        };
+        responses: {
+            /** @description Thêm comment thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAssignmentCommentHistoryResponse"];
                 };
             };
         };
@@ -4587,6 +5449,32 @@ export interface operations {
             };
         };
     };
+    removeAttachmentsFromDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                documentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachmentAssignRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseCustom"];
+                };
+            };
+        };
+    };
     searchUsersByKeyword: {
         parameters: {
             query: {
@@ -4658,6 +5546,46 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiFilterUsersResponse"];
+                };
+            };
+        };
+    };
+    getDirectorsAndViceDirectors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved directors and vice directors */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUsersResponse"];
+                };
+            };
+        };
+    };
+    getAssignableUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUsersResponse"];
                 };
             };
         };
@@ -4981,6 +5909,28 @@ export interface operations {
             };
         };
     };
+    getDocumentsByTask: {
+        parameters: {
+            query: {
+                taskId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentListResponse"];
+                };
+            };
+        };
+    };
     getNotifications: {
         parameters: {
             query?: never;
@@ -5139,13 +6089,55 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Lấy danh sách evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueListResponse"];
+                };
+            };
+        };
+    };
+    getAllAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
             /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["EvaluationIssueDTO"][];
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    getAssignmentComments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách comment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentCommentHistoryResponse"];
                 };
             };
         };
@@ -5161,13 +6153,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách assignment thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiResponseCustom"];
+                    "*/*": components["schemas"]["ApiAssignmentListResponse"];
                 };
             };
         };
@@ -5312,12 +6304,40 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Gỡ document thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    removeDocumentsBulk: {
+        parameters: {
+            query: {
+                taskId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": number[];
+            };
+        };
+        responses: {
+            /** @description Gỡ document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
             };
         };
     };

@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { fa } from '@faker-js/faker'
-import { ArrowUpDown, DollarSign, Eye, MoreHorizontal } from 'lucide-react'
+import { FileText, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useTasks } from '@/context/task'
 import { useDataTable } from '@/hooks/use-data-table'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -22,130 +24,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
-// Removing unused import
 import { DataTable } from '@/components/data-table/data-table'
-import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
+import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
+import { useViewDocuments } from '@/features/documents/hooks/use-view-documents'
+import { TaskDocument, TaskDocumentAttachment } from '@/features/tasks/types'
+import { useInsertBulkTaskDocumentsMutation } from '../hooks/use-insert-bulk-task-document'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSaveDocuments: (documents: Document[]) => void
+  getSelectedDocumentIds: () => number[]
 }
 
-const data: Document[] = [
-  {
-    documentId: 1,
-    documentType: 'brief',
-    content: 'Tài liệu mô tả yêu cầu',
-    notes: 'Ghi chú thêm nếu cần',
-    attachments: [
-      {
-        filePath: '/uploads/specs.pdf',
-        fileName: 'specs.pdf',
-      },
-      {
-        filePath: '/uploads/requirements.docx',
-        fileName: 'requirements.docx',
-      },
-      {
-        filePath: '/uploads/timeline.xlsx',
-        fileName: 'timeline.xlsx',
-      },
-    ],
-  },
-  {
-    documentId: 2,
-    documentType: 'report',
-    content: 'Báo cáo kết quả kiểm thử',
-    notes: 'Phiên bản 1.0',
-    attachments: [
-      {
-        filePath: '/uploads/test-results.pdf',
-        fileName: 'test-results.pdf',
-      },
-      {
-        filePath: '/uploads/test-cases.xlsx',
-        fileName: 'test-cases.xlsx',
-      },
-      {
-        filePath: '/uploads/screenshots.zip',
-        fileName: 'screenshots.zip',
-      },
-      {
-        filePath: '/uploads/errors.log',
-        fileName: 'errors.log',
-      },
-    ],
-  },
-  {
-    documentId: 3,
-    documentType: 'contract',
-    content: 'Hợp đồng dịch vụ',
-    notes: 'Đã được duyệt',
-    attachments: [
-      {
-        filePath: '/uploads/contract.pdf',
-        fileName: 'contract.pdf',
-      },
-      {
-        filePath: '/uploads/terms.pdf',
-        fileName: 'terms.pdf',
-      },
-    ],
-  },
-  {
-    documentId: 4,
-    documentType: 'presentation',
-    content: 'Bài thuyết trình sản phẩm',
-    notes: 'Cho buổi demo 15/5',
-    attachments: [
-      {
-        filePath: '/uploads/presentation.pptx',
-        fileName: 'presentation.pptx',
-      },
-      {
-        filePath: '/uploads/demo-script.docx',
-        fileName: 'demo-script.docx',
-      },
-      {
-        filePath: '/uploads/product-images.zip',
-        fileName: 'product-images.zip',
-      },
-      {
-        filePath: '/uploads/market-data.xlsx',
-        fileName: 'market-data.xlsx',
-      },
-      {
-        filePath: '/uploads/competitor-analysis.pdf',
-        fileName: 'competitor-analysis.pdf',
-      },
-    ],
-  },
-  {
-    documentId: 5,
-    documentType: 'plan',
-    content: 'Kế hoạch triển khai',
-    notes: 'Cập nhật ngày 10/5',
-    attachments: [],
-  },
-]
-
-export type Attachment = {
-  filePath: string
-  fileName: string
-}
-
-export type Document = {
-  documentId: number
-  documentType: string
-  content: string
-  notes: string
-  attachments: Attachment[]
-}
-
-export const columns: ColumnDef<Document>[] = [
+const columns: ColumnDef<TaskDocument>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -184,22 +76,15 @@ export const columns: ColumnDef<Document>[] = [
     id: 'id',
     accessorKey: 'id',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Task ID' />
+      <DataTableColumnHeader column={column} title='ID' />
     ),
     cell: ({ cell }) => <div>#{cell.getValue<number>() ?? 'N/A'}</div>,
-    meta: {
-      className: '',
-      label: 'id',
-      placeholder: 'Search ID...',
-      variant: 'text',
-      icon: DollarSign,
-    },
     enableColumnFilter: false,
   },
   {
     accessorKey: 'documentType',
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title='Loại tài liệu' />
+      return <DataTableColumnHeader column={column} title='Type' />
     },
     cell: ({ row }) => (
       <div className='capitalize'>{row.getValue('documentType')}</div>
@@ -208,7 +93,7 @@ export const columns: ColumnDef<Document>[] = [
   {
     accessorKey: 'content',
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title='Nội dung' />
+      return <DataTableColumnHeader column={column} title='Content' />
     },
     cell: ({ row }) => <div>{row.getValue('content')}</div>,
     enableColumnFilter: false,
@@ -216,16 +101,18 @@ export const columns: ColumnDef<Document>[] = [
   {
     accessorKey: 'notes',
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title='Ghi chú' />
+      return <DataTableColumnHeader column={column} title='Notes' />
     },
     cell: ({ row }) => <div>{row.getValue('notes')}</div>,
     enableColumnFilter: false,
   },
   {
     accessorKey: 'attachments',
-    header: () => <div>Tệp đính kèm</div>,
+    header: () => <div>Attachments</div>,
     cell: ({ row }) => {
-      const attachments = row.getValue('attachments') as Attachment[]
+      const attachments = row.getValue(
+        'attachments'
+      ) as TaskDocumentAttachment[]
       const totalFiles = attachments.length
 
       return (
@@ -248,11 +135,11 @@ export const columns: ColumnDef<Document>[] = [
                       size='sm'
                       className='h-6 px-2 text-xs'
                     >
-                      +{totalFiles - 2} tệp khác
+                      +{totalFiles - 2} more files
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align='start' className='w-56'>
-                    <DropdownMenuLabel>Tất cả tệp đính kèm</DropdownMenuLabel>
+                    <DropdownMenuLabel>All Attachments</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     {attachments.map((attachment, index) => (
                       <DropdownMenuItem key={index}>
@@ -265,7 +152,7 @@ export const columns: ColumnDef<Document>[] = [
             </>
           ) : (
             <span className='text-muted-foreground text-xs'>
-              Không có tệp đính kèm
+              No attachments available
             </span>
           )}
         </div>
@@ -273,73 +160,76 @@ export const columns: ColumnDef<Document>[] = [
     },
     enableColumnFilter: false,
   },
-  {
-    id: 'actions',
-    enableHiding: false,
-    maxSize: 24,
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Hành động' />
-    ),
-    cell: ({ row }) => {
-      const document = row.original
-      const hasAttachments = document.attachments.length > 0
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Xem tệp</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>
-              Tệp đính kèm ({document.attachments.length})
-            </DropdownMenuLabel>
-            {hasAttachments ? (
-              document.attachments.map((attachment, index) => (
-                <DropdownMenuItem
-                  key={index}
-                  onSelect={() => {
-                    window.alert(`Tải xuống tệp: ${attachment.fileName}`)
-                  }}
-                >
-                  {attachment.fileName}
-                </DropdownMenuItem>
-              ))
-            ) : (
-              <DropdownMenuItem disabled>
-                Không có tệp đính kèm
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
 ]
 
 export function SelectDocumentDialog({
   open,
   onOpenChange,
-  onSaveDocuments,
+  getSelectedDocumentIds,
 }: Props) {
-  const { table, debounceMs, shallow, throttleMs } = useDataTable({
-    data: data,
+  const { data: allDocuments, isLoading } = useViewDocuments()
+
+  const availableDocuments = useMemo(() => {
+    if (!allDocuments?.data) return []
+    const selectedDocumentIds = getSelectedDocumentIds()
+    return allDocuments.data.filter(
+      (doc) => !selectedDocumentIds.includes(doc.id!)
+    )
+  }, [allDocuments, getSelectedDocumentIds])
+
+  const { currentTaskId } = useTasks()
+  const updateTaskDocumentsMutation =
+    useInsertBulkTaskDocumentsMutation(currentTaskId)
+
+  const { table } = useDataTable({
+    data: availableDocuments,
     columns,
     pageCount: 1,
-    getRowId: (row) => String(row.documentId ?? 'unknown'),
+    getRowId: (row) => String(row.id ?? 'unknown'),
   })
+
+  const noDocuments = !allDocuments?.data || allDocuments.data.length === 0
+
+  const EmptyState = () => (
+    <div className='flex h-[400px] items-center justify-center'>
+      <div className='flex flex-col items-center gap-4 text-center'>
+        <div className='bg-muted rounded-full p-4'>
+          <FileText className='text-muted-foreground h-12 w-12' />
+        </div>
+        <div className='space-y-2'>
+          <h3 className='text-lg font-semibold'>No documents available</h3>
+          <p className='text-muted-foreground max-w-sm text-sm'>
+            There are no documents in the system yet. Create some documents
+            first before assigning them to tasks.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
 
   const handleSaveSelection = () => {
     const selectedDocuments = table
       .getFilteredSelectedRowModel()
       .rows.map((row) => row.original)
 
-    if (onSaveDocuments) {
-      onSaveDocuments(selectedDocuments)
-    }
+    const documentIds = selectedDocuments.map((doc) => doc.id) as number[]
+
+    const updateDocumentsPromise = updateTaskDocumentsMutation.mutateAsync({
+      body: documentIds,
+      params: {
+        query: { taskId: currentTaskId ?? -1 },
+      },
+    })
+
+    toast.promise(updateDocumentsPromise, {
+      loading: `Updating documents...`,
+      success: `Documents updated successfully!`,
+      error: `Failed to update documents. Please try again.`,
+    })
+
     onOpenChange(false)
+    table.resetRowSelection()
+    table.setColumnFilters([])
   }
 
   return (
@@ -351,30 +241,43 @@ export function SelectDocumentDialog({
     >
       <DialogContent className='max-h-7xl flex flex-col sm:max-w-7xl'>
         <DialogHeader className='text-left'>
-          <DialogTitle>Chọn tài liệu</DialogTitle>
+          <DialogTitle>Select Documents</DialogTitle>
           <DialogDescription>
-            Chọn một hoặc nhiều tài liệu từ danh sách dưới đây
+            Select one or more documents from the list below
           </DialogDescription>
         </DialogHeader>
         <div className='flex-1 overflow-hidden'>
-          <ScrollArea className='h-full'>
-            <DataTable table={table}>
-              <DataTableAdvancedToolbar table={table}>
-                <DataTableFilterMenu
-                  table={table}
-                  shallow={shallow}
-                  debounceMs={debounceMs}
-                  throttleMs={throttleMs}
-                />
-              </DataTableAdvancedToolbar>
-            </DataTable>
-          </ScrollArea>
+          {isLoading || updateTaskDocumentsMutation.isPending ? (
+            <DataTableSkeleton columnCount={10} rowCount={10} withViewOptions />
+          ) : noDocuments ? (
+            <EmptyState />
+          ) : (
+            <ScrollArea className='h-full'>
+              <DataTable table={table} />
+            </ScrollArea>
+          )}
         </div>
         <DialogFooter className='gap-2'>
           <DialogClose asChild>
-            <Button variant='outline'>Đóng</Button>
+            <Button variant='outline'>Close</Button>
           </DialogClose>
-          <Button onClick={handleSaveSelection}>Xác nhận</Button>
+          <Button
+            onClick={handleSaveSelection}
+            disabled={
+              isLoading ||
+              noDocuments ||
+              table.getFilteredSelectedRowModel().rows.length === 0
+            }
+          >
+            {updateTaskDocumentsMutation.isPending ? (
+              <>
+                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                Updating...
+              </>
+            ) : (
+              'Confirm'
+            )}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
