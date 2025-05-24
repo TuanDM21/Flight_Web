@@ -5188,9 +5188,10 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "multipart/form-data": {
+                    /** @description Danh sách file để upload */
                     files: string[];
                 };
             };

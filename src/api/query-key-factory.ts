@@ -30,4 +30,12 @@ export const userKeysFactory = {
 
 export const documentKeysFactory = {
   lists: () => ['get', '/api/documents', {}] as const,
+  detail: (id: number) =>
+    ['get', '/api/documents/{id}', { params: { path: { id } } }] as const,
+}
+
+export const QUERY_KEY_FACTORY = {
+  tasks: taskKeysFactory,
+  users: userKeysFactory,
+  documents: documentKeysFactory,
 }
