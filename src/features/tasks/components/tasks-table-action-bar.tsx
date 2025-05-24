@@ -8,7 +8,7 @@ import {
   DataTableActionBarAction,
   DataTableActionBarSelection,
 } from '@/components/data-table/data-table-action-bar'
-import { Task } from '../data/schema'
+import { Task } from '@/features/tasks/types'
 
 interface TasksTableActionBarProps {
   table: Table<Task>

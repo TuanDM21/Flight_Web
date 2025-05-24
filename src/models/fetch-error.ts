@@ -108,4 +108,8 @@ export class FetchError extends Error {
   static isNetworkError(error: unknown): boolean {
     return FetchError.isFetchError(error) && error.code === 'ERR_NETWORK'
   }
+
+  static isTimeoutError(error: unknown): boolean {
+    return FetchError.isFetchError(error) && error.code === 'ERR_TIMEOUT'
+  }
 }

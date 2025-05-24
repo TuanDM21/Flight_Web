@@ -4,3021 +4,6361 @@
  */
 
 export interface paths {
-  '/api/users/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get user by ID
-     * @description Retrieve a user by their ID
-     */
-    get: operations['getUserById']
-    /**
-     * Update user
-     * @description Update an existing user
-     */
-    put: operations['updateUser']
-    post?: never
-    /**
-     * Delete user
-     * @description Delete a user by ID
-     */
-    delete: operations['deleteUser']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-shifts/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy ca trực của user theo id */
-    get: operations['getUserShiftById']
-    /** Cập nhật ca trực của user */
-    put: operations['updateUserShift']
-    post?: never
-    /** Xóa ca trực của user */
-    delete: operations['deleteUserShift']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shifts/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy ca trực theo id */
-    get: operations['getShiftById']
-    /** Cập nhật ca trực */
-    put: operations['updateShift']
-    post?: never
-    /** Xóa ca trực */
-    delete: operations['deleteShift']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/roles/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy vai trò theo id */
-    get: operations['getRoleById']
-    /** Cập nhật vai trò */
-    put: operations['updateRole']
-    post?: never
-    /** Xóa vai trò */
-    delete: operations['deleteRole']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy chuyến bay theo id */
-    get: operations['getFlightById']
-    /** Cập nhật chuyến bay */
-    put: operations['updateFlight']
-    post?: never
-    /** Xóa chuyến bay */
-    delete: operations['deleteFlight']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/airports/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy sân bay theo id */
-    get: operations['getAirportById']
-    /** Cập nhật sân bay */
-    put: operations['updateAirport']
-    post?: never
-    /** Xóa sân bay */
-    delete: operations['deleteAirport']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/activities/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy chi tiết hoạt động */
-    get: operations['getActivity']
-    /** Cập nhật hoạt động */
-    put: operations['updateActivity']
-    post?: never
-    /** Xóa hoạt động */
-    delete: operations['deleteActivity']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get all users
-     * @description Retrieve a list of all users
-     */
-    get: operations['getAllUsers']
-    put?: never
-    /**
-     * Create user
-     * @description Create a new user
-     */
-    post: operations['createUser']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users/expo-push-token': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * Save Expo Push Token
-     * @description Save Expo Push Token for the current user
-     */
-    post: operations['saveExpoPushToken']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-shifts/assign': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Gán ca trực cho user */
-    post: operations['assignShiftToUser']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-shifts/apply-multi': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Áp dụng ca cho nhiều user */
-    post: operations['applyShiftToUsers']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/apply': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Áp dụng ca trực chuyến bay cho user */
-    post: operations['applyFlightShift']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/teams': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get all teams
-     * @description Retrieve a list of all teams
-     */
-    get: operations['getAllTeams']
-    put?: never
-    /**
-     * Create a new team
-     * @description Create a new team with the provided details
-     */
-    post: operations['createTeam']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/shifts': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách ca trực */
-    get: operations['getAllShifts']
-    put?: never
-    /** Tạo ca trực mới */
-    post: operations['createShift']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/roles': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách vai trò */
-    get: operations['getAllRoles']
-    put?: never
-    /** Tạo vai trò mới */
-    post: operations['createRole']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/notifications/read/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Đánh dấu thông báo đã đọc */
-    post: operations['markAsRead']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy tất cả chuyến bay */
-    get: operations['getAllFlights']
-    put?: never
-    /** Tạo chuyến bay mới */
-    post: operations['createFlight']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/auth/register': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * User registration
-     * @description Register a new user
-     */
-    post: operations['register']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/auth/login': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /**
-     * User login
-     * @description Authenticate user and return JWT token
-     */
-    post: operations['login']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/airports': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách tất cả các sân bay */
-    get: operations['getAllAirports']
-    put?: never
-    /** Tạo sân bay mới */
-    post: operations['createAirport']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/activities': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách hoạt động */
-    get: operations['getAllActivities']
-    put?: never
-    /** Tạo hoạt động mới */
-    post: operations['createActivity']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/activities/{id}/participants': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Thêm người tham gia hoạt động */
-    post: operations['addParticipants']
-    /** Xóa người tham gia hoạt động */
-    delete: operations['removeParticipant']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/{id}/times': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /** Cập nhật thời gian chuyến bay */
-    patch: operations['updateFlightTimes']
-    trace?: never
-  }
-  '/api/users/search': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Search users
-     * @description Search users by keyword (name or email)
-     */
-    get: operations['searchUsersByKeyword']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users/me': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Get current user
-     * @description Get the current user based on token
-     */
-    get: operations['getCurrentUser']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/users/filter': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Filter users
-     * @description Filter users by team, unit, or search text
-     */
-    get: operations['filterUsers']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-shifts': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy tất cả ca trực của user */
-    get: operations['getAllUserShifts']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-shifts/filter': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lọc lịch trực theo ngày, team, unit */
-    get: operations['getSchedulesByCriteria']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/shifts': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách user-flight-shifts theo flightId và shiftDate */
-    get: operations['getShiftsByFlightAndDate']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/shifts/available': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách ca trực còn trống */
-    get: operations['getAvailableShifts']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/shifts/assigned': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách ca trực đã phân công */
-    get: operations['getAssignedShifts']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/isAssigned': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Kiểm tra user đã phục vụ chuyến bay chưa */
-    get: operations['isUserAssigned']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/filter': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lọc lịch phục vụ chuyến bay */
-    get: operations['getFlightSchedules']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/by-user/{userId}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy ca trực theo user */
-    get: operations['getShiftsByUser']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts/by-date': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy ca trực theo ngày */
-    get: operations['getShiftsByDate']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/units': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * Lấy tất cả đơn vị
-     * @description Lấy tất cả đơn vị hoặc đơn vị theo team nếu có teamId
-     */
-    get: operations['getUnits']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/notifications': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy danh sách thông báo của người dùng hiện tại */
-    get: operations['getNotifications']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/notifications/unread-count': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Đếm số lượng thông báo chưa đọc */
-    get: operations['countUnread']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/today': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy chuyến bay hôm nay */
-    get: operations['getTodayFlights']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/search': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Tìm kiếm chuyến bay theo keyword */
-    get: operations['searchFlights']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/searchByDate': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Tìm kiếm chuyến bay theo ngày */
-    get: operations['searchFlightByDate']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/flights/searchByDateAndKeyword': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Tìm kiếm chuyến bay theo ngày và keyword */
-    get: operations['searchFlightByDateAndKeyword']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/activities/search': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Tìm kiếm hoạt động theo tháng/năm */
-    get: operations['searchActivitiesByMonthYear']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/activities/my': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Lấy hoạt động của tôi */
-    get: operations['getMyActivities']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Trang chủ API */
-    get: operations['home']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/user-flight-shifts': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    /** Xóa phân công ca trực chuyến bay */
-    delete: operations['removeFlightAssignment']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
+    "/api/users/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user by ID
+         * @description Retrieve a user by their ID
+         */
+        get: operations["getUserById"];
+        /**
+         * Update user
+         * @description Update an existing user
+         */
+        put: operations["updateUser"];
+        post?: never;
+        /**
+         * Delete user
+         * @description Delete a user by ID
+         */
+        delete: operations["deleteUser"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getUserShiftById"];
+        put: operations["updateUserShift"];
+        post?: never;
+        delete: operations["deleteUserShift"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update user flight shift
+         * @description Update user flight shift by id
+         */
+        put: operations["updateUserFlightShift"];
+        post?: never;
+        /**
+         * Delete user flight shift by id
+         * @description Delete user flight shift by id
+         */
+        delete: operations["deleteUserFlightShift"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/tasks/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết task
+         * @description Lấy chi tiết một công việc theo id
+         */
+        get: operations["getTaskDetailById"];
+        /**
+         * Cập nhật task
+         * @description Cập nhật một công việc theo id
+         */
+        put: operations["updateTask"];
+        post?: never;
+        /**
+         * Xoá task
+         * @description Xoá một công việc theo id
+         */
+        delete: operations["deleteTask"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shifts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getShiftById"];
+        put: operations["updateShift"];
+        post?: never;
+        delete: operations["deleteShift"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/roles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getRoleById"];
+        put: operations["updateRole"];
+        post?: never;
+        delete: operations["deleteRole"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getFlightById"];
+        put: operations["updateFlight"];
+        post?: never;
+        delete: operations["deleteFlight"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-sessions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết evaluation session
+         * @description Lấy chi tiết một evaluation session theo id
+         */
+        get: operations["getEvaluationSessionById"];
+        /**
+         * Cập nhật evaluation session
+         * @description Cập nhật thông tin evaluation session
+         */
+        put: operations["updateEvaluationSession"];
+        post?: never;
+        /**
+         * Xoá evaluation session
+         * @description Xoá một evaluation session theo id
+         */
+        delete: operations["deleteEvaluationSession"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-issues/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết evaluation issue
+         * @description Lấy chi tiết một evaluation issue theo id
+         */
+        get: operations["getIssueById"];
+        /**
+         * Cập nhật evaluation issue
+         * @description Cập nhật thông tin evaluation issue
+         */
+        put: operations["updateIssue"];
+        post?: never;
+        /**
+         * Xoá evaluation issue
+         * @description Xoá một evaluation issue theo id
+         */
+        delete: operations["deleteIssue"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-issues/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Cập nhật trạng thái evaluation issue
+         * @description Cập nhật trạng thái evaluation issue
+         */
+        put: operations["updateIssueStatus"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-groups/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết evaluation group
+         * @description Lấy chi tiết một evaluation group theo id
+         */
+        get: operations["getEvaluationGroupById"];
+        /**
+         * Cập nhật evaluation group
+         * @description Cập nhật thông tin evaluation group
+         */
+        put: operations["updateEvaluationGroup"];
+        post?: never;
+        /**
+         * Xoá evaluation group
+         * @description Xoá một evaluation group theo id
+         */
+        delete: operations["deleteEvaluationGroup"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/documents/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết document
+         * @description Lấy chi tiết một document theo id
+         */
+        get: operations["getDocumentById"];
+        /**
+         * Cập nhật document
+         * @description Cập nhật thông tin document
+         */
+        put: operations["updateDocument"];
+        post?: never;
+        /**
+         * Xoá document
+         * @description Xoá một document theo id
+         */
+        delete: operations["deleteDocument"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Xem chi tiết file đính kèm
+         * @description Lấy chi tiết một file đính kèm theo id
+         */
+        get: operations["getAttachmentById"];
+        /**
+         * Cập nhật tên file đính kèm
+         * @description Chỉ cho phép cập nhật tên file đính kèm (fileName)
+         */
+        put: operations["updateAttachment"];
+        post?: never;
+        /**
+         * Xoá file đính kèm
+         * @description Xoá file đính kèm trên Azure Blob và database theo id
+         */
+        delete: operations["deleteAttachment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy chi tiết assignment
+         * @description Lấy chi tiết một assignment theo id
+         */
+        get: operations["getAssignmentById"];
+        /**
+         * Cập nhật assignment
+         * @description Cập nhật thông tin assignment
+         */
+        put: operations["updateAssignment"];
+        post?: never;
+        /**
+         * Xoá assignment
+         * @description Xoá một assignment theo id
+         */
+        delete: operations["deleteAssignment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/airports/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAirportById"];
+        put: operations["updateAirport"];
+        post?: never;
+        delete: operations["deleteAirport"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getActivity"];
+        put: operations["updateActivity"];
+        post?: never;
+        delete: operations["deleteActivity"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/{id}/pin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["pinActivity"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all users
+         * @description Retrieve a list of all users
+         */
+        get: operations["getAllUsers"];
+        put?: never;
+        /**
+         * Create user
+         * @description Create a new user
+         */
+        post: operations["createUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/logout-cleanup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["logoutCleanup"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/expo-push-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Save Expo Push Token
+         * @description Save Expo Push Token for the current user
+         */
+        post: operations["saveExpoPushToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/device-token/remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["removeDeviceToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["assignShiftToUser"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/apply-multi": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["applyShiftToUsers"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Apply user flight shift
+         * @description Apply a new user flight shift
+         */
+        post: operations["applyFlightShift"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/teams": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all teams
+         * @description Retrieve a list of all teams
+         */
+        get: operations["getAllTeams"];
+        put?: never;
+        /**
+         * Create a new team
+         * @description Create a new team with the provided details
+         */
+        post: operations["createTeam"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/tasks": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách task
+         * @description Lấy danh sách tất cả công việc
+         */
+        get: operations["getAllTaskDetails"];
+        put?: never;
+        /**
+         * Tạo task
+         * @description Tạo mới một công việc
+         */
+        post: operations["createTask"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/attach": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gắn document vào task
+         * @description Gắn một hoặc nhiều document vào task
+         */
+        post: operations["attachDocuments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/attach-bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gắn nhiều document vào task
+         * @description Gắn nhiều document vào một task (bulk)
+         */
+        post: operations["attachDocumentsBulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/shifts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllShifts"];
+        put?: never;
+        post: operations["createShift"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllRoles"];
+        put?: never;
+        post: operations["createRole"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/read/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["markAsRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllFlights"];
+        put?: never;
+        post: operations["createFlight"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-sessions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách evaluation session
+         * @description Lấy tất cả evaluation session
+         */
+        get: operations["getAllEvaluationSessions"];
+        put?: never;
+        /**
+         * Tạo evaluation session
+         * @description Tạo mới một evaluation session
+         */
+        post: operations["createEvaluationSession"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-issues": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách evaluation issue
+         * @description Lấy tất cả evaluation issue
+         */
+        get: operations["getAllIssues"];
+        put?: never;
+        /**
+         * Tạo evaluation issue
+         * @description Tạo mới một evaluation issue
+         */
+        post: operations["createIssue"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-groups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách evaluation group
+         * @description Lấy tất cả evaluation group
+         */
+        get: operations["getAllEvaluationGroups"];
+        put?: never;
+        /**
+         * Tạo evaluation group
+         * @description Tạo mới một evaluation group
+         */
+        post: operations["createEvaluationGroup"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách document
+         * @description Lấy tất cả document
+         */
+        get: operations["getAllDocuments"];
+        put?: never;
+        /**
+         * Tạo document
+         * @description Tạo mới một document
+         */
+        post: operations["createDocument"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/documents/{documentId}/attachments/assign": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Gán nhiều file đính kèm vào document
+         * @description Gán các attachment đã upload vào document theo documentId
+         */
+        post: operations["assignAttachmentsToDocument"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * User registration
+         * @description Register a new user
+         */
+        post: operations["register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * User login
+         * @description Authenticate user and return JWT token
+         */
+        post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/upload-multi": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload nhiều file lên Azure Blob Storage
+         * @description Upload nhiều file và trả về thông tin file đính kèm
+         */
+        post: operations["uploadMultipleFiles"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Tạo assignment cho nhiều người
+         * @description Tạo mới nhiều assignment cùng lúc cho nhiều người nhận việc
+         */
+        post: operations["createAssignments"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/{id}/comment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Thêm comment cho assignment
+         * @description Thêm comment vào assignment, nhận JSON {"comment": "..."}
+         */
+        post: operations["addAssignmentComment"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/airports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllAirports"];
+        put?: never;
+        post: operations["createAirport"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllActivities"];
+        put?: never;
+        post: operations["createActivity"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/{id}/participants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["addParticipants"];
+        delete: operations["removeParticipant"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/{id}/times": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateFlightTimes"];
+        trace?: never;
+    };
+    "/api/flights/{id}/actual-time-notify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateActualTimeAndNotify"];
+        trace?: never;
+    };
+    "/api/documents/{documentId}/attachments/remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Gỡ nhiều file đính kèm khỏi document
+         * @description Gỡ các attachment khỏi document theo documentId
+         */
+        patch: operations["removeAttachmentsFromDocument"];
+        trace?: never;
+    };
+    "/api/users/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search users
+         * @description Search users by keyword (name or email)
+         */
+        get: operations["searchUsersByKeyword"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get current user
+         * @description Get the current user based on token
+         */
+        get: operations["getCurrentUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Filter users
+         * @description Filter users by team, unit, or search text
+         */
+        get: operations["filterUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/directors": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get users with role DIRECTOR or VICE_DIRECTOR
+         * @description Retrieve a list of users with role DIRECTOR or VICE_DIRECTOR
+         */
+        get: operations["getDirectorsAndViceDirectors"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/users/assignable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get assignable users
+         * @description Lấy danh sách user mà user hiện tại có thể giao việc cho theo phân quyền
+         */
+        get: operations["getAssignableUsers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAllUserShifts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getSchedulesByCriteria"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/filter-by-user-and-range": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["filterByUserAndRange"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all user flight shifts
+         * @description Retrieve a list of all user flight shifts (DTO only)
+         */
+        get: operations["getAllUserFlightShifts"];
+        put?: never;
+        post?: never;
+        /**
+         * Remove user flight assignment
+         * @description Remove a user flight assignment
+         */
+        delete: operations["removeFlightAssignment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/shifts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user flight shifts by flight and date
+         * @description Retrieve user flight shifts by flight and date
+         */
+        get: operations["getShiftsByFlightAndDate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/shifts/available": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get available user flight shifts
+         * @description Retrieve available user flight shifts
+         */
+        get: operations["getAvailableShifts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/shifts/assigned": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get assigned user flight shifts
+         * @description Retrieve assigned user flight shifts
+         */
+        get: operations["getAssignedShifts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/isAssigned": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Check if user is assigned to flight
+         * @description Check if a user is assigned to a flight on a specific date
+         */
+        get: operations["isUserAssigned"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Filter user flight shifts
+         * @description Filter user flight shifts by criteria
+         */
+        get: operations["getFlightSchedules"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/filter-schedules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Filter user flight shifts
+         * @description Filter user flight shifts by date, team, unit
+         */
+        get: operations["filterUserFlightShifts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/by-user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user flight shifts by user
+         * @description Retrieve user flight shifts by user (DTO only)
+         */
+        get: operations["getShiftsByUser"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-flight-shifts/by-date": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user flight shifts by date
+         * @description Retrieve user flight shifts by date (DTO only)
+         */
+        get: operations["getShiftsByDate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/units": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all units
+         * @description Retrieve a list of all units or units by teamId
+         */
+        get: operations["getUnits"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách document của task
+         * @description Lấy tất cả document gắn với một task
+         */
+        get: operations["getDocumentsByTask"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getNotifications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/unread-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["countUnread"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/today": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getTodayFlights"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchFlights"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/searchByDate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchFlightByDate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/searchByDateAndKeyword": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchFlightByDateAndKeyword"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/live-tracking-group": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getLiveTrackingGroup"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/evaluation-issues/session/{sessionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách evaluation issue theo session
+         * @description Lấy tất cả evaluation issue theo sessionId
+         */
+        get: operations["getIssuesBySession"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy tất cả file đính kèm
+         * @description Lấy tất cả file đính kèm đã upload
+         */
+        get: operations["getAllAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/{id}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách comment của assignment
+         * @description Lấy tất cả comment của assignment, gồm id, assignmentId, comment, createdAt, user
+         */
+        get: operations["getAssignmentComments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/assignments/task/{taskId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách assignment theo task
+         * @description Lấy danh sách assignment theo taskId
+         */
+        get: operations["getAssignmentsByTaskId"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["searchActivitiesByMonthYear"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/search-by-range": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getActivitiesByDateRange"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/search-by-date": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getActivitiesByDate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/pinned": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPinnedActivities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/activities/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMyActivities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Trang chủ API */
+        get: operations["home"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/remove": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Gỡ document khỏi task
+         * @description Gỡ một document khỏi task
+         */
+        delete: operations["removeDocument"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/task-documents/remove-bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Gỡ nhiều document khỏi task
+         * @description Gỡ nhiều document khỏi một task (bulk)
+         */
+        delete: operations["removeDocumentsBulk"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/notifications/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteNotification"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-export type webhooks = Record<string, never>
+export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    Airport: {
-      /** Format: int64 */
-      id?: number
-      airportCode: string
-      airportName: string
-      latitude: number
-      longitude: number
-      city: string
-      country: string
-      /** Format: date-time */
-      createdAt?: string
-      /** Format: date-time */
-      updatedAt?: string
-    }
-    Flight: {
-      /** Format: int64 */
-      id?: number
-      flightNumber: string
-      departureAirport?: components['schemas']['Airport']
-      arrivalAirport?: components['schemas']['Airport']
-      departureTime: components['schemas']['LocalTime']
-      arrivalTime: components['schemas']['LocalTime']
-      /** Format: date */
-      flightDate: string
-      actualDepartureTime?: components['schemas']['LocalTime']
-      actualArrivalTime?: components['schemas']['LocalTime']
-      actualDepartureTimeAtArrival?: components['schemas']['LocalTime']
-      /** Format: date-time */
-      createdAt?: string
-      /** Format: date-time */
-      updatedAt?: string
-    }
-    LocalTime: {
-      /** Format: int32 */
-      hour?: number
-      /** Format: int32 */
-      minute?: number
-      /** Format: int32 */
-      second?: number
-      /** Format: int32 */
-      nano?: number
-    }
-    Role: {
-      /** Format: int32 */
-      id?: number
-      roleName?: string
-      users?: components['schemas']['User'][]
-    }
-    Team: {
-      /** Format: int32 */
-      id?: number
-      teamName?: string
-      units?: components['schemas']['Unit'][]
-      users?: components['schemas']['User'][]
-    }
-    Unit: {
-      /** Format: int32 */
-      id?: number
-      unitName?: string
-      team?: components['schemas']['Team']
-      users?: components['schemas']['User'][]
-    }
-    User: {
-      /** Format: int32 */
-      id?: number
-      name?: string
-      email?: string
-      password?: string
-      expoPushToken?: string
-      role?: components['schemas']['Role']
-      team?: components['schemas']['Team']
-      unit?: components['schemas']['Unit']
-      userFlightShifts?: components['schemas']['UserFlightShift'][]
-    }
-    UserFlightShift: {
-      /** Format: int32 */
-      id?: number
-      user?: components['schemas']['User']
-      flight?: components['schemas']['Flight']
-      /** Format: date */
-      shiftDate?: string
-      /** Format: date-time */
-      createdAt?: string
-      /** Format: date-time */
-      updatedAt?: string
-    }
-    /** @description Response chuẩn cho tất cả API */
-    ApiResponseCustom: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-      data?: Record<string, never>
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
-    }
-    AssignShiftRequest: {
-      /** Format: int32 */
-      userId?: number
-      shiftDate?: string
-      /** Format: int32 */
-      shiftId?: number
-    }
-    Shift: {
-      /** Format: int32 */
-      id?: number
-      shiftCode?: string
-      startTime?: components['schemas']['LocalTime']
-      endTime?: components['schemas']['LocalTime']
-      location?: string
-      description?: string
-      /** Format: date-time */
-      createdAt?: string
-      /** Format: date-time */
-      updatedAt?: string
-    }
-    RoleDTO: {
-      /** Format: int32 */
-      id?: number
-      roleName?: string
-    }
-    ActivityDTO: {
-      /** Format: int64 */
-      id?: number
-      name: string
-      location: string
-      /** Format: date-time */
-      startTime: string
-      /** Format: date-time */
-      endTime: string
-      notes?: string
-      participants?: components['schemas']['ActivityParticipantDTO'][]
-      /** Format: date-time */
-      createdAt?: string
-      /** Format: date-time */
-      updatedAt?: string
-    }
-    ActivityParticipantDTO: {
-      /** Format: int64 */
-      id?: number
-      participantType?: string
-      /** Format: int64 */
-      participantId?: number
-      participantName?: string
-    }
-    ApplyShiftMultiDTO: {
-      /** Format: date */
-      shiftDate?: string
-      userIds?: number[]
-      shiftCode?: string
-    }
-    ApplyFlightShiftRequest: {
-      /** Format: int64 */
-      flightId?: number
-      userIds?: number[]
-      /** Format: date */
-      shiftDate?: string
-    }
-    TeamDTO: {
-      /** Format: int32 */
-      id?: number
-      teamName?: string
-    }
-    /** @description Response cho các trường hợp thành công */
-    ApiResponseSuccess: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      /** @description Dữ liệu trả về (object, list hoặc null) */
-      data?: Record<string, never>
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
-    }
-    /**
-     * @description Response cho các trường hợp lỗi
-     * @example {
-     *       "message": "Không tìm thấy tài nguyên",
-     *       "statusCode": 404,
-     *       "errorDetails": null,
-     *       "success": false
-     *     }
-     */
-    ApiErrorResponse: {
-      /**
-       * @description Thông báo lỗi
-       * @example Không tìm thấy tài nguyên
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 404
-       */
-      statusCode?: number
-      /**
-       * @description Chi tiết lỗi (nếu có)
-       * @example null
-       */
-      errorDetails?: Record<string, never> | null
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example false
-       */
-      success?: boolean
-    }
-    RegisterRequest: {
-      name: string
-      email: string
-      password: string
-      /** Format: int32 */
-      roleId?: number
-      /** Format: int32 */
-      teamId?: number
-      /** Format: int32 */
-      unitId?: number
-    }
-    /** @description API response for register, data is RegisterResponse */
-    ApiRegisterResponse: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      data?: components['schemas']['RegisterResponse']
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
-    }
-    /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-    RegisterResponse: {
-      /** Format: int32 */
-      id?: number
-      name?: string
-      email?: string
-      role?: components['schemas']['RoleDTO']
-      team?: components['schemas']['TeamDTO']
-      unit?: components['schemas']['UnitDTO']
-    }
-    UnitDTO: {
-      /** Format: int32 */
-      id?: number
-      unitName?: string
-      /** Format: int32 */
-      teamId?: number
-    }
-    LoginRequest: {
-      email: string
-      password: string
-    }
-    /** @description API response for login, data is LoginResponse */
-    ApiLoginResponse: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      data?: components['schemas']['LoginResponse']
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
-    }
-    /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-    LoginResponse: {
-      accessToken?: string
-      tokenType?: string
-      /** Format: int64 */
-      expiresIn?: number
-    }
-    FlightTimeUpdateRequest: {
-      actualDepartureTime?: string
-      actualArrivalTime?: string
-      actualDepartureTimeAtArrival?: string
-    }
-    /** @description API response for current user, data is UserDTO */
-    ApiMeResponse: {
-      /**
-       * @description Thông báo kết quả
-       * @example Thành công
-       */
-      message?: string
-      /**
-       * Format: int32
-       * @description Mã trạng thái HTTP
-       * @example 200
-       */
-      statusCode?: number
-      data?: components['schemas']['MeResponse']
-      /**
-       * @description Trạng thái thành công hay thất bại
-       * @example true
-       */
-      success?: boolean
-    }
-    /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
-    MeResponse: {
-      /**
-       * Format: int32
-       * @description ID of the user
-       */
-      id: number
-      /** @description Name of the user */
-      name: string
-      /** @description Email of the user */
-      email: string
-      /** @description Role name of the user */
-      roleName: string
-      /** @description Team name of the user */
-      teamName: string
-      /** @description Unit name of the user */
-      unitName: string
-      /**
-       * Format: int32
-       * @description Role ID of the user
-       */
-      roleId: number
-      /**
-       * Format: int32
-       * @description Team ID of the user
-       */
-      teamId: number
-      /**
-       * Format: int32
-       * @description Unit ID of the user
-       */
-      unitId: number
-    }
-  }
-  responses: never
-  parameters: never
-  requestBodies: never
-  headers: never
-  pathItems: never
+    schemas: {
+        Airport: {
+            /** Format: int64 */
+            id?: number;
+            airportCode: string;
+            airportName: string;
+            latitude: number;
+            longitude: number;
+            city: string;
+            country: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        Flight: {
+            /** Format: int64 */
+            id?: number;
+            flightNumber: string;
+            departureAirport?: components["schemas"]["Airport"];
+            arrivalAirport?: components["schemas"]["Airport"];
+            departureTime: components["schemas"]["LocalTime"];
+            arrivalTime: components["schemas"]["LocalTime"];
+            /** Format: date */
+            flightDate: string;
+            actualDepartureTime?: components["schemas"]["LocalTime"];
+            actualArrivalTime?: components["schemas"]["LocalTime"];
+            actualDepartureTimeAtArrival?: components["schemas"]["LocalTime"];
+            note?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        LocalTime: {
+            /** Format: int32 */
+            hour?: number;
+            /** Format: int32 */
+            minute?: number;
+            /** Format: int32 */
+            second?: number;
+            /** Format: int32 */
+            nano?: number;
+        };
+        Role: {
+            /** Format: int32 */
+            id?: number;
+            roleName?: string;
+            users?: components["schemas"]["User"][];
+        };
+        Team: {
+            /** Format: int32 */
+            id?: number;
+            teamName?: string;
+            units?: components["schemas"]["Unit"][];
+            users?: components["schemas"]["User"][];
+        };
+        Unit: {
+            /** Format: int32 */
+            id?: number;
+            unitName?: string;
+            team?: components["schemas"]["Team"];
+            users?: components["schemas"]["User"][];
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        User: {
+            /** Format: int32 */
+            id?: number;
+            name?: string;
+            email?: string;
+            password?: string;
+            expoPushToken?: string;
+            role?: components["schemas"]["Role"];
+            team?: components["schemas"]["Team"];
+            unit?: components["schemas"]["Unit"];
+            userFlightShifts?: components["schemas"]["UserFlightShift"][];
+            userPermissions?: components["schemas"]["UserPermission"][];
+        };
+        UserFlightShift: {
+            /** Format: int32 */
+            id?: number;
+            user?: components["schemas"]["User"];
+            flight?: components["schemas"]["Flight"];
+            /** Format: date */
+            shiftDate?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        UserPermission: {
+            /** Format: int32 */
+            id?: number;
+            user?: components["schemas"]["User"];
+            permissionCode?: string;
+            value?: boolean;
+        };
+        /** @description API response for update user, data is User */
+        ApiUpdateUserResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["User"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        AssignShiftRequest: {
+            /** Format: int32 */
+            userId?: number;
+            shiftDate?: string;
+            /** Format: int32 */
+            shiftId?: number;
+        };
+        UpdateUserFlightShiftRequest: {
+            /** Format: date */
+            shiftDate?: string;
+            /** Format: int64 */
+            flightId?: number;
+        };
+        /** @description API response for update user flight shift, data is UserFlightShiftResponseDTO */
+        ApiUpdateUserFlightShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["UserFlightShiftResponseDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        UserFlightShiftResponseDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            userId?: number;
+            userName?: string;
+            /** Format: int64 */
+            flightId?: number;
+            flightNumber?: string;
+            /** Format: date */
+            shiftDate?: string;
+        };
+        UpdateTaskDTO: {
+            /** Format: int32 */
+            id?: number;
+            content?: string;
+            instructions?: string;
+            notes?: string;
+        };
+        /** @description API response for a single task, data is TaskDTO */
+        ApiTaskResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["TaskDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        TaskDTO: {
+            /** Format: int32 */
+            id?: number;
+            content?: string;
+            instructions?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            /** Format: int32 */
+            createdBy?: number;
+            /** @enum {string} */
+            status?: "NEW" | "ASSIGNED" | "IN_PROGRESS" | "UNDER_REVIEW" | "PARTIALLY_COMPLETED" | "COMPLETED" | "LATE_COMPLETED" | "CANCELLED";
+        };
+        Shift: {
+            /** Format: int32 */
+            id?: number;
+            shiftCode?: string;
+            startTime?: components["schemas"]["LocalTime"];
+            endTime?: components["schemas"]["LocalTime"];
+            location?: string;
+            description?: string;
+            team?: components["schemas"]["Team"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        RoleDTO: {
+            /** Format: int32 */
+            id?: number;
+            roleName?: string;
+        };
+        AirportDTO: {
+            airportCode?: string;
+            airportName?: string;
+        };
+        FlightDTO: {
+            /** Format: int64 */
+            id?: number;
+            flightNumber?: string;
+            departureAirport?: components["schemas"]["AirportDTO"];
+            arrivalAirport?: components["schemas"]["AirportDTO"];
+            departureTime?: components["schemas"]["LocalTime"];
+            arrivalTime?: components["schemas"]["LocalTime"];
+            /** Format: date */
+            flightDate?: string;
+            actualDepartureTime?: components["schemas"]["LocalTime"];
+            actualArrivalTime?: components["schemas"]["LocalTime"];
+            actualDepartureTimeAtArrival?: components["schemas"]["LocalTime"];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            note?: string;
+        };
+        EvaluationAssignmentDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            evaluationPeriodId?: number;
+            targetType?: string;
+            /** Format: int32 */
+            targetId?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        EvaluationSessionDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            evaluationGroupId?: number;
+            /** Format: date */
+            startDate?: string;
+            /** Format: date */
+            endDate?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            assignments?: components["schemas"]["EvaluationAssignmentDTO"][];
+        };
+        /** @description API response for a single evaluation session */
+        ApiEvaluationSessionResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["EvaluationSessionDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        EvaluationIssueDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            evaluationSessionId?: number;
+            targetType?: string;
+            /** Format: int32 */
+            targetId?: number;
+            issueContent?: string;
+            /** Format: date */
+            requestedResolutionDate?: string;
+            isResolved?: boolean;
+            /** Format: date */
+            resolutionDate?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            documentIds?: number[];
+        };
+        /** @description API response for a single evaluation issue */
+        ApiEvaluationIssueResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["EvaluationIssueDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        StatusUpdateRequest: {
+            isResolved?: boolean;
+            /** Format: date */
+            resolutionDate?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        EvaluationGroupDTO: {
+            /** Format: int32 */
+            id?: number;
+            groupName?: string;
+            description?: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description API response for a single evaluation group */
+        ApiEvaluationGroupResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["EvaluationGroupDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UpdateDocumentRequest: {
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            attachmentIds?: number[];
+        };
+        /** @description API response for a single document */
+        ApiDocumentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["DocumentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        AttachmentDTO: {
+            /** Format: int32 */
+            id?: number;
+            filePath?: string;
+            fileName?: string;
+            /** Format: int64 */
+            fileSize?: number;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        DocumentDTO: {
+            /** Format: int32 */
+            id?: number;
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            attachments?: components["schemas"]["AttachmentDTO"][];
+        };
+        UpdateAttachmentFileNameRequest: {
+            fileName?: string;
+        };
+        /** @description API response for a single attachment */
+        ApiAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AttachmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UpdateAssignmentRequest: {
+            recipientType?: string;
+            /** Format: int32 */
+            recipientId?: number;
+            /** Format: date-time */
+            dueAt?: string;
+            /** @enum {string} */
+            status?: "ASSIGNED" | "IN_PROGRESS" | "SUBMITTED" | "REVIEWING" | "REJECTED" | "COMPLETED" | "LATE_COMPLETED" | "REOPENED" | "CANCELLED";
+            note?: string;
+        };
+        /** @description API response for a single assignment */
+        ApiAssignmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AssignmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        AssignmentDTO: {
+            /** Format: int32 */
+            assignmentId?: number;
+            /** Format: int32 */
+            taskId?: number;
+            recipientType?: string;
+            /** Format: date-time */
+            assignedAt?: string;
+            /** Format: date-time */
+            dueAt?: string;
+            /** Format: date-time */
+            completedAt?: string;
+            /** @enum {string} */
+            status?: "ASSIGNED" | "IN_PROGRESS" | "SUBMITTED" | "REVIEWING" | "REJECTED" | "COMPLETED" | "LATE_COMPLETED" | "REOPENED" | "CANCELLED";
+            note?: string;
+            assignedByUser?: components["schemas"]["UserDTO"];
+            completedByUser?: components["schemas"]["UserDTO"];
+            recipientUser?: components["schemas"]["UserDTO"];
+            /** Format: int32 */
+            recipientId?: number;
+        };
+        UserDTO: {
+            /**
+             * Format: int32
+             * @description ID of the user
+             */
+            id: number;
+            /** @description Name of the user */
+            name: string;
+            /** @description Email of the user */
+            email: string;
+            /** @description Role name of the user */
+            roleName: string;
+            /** @description Team name of the user */
+            teamName: string;
+            /** @description Unit name of the user */
+            unitName: string;
+            /**
+             * Format: int32
+             * @description Role ID of the user
+             */
+            roleId: number;
+            /**
+             * Format: int32
+             * @description Team ID of the user
+             */
+            teamId: number;
+            /**
+             * Format: int32
+             * @description Unit ID of the user
+             */
+            unitId: number;
+            canCreateActivity?: boolean;
+            permissions?: string[];
+        };
+        ActivityDTO: {
+            /** Format: int64 */
+            id?: number;
+            name: string;
+            location: string;
+            /** Format: date-time */
+            startTime: string;
+            /** Format: date-time */
+            endTime: string;
+            notes?: string;
+            participants?: components["schemas"]["ActivityParticipantDTO"][];
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            pinned?: boolean;
+        };
+        ActivityParticipantDTO: {
+            /** Format: int64 */
+            id?: number;
+            participantType?: string;
+            /** Format: int64 */
+            participantId?: number;
+            participantName?: string;
+        };
+        /** @description API response for create user, data is User */
+        ApiCreateUserResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["User"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Response chuẩn cho tất cả API */
+        ApiResponseCustom: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        ApplyShiftMultiDTO: {
+            /** Format: date */
+            shiftDate?: string;
+            userIds?: number[];
+            shiftCode?: string;
+        };
+        ApplyFlightShiftRequest: {
+            /** Format: int64 */
+            flightId?: number;
+            userIds?: number[];
+            /** Format: date */
+            shiftDate?: string;
+        };
+        /** @description API response for creating user flight shift, data is null */
+        ApiCreateUserFlightShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        TeamDTO: {
+            /** Format: int32 */
+            id?: number;
+            teamName?: string;
+        };
+        ApiResponseTeamDTO: {
+            message?: string;
+            /** Format: int32 */
+            statusCode?: number;
+            data?: components["schemas"]["TeamDTO"];
+            success?: boolean;
+        };
+        AssignmentRequest: {
+            /** Format: int32 */
+            recipientId?: number;
+            recipientType?: string;
+            /** Format: date-time */
+            dueAt?: string;
+            note?: string;
+        };
+        CreateTaskRequest: {
+            content?: string;
+            instructions?: string;
+            notes?: string;
+            assignments?: components["schemas"]["AssignmentRequest"][];
+            documentIds?: number[];
+        };
+        /** @description API response for task document action */
+        ApiTaskDocumentActionResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        CreateDocumentRequest: {
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            attachmentIds?: number[];
+        };
+        /** @description Request để gán các attachment vào document */
+        AttachmentAssignRequest: {
+            /** @description Danh sách id của attachment sẽ gán vào document */
+            attachmentIds: number[];
+        };
+        RegisterRequest: {
+            name: string;
+            email: string;
+            password: string;
+            /** Format: int32 */
+            roleId?: number;
+            /** Format: int32 */
+            teamId?: number;
+            /** Format: int32 */
+            unitId?: number;
+        };
+        /** @description API response for register, data is RegisterResponse */
+        ApiRegisterResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["RegisterResponse"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        RegisterResponse: {
+            /** Format: int32 */
+            id?: number;
+            name?: string;
+            email?: string;
+            role?: components["schemas"]["RoleDTO"];
+            team?: components["schemas"]["TeamDTO"];
+            unit?: components["schemas"]["UnitDTO"];
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        UnitDTO: {
+            /** Format: int32 */
+            id?: number;
+            unitName?: string;
+            /** Format: int32 */
+            teamId?: number;
+        };
+        /**
+         * @description Response cho các trường hợp lỗi
+         * @example {
+         *       "message": "Không tìm thấy tài nguyên",
+         *       "statusCode": 404,
+         *       "errorDetails": null,
+         *       "success": false
+         *     }
+         */
+        ApiErrorResponse: {
+            /**
+             * @description Thông báo lỗi
+             * @example Không tìm thấy tài nguyên
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 404
+             */
+            statusCode?: number;
+            /**
+             * @description Chi tiết lỗi (nếu có)
+             * @example null
+             */
+            errorDetails?: Record<string, never> | null;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example false
+             */
+            success?: boolean;
+        };
+        LoginRequest: {
+            email: string;
+            password: string;
+        };
+        /** @description API response for login, data is LoginResponse */
+        ApiLoginResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["LoginResponse"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        LoginResponse: {
+            accessToken?: string;
+            tokenType?: string;
+            /** Format: int64 */
+            expiresIn?: number;
+        };
+        /** @description API response for list of attachments */
+        ApiAttachmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AttachmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        CreateAssignmentRequest: {
+            recipientType?: string;
+            /** Format: int32 */
+            recipientId?: number;
+            /** Format: date-time */
+            dueAt?: string;
+            note?: string;
+        };
+        CreateAssignmentsRequest: {
+            /** Format: int32 */
+            taskId?: number;
+            assignments?: components["schemas"]["CreateAssignmentRequest"][];
+        };
+        /** @description API response for list of assignments */
+        ApiAssignmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AssignmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        AssignmentCommentRequest: {
+            comment?: string;
+        };
+        /** @description API response for assignment comment history */
+        ApiAssignmentCommentHistoryResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AssignmentCommentHistoryDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        AssignmentCommentHistoryDTO: {
+            /** Format: int64 */
+            id?: number;
+            /** Format: int64 */
+            assignmentId?: number;
+            comment?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            user?: components["schemas"]["UserDTO"];
+        };
+        FlightTimeUpdateRequest: {
+            actualDepartureTime?: string;
+            actualArrivalTime?: string;
+            actualDepartureTimeAtArrival?: string;
+            eventType?: string;
+        };
+        /** @description API response for all users, data is List<UserDTO> */
+        ApiAllUsersResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for get user by ID, data is User */
+        ApiUserByIdResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["User"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for search users, data is List<UserDTO> */
+        ApiSearchUsersResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for current user, data is UserDTO */
+        ApiMeResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["UserDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for filter users, data is List<UserDTO> */
+        ApiFilterUsersResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UserShiftDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            userId?: number;
+            userName?: string;
+            shiftCode?: string;
+            startTime?: string;
+            endTime?: string;
+            user?: components["schemas"]["UserDTO"];
+            /** Format: date */
+            shiftDate?: string;
+            /** Format: int32 */
+            shiftId?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+        };
+        ScheduleDTO: {
+            /** Format: int32 */
+            scheduleId?: number;
+            /** Format: date */
+            shiftDate?: string;
+            /** Format: int32 */
+            userId?: number;
+            userName?: string;
+            /** Format: int32 */
+            teamId?: number;
+            teamName?: string;
+            /** Format: int32 */
+            unitId?: number;
+            unitName?: string;
+            /** Format: int32 */
+            shiftId?: number;
+            shiftCode?: string;
+            /** Format: date-time */
+            startTime?: string;
+            /** Format: date-time */
+            endTime?: string;
+            location?: string;
+            description?: string;
+        };
+        /** @description API response for all user flight shifts, data is List<UserFlightShiftResponseDTO> */
+        ApiAllUserFlightShiftsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for user flight shifts by flight and date, data is List<UserFlightShiftResponseDTO> */
+        ApiUserFlightShiftsByFlightAndDateResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for available user flight shifts, data is List<UserFlightShiftResponseDTO> */
+        ApiAvailableUserFlightShiftsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for assigned user flight shifts, data is List<UserFlightShiftResponseDTO> */
+        ApiAssignedUserFlightShiftsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for checking if user is assigned to flight, data is Map<String, Boolean> */
+        ApiCheckUserAssignedFlightResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: {
+                [key: string]: boolean;
+            };
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for filtering user flight shifts, data is List<UserFlightShiftResponseSearchDTO> */
+        ApiFilterUserFlightShiftsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseSearchDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        UserFlightShiftResponseSearchDTO: {
+            /** Format: int32 */
+            scheduleId?: number;
+            userName?: string;
+            teamName?: string;
+            unitName?: string;
+            /** Format: date */
+            shiftDate?: string;
+            flightNumber?: string;
+            departureTime?: components["schemas"]["LocalTime"];
+            arrivalTime?: components["schemas"]["LocalTime"];
+            departureAirportCode?: string;
+            arrivalAirportCode?: string;
+            /** Format: int64 */
+            flightId?: number;
+            /** Format: int32 */
+            userId?: number;
+        };
+        /** @description API response for user flight shifts by user, data is List<UserFlightShiftResponseDTO> */
+        ApiUserFlightShiftsByUserResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for user flight shifts by date, data is List<UserFlightShiftResponseDTO> */
+        ApiUserFlightShiftsByDateResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserFlightShiftResponseDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for all units, data is List<UnitDTO> */
+        ApiAllUnitsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UnitDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for all teams, data is List<TeamDTO> */
+        ApiAllTeamsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["TeamDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for all tasks, data is List<TaskDetailDTO> */
+        ApiAllTasksResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["TaskDetailDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        DocumentDetailDTO: {
+            /** Format: int32 */
+            id?: number;
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            attachments?: components["schemas"]["AttachmentDTO"][];
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        TaskDetailDTO: {
+            /** Format: int32 */
+            id?: number;
+            content?: string;
+            instructions?: string;
+            notes?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
+            createdByUser?: components["schemas"]["UserDTO"];
+            assignments?: components["schemas"]["AssignmentDTO"][];
+            documents?: components["schemas"]["DocumentDetailDTO"][];
+            /** @enum {string} */
+            status?: "NEW" | "ASSIGNED" | "IN_PROGRESS" | "UNDER_REVIEW" | "PARTIALLY_COMPLETED" | "COMPLETED" | "LATE_COMPLETED" | "CANCELLED";
+        };
+        /** @description API response for a single task detail, data is TaskDetailDTO */
+        ApiTaskDetailResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["TaskDetailDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of task documents */
+        ApiTaskDocumentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["DocumentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        ShiftDTO: {
+            /** Format: int32 */
+            id?: number;
+            shiftCode?: string;
+            startTime?: components["schemas"]["LocalTime"];
+            endTime?: components["schemas"]["LocalTime"];
+            location?: string;
+            description?: string;
+            /** Format: int32 */
+            teamId?: number;
+            teamName?: string;
+        };
+        Notification: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            userId?: number;
+            type?: string;
+            title?: string;
+            content?: string;
+            /** Format: int32 */
+            relatedId?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            isRead?: boolean;
+        };
+        /** @description API response for list of evaluation sessions */
+        ApiEvaluationSessionListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationSessionDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of evaluation issues */
+        ApiEvaluationIssueListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationIssueDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of evaluation groups */
+        ApiEvaluationGroupListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["EvaluationGroupDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for list of documents */
+        ApiDocumentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["DocumentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for delete user, data is Void */
+        ApiDeleteUserResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for deleting user flight shift, data is null */
+        ApiDeleteUserFlightShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-export type $defs = Record<string, never>
+export type $defs = Record<string, never>;
 export interface operations {
-  getUserById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully retrieved user */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description User not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['User']
-      }
-    }
-    responses: {
-      /** @description User updated successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description User not found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description User deleted successfully */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getUserShiftById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateUserShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AssignShiftRequest']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteUserShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getShiftById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Shift']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Mã lịch trực đã tồn tại */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getRoleById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateRole: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['RoleDTO']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteRole: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getFlightById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateFlight: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Flight']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteFlight: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAirportById: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateAirport: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Airport']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Không tìm thấy */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteAirport: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getActivity: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Lấy chi tiết hoạt động thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateActivity: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ActivityDTO']
-      }
-    }
-    responses: {
-      /** @description Cập nhật hoạt động thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  deleteActivity: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa hoạt động thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllUsers: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully retrieved all users */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['User']
-      }
-    }
-    responses: {
-      /** @description User created successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  saveExpoPushToken: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': string
-      }
-    }
-    responses: {
-      /** @description Expo push token saved successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  assignShiftToUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AssignShiftRequest']
-      }
-    }
-    responses: {
-      /** @description Gán thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  applyShiftToUsers: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ApplyShiftMultiDTO']
-      }
-    }
-    responses: {
-      /** @description Áp dụng thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Conflict */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  applyFlightShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ApplyFlightShiftRequest']
-      }
-    }
-    responses: {
-      /** @description Áp dụng thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Lỗi dữ liệu */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllTeams: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully retrieved all teams */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createTeam: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TeamDTO']
-      }
-    }
-    responses: {
-      /** @description Team created successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Invalid input */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllShifts: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createShift: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Shift']
-      }
-    }
-    responses: {
-      /** @description Tạo thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Mã lịch trực đã tồn tại */
-      409: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllRoles: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createRole: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['RoleDTO']
-      }
-    }
-    responses: {
-      /** @description Tạo thành công */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  markAsRead: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseSuccess']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
-      }
-    }
-  }
-  getAllFlights: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createFlight: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Flight']
-      }
-    }
-    responses: {
-      /** @description Tạo thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  register: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['RegisterRequest']
-      }
-    }
-    responses: {
-      /** @description Registration successful */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiRegisterResponse']
-        }
-      }
-      /** @description Invalid input */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
-      }
-    }
-  }
-  login: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['LoginRequest']
-      }
-    }
-    responses: {
-      /** @description Login successful */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiLoginResponse']
-        }
-      }
-      /** @description Invalid credentials */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
-      }
-    }
-  }
-  getAllAirports: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createAirport: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Airport']
-      }
-    }
-    responses: {
-      /** @description Tạo thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllActivities: {
-    parameters: {
-      query?: {
-        name?: string
-        location?: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Lấy danh sách hoạt động thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  createActivity: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ActivityDTO']
-      }
-    }
-    responses: {
-      /** @description Tạo hoạt động thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  addParticipants: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ActivityParticipantDTO'][]
-      }
-    }
-    responses: {
-      /** @description Thêm người tham gia thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  removeParticipant: {
-    parameters: {
-      query: {
-        participantType: string
-        participantId: number
-      }
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa người tham gia thành công */
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  updateFlightTimes: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['FlightTimeUpdateRequest']
-      }
-    }
-    responses: {
-      /** @description Cập nhật thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  searchUsersByKeyword: {
-    parameters: {
-      query: {
-        keyword: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully searched users */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getCurrentUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully retrieved current user */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiMeResponse']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
-      }
-    }
-  }
-  filterUsers: {
-    parameters: {
-      query?: {
-        teamId?: number
-        unitId?: number
-        searchText?: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successfully filtered users */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAllUserShifts: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getSchedulesByCriteria: {
-    parameters: {
-      query: {
-        shiftDate: string
-        teamId?: number
-        unitId?: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getShiftsByFlightAndDate: {
-    parameters: {
-      query: {
-        flightId: number
-        date: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAvailableShifts: {
-    parameters: {
-      query: {
-        flightId: number
-        date: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getAssignedShifts: {
-    parameters: {
-      query: {
-        flightId?: number
-        date: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  isUserAssigned: {
-    parameters: {
-      query: {
-        shiftDate: string
-        userId: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getFlightSchedules: {
-    parameters: {
-      query: {
-        shiftDate: string
-        teamId?: number
-        unitId?: number
-        flightId?: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getShiftsByUser: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        userId: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getShiftsByDate: {
-    parameters: {
-      query: {
-        date: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getUnits: {
-    parameters: {
-      query?: {
-        teamId?: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getNotifications: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  countUnread: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseSuccess']
-        }
-      }
-      /** @description Chưa xác thực */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiErrorResponse']
-        }
-      }
-    }
-  }
-  getTodayFlights: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  searchFlights: {
-    parameters: {
-      query?: {
-        keyword?: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  searchFlightByDate: {
-    parameters: {
-      query: {
-        date: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Sai định dạng ngày */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  searchFlightByDateAndKeyword: {
-    parameters: {
-      query: {
-        date: string
-        keyword?: string
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-      /** @description Sai định dạng ngày */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  searchActivitiesByMonthYear: {
-    parameters: {
-      query: {
-        month: number
-        year: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Tìm kiếm thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  getMyActivities: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Lấy hoạt động của tôi thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  home: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
-  removeFlightAssignment: {
-    parameters: {
-      query: {
-        flightId: number
-        shiftDate: string
-        userId: number
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Xóa thành công */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseCustom']
-        }
-      }
-    }
-  }
+    getUserById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserByIdResponse"];
+                };
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserByIdResponse"];
+                };
+            };
+        };
+    };
+    updateUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User"];
+            };
+        };
+        responses: {
+            /** @description User updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateUserResponse"];
+                };
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateUserResponse"];
+                };
+            };
+        };
+    };
+    deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User deleted successfully */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteUserResponse"];
+                };
+            };
+        };
+    };
+    getUserShiftById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UserShiftDTO"];
+                };
+            };
+        };
+    };
+    updateUserShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    deleteUserShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateUserFlightShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateUserFlightShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description Successfully updated user flight shift */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateUserFlightShiftResponse"];
+                };
+            };
+        };
+    };
+    deleteUserFlightShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully deleted user flight shift */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteUserFlightShiftResponse"];
+                };
+            };
+        };
+    };
+    getTaskDetailById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDetailResponse"];
+                };
+            };
+            /** @description Không tìm thấy công việc */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDetailResponse"];
+                };
+            };
+        };
+    };
+    updateTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateTaskDTO"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskResponse"];
+                };
+            };
+            /** @description Không tìm thấy công việc */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskResponse"];
+                };
+            };
+        };
+    };
+    deleteTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskResponse"];
+                };
+            };
+        };
+    };
+    getShiftById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftDTO"];
+                };
+            };
+        };
+    };
+    updateShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Shift"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    deleteShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getRoleById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDTO"];
+                };
+            };
+        };
+    };
+    updateRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDTO"];
+                };
+            };
+        };
+    };
+    deleteRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getFlightById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"];
+                };
+            };
+        };
+    };
+    updateFlight: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Flight"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"];
+                };
+            };
+        };
+    };
+    deleteFlight: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getEvaluationSessionById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy evaluation session thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation session */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+        };
+    };
+    updateEvaluationSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationSessionDTO"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật evaluation session thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation session */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+        };
+    };
+    deleteEvaluationSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá evaluation session thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+        };
+    };
+    getIssueById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+        };
+    };
+    updateIssue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationIssueDTO"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+        };
+    };
+    deleteIssue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+        };
+    };
+    updateIssueStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StatusUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật trạng thái thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation issue */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+        };
+    };
+    getEvaluationGroupById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy evaluation group thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation group */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+        };
+    };
+    updateEvaluationGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationGroupDTO"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật evaluation group thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+            /** @description Không tìm thấy evaluation group */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+        };
+    };
+    deleteEvaluationGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá evaluation group thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+        };
+    };
+    getDocumentById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+            /** @description Không tìm thấy document */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    updateDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDocumentRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+            /** @description Không tìm thấy document */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    deleteDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    getAttachmentById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+        };
+    };
+    updateAttachment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAttachmentFileNameRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+        };
+    };
+    deleteAttachment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+        };
+    };
+    getAssignmentById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy assignment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy assignment */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+        };
+    };
+    updateAssignment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAssignmentRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật assignment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy assignment */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+        };
+    };
+    deleteAssignment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Xoá assignment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentResponse"];
+                };
+            };
+        };
+    };
+    getAirportById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Airport"];
+                };
+            };
+        };
+    };
+    updateAirport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Airport"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Airport"];
+                };
+            };
+        };
+    };
+    deleteAirport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"];
+                };
+            };
+        };
+    };
+    updateActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActivityDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"];
+                };
+            };
+        };
+    };
+    deleteActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    pinActivity: {
+        parameters: {
+            query: {
+                pinned: boolean;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAllUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved all users */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUsersResponse"];
+                };
+            };
+        };
+    };
+    createUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["User"];
+            };
+        };
+        responses: {
+            /** @description User created successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateUserResponse"];
+                };
+            };
+        };
+    };
+    logoutCleanup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    saveExpoPushToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description Expo push token saved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseCustom"];
+                };
+            };
+        };
+    };
+    removeDeviceToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": string;
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    assignShiftToUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    applyShiftToUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplyShiftMultiDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    applyFlightShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ApplyFlightShiftRequest"];
+            };
+        };
+        responses: {
+            /** @description User flight shift applied successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateUserFlightShiftResponse"];
+                };
+            };
+        };
+    };
+    getAllTeams: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved all teams */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTeamsResponse"];
+                };
+            };
+        };
+    };
+    createTeam: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeamDTO"];
+            };
+        };
+        responses: {
+            /** @description Team created successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["TeamDTO"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseTeamDTO"];
+                };
+            };
+        };
+    };
+    getAllTaskDetails: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTasksResponse"];
+                };
+            };
+        };
+    };
+    createTask: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateTaskRequest"];
+            };
+        };
+        responses: {
+            /** @description Tạo thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskResponse"];
+                };
+            };
+        };
+    };
+    attachDocuments: {
+        parameters: {
+            query: {
+                taskId: number;
+                documentIds: number[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Gắn document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    attachDocumentsBulk: {
+        parameters: {
+            query: {
+                taskId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": number[];
+            };
+        };
+        responses: {
+            /** @description Gắn document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    getAllShifts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ShiftDTO"][];
+                };
+            };
+        };
+    };
+    createShift: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Shift"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    getAllRoles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDTO"][];
+                };
+            };
+        };
+    };
+    createRole: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RoleDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["RoleDTO"];
+                };
+            };
+        };
+    };
+    markAsRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAllFlights: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    createFlight: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Flight"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"];
+                };
+            };
+        };
+    };
+    getAllEvaluationSessions: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách evaluation session thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionListResponse"];
+                };
+            };
+        };
+    };
+    createEvaluationSession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationSessionDTO"];
+            };
+        };
+        responses: {
+            /** @description Tạo evaluation session thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationSessionResponse"];
+                };
+            };
+        };
+    };
+    getAllIssues: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueListResponse"];
+                };
+            };
+        };
+    };
+    createIssue: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationIssueDTO"];
+            };
+        };
+        responses: {
+            /** @description Tạo evaluation issue thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueResponse"];
+                };
+            };
+        };
+    };
+    getAllEvaluationGroups: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách evaluation group thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupListResponse"];
+                };
+            };
+        };
+    };
+    createEvaluationGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EvaluationGroupDTO"];
+            };
+        };
+        responses: {
+            /** @description Tạo evaluation group thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationGroupResponse"];
+                };
+            };
+        };
+    };
+    getAllDocuments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentListResponse"];
+                };
+            };
+        };
+    };
+    createDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateDocumentRequest"];
+            };
+        };
+        responses: {
+            /** @description Tạo document thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDocumentResponse"];
+                };
+            };
+        };
+    };
+    assignAttachmentsToDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                documentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachmentAssignRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseCustom"];
+                };
+            };
+        };
+    };
+    register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Registration successful */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiRegisterResponse"];
+                };
+            };
+            /** @description Invalid input */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Login successful */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiLoginResponse"];
+                };
+            };
+            /** @description Invalid credentials */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    uploadMultipleFiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    files: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description Upload file thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    createAssignments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAssignmentsRequest"];
+            };
+        };
+        responses: {
+            /** @description Tạo assignment thành công */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentListResponse"];
+                };
+            };
+        };
+    };
+    addAssignmentComment: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignmentCommentRequest"];
+            };
+        };
+        responses: {
+            /** @description Thêm comment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentCommentHistoryResponse"];
+                };
+            };
+        };
+    };
+    getAllAirports: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Airport"][];
+                };
+            };
+        };
+    };
+    createAirport: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Airport"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Airport"];
+                };
+            };
+        };
+    };
+    getAllActivities: {
+        parameters: {
+            query?: {
+                name?: string;
+                location?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    createActivity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActivityDTO"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"];
+                };
+            };
+        };
+    };
+    addParticipants: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ActivityParticipantDTO"][];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityParticipantDTO"][];
+                };
+            };
+        };
+    };
+    removeParticipant: {
+        parameters: {
+            query: {
+                participantType: string;
+                participantId: number;
+            };
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateFlightTimes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FlightTimeUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    updateActualTimeAndNotify: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FlightTimeUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+        };
+    };
+    removeAttachmentsFromDocument: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                documentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AttachmentAssignRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseCustom"];
+                };
+            };
+        };
+    };
+    searchUsersByKeyword: {
+        parameters: {
+            query: {
+                keyword: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully searched users */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiSearchUsersResponse"];
+                };
+            };
+        };
+    };
+    getCurrentUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved current user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiMeResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    filterUsers: {
+        parameters: {
+            query?: {
+                teamId?: number;
+                unitId?: number;
+                searchText?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully filtered users */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFilterUsersResponse"];
+                };
+            };
+        };
+    };
+    getDirectorsAndViceDirectors: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved directors and vice directors */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUsersResponse"];
+                };
+            };
+        };
+    };
+    getAssignableUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUsersResponse"];
+                };
+            };
+        };
+    };
+    getAllUserShifts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UserShiftDTO"][];
+                };
+            };
+        };
+    };
+    getSchedulesByCriteria: {
+        parameters: {
+            query: {
+                shiftDate: string;
+                teamId?: number;
+                unitId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ScheduleDTO"][];
+                };
+            };
+        };
+    };
+    filterByUserAndRange: {
+        parameters: {
+            query: {
+                userId: number;
+                startDate: string;
+                endDate: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ScheduleDTO"][];
+                };
+            };
+        };
+    };
+    getAllUserFlightShifts: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved all user flight shifts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUserFlightShiftsResponse"];
+                };
+            };
+        };
+    };
+    removeFlightAssignment: {
+        parameters: {
+            query: {
+                flightId: number;
+                shiftDate: string;
+                userId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description User flight assignment removed successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteUserFlightShiftResponse"];
+                };
+            };
+        };
+    };
+    getShiftsByFlightAndDate: {
+        parameters: {
+            query: {
+                flightId: number;
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved user flight shifts by flight and date */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserFlightShiftsByFlightAndDateResponse"];
+                };
+            };
+        };
+    };
+    getAvailableShifts: {
+        parameters: {
+            query: {
+                flightId: number;
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved available user flight shifts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAvailableUserFlightShiftsResponse"];
+                };
+            };
+        };
+    };
+    getAssignedShifts: {
+        parameters: {
+            query: {
+                flightId?: number;
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved assigned user flight shifts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignedUserFlightShiftsResponse"];
+                };
+            };
+        };
+    };
+    isUserAssigned: {
+        parameters: {
+            query: {
+                shiftDate: string;
+                userId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully checked assignment */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCheckUserAssignedFlightResponse"];
+                };
+            };
+        };
+    };
+    getFlightSchedules: {
+        parameters: {
+            query: {
+                shiftDate: string;
+                teamId?: number;
+                unitId?: number;
+                flightId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully filtered user flight shifts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFilterUserFlightShiftsResponse"];
+                };
+            };
+        };
+    };
+    filterUserFlightShifts: {
+        parameters: {
+            query: {
+                shiftDate: string;
+                teamId?: number;
+                unitId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully filtered user flight shifts */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFilterUserFlightShiftsResponse"];
+                };
+            };
+        };
+    };
+    getShiftsByUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                userId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved user flight shifts by user */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserFlightShiftsByUserResponse"];
+                };
+            };
+        };
+    };
+    getShiftsByDate: {
+        parameters: {
+            query: {
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved user flight shifts by date */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserFlightShiftsByDateResponse"];
+                };
+            };
+        };
+    };
+    getUnits: {
+        parameters: {
+            query?: {
+                teamId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved all units */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllUnitsResponse"];
+                };
+            };
+        };
+    };
+    getDocumentsByTask: {
+        parameters: {
+            query: {
+                taskId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentListResponse"];
+                };
+            };
+        };
+    };
+    getNotifications: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["Notification"][];
+                };
+            };
+        };
+    };
+    countUnread: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": number;
+                };
+            };
+        };
+    };
+    getTodayFlights: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    searchFlights: {
+        parameters: {
+            query?: {
+                keyword?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    searchFlightByDate: {
+        parameters: {
+            query: {
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    searchFlightByDateAndKeyword: {
+        parameters: {
+            query: {
+                date: string;
+                keyword?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    getLiveTrackingGroup: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["FlightDTO"][];
+                };
+            };
+        };
+    };
+    getIssuesBySession: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                sessionId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách evaluation issue thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiEvaluationIssueListResponse"];
+                };
+            };
+        };
+    };
+    getAllAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    getAssignmentComments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách comment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentCommentHistoryResponse"];
+                };
+            };
+        };
+    };
+    getAssignmentsByTaskId: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                taskId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách assignment thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignmentListResponse"];
+                };
+            };
+        };
+    };
+    searchActivitiesByMonthYear: {
+        parameters: {
+            query: {
+                month: number;
+                year: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    getActivitiesByDateRange: {
+        parameters: {
+            query: {
+                startDate: string;
+                endDate: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    getActivitiesByDate: {
+        parameters: {
+            query: {
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    getPinnedActivities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    getMyActivities: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ActivityDTO"][];
+                };
+            };
+        };
+    };
+    home: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiResponseCustom"];
+                };
+            };
+        };
+    };
+    removeDocument: {
+        parameters: {
+            query: {
+                taskId: number;
+                documentId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Gỡ document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    removeDocumentsBulk: {
+        parameters: {
+            query: {
+                taskId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": number[];
+            };
+        };
+        responses: {
+            /** @description Gỡ document thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiTaskDocumentActionResponse"];
+                };
+            };
+        };
+    };
+    deleteNotification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
 }

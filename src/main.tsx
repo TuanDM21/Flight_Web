@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   QueryCache,
@@ -37,10 +36,13 @@ const queryClient = new QueryClient({
           toast.error('Session expired!')
           const redirect = router.history.location.href
           void router.navigate({ to: '/sign-out', search: { redirect } })
-        }
-        if (FetchError.isServerError(error)) {
+        } else if (FetchError.isServerError(error)) {
           toast.error('Internal Server Error!')
           void router.navigate({ to: '/500' })
+        } else if (FetchError.isNetworkError(error)) {
+          toast.error('Network Error!')
+        } else if (FetchError.isTimeoutError(error)) {
+          toast.error('Request Timeout!')
         }
       }
     },
@@ -72,18 +74,18 @@ const rootElement = document.querySelector('#root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
-    <StrictMode>
-      <NuqsAdapter>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-              <FontProvider>
-                <App />
-              </FontProvider>
-            </ThemeProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-      </NuqsAdapter>
-    </StrictMode>
+    // <StrictMode>
+    <NuqsAdapter>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+            <FontProvider>
+              <App />
+            </FontProvider>
+          </ThemeProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </NuqsAdapter>
+    // </StrictMode>
   )
 }

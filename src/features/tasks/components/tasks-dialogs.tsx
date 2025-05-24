@@ -1,21 +1,34 @@
-import { showSubmittedData } from '@/utils/show-submitted-data'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { taskKeysFactory } from '@/api/query-key-factory'
+import { useTasks } from '@/context/task'
 import { ConfirmDialog } from '@/components/confirm-dialog'
-import { useTasks } from '../context/tasks-context'
+import { useDeleteTaskMutation } from '@/features/tasks/hooks/use-delete-task'
+import { TaskDocument } from '../types'
+import { SelectDocumentDialog } from './select-document-dialog'
+import { TaskAssignmentComments } from './task-assignment-comments'
 import { TasksImportDialog } from './tasks-import-dialog'
-import { TasksMutateDrawer } from './tasks-mutate-drawer'
+import { ViewAssignmentDialog } from './view-assignment-dialog'
+import { ViewDocumentDialog } from './view-document-dialog'
 
-export function TasksDialogs() {
-  const { open, setOpen, currentRow, setCurrentRow } = useTasks()
+export function TaskDialogManager() {
+  const {
+    open,
+    setOpen,
+    openComments,
+    setOpenComments,
+    currentTaskId,
+    setCurrentTaskId,
+    currentAssignmentId,
+    openSelectDocuments,
+    setOpenSelectDocuments,
+  } = useTasks()
+
+  const deleteTaskMutation = useDeleteTaskMutation(currentTaskId)
+  const queryClient = useQueryClient()
+
   return (
     <>
-      <TasksMutateDrawer
-        key='task-create'
-        open={open === 'create'}
-        onOpenChange={() => {
-          setOpen('create')
-        }}
-      />
-
       <TasksImportDialog
         key='tasks-import'
         open={open === 'import'}
@@ -23,51 +36,99 @@ export function TasksDialogs() {
           setOpen('import')
         }}
       />
-
-      {currentRow && (
+      {currentTaskId && (
         <>
-          <TasksMutateDrawer
-            key={`task-update-${currentRow.id}`}
-            open={open === 'update'}
+          <ViewAssignmentDialog
+            key='view-assignment'
+            open={open === 'view-assignment'}
             onOpenChange={() => {
-              setOpen('update')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+              setOpen('view-assignment')
             }}
-            currentRow={currentRow}
+            taskId={currentTaskId}
+          />
+          <ViewDocumentDialog
+            key='view-document'
+            open={open === 'view-document'}
+            onOpenChange={() => {
+              setOpen('view-document')
+            }}
+            taskId={currentTaskId}
           />
 
+          <SelectDocumentDialog
+            open={openSelectDocuments}
+            onOpenChange={(value) => {
+              setOpenSelectDocuments(value)
+            }}
+            getSelectedDocumentIds={() => {
+              const currentDocuments = queryClient.getQueryData<{
+                data: TaskDocument[]
+              }>(taskKeysFactory.documents(currentTaskId))
+              if (!currentDocuments) return []
+
+              return currentDocuments?.data.map((doc) => doc.id) as number[]
+            }}
+          />
+        </>
+      )}
+
+      {currentTaskId && (
+        <>
           <ConfirmDialog
             key='task-delete'
             destructive
             open={open === 'delete'}
             onOpenChange={() => {
               setOpen('delete')
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
+              setCurrentTaskId(null)
             }}
-            handleConfirm={() => {
+            isLoading={deleteTaskMutation.isPending}
+            handleConfirm={async () => {
+              if (!currentTaskId) {
+                toast.error('Task ID is missing')
+                return
+              }
+              const deleteTaskPromise = deleteTaskMutation.mutateAsync({
+                params: {
+                  path: { id: currentTaskId },
+                },
+              })
+              toast.promise(deleteTaskPromise, {
+                loading: `Deleting task #${currentTaskId}...`,
+                success: `Task #${currentTaskId} deleted successfully!`,
+                error: `Failed to delete task #${currentTaskId}. Please try again.`,
+              })
               setOpen(null)
-              setTimeout(() => {
-                setCurrentRow(null)
-              }, 500)
-              showSubmittedData(
-                currentRow,
-                'The following task has been deleted:'
-              )
+              setCurrentTaskId(null)
             }}
             className='max-w-md'
-            title={`Delete this task: ${currentRow.id} ?`}
+            title={`Delete Task #${currentTaskId}`}
             desc={
-              <>
-                You are about to delete a task with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
-                This action cannot be undone.
-              </>
+              <div className='space-y-2'>
+                <p className='text-muted-foreground text-sm'>
+                  This will permanently delete task #{currentTaskId} and all its
+                  associated data including:
+                </p>
+                <ul className='text-muted-foreground ml-2 list-inside list-disc space-y-1 text-sm'>
+                  <li>All assignments and their comments</li>
+                  <li>All attached documents</li>
+                  <li>Task history and progress</li>
+                </ul>
+                <p className='text-muted-foreground text-sm font-medium'>
+                  This action cannot be undone.
+                </p>
+              </div>
             }
-            confirmText='Delete'
+          />
+        </>
+      )}
+
+      {currentAssignmentId && (
+        <>
+          <TaskAssignmentComments
+            assignmentId={currentAssignmentId}
+            isOpen={openComments}
+            onClose={() => setOpenComments(false)}
           />
         </>
       )}

@@ -6,17 +6,21 @@ export function useDebouncedCallback<T extends (...args: never[]) => unknown>(
   delay: number
 ) {
   const handleCallback = useCallbackRef(callback)
-  const debounceTimerRef = React.useRef(0)
+  const debounceTimerRef = React.useRef<NodeJS.Timeout | null>(null)
   React.useEffect(
     () => () => {
-      globalThis.clearTimeout(debounceTimerRef.current)
+      if (debounceTimerRef.current !== null) {
+        globalThis.clearTimeout(debounceTimerRef.current)
+      }
     },
     []
   )
 
   const setValue = React.useCallback(
     (...args: Parameters<T>) => {
-      globalThis.clearTimeout(debounceTimerRef.current)
+      if (debounceTimerRef.current !== null) {
+        globalThis.clearTimeout(debounceTimerRef.current)
+      }
       debounceTimerRef.current = globalThis.setTimeout(
         () => handleCallback(...args),
         delay

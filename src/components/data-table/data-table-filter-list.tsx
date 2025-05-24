@@ -71,7 +71,6 @@ const FILTERS_KEY = 'filters'
 const JOIN_OPERATOR_KEY = 'joinOperator'
 const DEBOUNCE_MS = 300
 const THROTTLE_MS = 50
-const OPEN_MENU_SHORTCUT = 'f'
 const REMOVE_FILTER_SHORTCUTS = new Set(['backspace', 'delete'])
 
 interface DataTableFilterListProps<TData>
@@ -175,41 +174,6 @@ export function DataTableFilterList<TData>({
     void setFilters(null)
     void setJoinOperator('and')
   }, [setFilters, setJoinOperator])
-
-  React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (
-        event.target instanceof HTMLInputElement ||
-        event.target instanceof HTMLTextAreaElement
-      ) {
-        return
-      }
-
-      if (
-        event.key.toLowerCase() === OPEN_MENU_SHORTCUT &&
-        !event.ctrlKey &&
-        !event.metaKey &&
-        !event.shiftKey
-      ) {
-        event.preventDefault()
-        setOpen(true)
-      }
-
-      if (
-        event.key.toLowerCase() === OPEN_MENU_SHORTCUT &&
-        event.shiftKey &&
-        filters.length > 0
-      ) {
-        event.preventDefault()
-        onFilterRemove(filters.at(-1)?.filterId ?? '')
-      }
-    }
-
-    globalThis.addEventListener('keydown', onKeyDown)
-    return () => {
-      globalThis.removeEventListener('keydown', onKeyDown)
-    }
-  }, [filters, onFilterRemove])
 
   const onTriggerKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLButtonElement>) => {
