@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
+import { BaseApiResponse } from '@/types/response'
 import { taskKeysFactory } from '@/api/query-key-factory'
 import { TaskAssignment } from '../types'
 
@@ -11,19 +12,22 @@ export function useCreateTaskAssignmentsMutation() {
       const { assignments, taskId } = variables?.body || {}
       if (!taskId) return {}
 
+      // Cancel any outgoing refetches to avoid overwriting our optimistic update
       await queryClient.cancelQueries({
         queryKey: taskKeysFactory.assignments(taskId),
       })
 
-      const previousTaskAssignments = queryClient.getQueryData(
-        taskKeysFactory.assignments(taskId)
-      )
+      // Get the previous assignments data
+      const previousTaskAssignments = queryClient.getQueryData<
+        BaseApiResponse<TaskAssignment[]>
+      >(taskKeysFactory.assignments(taskId))
 
       // Optimistically update the assignments list
-      queryClient.setQueryData(
+      queryClient.setQueryData<BaseApiResponse<TaskAssignment[]>>(
         taskKeysFactory.assignments(taskId),
-        (old: { data: TaskAssignment[] }) => {
+        (old) => {
           if (!old?.data) return old
+
           return {
             ...old,
             data: [...old.data, ...(assignments || [])],
@@ -36,9 +40,10 @@ export function useCreateTaskAssignmentsMutation() {
         taskId,
       }
     },
-    onError: (_err, _data, context: any) => {
+    onError: (_, __, context: any) => {
+      // Rollback to the previous assignments
       const taskId = context?.taskId
-      // Rollback to the previous state
+      if (!taskId) return
       queryClient.setQueryData(
         taskKeysFactory.assignments(taskId),
         context?.previousTaskAssignments

@@ -1,17 +1,10 @@
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { DropdownMenu } from '@radix-ui/react-dropdown-menu'
-import clsx from 'clsx'
-import { PlusCircle, X } from 'lucide-react'
-import { useTasks } from '@/context/task'
+import { Link } from '@tanstack/react-router'
+import { IconTableShare } from '@tabler/icons-react'
+import { Eye, FileText, Trash } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   FormControl,
   FormField,
@@ -19,165 +12,166 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { AppDialog } from '@/components/app-dialog'
+import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
 import { TaskDocument } from '@/features/tasks/types'
 import { CreateTasksForm } from '../create'
-import { SelectDocumentDialog } from './select-document-dialog'
+import { SelectDocumentsDialog } from './select-documents-dialog'
 
 export function TaskDocumentField() {
   const form = useFormContext<CreateTasksForm>()
-  const { openSelectDocuments, setOpen, setOpenSelectDocuments } = useTasks()
+  const selectDocumentDialogInstance = AppDialog.useDialog()
   const [selectedDocuments, setSelectedDocuments] = useState<TaskDocument[]>([])
 
+  const getSelectedDocumentIds = () => {
+    return form.getValues('documentIds') || []
+  }
+
+  const handleSelectedDocuments = (documents: TaskDocument[]) => {
+    const selectedDocumentIds = documents.map((doc) => doc.id).filter(Boolean)
+    setSelectedDocuments(documents)
+    form.setValue('documentIds', selectedDocumentIds as number[])
+    selectDocumentDialogInstance.close()
+  }
+
+  const handleRemoveDocument = (documentId: number) => {
+    const currentDocumentIds = form.getValues('documentIds') || []
+    const updatedDocumentIds = currentDocumentIds.filter(
+      (id) => id !== documentId
+    )
+    const updatedDocuments = selectedDocuments.filter(
+      (doc) => doc.id !== documentId
+    )
+
+    form.setValue('documentIds', updatedDocumentIds)
+    setSelectedDocuments(updatedDocuments)
+  }
+
   return (
-    <div className='space-y-4'>
-      <SelectDocumentDialog
-        open={openSelectDocuments}
-        onOpenChange={(value) => {
-          setOpenSelectDocuments(value)
-        }}
-        getSelectedDocumentIds={() => []}
-      />
-      <div className='flex items-center justify-between'>
-        <FormLabel className='text-base font-medium dark:text-gray-200'>
-          Documents
-        </FormLabel>
-        <Button
-          type='button'
-          variant='outline'
-          size='sm'
-          className='flex items-center gap-1 dark:border-gray-700 dark:hover:bg-gray-800/50'
-          onClick={() => setOpen('create')}
-        >
-          <PlusCircle className='h-4 w-4' />
-          <span>Add Document</span>
-        </Button>
-      </div>
+    <>
+      {selectDocumentDialogInstance.isOpen && (
+        <SelectDocumentsDialog
+          getSelectedDocumentIds={getSelectedDocumentIds}
+          onSubmit={handleSelectedDocuments}
+          dialog={selectDocumentDialogInstance}
+        />
+      )}
 
-      <div className='rounded-md'>
-        <FormField
-          control={form.control}
-          name={`documentIds`}
-          render={() => {
-            return (
-              <div
-                role='list'
-                className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-              >
-                {selectedDocuments?.map((item) => (
-                  <FormField
-                    key={item.id}
-                    control={form.control}
-                    name='documentIds'
-                    render={() => {
-                      const currentAttachments = item.attachments || []
-                      const totalFiles = currentAttachments.length
-                      const documentId = String(item.id ?? 'N/A')
-
-                      return (
-                        <FormItem
-                          key={item.id}
-                          className={clsx(
-                            'border-l-primary bg-accent dark:bg-accent/20 col-span-1 flex divide-y divide-gray-200 overflow-hidden rounded-lg border border-l-4 border-gray-200 p-4 shadow-sm dark:divide-gray-700 dark:border-gray-700'
-                          )}
-                        >
-                          <FormControl className='flex w-full flex-col'>
-                            <div className='ml-3 flex flex-1 flex-col items-start'>
-                              <div className='flex w-full items-center justify-between'>
-                                <FormLabel
-                                  htmlFor={documentId}
-                                  className={clsx(
-                                    'text-primary dark:text-primary text-sm font-medium break-words'
+      <FormField
+        control={form.control}
+        name='documentIds'
+        render={() => (
+          <FormItem>
+            <FormLabel>Attachments</FormLabel>
+            <FormControl>
+              <div className='border-primary/30 bg-background relative flex flex-col items-center rounded-lg border-2 border-dashed p-4 font-medium transition-colors'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  className='flex min-h-20 w-full flex-col items-center rounded-lg border-2 border-dashed'
+                  onClick={(evt) => {
+                    evt.preventDefault()
+                    evt.stopPropagation()
+                    selectDocumentDialogInstance.open()
+                  }}
+                >
+                  <span className='flex items-center gap-2'>
+                    <IconTableShare className='size-5' />
+                    Choose from shared documents
+                  </span>
+                </Button>
+                <div className='flex w-full flex-col items-center'>
+                  <div className='my-4 flex w-full items-center gap-2'>
+                    <div className='border-muted-foreground/30 flex-grow border-t'></div>
+                  </div>
+                  <div className='w-full'>
+                    {selectedDocuments.length > 0 && (
+                      <div className='space-y-2'>
+                        <div className='space-y-2'>
+                          {selectedDocuments.map((document) => (
+                            <div
+                              key={document.id}
+                              className='flex items-center justify-between rounded-lg border p-3'
+                            >
+                              <div className='flex flex-1 items-center gap-3'>
+                                <div className='bg-primary/10 rounded-full p-2'>
+                                  <FileText className='text-primary h-4 w-4' />
+                                </div>
+                                <div className='min-w-0 flex-1'>
+                                  <div className='flex items-center gap-2'>
+                                    <p className='truncate text-sm font-medium'>
+                                      #{document.id}
+                                    </p>
+                                    {document.documentType && (
+                                      <Badge
+                                        variant='secondary'
+                                        className='text-xs'
+                                      >
+                                        {document.documentType}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  {document.content && (
+                                    <p className='text-muted-foreground truncate text-xs'>
+                                      {document.content}
+                                    </p>
                                   )}
-                                >
-                                  {documentId}
-                                </FormLabel>
-                                <div className='mt-2 flex items-center space-x-2'>
-                                  <Button
-                                    variant='ghost'
-                                    size='sm'
-                                    className='flex items-center gap-1 dark:border-gray-700 dark:hover:bg-gray-800/50'
-                                    onClick={() => {
-                                      const updatedDocuments =
-                                        selectedDocuments.filter(
-                                          (doc) => doc.id !== item.id
-                                        )
-                                      const updatedDocumentIds =
-                                        updatedDocuments.map(
-                                          (doc) => doc.id
-                                        ) as number[]
-                                      form.setValue(
-                                        'documentIds',
-                                        updatedDocumentIds
-                                      )
-                                      setSelectedDocuments(updatedDocuments)
-                                    }}
-                                  >
-                                    <X />
-                                  </Button>
+                                  {document.attachments &&
+                                    document.attachments.length > 0 && (
+                                      <p className='text-muted-foreground text-xs'>
+                                        {document.attachments.length}{' '}
+                                        attachment(s)
+                                      </p>
+                                    )}
                                 </div>
                               </div>
-                              <div className='flex flex-wrap items-center gap-1'>
-                                {totalFiles > 0 ? (
-                                  <>
-                                    {currentAttachments
-                                      .slice(0, 2)
-                                      .map((attachment, index) => (
-                                        <div
-                                          key={index}
-                                          className='bg-muted inline-flex items-center rounded px-2 py-1 text-xs'
-                                        >
-                                          {attachment.fileName}
-                                        </div>
-                                      ))}
-                                    {totalFiles > 2 && (
-                                      <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                          <Button
-                                            variant='ghost'
-                                            size='sm'
-                                            className='h-6 px-2 text-xs'
-                                          >
-                                            +{totalFiles - 2} tệp khác
-                                          </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent
-                                          align='start'
-                                          className='w-56'
-                                        >
-                                          <DropdownMenuLabel>
-                                            Tất cả tệp đính kèm
-                                          </DropdownMenuLabel>
-                                          <DropdownMenuSeparator />
-                                          {currentAttachments.map(
-                                            (attachment, index) => (
-                                              <DropdownMenuItem key={index}>
-                                                {attachment.fileName}
-                                              </DropdownMenuItem>
-                                            )
-                                          )}
-                                        </DropdownMenuContent>
-                                      </DropdownMenu>
-                                    )}
-                                  </>
-                                ) : (
-                                  <span className='text-muted-foreground text-xs'>
-                                    Không có tệp đính kèm
-                                  </span>
-                                )}
+                              <div className='flex items-center gap-1'>
+                                <DataTableActionBarAction
+                                  size='icon'
+                                  tooltip='View document'
+                                >
+                                  <Button
+                                    variant='link'
+                                    size='sm'
+                                    asChild
+                                    className='h-auto p-0'
+                                  >
+                                    <Link
+                                      to='/documents/$document-id'
+                                      params={{
+                                        'document-id': String(document.id),
+                                      }}
+                                      target='_blank'
+                                    >
+                                      <Eye className='h-4 w-4' />
+                                    </Link>
+                                  </Button>
+                                </DataTableActionBarAction>
+                                <DataTableActionBarAction
+                                  size='icon'
+                                  tooltip='Remove document'
+                                  onClick={(e) => {
+                                    e.preventDefault()
+                                    e.stopPropagation()
+                                    handleRemoveDocument(document.id!)
+                                  }}
+                                >
+                                  <Trash className='h-4 w-4' />
+                                </DataTableActionBarAction>
                               </div>
                             </div>
-                          </FormControl>
-                        </FormItem>
-                      )
-                    }}
-                  />
-                ))}
-                <FormMessage />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-            )
-          }}
-        />
-      </div>
-    </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
   )
 }

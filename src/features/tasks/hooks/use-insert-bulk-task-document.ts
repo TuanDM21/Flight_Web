@@ -3,7 +3,7 @@ import $queryClient from '@/api'
 import { taskKeysFactory, documentKeysFactory } from '@/api/query-key-factory'
 import { TaskDocument } from '../types'
 
-export function useInsertBulkTaskDocumentsMutation(taskId: number | null) {
+export function useInsertBulkTaskDocuments() {
   const queryClient = useQueryClient()
 
   return $queryClient.useMutation('post', '/api/task-documents/attach-bulk', {
@@ -41,9 +41,11 @@ export function useInsertBulkTaskDocumentsMutation(taskId: number | null) {
 
       return {
         previousTaskDocuments,
+        taskId,
       }
     },
     onError: (_, __, context: any) => {
+      const { taskId } = context?.previousTaskDocuments || {}
       if (!taskId) return
 
       // Rollback to the previous documents
@@ -54,8 +56,8 @@ export function useInsertBulkTaskDocumentsMutation(taskId: number | null) {
         )
       }
     },
-    onSettled: () => {
-      if (!taskId) return
+    onSettled: (_, __, variables) => {
+      const { taskId } = variables.params.query
 
       // Invalidate queries to refetch the documents
       queryClient.invalidateQueries({

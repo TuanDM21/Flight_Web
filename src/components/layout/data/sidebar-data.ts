@@ -4,6 +4,7 @@ import {
   IconBug,
   IconChecklist,
   IconError404,
+  IconFileTypeDoc,
   IconHelp,
   IconLayoutDashboard,
   IconLock,
@@ -47,6 +48,11 @@ export const sidebarData: SidebarData = {
           title: 'Tasks',
           url: '/tasks',
           icon: IconChecklist,
+        },
+        {
+          title: 'Documents',
+          url: '/documents',
+          icon: IconFileTypeDoc,
         },
         {
           title: 'Apps',

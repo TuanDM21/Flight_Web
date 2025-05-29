@@ -289,7 +289,7 @@ export interface paths {
         };
         /**
          * Xem chi tiết file đính kèm
-         * @description Lấy chi tiết một file đính kèm theo id
+         * @description Lấy chi tiết một file đính kèm theo ID
          */
         get: operations["getAttachmentById"];
         /**
@@ -299,10 +299,34 @@ export interface paths {
         put: operations["updateAttachment"];
         post?: never;
         /**
-         * Xoá file đính kèm
-         * @description Xoá file đính kèm trên Azure Blob và database theo id
+         * Xóa file đính kèm
+         * @description Xóa file đính kèm khỏi Azure Blob Storage và database
          */
         delete: operations["deleteAttachment"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/{shareId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Cập nhật quyền chia sẻ file
+         * @description Cập nhật quyền truy cập và thông tin chia sẻ file
+         */
+        put: operations["updateFileShare"];
+        post?: never;
+        /**
+         * Hủy chia sẻ file
+         * @description Hủy chia sẻ file với user cụ thể
+         */
+        delete: operations["revokeFileShare"];
         options?: never;
         head?: never;
         patch?: never;
@@ -820,7 +844,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/attachments/upload-multi": {
+    "/api/attachments/share": {
         parameters: {
             query?: never;
             header?: never;
@@ -830,10 +854,50 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Upload nhiều file lên Azure Blob Storage
-         * @description Upload nhiều file và trả về thông tin file đính kèm
+         * Chia sẻ file cho user khác (Batch Support)
+         * @description Chia sẻ một hoặc nhiều file đính kèm cho một hoặc nhiều user khác với quyền truy cập cụ thể. Hỗ trợ chia sẻ batch: có thể chia sẻ nhiều file cùng lúc cho nhiều user. Format: attachmentIds=[1,2,3], sharedWithUserIds=[4,5,6]
          */
-        post: operations["uploadMultipleFiles"];
+        post: operations["shareFile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/generate-upload-urls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Tạo pre-signed URL để upload file
+         * @description Tạo pre-signed URL để client upload file trực tiếp lên Azure Blob Storage. Tự động detect và xử lý cả single file (1 file) và multiple files (nhiều file)
+         */
+        post: operations["generateUploadUrls"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/confirm-upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Xác nhận upload thành công
+         * @description Xác nhận file đã được upload thành công qua pre-signed URL. Tự động detect và xử lý cả single file và multiple files
+         */
+        post: operations["confirmUpload"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1332,6 +1396,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/tasks/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy công việc của tôi theo loại
+         * @description Lấy danh sách công việc theo loại: created (đã tạo), assigned (đã giao), received (được giao)
+         */
+        get: operations["getMyTasks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/task-documents": {
         parameters: {
             query?: never;
@@ -1493,9 +1577,129 @@ export interface paths {
         };
         /**
          * Lấy tất cả file đính kèm
-         * @description Lấy tất cả file đính kèm đã upload
+         * @description Lấy danh sách tất cả file đính kèm đã upload
          */
         get: operations["getAllAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/{attachmentId}/shares": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách user được chia sẻ file
+         * @description Lấy danh sách tất cả user được chia sẻ một file cụ thể (chỉ owner mới xem được)
+         */
+        get: operations["getFileShares"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shared-with-me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách file được chia sẻ với tôi
+         * @description Lấy danh sách tất cả file mà user khác đã chia sẻ với user hiện tại
+         */
+        get: operations["getSharedWithMe"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/my-shared-files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách file tôi đã chia sẻ
+         * @description Lấy danh sách tất cả file mà user hiện tại đã chia sẻ cho người khác
+         */
+        get: operations["getMySharedFiles"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/my-files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách file của tôi
+         * @description Lấy danh sách tất cả file đính kèm mà user hiện tại đã upload
+         */
+        get: operations["getMyAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/download-url/{attachmentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Tạo pre-signed URL để download file
+         * @description Tạo pre-signed URL để download file từ Azure Blob Storage
+         */
+        get: operations["generateDownloadUrl"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/accessible-files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy danh sách file có quyền truy cập
+         * @description Lấy danh sách tất cả file mà user hiện tại có quyền truy cập (bao gồm file của mình và file được chia sẻ)
+         */
+        get: operations["getAccessibleAttachments"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1692,6 +1896,26 @@ export interface paths {
         put?: never;
         post?: never;
         delete: operations["deleteNotification"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xóa nhiều file đính kèm
+         * @description Xóa nhiều file đính kèm khỏi Azure Blob Storage và database
+         */
+        delete: operations["bulkDeleteAttachments"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2103,6 +2327,7 @@ export interface components {
             fileSize?: number;
             /** Format: date-time */
             createdAt?: string;
+            uploadedBy?: components["schemas"]["UserDTO"];
         };
         /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         DocumentDTO: {
@@ -2117,11 +2342,45 @@ export interface components {
             updatedAt?: string;
             attachments?: components["schemas"]["AttachmentDTO"][];
         };
+        UserDTO: {
+            /**
+             * Format: int32
+             * @description ID of the user
+             */
+            id: number;
+            /** @description Name of the user */
+            name: string;
+            /** @description Email of the user */
+            email: string;
+            /** @description Role name of the user */
+            roleName: string;
+            /** @description Team name of the user */
+            teamName: string;
+            /** @description Unit name of the user */
+            unitName: string;
+            /**
+             * Format: int32
+             * @description Role ID of the user
+             */
+            roleId: number;
+            /**
+             * Format: int32
+             * @description Team ID of the user
+             */
+            teamId: number;
+            /**
+             * Format: int32
+             * @description Unit ID of the user
+             */
+            unitId: number;
+            canCreateActivity?: boolean;
+            permissions?: string[];
+        };
         UpdateAttachmentFileNameRequest: {
             fileName?: string;
         };
-        /** @description API response for a single attachment */
-        ApiAttachmentResponse: {
+        /** @description API response for updating attachment */
+        ApiUpdateAttachmentResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -2139,6 +2398,113 @@ export interface components {
              * @example true
              */
             success?: boolean;
+        };
+        /** @description Request để cập nhật quyền chia sẻ file với hỗ trợ batch operations */
+        UpdateFileShareRequest: {
+            /**
+             * Format: int32
+             * @description ID của FileShare cụ thể cần update (dùng cho single update)
+             * @example 123
+             */
+            shareId?: number;
+            /**
+             * @description Danh sách ID của các file cần update sharing (dùng cho batch update)
+             * @example [
+             *       1,
+             *       2,
+             *       3
+             *     ]
+             */
+            attachmentIds?: number[];
+            /**
+             * @description Danh sách ID user hiện tại được chia sẻ (để add/remove)
+             * @example [
+             *       4,
+             *       5,
+             *       6
+             *     ]
+             */
+            currentSharedWithUserIds?: number[];
+            /**
+             * @description Danh sách ID user MỚI cần ADD vào sharing
+             * @example [
+             *       7,
+             *       8
+             *     ]
+             */
+            addUserIds?: number[];
+            /**
+             * @description Danh sách ID user cần REMOVE khỏi sharing
+             * @example [
+             *       9,
+             *       10
+             *     ]
+             */
+            removeUserIds?: number[];
+            /**
+             * @description Danh sách ID file MỚI cần ADD vào sharing cho cùng user group
+             * @example [
+             *       4,
+             *       5
+             *     ]
+             */
+            addAttachmentIds?: number[];
+            /**
+             * @description Danh sách ID file cần REMOVE khỏi sharing
+             * @example [
+             *       6,
+             *       7
+             *     ]
+             */
+            removeAttachmentIds?: number[];
+            /**
+             * @description Quyền truy cập file mới
+             * @enum {string}
+             */
+            permission: "READ_ONLY" | "READ_WRITE" | "READ_ONLY" | "READ_WRITE";
+            /**
+             * Format: date-time
+             * @description Thời gian hết hạn chia sẻ mới (để trống nếu không thay đổi)
+             */
+            expiresAt?: string;
+            /**
+             * @description Ghi chú mới về việc chia sẻ
+             * @example Cập nhật quyền chỉnh sửa
+             */
+            note?: string;
+            /**
+             * @description Chế độ cập nhật
+             * @enum {string}
+             */
+            updateMode?: "SINGLE" | "BATCH" | "ADD_USERS" | "REMOVE_USERS" | "ADD_FILES" | "REMOVE_FILES" | "FULL_REPLACE" | "SINGLE" | "BATCH" | "ADD_USERS" | "REMOVE_USERS" | "ADD_FILES" | "REMOVE_FILES" | "FULL_REPLACE";
+        };
+        ApiShareFileResponse: {
+            message?: string;
+            /** Format: int32 */
+            statusCode?: number;
+            data?: components["schemas"]["FileShareDTO"][];
+            success?: boolean;
+        };
+        FileShareDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            attachmentId?: number;
+            fileName?: string;
+            filePath?: string;
+            /** Format: int64 */
+            fileSize?: number;
+            sharedBy?: components["schemas"]["UserDTO"];
+            sharedWith?: components["schemas"]["UserDTO"];
+            /** @enum {string} */
+            permission?: "READ_ONLY" | "READ_WRITE";
+            /** Format: date-time */
+            sharedAt?: string;
+            /** Format: date-time */
+            expiresAt?: string;
+            note?: string;
+            active?: boolean;
+            expired?: boolean;
         };
         UpdateAssignmentRequest: {
             recipientType?: string;
@@ -2191,40 +2557,6 @@ export interface components {
             recipientUser?: components["schemas"]["UserDTO"];
             /** Format: int32 */
             recipientId?: number;
-        };
-        UserDTO: {
-            /**
-             * Format: int32
-             * @description ID of the user
-             */
-            id: number;
-            /** @description Name of the user */
-            name: string;
-            /** @description Email of the user */
-            email: string;
-            /** @description Role name of the user */
-            roleName: string;
-            /** @description Team name of the user */
-            teamName: string;
-            /** @description Unit name of the user */
-            unitName: string;
-            /**
-             * Format: int32
-             * @description Role ID of the user
-             */
-            roleId: number;
-            /**
-             * Format: int32
-             * @description Team ID of the user
-             */
-            teamId: number;
-            /**
-             * Format: int32
-             * @description Unit ID of the user
-             */
-            unitId: number;
-            canCreateActivity?: boolean;
-            permissions?: string[];
         };
         ActivityDTO: {
             /** Format: int64 */
@@ -2498,8 +2830,134 @@ export interface components {
             /** Format: int64 */
             expiresIn?: number;
         };
-        /** @description API response for list of attachments */
-        ApiAttachmentListResponse: {
+        /** @description Request để chia sẻ file cho user khác */
+        ShareFileRequest: {
+            /**
+             * @description Danh sách ID của các file cần chia sẻ
+             * @example [
+             *       1,
+             *       2,
+             *       3
+             *     ]
+             */
+            attachmentIds: number[];
+            /** @description Danh sách ID của các user được chia sẻ file */
+            sharedWithUserIds: number[];
+            /**
+             * @description Quyền truy cập file
+             * @enum {string}
+             */
+            permission: "READ_ONLY" | "READ_WRITE" | "READ_ONLY" | "READ_WRITE";
+            /**
+             * Format: date-time
+             * @description Thời gian hết hạn chia sẻ (để trống nếu không có thời hạn)
+             */
+            expiresAt?: string;
+            /**
+             * @description Ghi chú về việc chia sẻ
+             * @example Chia sẻ để review tài liệu
+             */
+            note?: string;
+        };
+        /**
+         * @description Thông tin file upload
+         * @example [
+         *       {
+         *         "fileName": "document.pdf",
+         *         "fileSize": 1024000,
+         *         "contentType": "application/pdf"
+         *       }
+         *     ]
+         */
+        FileUploadInfo: {
+            /**
+             * @description Tên file gốc
+             * @example document.pdf
+             */
+            fileName: string;
+            /**
+             * Format: int64
+             * @description Kích thước file (bytes)
+             * @example 1024000
+             */
+            fileSize: number;
+            /**
+             * @description Loại content của file
+             * @example application/pdf
+             */
+            contentType: string;
+        };
+        /** @description Request để upload file - hỗ trợ cả single và multiple files */
+        FlexibleUploadRequest: {
+            /**
+             * @description Danh sách file cần upload
+             * @example [
+             *       {
+             *         "fileName": "document.pdf",
+             *         "fileSize": 1024000,
+             *         "contentType": "application/pdf"
+             *       }
+             *     ]
+             */
+            files: components["schemas"]["FileUploadInfo"][];
+        };
+        /** @description API response for generating pre-signed upload URLs */
+        ApiGenerateUploadUrlsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["FlexiblePreSignedUrlResponse"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Response cho pre-signed URL - hỗ trợ cả single và multiple files */
+        FlexiblePreSignedUrlResponse: {
+            /** @description Danh sách pre-signed URL response */
+            files: components["schemas"]["PreSignedUrlResponse"][];
+            /**
+             * @description Thông báo kết quả
+             * @example Tạo thành công 3 pre-signed URL
+             */
+            message?: string;
+        };
+        /** @description Danh sách pre-signed URL response */
+        PreSignedUrlResponse: {
+            uploadUrl?: string;
+            /** Format: int32 */
+            attachmentId?: number;
+            fileName?: string;
+            uniqueFileName?: string;
+            /** Format: date-time */
+            expiryTime?: string;
+            fileUrl?: string;
+            instructions?: string;
+            error?: string;
+        };
+        /** @description Request để xác nhận upload file - hỗ trợ cả single và multiple files */
+        ConfirmFlexibleUploadRequest: {
+            /**
+             * @description Danh sách ID của attachment cần xác nhận upload
+             * @example [
+             *       123,
+             *       124,
+             *       125
+             *     ]
+             */
+            attachmentIds: number[];
+        };
+        /** @description API response for confirming upload */
+        ApiConfirmUploadResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -3172,6 +3630,75 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description API response for list of attachments */
+        ApiAttachmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AttachmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for a single attachment */
+        ApiAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AttachmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        ApiFileShareListResponse: {
+            message?: string;
+            /** Format: int32 */
+            statusCode?: number;
+            data?: components["schemas"]["FileShareDTO"][];
+            success?: boolean;
+        };
+        /** @description API response for generating download URL */
+        ApiDownloadUrlResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         /** @description API response for delete user, data is Void */
         ApiDeleteUserResponse: {
             /**
@@ -3208,6 +3735,48 @@ export interface components {
             statusCode?: number;
             /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for deleting attachment */
+        ApiDeleteAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for bulk delete attachments */
+        ApiBulkDeleteAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -4117,8 +4686,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy chi tiết file thành công */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4149,7 +4727,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiUpdateAttachmentResponse"];
                 };
             };
             /** @description Không tìm thấy file đính kèm */
@@ -4158,7 +4736,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiUpdateAttachmentResponse"];
                 };
             };
         };
@@ -4174,13 +4752,115 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xóa file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Lỗi server khi xóa file */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
+                };
+            };
+        };
+    };
+    updateFileShare: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shareId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFileShareRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật chia sẻ thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền cập nhật chia sẻ này */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy chia sẻ file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    revokeFileShare: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                shareId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Hủy chia sẻ thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền hủy chia sẻ này */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy chia sẻ file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
                 };
             };
         };
@@ -5181,28 +5861,146 @@ export interface operations {
             };
         };
     };
-    uploadMultipleFiles: {
+    shareFile: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                "multipart/form-data": {
-                    files: string[];
-                };
+                "application/json": components["schemas"]["ShareFileRequest"];
             };
         };
         responses: {
-            /** @description Upload file thành công */
-            201: {
+            /** @description Chia sẻ file thành công (có thể một phần thành công nếu là batch) */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Dữ liệu đầu vào không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền chia sẻ file này */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Lỗi server khi chia sẻ file */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    generateUploadUrls: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FlexibleUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Tạo pre-signed URL thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+            /** @description Dữ liệu đầu vào không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+            /** @description Lỗi server khi tạo pre-signed URL */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+        };
+    };
+    confirmUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmFlexibleUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Xác nhận upload thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
+                };
+            };
+            /** @description Không tìm thấy file hoặc upload thất bại */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
+                };
+            };
+            /** @description Lỗi server khi xác nhận upload */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
                 };
             };
         };
@@ -5909,6 +6707,37 @@ export interface operations {
             };
         };
     };
+    getMyTasks: {
+        parameters: {
+            query: {
+                type: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTasksResponse"];
+                };
+            };
+            /** @description Tham số type không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTasksResponse"];
+                };
+            };
+        };
+    };
     getDocumentsByTask: {
         parameters: {
             query: {
@@ -6109,7 +6938,167 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    getFileShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attachmentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách user thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFileShareListResponse"];
+                };
+            };
+            /** @description Không có quyền xem danh sách chia sẻ */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFileShareListResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFileShareListResponse"];
+                };
+            };
+        };
+    };
+    getSharedWithMe: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFileShareListResponse"];
+                };
+            };
+        };
+    };
+    getMySharedFiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFileShareListResponse"];
+                };
+            };
+        };
+    };
+    getMyAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    generateDownloadUrl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attachmentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tạo download URL thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
+                };
+            };
+            /** @description Lỗi server khi tạo download URL */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
+                };
+            };
+        };
+    };
+    getAccessibleAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Lấy danh sách file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -6358,6 +7347,48 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    bulkDeleteAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmFlexibleUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Xóa file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy một hoặc nhiều file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Lỗi server khi xóa file */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
             };
         };
     };
