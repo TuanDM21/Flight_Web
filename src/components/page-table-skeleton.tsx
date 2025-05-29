@@ -1,7 +1,7 @@
 import { DataTableSkeleton } from './data-table/data-table-skeleton'
 import { TaskHeaderSkeleton } from './task-header-skeleton'
 
-export default function PageSkeleton() {
+export default function PageTableSkeleton() {
   return (
     <div className='px-4 py-2'>
       <TaskHeaderSkeleton />

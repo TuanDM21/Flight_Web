@@ -12,16 +12,15 @@ import {
   IconX,
 } from '@tabler/icons-react'
 import { dateFormatPatterns } from '@/config/date'
-import { FileTextIcon, FileUser } from 'lucide-react'
+import { FileTextIcon, FileUser, Users } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { useTasks } from '@/context/task'
 import { useDataTable } from '@/hooks/use-data-table'
+import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
-  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -58,31 +57,30 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { ConfirmDialog } from '@/components/confirm-dialog'
+import { AppConfirmDialog } from '@/components/app-confirm-dialog'
+import { AppDialog } from '@/components/app-dialog'
+import { AppSheet } from '@/components/app-sheet'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import { FormFieldTooltipError } from '@/components/form-field-tooltip-error'
 import { useUpdateAssignmentMutation } from '@/features/tasks/hooks/use-update-assignment'
 import { updateTaskAssignmentSchema } from '@/features/tasks/schema'
-import {
-  CreateTaskAssignments,
-  TaskAssignment,
-  TaskAssignmentStatus,
-} from '@/features/tasks/types'
+import { TaskAssignment, TaskAssignmentStatus } from '@/features/tasks/types'
 import {
   taskStatusIcons,
   taskStatusLabels,
   taskStatusVariants,
 } from '@/features/tasks/utils'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
-import { useDeleteTaskAssignmentMutation } from '../hooks/use-delete-task-assignment'
 import {
   RECIPIENT_TYPES,
   useRecipientOptions,
 } from '../hooks/use-recipient-options'
 import { useViewTaskAssignments } from '../hooks/use-view-task-assignments'
-import TaskAssignmentFormSheet from './task-assignment-form-sheet'
+import DeleteTaskAssignmentConfirmDialog from './delete-task-assignment-confirm-dialog'
+import { TaskAssignmentCommentsSheet } from './task-assignment-comments-sheet'
+import { TaskAssignmentFormSheet } from './task-assignment-form-sheet'
 
 interface EditableNoteCellProps {
   assignment: TaskAssignment
@@ -126,10 +124,10 @@ const EditableNoteCell = React.memo(
 type TaskAssignmentUpdateForm = z.infer<typeof updateTaskAssignmentSchema> & {
   assignmentId?: number
 }
-interface Props {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+
+interface ViewAssignmentDialogContentProps {
   taskId: number
+  dialog: AppDialogInstance
 }
 
 const initialFormValues: TaskAssignmentUpdateForm = {
@@ -139,16 +137,20 @@ const initialFormValues: TaskAssignmentUpdateForm = {
   note: '',
   dueAt: new Date().toISOString(),
 }
-export function ViewAssignmentDialog({ open, onOpenChange, taskId }: Props) {
+
+export function ViewAssignmentDialog({
+  taskId,
+  dialog,
+}: ViewAssignmentDialogContentProps) {
   const updateAssignmentMutation = useUpdateAssignmentMutation(taskId)
-  const deleteAssignmentMutation = useDeleteTaskAssignmentMutation(taskId)
-  const [openAssignmentForm, setOpenAssignmentForm] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [assignmentToDelete, setAssignmentToDelete] =
-    useState<TaskAssignment | null>(null)
 
   const { data: assignments, isLoading: isLoadingAssignments } =
     useViewTaskAssignments(taskId)
+
+  const [selectedAssignment, setSelectedAssignment] =
+    useState<TaskAssignment | null>(null)
+  const [commentsAssignment, setCommentsAssignment] =
+    useState<TaskAssignment | null>(null)
 
   const form = useForm<TaskAssignmentUpdateForm>({
     resolver: zodResolver(updateTaskAssignmentSchema),
@@ -176,6 +178,7 @@ export function ViewAssignmentDialog({ open, onOpenChange, taskId }: Props) {
       assignmentId: assignment.assignmentId,
     })
   }
+
   const handleSaveEdit = async () => {
     const { assignmentId, ...restValues } = form.getValues()
 
@@ -617,8 +620,8 @@ export function ViewAssignmentDialog({ open, onOpenChange, taskId }: Props) {
               </DropdownMenuSub>
               <DropdownMenuItem
                 onClick={() => {
-                  setOpenComments(true)
-                  setCurrentAssignmentId(assignment.assignmentId ?? null)
+                  setCommentsAssignment(assignment)
+                  commentsSheetDialogInstance.open()
                 }}
               >
                 View comments
@@ -658,131 +661,106 @@ export function ViewAssignmentDialog({ open, onOpenChange, taskId }: Props) {
     pageCount: 1,
   })
 
-  const { setOpenComments, currentTaskId, setCurrentAssignmentId } = useTasks()
+  const deleteAssignmentDialogInstance = AppConfirmDialog.useDialog()
+  const commentsSheetDialogInstance = AppSheet.useDialog()
+  const createAssignmentSheetDialogInstance = AppSheet.useDialog()
 
   const taskAssignmentsMutation = useCreateTaskAssignmentsMutation()
 
   const noAssignments = !assignments?.data || assignments.data.length === 0
 
   const handleDeleteAssignment = (assignment: TaskAssignment) => {
-    setAssignmentToDelete(assignment)
-    setShowDeleteConfirm(true)
+    setSelectedAssignment(assignment)
+    deleteAssignmentDialogInstance.open()
   }
 
-  const confirmDeleteAssignment = () => {
-    if (!assignmentToDelete || !taskId) return
-
-    const promise = deleteAssignmentMutation.mutateAsync({
-      params: {
-        path: {
-          id: assignmentToDelete.assignmentId!,
-        },
-      },
-    })
-
-    toast.promise(promise, {
-      loading: 'Deleting assignment...',
-      success: 'Assignment deleted successfully',
-      error: 'Error deleting assignment',
-    })
-
-    setShowDeleteConfirm(false)
-    setAssignmentToDelete(null)
-  }
-
-  const handleCreateAssignment = (data: CreateTaskAssignments) => {
-    if (!currentTaskId) {
-      toast.error('No task selected.')
-      return
-    }
-    const promise = taskAssignmentsMutation.mutateAsync({
-      body: {
-        assignments: data.assignments,
-        taskId: currentTaskId,
-      },
-    })
-
-    toast.promise(promise, {
-      loading: `Creating task assignment...`,
-      success: () => {
-        setOpenAssignmentForm(false)
-        return `Task assignment created successfully!`
-      },
-      error: `Failed to create task assignment. Please try again.`,
-    })
+  const handleOpenCreateAssignmentSheet = () => {
+    createAssignmentSheetDialogInstance.open()
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className='max-h-7xl flex flex-col sm:max-w-7xl'
-        onPointerDownOutside={(e) => e.preventDefault()}
-        onEscapeKeyDown={(event) => event.preventDefault()}
-      >
-        <DialogHeader className='pb-4'>
-          <DialogTitle>Assignments for Task #{taskId}</DialogTitle>
-          <p className='text-muted-foreground mt-1 text-sm'>
-            View all assignments for this task
-          </p>
-        </DialogHeader>
-        <div className='flex justify-end gap-2'>
-          <Button
-            className='space-x-1'
-            onClick={() => setOpenAssignmentForm(true)}
-          >
-            <span>Create Assignment</span> <FileUser />
-          </Button>
-        </div>
-        <Form {...form}>
-          {isLoadingAssignments || taskAssignmentsMutation.isPending ? (
-            <DataTableSkeleton
-              columnCount={5}
-              rowCount={5}
-              withViewOptions={false}
-            />
-          ) : noAssignments ? (
-            <div className='text-muted-foreground flex h-[200px] items-center justify-center py-8'>
-              No assignments available
-            </div>
-          ) : (
-            <DataTable table={assignmentsTable} />
-          )}
-        </Form>
-      </DialogContent>
-      <TaskAssignmentFormSheet
-        open={openAssignmentForm}
-        onOpenChange={setOpenAssignmentForm}
-        onSubmit={handleCreateAssignment}
-      />
+    <>
+      {selectedAssignment && (
+        <DeleteTaskAssignmentConfirmDialog
+          taskId={taskId}
+          assignment={selectedAssignment}
+          onSuccess={() => {
+            setSelectedAssignment(null)
+          }}
+          dialog={deleteAssignmentDialogInstance}
+        />
+      )}
 
-      <ConfirmDialog
-        open={showDeleteConfirm}
-        onOpenChange={setShowDeleteConfirm}
-        title='Delete Assignment'
-        handleConfirm={confirmDeleteAssignment}
-        isLoading={deleteAssignmentMutation.isPending}
-        desc={
-          <div className='space-y-2'>
-            <p className='text-muted-foreground text-sm'>
-              You are about to delete the assignment for{' '}
-              <span className='text-foreground font-medium'>
-                {assignmentToDelete?.recipientUser?.name ||
-                  assignmentToDelete?.recipientUser?.teamName ||
-                  assignmentToDelete?.recipientUser?.unitName ||
-                  'this recipient'}
-              </span>
-              .
+      {commentsAssignment && commentsSheetDialogInstance.isOpen && (
+        <TaskAssignmentCommentsSheet
+          assignmentId={commentsAssignment.assignmentId!}
+          dialog={commentsSheetDialogInstance}
+        />
+      )}
+
+      {createAssignmentSheetDialogInstance.isOpen && (
+        <TaskAssignmentFormSheet
+          taskId={taskId}
+          dialog={createAssignmentSheetDialogInstance}
+        />
+      )}
+
+      <AppDialog dialog={dialog}>
+        <DialogContent
+          className='max-h-7xl flex flex-col sm:max-w-7xl'
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(event) => event.preventDefault()}
+        >
+          <DialogHeader className='pb-4'>
+            <DialogTitle>Assignments for Task #{taskId}</DialogTitle>
+            <p className='text-muted-foreground mt-1 text-sm'>
+              View all assignments for this task
             </p>
-            <p className='text-muted-foreground text-sm'>
-              This will remove all comments and progress associated with this
-              assignment.
-            </p>
-            <p className='text-muted-foreground text-sm font-medium'>
-              This action cannot be undone.
-            </p>
+          </DialogHeader>
+
+          <div className='flex justify-end gap-2'>
+            {!noAssignments && (
+              <Button
+                className='space-x-1'
+                onClick={handleOpenCreateAssignmentSheet}
+              >
+                <span>Create Assignment</span> <FileUser />
+              </Button>
+            )}
           </div>
-        }
-      />
-    </Dialog>
+          <Form {...form}>
+            {isLoadingAssignments || taskAssignmentsMutation.isPending ? (
+              <DataTableSkeleton
+                columnCount={5}
+                rowCount={5}
+                withViewOptions={false}
+              />
+            ) : noAssignments ? (
+              <div className='flex h-full flex-col items-center justify-center space-y-4 py-8'>
+                <div className='bg-muted rounded-full p-4'>
+                  <Users className='text-muted-foreground h-8 w-8' />
+                </div>
+                <div className='space-y-2 text-center'>
+                  <h3 className='text-muted-foreground text-lg font-medium'>
+                    No assignments yet
+                  </h3>
+                  <Button
+                    className='space-x-1'
+                    onClick={handleOpenCreateAssignmentSheet}
+                  >
+                    <span>Create Assignment</span> <FileUser />
+                  </Button>
+                  <p className='text-muted-foreground max-w-sm text-sm'>
+                    Be the first to create an assignment for this task.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <DataTable table={assignmentsTable} />
+            )}
+          </Form>
+        </DialogContent>
+      </AppDialog>
+    </>
   )
 }

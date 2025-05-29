@@ -2,13 +2,11 @@ import { useMemo } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { FileText, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { useTasks } from '@/context/task'
 import { useDataTable } from '@/hooks/use-data-table'
+import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
-  Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -24,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
@@ -31,10 +30,11 @@ import { useViewDocuments } from '@/features/documents/hooks/use-view-documents'
 import { TaskDocument, TaskDocumentAttachment } from '@/features/tasks/types'
 import { useInsertBulkTaskDocumentsMutation } from '../hooks/use-insert-bulk-task-document'
 
-interface Props {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+interface SelectDocumentDialogProps {
+  taskId: number
   getSelectedDocumentIds: () => number[]
+  onSuccess: () => void
+  dialog: AppDialogInstance
 }
 
 const columns: ColumnDef<TaskDocument>[] = [
@@ -163,10 +163,11 @@ const columns: ColumnDef<TaskDocument>[] = [
 ]
 
 export function SelectDocumentDialog({
-  open,
-  onOpenChange,
+  taskId,
   getSelectedDocumentIds,
-}: Props) {
+  onSuccess,
+  dialog,
+}: SelectDocumentDialogProps) {
   const { data: allDocuments, isLoading } = useViewDocuments()
 
   const availableDocuments = useMemo(() => {
@@ -177,9 +178,7 @@ export function SelectDocumentDialog({
     )
   }, [allDocuments, getSelectedDocumentIds])
 
-  const { currentTaskId } = useTasks()
-  const updateTaskDocumentsMutation =
-    useInsertBulkTaskDocumentsMutation(currentTaskId)
+  const updateTaskDocumentsMutation = useInsertBulkTaskDocumentsMutation(taskId)
 
   const { table } = useDataTable({
     data: availableDocuments,
@@ -217,28 +216,24 @@ export function SelectDocumentDialog({
     const updateDocumentsPromise = updateTaskDocumentsMutation.mutateAsync({
       body: documentIds,
       params: {
-        query: { taskId: currentTaskId ?? -1 },
+        query: { taskId: taskId },
       },
     })
 
     toast.promise(updateDocumentsPromise, {
       loading: `Updating documents...`,
-      success: `Documents updated successfully!`,
+      success: () => {
+        table.resetRowSelection()
+        table.setColumnFilters([])
+        onSuccess?.()
+        return `Documents updated successfully!`
+      },
       error: `Failed to update documents. Please try again.`,
     })
-
-    onOpenChange(false)
-    table.resetRowSelection()
-    table.setColumnFilters([])
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(v) => {
-        onOpenChange(v)
-      }}
-    >
+    <AppDialog dialog={dialog}>
       <DialogContent className='max-h-7xl flex flex-col sm:max-w-7xl'>
         <DialogHeader className='text-left'>
           <DialogTitle>Select Documents</DialogTitle>
@@ -258,9 +253,9 @@ export function SelectDocumentDialog({
           )}
         </div>
         <DialogFooter className='gap-2'>
-          <DialogClose asChild>
-            <Button variant='outline'>Close</Button>
-          </DialogClose>
+          <Button variant='outline' onClick={dialog.close}>
+            Close
+          </Button>
           <Button
             onClick={handleSaveSelection}
             disabled={
@@ -280,6 +275,6 @@ export function SelectDocumentDialog({
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </AppDialog>
   )
 }
