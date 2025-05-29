@@ -1,14 +1,11 @@
 import { useMemo } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { FileText, Loader2 } from 'lucide-react'
-import { toast } from 'sonner'
-import { useTasks } from '@/context/task'
+import { FileText, Eye } from 'lucide-react'
 import { useDataTable } from '@/hooks/use-data-table'
+import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
-  Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -23,18 +20,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import { useViewDocuments } from '@/features/documents/hooks/use-view-documents'
 import { TaskDocument, TaskDocumentAttachment } from '@/features/tasks/types'
-import { useInsertBulkTaskDocumentsMutation } from '../hooks/use-insert-bulk-task-document'
 
-interface Props {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+interface SelectDocumentDialogProps {
   getSelectedDocumentIds: () => number[]
+  onSubmit: (documents: TaskDocument[]) => void
+  dialog: AppDialogInstance
 }
 
 const columns: ColumnDef<TaskDocument>[] = [
@@ -65,7 +61,6 @@ const columns: ColumnDef<TaskDocument>[] = [
         />
       </div>
     ),
-    size: 64,
     enableSorting: false,
     enableHiding: false,
     meta: {
@@ -87,7 +82,9 @@ const columns: ColumnDef<TaskDocument>[] = [
       return <DataTableColumnHeader column={column} title='Type' />
     },
     cell: ({ row }) => (
-      <div className='capitalize'>{row.getValue('documentType')}</div>
+      <div className='whitespace-nowrap capitalize'>
+        {row.getValue('documentType')}
+      </div>
     ),
   },
   {
@@ -95,7 +92,9 @@ const columns: ColumnDef<TaskDocument>[] = [
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='Content' />
     },
-    cell: ({ row }) => <div>{row.getValue('content')}</div>,
+    cell: ({ row }) => (
+      <div className='max-w-[300px] truncate'>{row.getValue('content')}</div>
+    ),
     enableColumnFilter: false,
   },
   {
@@ -103,7 +102,9 @@ const columns: ColumnDef<TaskDocument>[] = [
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='Notes' />
     },
-    cell: ({ row }) => <div>{row.getValue('notes')}</div>,
+    cell: ({ row }) => (
+      <div className='max-w-[200px] truncate'>{row.getValue('notes')}</div>
+    ),
     enableColumnFilter: false,
   },
   {
@@ -130,11 +131,7 @@ const columns: ColumnDef<TaskDocument>[] = [
               {totalFiles > 2 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      size='sm'
-                      className='h-6 px-2 text-xs'
-                    >
+                    <Button variant='ghost' className='h-6 px-2 text-xs'>
                       +{totalFiles - 2} more files
                     </Button>
                   </DropdownMenuTrigger>
@@ -160,13 +157,43 @@ const columns: ColumnDef<TaskDocument>[] = [
     },
     enableColumnFilter: false,
   },
+  {
+    id: 'actions',
+    header: () => <div>Actions</div>,
+    cell: ({ row }) => {
+      const document = row.original
+
+      const handlePreview = () => {
+        // You can implement document preview logic here
+        // For example, if documents have a preview URL or content
+        console.log('Preview document:', document)
+      }
+
+      return (
+        <div className='flex items-center'>
+          <Button
+            variant='ghost'
+            size='sm'
+            onClick={handlePreview}
+            className='h-8 w-8 p-0'
+          >
+            <Eye className='h-4 w-4' />
+            <span className='sr-only'>Preview document</span>
+          </Button>
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+    enableColumnFilter: false,
+  },
 ]
 
-export function SelectDocumentDialog({
-  open,
-  onOpenChange,
+export function SelectDocumentsDialog({
   getSelectedDocumentIds,
-}: Props) {
+  onSubmit,
+  dialog,
+}: SelectDocumentDialogProps) {
   const { data: allDocuments, isLoading } = useViewDocuments()
 
   const availableDocuments = useMemo(() => {
@@ -176,10 +203,6 @@ export function SelectDocumentDialog({
       (doc) => !selectedDocumentIds.includes(doc.id!)
     )
   }, [allDocuments, getSelectedDocumentIds])
-
-  const { currentTaskId } = useTasks()
-  const updateTaskDocumentsMutation =
-    useInsertBulkTaskDocumentsMutation(currentTaskId)
 
   const { table } = useDataTable({
     data: availableDocuments,
@@ -212,55 +235,31 @@ export function SelectDocumentDialog({
       .getFilteredSelectedRowModel()
       .rows.map((row) => row.original)
 
-    const documentIds = selectedDocuments.map((doc) => doc.id) as number[]
-
-    const updateDocumentsPromise = updateTaskDocumentsMutation.mutateAsync({
-      body: documentIds,
-      params: {
-        query: { taskId: currentTaskId ?? -1 },
-      },
-    })
-
-    toast.promise(updateDocumentsPromise, {
-      loading: `Updating documents...`,
-      success: `Documents updated successfully!`,
-      error: `Failed to update documents. Please try again.`,
-    })
-
-    onOpenChange(false)
-    table.resetRowSelection()
-    table.setColumnFilters([])
+    onSubmit(selectedDocuments as Required<TaskDocument[]>)
   }
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(v) => {
-        onOpenChange(v)
-      }}
-    >
-      <DialogContent className='max-h-7xl flex flex-col sm:max-w-7xl'>
+    <AppDialog dialog={dialog}>
+      <DialogContent className='flex h-[80vh] max-h-[800px] flex-col sm:max-w-7xl'>
         <DialogHeader className='text-left'>
           <DialogTitle>Select Documents</DialogTitle>
           <DialogDescription>
             Select one or more documents from the list below
           </DialogDescription>
         </DialogHeader>
-        <div className='flex-1 overflow-hidden'>
-          {isLoading || updateTaskDocumentsMutation.isPending ? (
+        <div className='flex-1 overflow-auto'>
+          {isLoading ? (
             <DataTableSkeleton columnCount={10} rowCount={10} withViewOptions />
           ) : noDocuments ? (
             <EmptyState />
           ) : (
-            <ScrollArea className='h-full'>
-              <DataTable table={table} />
-            </ScrollArea>
+            <DataTable table={table} className='h-full' />
           )}
         </div>
         <DialogFooter className='gap-2'>
-          <DialogClose asChild>
-            <Button variant='outline'>Close</Button>
-          </DialogClose>
+          <Button variant='outline' onClick={dialog.close}>
+            Close
+          </Button>
           <Button
             onClick={handleSaveSelection}
             disabled={
@@ -269,17 +268,10 @@ export function SelectDocumentDialog({
               table.getFilteredSelectedRowModel().rows.length === 0
             }
           >
-            {updateTaskDocumentsMutation.isPending ? (
-              <>
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                Updating...
-              </>
-            ) : (
-              'Confirm'
-            )}
+            Confirm
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
+    </AppDialog>
   )
 }

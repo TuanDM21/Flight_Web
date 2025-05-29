@@ -3,7 +3,7 @@ import $queryClient from '@/api'
 import { taskKeysFactory } from '@/api/query-key-factory'
 import { Task } from '@/features/tasks/types'
 
-export const useDeleteTaskMutation = (currentRowId?: number | null) => {
+export const useDeleteTask = () => {
   const queryClient = useQueryClient()
 
   return $queryClient.useMutation('delete', '/api/tasks/{id}', {
@@ -58,9 +58,9 @@ export const useDeleteTaskMutation = (currentRowId?: number | null) => {
         queryClient.invalidateQueries({
           queryKey: taskKeysFactory.detail(Number(taskId)),
         })
-      } else if (currentRowId) {
+      } else if (taskId) {
         queryClient.invalidateQueries({
-          queryKey: taskKeysFactory.detail(Number(currentRowId)),
+          queryKey: taskKeysFactory.detail(Number(taskId)),
         })
       }
     },

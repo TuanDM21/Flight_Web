@@ -1,16 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
-import $queryClient from '@/api'
-import PageSkeleton from '@/components/page-skeleton'
+import PageTableSkeleton from '@/components/page-table-skeleton'
 import { TaskListPage } from '@/features/tasks'
+import { getTaskListQueryOptions } from '@/features/tasks/hooks/use-view-task'
 
-export const getTaskListQueryOptions = () =>
-  $queryClient.queryOptions('get', '/api/tasks')
 export const Route = createFileRoute('/_authenticated/tasks/')({
   loader: ({ context: { queryClient } }) => {
     return queryClient.ensureQueryData(getTaskListQueryOptions())
   },
   component: TaskListPage,
-  pendingComponent: PageSkeleton,
+  pendingComponent: PageTableSkeleton,
 })
 
 export { Route as TaskListRoute }

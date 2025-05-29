@@ -4,13 +4,11 @@ import { ColumnDef } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
 import { dateFormatPatterns } from '@/config/date'
 import { FileChartPie, FilePlus2Icon, MoreHorizontal } from 'lucide-react'
-import { toast } from 'sonner'
-import { useTasks } from '@/context/task'
 import { useDataTable } from '@/hooks/use-data-table'
+import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
-  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -22,26 +20,29 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ConfirmDialog } from '@/components/confirm-dialog'
+import { AppConfirmDialog } from '@/components/app-confirm-dialog'
+import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import { TaskDocument } from '@/features/tasks/types'
-import { useDeleteBulkTaskDocumentsMutation } from '../hooks/use-delete-bulk-task-documents'
 import { useViewTaskDocuments } from '../hooks/use-view-task-documents'
+import DeleteTaskDocumentsConfirmDialog from './delete-task-document-confirm-dialog'
+import { SelectDocumentsDialog } from './select-documents-dialog'
 
 interface Props {
-  open: boolean
-  onOpenChange: (open: boolean) => void
   taskId: number
+  dialog: AppDialogInstance
 }
 
-export function ViewDocumentDialog({ open, onOpenChange, taskId }: Props) {
+export function ViewDocumentDialog({ taskId, dialog }: Props) {
   const { data: taskDocuments, isLoading: isTaskDocumentsLoading } =
     useViewTaskDocuments(taskId)
 
-  const { setOpenSelectDocuments } = useTasks()
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const deleteDocumentsDialogInstance = AppConfirmDialog.useDialog()
+  const [selectedDocumentIds, setSelectedDocumentIds] = useState<number[]>([])
+
+  const selectDocumentDialogInstance = AppDialog.useDialog()
 
   const documentColumns: ColumnDef<TaskDocument>[] = [
     {
@@ -194,54 +195,58 @@ export function ViewDocumentDialog({ open, onOpenChange, taskId }: Props) {
   })
 
   const selectedDocumentRows = documentsTable.getFilteredSelectedRowModel().rows
-  const deleteBulkTaskDocumentsMutation = useDeleteBulkTaskDocumentsMutation()
-
-  const handleOpenChange = (isOpen: boolean) => {
-    if (!isOpen) {
-      documentsTable.resetRowSelection()
-    }
-    onOpenChange(isOpen)
-  }
 
   const handleDeleteTaskDocuments = () => {
-    setShowDeleteConfirm(true)
-  }
-
-  const confirmDeleteTaskDocuments = () => {
-    if (!taskId) return
-
     const deleteDocumentIds = selectedDocumentRows.map(
       (row) => row.original.id
     ) as number[]
 
-    const promise = deleteBulkTaskDocumentsMutation.mutateAsync({
-      params: {
-        query: {
-          taskId: taskId,
-        },
-      },
-      body: deleteDocumentIds,
-    })
-
-    toast.promise(promise, {
-      loading: 'Deleting task documents...',
-      success: 'Task documents deleted successfully',
-      error: 'Error deleting task documents',
-    })
-
-    documentsTable.resetRowSelection()
-    setShowDeleteConfirm(false)
+    setSelectedDocumentIds(deleteDocumentIds)
+    deleteDocumentsDialogInstance.open()
   }
 
   const handleAddDocument = () => {
-    setOpenSelectDocuments(true)
+    selectDocumentDialogInstance.open()
   }
 
   const noDocuments = !taskDocuments?.data || taskDocuments.data.length === 0
 
+  const getSelectedDocumentIds = () => {
+    return (
+      (taskDocuments?.data?.map((doc) => doc.id).filter(Boolean) as number[]) ||
+      []
+    )
+  }
+
   return (
     <>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
+      {selectedDocumentIds.length > 0 &&
+        deleteDocumentsDialogInstance.isOpen && (
+          <DeleteTaskDocumentsConfirmDialog
+            taskId={taskId}
+            documentIds={selectedDocumentIds}
+            onSuccess={() => {
+              documentsTable.resetRowSelection()
+              setSelectedDocumentIds([])
+              deleteDocumentsDialogInstance.close()
+            }}
+            dialog={deleteDocumentsDialogInstance}
+          />
+        )}
+
+      {selectDocumentDialogInstance.isOpen && (
+        <SelectDocumentsDialog
+          taskId={taskId}
+          getSelectedDocumentIds={getSelectedDocumentIds}
+          onSuccess={() => {
+            documentsTable.resetRowSelection()
+            selectDocumentDialogInstance.close()
+          }}
+          dialog={selectDocumentDialogInstance}
+        />
+      )}
+
+      <AppDialog dialog={dialog}>
         <DialogContent
           className='max-h-7xl flex flex-col sm:max-w-7xl'
           onPointerDownOutside={(e) => e.preventDefault()}
@@ -284,7 +289,6 @@ export function ViewDocumentDialog({ open, onOpenChange, taskId }: Props) {
                       variant='destructive'
                       className='space-x-2'
                       onClick={handleDeleteTaskDocuments}
-                      disabled={deleteBulkTaskDocumentsMutation.isPending}
                     >
                       <IconTrash className='h-4 w-4' />
                       <span>Remove ({selectedDocumentRows.length})</span>
@@ -300,32 +304,7 @@ export function ViewDocumentDialog({ open, onOpenChange, taskId }: Props) {
             )}
           </div>
         </DialogContent>
-      </Dialog>
-
-      <ConfirmDialog
-        open={showDeleteConfirm}
-        onOpenChange={setShowDeleteConfirm}
-        title='Delete Documents'
-        destructive
-        handleConfirm={confirmDeleteTaskDocuments}
-        isLoading={deleteBulkTaskDocumentsMutation.isPending}
-        desc={
-          <div className='space-y-2'>
-            <p className='text-muted-foreground text-sm'>
-              You are about to delete{' '}
-              <span className='text-foreground font-medium'>
-                {selectedDocumentRows.length} document
-                {selectedDocumentRows.length > 1 ? 's' : ''}
-              </span>{' '}
-              from this task.
-            </p>
-            <p className='text-muted-foreground text-sm'>
-              All associated files and data will be permanently removed. This
-              action cannot be undone.
-            </p>
-          </div>
-        }
-      />
+      </AppDialog>
     </>
   )
 }
