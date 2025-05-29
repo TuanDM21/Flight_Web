@@ -289,7 +289,7 @@ export interface paths {
         };
         /**
          * Xem chi tiết file đính kèm
-         * @description Lấy chi tiết một file đính kèm theo id
+         * @description Lấy chi tiết một file đính kèm theo ID
          */
         get: operations["getAttachmentById"];
         /**
@@ -299,8 +299,8 @@ export interface paths {
         put: operations["updateAttachment"];
         post?: never;
         /**
-         * Xoá file đính kèm
-         * @description Xoá file đính kèm trên Azure Blob và database theo id
+         * Xóa file đính kèm
+         * @description Xóa file đính kèm khỏi Azure Blob Storage và database
          */
         delete: operations["deleteAttachment"];
         options?: never;
@@ -820,7 +820,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/attachments/upload-multi": {
+    "/api/attachments/generate-upload-urls": {
         parameters: {
             query?: never;
             header?: never;
@@ -830,10 +830,30 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Upload nhiều file lên Azure Blob Storage
-         * @description Upload nhiều file và trả về thông tin file đính kèm
+         * Tạo pre-signed URL để upload file
+         * @description Tạo pre-signed URL để client upload file trực tiếp lên Azure Blob Storage. Tự động detect và xử lý cả single file (1 file) và multiple files (nhiều file)
          */
-        post: operations["uploadMultipleFiles"];
+        post: operations["generateUploadUrls"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/confirm-upload": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Xác nhận upload thành công
+         * @description Xác nhận file đã được upload thành công qua pre-signed URL. Tự động detect và xử lý cả single file và multiple files
+         */
+        post: operations["confirmUpload"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1332,6 +1352,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/tasks/my": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Lấy công việc của tôi theo loại
+         * @description Lấy danh sách công việc theo loại: created (đã tạo), assigned (đã giao), received (được giao)
+         */
+        get: operations["getMyTasks"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/task-documents": {
         parameters: {
             query?: never;
@@ -1493,9 +1533,29 @@ export interface paths {
         };
         /**
          * Lấy tất cả file đính kèm
-         * @description Lấy tất cả file đính kèm đã upload
+         * @description Lấy danh sách tất cả file đính kèm đã upload
          */
         get: operations["getAllAttachments"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/download-url/{attachmentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Tạo pre-signed URL để download file
+         * @description Tạo pre-signed URL để download file từ Azure Blob Storage
+         */
+        get: operations["generateDownloadUrl"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1692,6 +1752,26 @@ export interface paths {
         put?: never;
         post?: never;
         delete: operations["deleteNotification"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xóa nhiều file đính kèm
+         * @description Xóa nhiều file đính kèm khỏi Azure Blob Storage và database
+         */
+        delete: operations["bulkDeleteAttachments"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2120,8 +2200,8 @@ export interface components {
         UpdateAttachmentFileNameRequest: {
             fileName?: string;
         };
-        /** @description API response for a single attachment */
-        ApiAttachmentResponse: {
+        /** @description API response for updating attachment */
+        ApiUpdateAttachmentResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -2498,8 +2578,105 @@ export interface components {
             /** Format: int64 */
             expiresIn?: number;
         };
-        /** @description API response for list of attachments */
-        ApiAttachmentListResponse: {
+        /**
+         * @description Thông tin file upload
+         * @example [
+         *       {
+         *         "fileName": "document.pdf",
+         *         "fileSize": 1024000,
+         *         "contentType": "application/pdf"
+         *       }
+         *     ]
+         */
+        FileUploadInfo: {
+            /**
+             * @description Tên file gốc
+             * @example document.pdf
+             */
+            fileName: string;
+            /**
+             * Format: int64
+             * @description Kích thước file (bytes)
+             * @example 1024000
+             */
+            fileSize: number;
+            /**
+             * @description Loại content của file
+             * @example application/pdf
+             */
+            contentType: string;
+        };
+        /** @description Request để upload file - hỗ trợ cả single và multiple files */
+        FlexibleUploadRequest: {
+            /**
+             * @description Danh sách file cần upload
+             * @example [
+             *       {
+             *         "fileName": "document.pdf",
+             *         "fileSize": 1024000,
+             *         "contentType": "application/pdf"
+             *       }
+             *     ]
+             */
+            files: components["schemas"]["FileUploadInfo"][];
+        };
+        /** @description API response for generating pre-signed upload URLs */
+        ApiGenerateUploadUrlsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["FlexiblePreSignedUrlResponse"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Response cho pre-signed URL - hỗ trợ cả single và multiple files */
+        FlexiblePreSignedUrlResponse: {
+            /** @description Danh sách pre-signed URL response */
+            files: components["schemas"]["PreSignedUrlResponse"][];
+            /**
+             * @description Thông báo kết quả
+             * @example Tạo thành công 3 pre-signed URL
+             */
+            message?: string;
+        };
+        /** @description Danh sách pre-signed URL response */
+        PreSignedUrlResponse: {
+            uploadUrl?: string;
+            /** Format: int32 */
+            attachmentId?: number;
+            fileName?: string;
+            uniqueFileName?: string;
+            /** Format: date-time */
+            expiryTime?: string;
+            fileUrl?: string;
+            instructions?: string;
+            error?: string;
+        };
+        /** @description Request để xác nhận upload file - hỗ trợ cả single và multiple files */
+        ConfirmFlexibleUploadRequest: {
+            /**
+             * @description Danh sách ID của attachment cần xác nhận upload
+             * @example [
+             *       123,
+             *       124,
+             *       125
+             *     ]
+             */
+            attachmentIds: number[];
+        };
+        /** @description API response for confirming upload */
+        ApiConfirmUploadResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -3172,6 +3349,68 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description API response for list of attachments */
+        ApiAttachmentListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AttachmentDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for a single attachment */
+        ApiAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AttachmentDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for generating download URL */
+        ApiDownloadUrlResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         /** @description API response for delete user, data is Void */
         ApiDeleteUserResponse: {
             /**
@@ -3208,6 +3447,48 @@ export interface components {
             statusCode?: number;
             /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for deleting attachment */
+        ApiDeleteAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for bulk delete attachments */
+        ApiBulkDeleteAttachmentResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -4117,8 +4398,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy chi tiết file thành công */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -4149,7 +4439,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiUpdateAttachmentResponse"];
                 };
             };
             /** @description Không tìm thấy file đính kèm */
@@ -4158,7 +4448,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiUpdateAttachmentResponse"];
                 };
             };
         };
@@ -4174,13 +4464,31 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Xóa file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentResponse"];
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Lỗi server khi xóa file */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteAttachmentResponse"];
                 };
             };
         };
@@ -5181,28 +5489,86 @@ export interface operations {
             };
         };
     };
-    uploadMultipleFiles: {
+    generateUploadUrls: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
-                "multipart/form-data": {
-                    files: string[];
-                };
+                "application/json": components["schemas"]["FlexibleUploadRequest"];
             };
         };
         responses: {
-            /** @description Upload file thành công */
-            201: {
+            /** @description Tạo pre-signed URL thành công */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+            /** @description Dữ liệu đầu vào không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+            /** @description Lỗi server khi tạo pre-signed URL */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiGenerateUploadUrlsResponse"];
+                };
+            };
+        };
+    };
+    confirmUpload: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmFlexibleUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Xác nhận upload thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
+                };
+            };
+            /** @description Không tìm thấy file hoặc upload thất bại */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
+                };
+            };
+            /** @description Lỗi server khi xác nhận upload */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiConfirmUploadResponse"];
                 };
             };
         };
@@ -5909,6 +6275,37 @@ export interface operations {
             };
         };
     };
+    getMyTasks: {
+        parameters: {
+            query: {
+                type: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTasksResponse"];
+                };
+            };
+            /** @description Tham số type không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAllTasksResponse"];
+                };
+            };
+        };
+    };
     getDocumentsByTask: {
         parameters: {
             query: {
@@ -6109,13 +6506,53 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Lấy danh sách file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "*/*": components["schemas"]["ApiAttachmentListResponse"];
+                };
+            };
+        };
+    };
+    generateDownloadUrl: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                attachmentId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Tạo download URL thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
+                };
+            };
+            /** @description Lỗi server khi tạo download URL */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiDownloadUrlResponse"];
                 };
             };
         };
@@ -6358,6 +6795,48 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    bulkDeleteAttachments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmFlexibleUploadRequest"];
+            };
+        };
+        responses: {
+            /** @description Xóa file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Không tìm thấy một hoặc nhiều file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
+            };
+            /** @description Lỗi server khi xóa file */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteAttachmentResponse"];
+                };
             };
         };
     };
