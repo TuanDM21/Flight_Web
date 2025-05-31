@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { dateFormatPatterns } from '@/config/date'
 import { MessageCircle } from 'lucide-react'
+import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/card'
 import { Mention, MentionInput } from '@/components/ui/mention'
 import {
-  Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -20,19 +20,18 @@ import {
 } from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
+import { AppSheet } from '@/components/app-sheet'
 import { useCreateTaskAssignmentComment } from '../hooks/use-create-task-assignment-comment'
 import { useViewTaskAssignmentComments } from '../hooks/use-view-task-assignment-comments'
 
-interface TaskAssignmentCommentsProps {
+interface TaskAssignmentCommentsSheetProps {
   assignmentId: number
-  isOpen: boolean
-  onClose: () => void
+  dialog: AppDialogInstance
 }
-export const TaskAssignmentComments: React.FC<TaskAssignmentCommentsProps> = ({
-  assignmentId,
-  isOpen,
-  onClose,
-}) => {
+
+export const TaskAssignmentCommentsSheet: React.FC<
+  TaskAssignmentCommentsSheetProps
+> = ({ assignmentId, dialog }) => {
   const { data: comments, isLoading: isCommentsLoading } =
     useViewTaskAssignmentComments(assignmentId)
   const createTaskAssignmentCommentMutation =
@@ -81,8 +80,9 @@ export const TaskAssignmentComments: React.FC<TaskAssignmentCommentsProps> = ({
       handleReply()
     }
   }
+
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
+    <AppSheet dialog={dialog}>
       <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
           <SheetTitle>Comments for Assignment #{assignmentId}</SheetTitle>
@@ -179,6 +179,6 @@ export const TaskAssignmentComments: React.FC<TaskAssignmentCommentsProps> = ({
           </div>
         </div>
       </SheetContent>
-    </Sheet>
+    </AppSheet>
   )
 }

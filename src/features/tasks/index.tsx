@@ -3,12 +3,10 @@
 import * as React from 'react'
 import { format } from 'date-fns'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import {
-  getTaskListQueryOptions,
-  TaskListRoute,
-} from '@/routes/_authenticated/tasks'
+import { TaskListRoute } from '@/routes/_authenticated/tasks'
 import {
   BadgeCheck,
   CalendarSearch,
@@ -21,8 +19,8 @@ import { parseAsString, useQueryState } from 'nuqs'
 import { getValidFilters } from '@/lib/data-table'
 import { filterColumns } from '@/lib/filter-columns'
 import { sortColumns } from '@/lib/sort-columns'
-import TasksProvider from '@/context/task'
 import { useDataTable } from '@/hooks/use-data-table'
+import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { DataTable } from '@/components/data-table/data-table'
@@ -32,13 +30,13 @@ import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-m
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
 import { Task, TaskFilters } from '@/features/tasks/types'
 import { TaskRowActions } from './components/task-row-actions'
-import { TaskDialogManager } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import { TasksTableActionBar } from './components/tasks-table-action-bar'
+import { getTaskListQueryOptions } from './hooks/use-view-task'
 import { taskSearchParamsCache, taskStatusOptions } from './utils'
 
 export function TaskListPage() {
-  const { data: getTaskListQuery } = useSuspenseQuery(getTaskListQueryOptions())
+  const { data: taskList } = useSuspenseQuery(getTaskListQueryOptions())
   const [queryFilter, setQueryFilter] = useQueryState(
     'q',
     parseAsString.withDefault('')
@@ -52,7 +50,7 @@ export function TaskListPage() {
   const isFiltering = Boolean(queryFilter) || validFilters.length > 0
 
   const filteredData = React.useMemo((): Task[] => {
-    const tasks = getTaskListQuery.data ?? []
+    const tasks = taskList.data ?? []
 
     // Text search filter
     let filteredTasks = tasks
@@ -87,7 +85,7 @@ export function TaskListPage() {
     }
 
     return filteredTasks
-  }, [getTaskListQuery.data, queryFilter, validFilters, search.sort])
+  }, [taskList.data, queryFilter, validFilters, search.sort])
 
   const columns = React.useMemo<ColumnDef<Task>[]>(
     () => [
@@ -131,7 +129,16 @@ export function TaskListPage() {
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title='Task ID' />
         ),
-        cell: ({ cell }) => <div>#{cell.getValue<number>() ?? 'N/A'}</div>,
+        cell: ({ cell }) => {
+          const taskId = cell.getValue<number>()
+          return (
+            <Button variant='link' size='sm' asChild className='h-auto p-0'>
+              <Link to='/tasks/$task-id' params={{ 'task-id': String(taskId) }}>
+                #{taskId ?? 'N/A'}
+              </Link>
+            </Button>
+          )
+        },
         meta: {
           className: '',
           label: 'Task ID',
@@ -266,46 +273,43 @@ export function TaskListPage() {
   })
 
   return (
-    <TasksProvider>
-      <TaskDialogManager />
-      <div className='px-4 py-2'>
-        <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
-          <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Tasks</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of your tasks for this month!
-            </p>
-          </div>
-          <TasksPrimaryButtons />
+    <div className='px-4 py-2'>
+      <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
+        <div>
+          <h2 className='text-2xl font-bold tracking-tight'>Tasks</h2>
+          <p className='text-muted-foreground'>
+            Here&apos;s a list of your tasks for this month!
+          </p>
         </div>
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <DataTable table={table}>
-              <TasksTableActionBar table={table} />
-              <DataTableAdvancedToolbar table={table}>
-                <DataTableSortList table={table} />
-                <DataTableFilterMenu
-                  table={table}
-                  shallow={shallow}
-                  debounceMs={debounceMs}
-                  throttleMs={throttleMs}
-                />
-                <div className='flex items-center gap-2'>
-                  <Search
-                    className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
-                  />
-                  <Input
-                    placeholder='Search tasks...'
-                    className={`w-full pl-8 ${isFiltering ? 'border-primary' : ''}`}
-                    value={queryFilter}
-                    onChange={(e) => void setQueryFilter(e.target.value)}
-                  />
-                </div>
-              </DataTableAdvancedToolbar>
-            </DataTable>
-          </React.Suspense>
-        </div>
+        <TasksPrimaryButtons />
       </div>
-    </TasksProvider>
+      <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+        <React.Suspense fallback={<div>Loading...</div>}>
+          <DataTable table={table}>
+            <TasksTableActionBar table={table} />
+            <DataTableAdvancedToolbar table={table}>
+              <DataTableSortList table={table} />
+              <DataTableFilterMenu
+                table={table}
+                shallow={shallow}
+                debounceMs={debounceMs}
+                throttleMs={throttleMs}
+              />
+              <div className='flex items-center gap-2'>
+                <Search
+                  className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
+                />
+                <Input
+                  placeholder='Search tasks...'
+                  className={`w-full pl-8 ${isFiltering ? 'border-primary' : ''}`}
+                  value={queryFilter}
+                  onChange={(e) => void setQueryFilter(e.target.value)}
+                />
+              </div>
+            </DataTableAdvancedToolbar>
+          </DataTable>
+        </React.Suspense>
+      </div>
+    </div>
   )
 }

@@ -25,6 +25,7 @@ import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
+import { Route as AuthenticatedDocumentsIndexImport } from './routes/_authenticated/documents/index'
 import { Route as AuthenticatedChatsIndexImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAppsIndexImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedTasksCreateImport } from './routes/_authenticated/tasks/create'
@@ -32,7 +33,11 @@ import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_aut
 import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedDocumentsCreateImport } from './routes/_authenticated/documents/create'
+import { Route as AuthenticatedTasksTaskIdIndexImport } from './routes/_authenticated/tasks/$task-id/index'
+import { Route as AuthenticatedDocumentsDocumentIdIndexImport } from './routes/_authenticated/documents/$document-id/index'
 import { Route as AuthenticatedTasksTaskIdEditImport } from './routes/_authenticated/tasks/$task-id/edit'
+import { Route as AuthenticatedDocumentsDocumentIdEditImport } from './routes/_authenticated/documents/$document-id/edit'
 
 // Create/Update Routes
 
@@ -124,6 +129,13 @@ const AuthenticatedHelpCenterIndexRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
+const AuthenticatedDocumentsIndexRoute =
+  AuthenticatedDocumentsIndexImport.update({
+    id: '/documents/',
+    path: '/documents/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexImport.update({
   id: '/chats/',
   path: '/chats/',
@@ -170,10 +182,38 @@ const AuthenticatedSettingsAccountRoute =
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
 
+const AuthenticatedDocumentsCreateRoute =
+  AuthenticatedDocumentsCreateImport.update({
+    id: '/documents/create',
+    path: '/documents/create',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedTasksTaskIdIndexRoute =
+  AuthenticatedTasksTaskIdIndexImport.update({
+    id: '/tasks/$task-id/',
+    path: '/tasks/$task-id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedDocumentsDocumentIdIndexRoute =
+  AuthenticatedDocumentsDocumentIdIndexImport.update({
+    id: '/documents/$document-id/',
+    path: '/documents/$document-id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedTasksTaskIdEditRoute =
   AuthenticatedTasksTaskIdEditImport.update({
     id: '/tasks/$task-id/edit',
     path: '/tasks/$task-id/edit',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedDocumentsDocumentIdEditRoute =
+  AuthenticatedDocumentsDocumentIdEditImport.update({
+    id: '/documents/$document-id/edit',
+    path: '/documents/$document-id/edit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -251,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/documents/create': {
+      id: '/_authenticated/documents/create'
+      path: '/documents/create'
+      fullPath: '/documents/create'
+      preLoaderRoute: typeof AuthenticatedDocumentsCreateImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/settings/account': {
       id: '/_authenticated/settings/account'
       path: '/account'
@@ -300,6 +347,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedChatsIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/documents/': {
+      id: '/_authenticated/documents/'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AuthenticatedDocumentsIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -328,11 +382,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/documents/$document-id/edit': {
+      id: '/_authenticated/documents/$document-id/edit'
+      path: '/documents/$document-id/edit'
+      fullPath: '/documents/$document-id/edit'
+      preLoaderRoute: typeof AuthenticatedDocumentsDocumentIdEditImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/tasks/$task-id/edit': {
       id: '/_authenticated/tasks/$task-id/edit'
       path: '/tasks/$task-id/edit'
       fullPath: '/tasks/$task-id/edit'
       preLoaderRoute: typeof AuthenticatedTasksTaskIdEditImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/documents/$document-id/': {
+      id: '/_authenticated/documents/$document-id/'
+      path: '/documents/$document-id'
+      fullPath: '/documents/$document-id'
+      preLoaderRoute: typeof AuthenticatedDocumentsDocumentIdIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/tasks/$task-id/': {
+      id: '/_authenticated/tasks/$task-id/'
+      path: '/tasks/$task-id'
+      fullPath: '/tasks/$task-id'
+      preLoaderRoute: typeof AuthenticatedTasksTaskIdIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
   }
@@ -366,25 +441,37 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedDocumentsCreateRoute: typeof AuthenticatedDocumentsCreateRoute
   AuthenticatedTasksCreateRoute: typeof AuthenticatedTasksCreateRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedDocumentsIndexRoute: typeof AuthenticatedDocumentsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedDocumentsDocumentIdEditRoute: typeof AuthenticatedDocumentsDocumentIdEditRoute
   AuthenticatedTasksTaskIdEditRoute: typeof AuthenticatedTasksTaskIdEditRoute
+  AuthenticatedDocumentsDocumentIdIndexRoute: typeof AuthenticatedDocumentsDocumentIdIndexRoute
+  AuthenticatedTasksTaskIdIndexRoute: typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedDocumentsCreateRoute: AuthenticatedDocumentsCreateRoute,
   AuthenticatedTasksCreateRoute: AuthenticatedTasksCreateRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedDocumentsIndexRoute: AuthenticatedDocumentsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedDocumentsDocumentIdEditRoute:
+    AuthenticatedDocumentsDocumentIdEditRoute,
   AuthenticatedTasksTaskIdEditRoute: AuthenticatedTasksTaskIdEditRoute,
+  AuthenticatedDocumentsDocumentIdIndexRoute:
+    AuthenticatedDocumentsDocumentIdIndexRoute,
+  AuthenticatedTasksTaskIdIndexRoute: AuthenticatedTasksTaskIdIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -401,6 +488,7 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -408,11 +496,15 @@ export interface FileRoutesByFullPath {
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/documents': typeof AuthenticatedDocumentsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
+  '/tasks/$task-id': typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -424,6 +516,7 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -431,11 +524,15 @@ export interface FileRoutesByTo {
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
+  '/documents': typeof AuthenticatedDocumentsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
+  '/tasks/$task-id': typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -450,6 +547,7 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -457,11 +555,15 @@ export interface FileRoutesById {
   '/_authenticated/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/documents/': typeof AuthenticatedDocumentsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/_authenticated/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/_authenticated/documents/$document-id/': typeof AuthenticatedDocumentsDocumentIdIndexRoute
+  '/_authenticated/tasks/$task-id/': typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -477,6 +579,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/documents/create'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -484,11 +587,15 @@ export interface FileRouteTypes {
     | '/tasks/create'
     | '/apps'
     | '/chats'
+    | '/documents'
     | '/help-center'
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
+    | '/documents/$document-id'
+    | '/tasks/$task-id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sign-in'
@@ -499,6 +606,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/documents/create'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -506,11 +614,15 @@ export interface FileRouteTypes {
     | '/tasks/create'
     | '/apps'
     | '/chats'
+    | '/documents'
     | '/help-center'
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
+    | '/documents/$document-id'
+    | '/tasks/$task-id'
   id:
     | '__root__'
     | '/_authenticated'
@@ -523,6 +635,7 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/documents/create'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -530,11 +643,15 @@ export interface FileRouteTypes {
     | '/_authenticated/tasks/create'
     | '/_authenticated/apps/'
     | '/_authenticated/chats/'
+    | '/_authenticated/documents/'
     | '/_authenticated/help-center/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/documents/$document-id/edit'
     | '/_authenticated/tasks/$task-id/edit'
+    | '/_authenticated/documents/$document-id/'
+    | '/_authenticated/tasks/$task-id/'
   fileRoutesById: FileRoutesById
 }
 
@@ -585,13 +702,18 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/settings",
         "/_authenticated/",
+        "/_authenticated/documents/create",
         "/_authenticated/tasks/create",
         "/_authenticated/apps/",
         "/_authenticated/chats/",
+        "/_authenticated/documents/",
         "/_authenticated/help-center/",
         "/_authenticated/tasks/",
         "/_authenticated/users/",
-        "/_authenticated/tasks/$task-id/edit"
+        "/_authenticated/documents/$document-id/edit",
+        "/_authenticated/tasks/$task-id/edit",
+        "/_authenticated/documents/$document-id/",
+        "/_authenticated/tasks/$task-id/"
       ]
     },
     "/_authenticated/settings": {
@@ -630,6 +752,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/documents/create": {
+      "filePath": "_authenticated/documents/create.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/settings/account": {
       "filePath": "_authenticated/settings/account.tsx",
       "parent": "/_authenticated/settings"
@@ -658,6 +784,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/chats/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/documents/": {
+      "filePath": "_authenticated/documents/index.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/help-center/": {
       "filePath": "_authenticated/help-center/index.tsx",
       "parent": "/_authenticated"
@@ -674,8 +804,20 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/users/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/documents/$document-id/edit": {
+      "filePath": "_authenticated/documents/$document-id/edit.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/tasks/$task-id/edit": {
       "filePath": "_authenticated/tasks/$task-id/edit.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/documents/$document-id/": {
+      "filePath": "_authenticated/documents/$document-id/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/tasks/$task-id/": {
+      "filePath": "_authenticated/tasks/$task-id/index.tsx",
       "parent": "/_authenticated"
     }
   }
