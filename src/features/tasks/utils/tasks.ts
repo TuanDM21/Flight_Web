@@ -11,7 +11,10 @@ export const taskSearchParamsCache = z.object({
   sort: z.array(sortingItemSchema).default([{ id: 'createdAt', desc: true }]),
 })
 
-export const taskStatusLabels: Record<TaskAssignmentStatus, string> = {
+export const allTaskAssignmentStatusLabels: Record<
+  TaskAssignmentStatus,
+  string
+> = {
   ASSIGNED: 'Assigned',
   IN_PROGRESS: 'In Progress',
   SUBMITTED: 'Submitted',

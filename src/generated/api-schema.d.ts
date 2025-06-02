@@ -39,9 +39,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get user shift by ID
+         * @description Retrieve a user shift by their ID
+         */
         get: operations["getUserShiftById"];
+        /**
+         * Update user shift
+         * @description Update an existing user shift
+         */
         put: operations["updateUserShift"];
         post?: never;
+        /**
+         * Delete user shift
+         * @description Delete a user shift by ID
+         */
         delete: operations["deleteUserShift"];
         options?: never;
         head?: never;
@@ -308,30 +320,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/attachments/shares/{shareId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * Cập nhật quyền chia sẻ file
-         * @description Cập nhật quyền truy cập và thông tin chia sẻ file
-         */
-        put: operations["updateFileShare"];
-        post?: never;
-        /**
-         * Hủy chia sẻ file
-         * @description Hủy chia sẻ file với user cụ thể
-         */
-        delete: operations["revokeFileShare"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/assignments/{id}": {
         parameters: {
             query?: never;
@@ -484,6 +472,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/user-shifts/batch": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Assign multiple shifts
+         * @description Assign multiple shifts to users in batch
+         */
+        post: operations["saveUserShiftsBatch"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/user-shifts/assign": {
         parameters: {
             query?: never;
@@ -493,6 +501,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Assign shift to user
+         * @description Assign a specific shift to a user on a given date
+         */
         post: operations["assignShiftToUser"];
         delete?: never;
         options?: never;
@@ -509,6 +521,10 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        /**
+         * Apply shift to multiple users
+         * @description Apply a shift to multiple users at once
+         */
         post: operations["applyShiftToUsers"];
         delete?: never;
         options?: never;
@@ -854,8 +870,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Chia sẻ file cho user khác (Batch Support)
-         * @description Chia sẻ một hoặc nhiều file đính kèm cho một hoặc nhiều user khác với quyền truy cập cụ thể. Hỗ trợ chia sẻ batch: có thể chia sẻ nhiều file cùng lúc cho nhiều user. Format: attachmentIds=[1,2,3], sharedWithUserIds=[4,5,6]
+         * Chia sẻ file với user khác
+         * @description Chia sẻ file với danh sách user thông qua User ID. Tất cả file share đều chỉ có quyền READ_ONLY.
          */
         post: operations["shareFile"];
         delete?: never;
@@ -1151,7 +1167,31 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get all user shifts
+         * @description Retrieve all user shift assignments
+         */
         get: operations["getAllUserShifts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-shifts/on-duty": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get users on duty
+         * @description Get list of user IDs who are on duty at specific date and time
+         */
+        get: operations["getUsersOnDuty"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1167,6 +1207,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get schedules by criteria
+         * @description Filter schedules by date, team, and unit
+         */
         get: operations["getSchedulesByCriteria"];
         put?: never;
         post?: never;
@@ -1183,6 +1227,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Filter schedules by user and date range
+         * @description Get schedules for a specific user within a date range
+         */
         get: operations["filterByUserAndRange"];
         put?: never;
         post?: never;
@@ -1901,6 +1949,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/attachments/shares/bulk-revoke-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Hủy chia sẻ với nhiều user cùng lúc
+         * @description Hủy chia sẻ của một file với nhiều user cụ thể. Có thể dùng để hủy chia sẻ với 1 user (truyền array 1 phần tử) hoặc nhiều user (truyền array nhiều phần tử)
+         */
+        delete: operations["bulkRevokeMultipleUsers"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/bulk-revoke-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Hủy toàn bộ chia sẻ của một file
+         * @description Hủy toàn bộ chia sẻ của một file cụ thể (bulk revoke all shares)
+         */
+        delete: operations["bulkRevokeAllShares"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/attachments/bulk-delete": {
         parameters: {
             query?: never;
@@ -2047,6 +2135,80 @@ export interface components {
             shiftDate?: string;
             /** Format: int32 */
             shiftId?: number;
+        };
+        /** @description API response for update user shift, data is UserShiftDTO */
+        ApiUpdateUserShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["UserShiftDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        UserDTO: {
+            /**
+             * Format: int32
+             * @description ID of the user
+             */
+            id: number;
+            /** @description Name of the user */
+            name: string;
+            /** @description Email of the user */
+            email: string;
+            /** @description Role name of the user */
+            roleName: string;
+            /** @description Team name of the user */
+            teamName: string;
+            /** @description Unit name of the user */
+            unitName: string;
+            /**
+             * Format: int32
+             * @description Role ID of the user
+             */
+            roleId: number;
+            /**
+             * Format: int32
+             * @description Team ID of the user
+             */
+            teamId: number;
+            /**
+             * Format: int32
+             * @description Unit ID of the user
+             */
+            unitId: number;
+            canCreateActivity?: boolean;
+            permissions?: string[];
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        UserShiftDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            userId?: number;
+            userName?: string;
+            shiftCode?: string;
+            startTime?: string;
+            endTime?: string;
+            user?: components["schemas"]["UserDTO"];
+            /** Format: date */
+            shiftDate?: string;
+            /** Format: int32 */
+            shiftId?: number;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
         UpdateUserFlightShiftRequest: {
             /** Format: date */
@@ -2328,6 +2490,8 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
             uploadedBy?: components["schemas"]["UserDTO"];
+            /** Format: int32 */
+            sharedCount?: number;
         };
         /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         DocumentDTO: {
@@ -2341,40 +2505,6 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
             attachments?: components["schemas"]["AttachmentDTO"][];
-        };
-        UserDTO: {
-            /**
-             * Format: int32
-             * @description ID of the user
-             */
-            id: number;
-            /** @description Name of the user */
-            name: string;
-            /** @description Email of the user */
-            email: string;
-            /** @description Role name of the user */
-            roleName: string;
-            /** @description Team name of the user */
-            teamName: string;
-            /** @description Unit name of the user */
-            unitName: string;
-            /**
-             * Format: int32
-             * @description Role ID of the user
-             */
-            roleId: number;
-            /**
-             * Format: int32
-             * @description Team ID of the user
-             */
-            teamId: number;
-            /**
-             * Format: int32
-             * @description Unit ID of the user
-             */
-            unitId: number;
-            canCreateActivity?: boolean;
-            permissions?: string[];
         };
         UpdateAttachmentFileNameRequest: {
             fileName?: string;
@@ -2398,113 +2528,6 @@ export interface components {
              * @example true
              */
             success?: boolean;
-        };
-        /** @description Request để cập nhật quyền chia sẻ file với hỗ trợ batch operations */
-        UpdateFileShareRequest: {
-            /**
-             * Format: int32
-             * @description ID của FileShare cụ thể cần update (dùng cho single update)
-             * @example 123
-             */
-            shareId?: number;
-            /**
-             * @description Danh sách ID của các file cần update sharing (dùng cho batch update)
-             * @example [
-             *       1,
-             *       2,
-             *       3
-             *     ]
-             */
-            attachmentIds?: number[];
-            /**
-             * @description Danh sách ID user hiện tại được chia sẻ (để add/remove)
-             * @example [
-             *       4,
-             *       5,
-             *       6
-             *     ]
-             */
-            currentSharedWithUserIds?: number[];
-            /**
-             * @description Danh sách ID user MỚI cần ADD vào sharing
-             * @example [
-             *       7,
-             *       8
-             *     ]
-             */
-            addUserIds?: number[];
-            /**
-             * @description Danh sách ID user cần REMOVE khỏi sharing
-             * @example [
-             *       9,
-             *       10
-             *     ]
-             */
-            removeUserIds?: number[];
-            /**
-             * @description Danh sách ID file MỚI cần ADD vào sharing cho cùng user group
-             * @example [
-             *       4,
-             *       5
-             *     ]
-             */
-            addAttachmentIds?: number[];
-            /**
-             * @description Danh sách ID file cần REMOVE khỏi sharing
-             * @example [
-             *       6,
-             *       7
-             *     ]
-             */
-            removeAttachmentIds?: number[];
-            /**
-             * @description Quyền truy cập file mới
-             * @enum {string}
-             */
-            permission: "READ_ONLY" | "READ_WRITE" | "READ_ONLY" | "READ_WRITE";
-            /**
-             * Format: date-time
-             * @description Thời gian hết hạn chia sẻ mới (để trống nếu không thay đổi)
-             */
-            expiresAt?: string;
-            /**
-             * @description Ghi chú mới về việc chia sẻ
-             * @example Cập nhật quyền chỉnh sửa
-             */
-            note?: string;
-            /**
-             * @description Chế độ cập nhật
-             * @enum {string}
-             */
-            updateMode?: "SINGLE" | "BATCH" | "ADD_USERS" | "REMOVE_USERS" | "ADD_FILES" | "REMOVE_FILES" | "FULL_REPLACE" | "SINGLE" | "BATCH" | "ADD_USERS" | "REMOVE_USERS" | "ADD_FILES" | "REMOVE_FILES" | "FULL_REPLACE";
-        };
-        ApiShareFileResponse: {
-            message?: string;
-            /** Format: int32 */
-            statusCode?: number;
-            data?: components["schemas"]["FileShareDTO"][];
-            success?: boolean;
-        };
-        FileShareDTO: {
-            /** Format: int32 */
-            id?: number;
-            /** Format: int32 */
-            attachmentId?: number;
-            fileName?: string;
-            filePath?: string;
-            /** Format: int64 */
-            fileSize?: number;
-            sharedBy?: components["schemas"]["UserDTO"];
-            sharedWith?: components["schemas"]["UserDTO"];
-            /** @enum {string} */
-            permission?: "READ_ONLY" | "READ_WRITE";
-            /** Format: date-time */
-            sharedAt?: string;
-            /** Format: date-time */
-            expiresAt?: string;
-            note?: string;
-            active?: boolean;
-            expired?: boolean;
         };
         UpdateAssignmentRequest: {
             recipientType?: string;
@@ -2618,6 +2641,47 @@ export interface components {
             statusCode?: number;
             /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for batch assign shifts, data is List<UserShiftDTO> */
+        ApiBatchAssignShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserShiftDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for assign shift to user, data is UserShiftDTO */
+        ApiAssignShiftResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["UserShiftDTO"];
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -2830,34 +2894,44 @@ export interface components {
             /** Format: int64 */
             expiresIn?: number;
         };
-        /** @description Request để chia sẻ file cho user khác */
-        ShareFileRequest: {
+        /** @description Request để chia sẻ file với user khác */
+        CreateFileShareRequest: {
             /**
-             * @description Danh sách ID của các file cần chia sẻ
+             * Format: int32
+             * @description ID của file cần chia sẻ
+             * @example 123
+             */
+            attachmentId: number;
+            /**
+             * @description Danh sách ID của user được chia sẻ
              * @example [
              *       1,
              *       2,
              *       3
              *     ]
              */
-            attachmentIds: number[];
-            /** @description Danh sách ID của các user được chia sẻ file */
-            sharedWithUserIds: number[];
+            userIds: number[];
+        };
+        /** @description API response for creating file share */
+        ApiCreateFileShareResponse: {
             /**
-             * @description Quyền truy cập file
-             * @enum {string}
+             * @description Thông báo kết quả
+             * @example Thành công
              */
-            permission: "READ_ONLY" | "READ_WRITE" | "READ_ONLY" | "READ_WRITE";
+            message?: string;
             /**
-             * Format: date-time
-             * @description Thời gian hết hạn chia sẻ (để trống nếu không có thời hạn)
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
              */
-            expiresAt?: string;
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
             /**
-             * @description Ghi chú về việc chia sẻ
-             * @example Chia sẻ để review tài liệu
+             * @description Trạng thái thành công hay thất bại
+             * @example true
              */
-            note?: string;
+            success?: boolean;
         };
         /**
          * @description Thông tin file upload
@@ -3155,25 +3229,90 @@ export interface components {
              */
             success?: boolean;
         };
-        UserShiftDTO: {
-            /** Format: int32 */
-            id?: number;
-            /** Format: int32 */
-            userId?: number;
-            userName?: string;
-            shiftCode?: string;
-            startTime?: string;
-            endTime?: string;
-            user?: components["schemas"]["UserDTO"];
-            /** Format: date */
-            shiftDate?: string;
-            /** Format: int32 */
-            shiftId?: number;
-            /** Format: date-time */
-            createdAt?: string;
-            /** Format: date-time */
-            updatedAt?: string;
+        /** @description API response for get all user shifts, data is List<UserShiftDTO> */
+        ApiAllUserShiftsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["UserShiftDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
         };
+        /** @description API response for get user shift by ID, data is UserShiftDTO */
+        ApiUserShiftByIdResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["UserShiftDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for users on duty, data is List<Integer> */
+        ApiUsersOnDutyResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: number[];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for get schedules, data is List<ScheduleDTO> */
+        ApiSchedulesResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["ScheduleDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         ScheduleDTO: {
             /** Format: int32 */
             scheduleId?: number;
@@ -3671,12 +3810,45 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description API response for list of file shares */
         ApiFileShareListResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
             message?: string;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
             statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: components["schemas"]["FileShareDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
             success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+        FileShareDTO: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: int32 */
+            attachmentId?: number;
+            fileName?: string;
+            filePath?: string;
+            /** Format: int64 */
+            fileSize?: number;
+            sharedBy?: components["schemas"]["UserDTO"];
+            sharedWith?: components["schemas"]["UserDTO"];
+            /** Format: date-time */
+            sharedAt?: string;
+            note?: string;
+            /** Format: int32 */
+            sharedCount?: number;
+            active?: boolean;
         };
         /** @description API response for generating download URL */
         ApiDownloadUrlResponse: {
@@ -3701,6 +3873,27 @@ export interface components {
         };
         /** @description API response for delete user, data is Void */
         ApiDeleteUserResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for delete user shift, data is null */
+        ApiDeleteUserShiftResponse: {
             /**
              * @description Thông báo kết quả
              * @example Thành công
@@ -3761,6 +3954,24 @@ export interface components {
              * @example true
              */
             success?: boolean;
+        };
+        /** @description Request để xóa nhiều người khỏi chia sẻ file */
+        BulkRevokeMultipleUsersRequest: {
+            /**
+             * Format: int32
+             * @description ID của file cần xóa chia sẻ
+             */
+            attachmentId: number;
+            /** @description Danh sách ID của user cần xóa khỏi chia sẻ */
+            userIds: number[];
+        };
+        /** @description Request để xóa hết chia sẻ của một file */
+        BulkRevokeAllSharesRequest: {
+            /**
+             * Format: int32
+             * @description ID của file cần xóa hết chia sẻ
+             */
+            attachmentId: number;
         };
         /** @description API response for bulk delete attachments */
         ApiBulkDeleteAttachmentResponse: {
@@ -3891,13 +4102,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved user shift */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["UserShiftDTO"];
+                    "*/*": components["schemas"]["ApiUserShiftByIdResponse"];
+                };
+            };
+            /** @description User shift not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUserShiftByIdResponse"];
                 };
             };
         };
@@ -3917,13 +4137,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description User shift updated successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": Record<string, never>;
+                    "*/*": components["schemas"]["ApiUpdateUserShiftResponse"];
+                };
+            };
+            /** @description User shift not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateUserShiftResponse"];
                 };
             };
         };
@@ -3939,12 +4168,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description User shift deleted successfully */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteUserShiftResponse"];
+                };
             };
         };
     };
@@ -4781,90 +5012,6 @@ export interface operations {
             };
         };
     };
-    updateFileShare: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                shareId: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateFileShareRequest"];
-            };
-        };
-        responses: {
-            /** @description Cập nhật chia sẻ thành công */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-            /** @description Không có quyền cập nhật chia sẻ này */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-            /** @description Không tìm thấy chia sẻ file */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-        };
-    };
-    revokeFileShare: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                shareId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Hủy chia sẻ thành công */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-            /** @description Không có quyền hủy chia sẻ này */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-            /** @description Không tìm thấy chia sẻ file */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-        };
-    };
     getAssignmentById: {
         parameters: {
             query?: never;
@@ -5223,6 +5370,39 @@ export interface operations {
             };
         };
     };
+    saveUserShiftsBatch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AssignShiftRequest"][];
+            };
+        };
+        responses: {
+            /** @description Shifts assigned successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBatchAssignShiftResponse"];
+                };
+            };
+            /** @description Conflict in shift assignment */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBatchAssignShiftResponse"];
+                };
+            };
+        };
+    };
     assignShiftToUser: {
         parameters: {
             query?: never;
@@ -5236,13 +5416,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Shift assigned successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": Record<string, never>;
+                    "*/*": components["schemas"]["ApiAssignShiftResponse"];
+                };
+            };
+            /** @description User already has a shift on this date */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAssignShiftResponse"];
                 };
             };
         };
@@ -5260,13 +5449,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Shifts applied successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": Record<string, never>;
+                    "*/*": components["schemas"]["ApiBatchAssignShiftResponse"];
+                };
+            };
+            /** @description Conflict in applying shifts */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBatchAssignShiftResponse"];
                 };
             };
         };
@@ -5870,17 +6068,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["ShareFileRequest"];
+                "application/json": components["schemas"]["CreateFileShareRequest"];
             };
         };
         responses: {
-            /** @description Chia sẻ file thành công (có thể một phần thành công nếu là batch) */
+            /** @description Chia sẻ file thành công */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
                 };
             };
             /** @description Dữ liệu đầu vào không hợp lệ */
@@ -5889,7 +6087,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
                 };
             };
             /** @description Không có quyền chia sẻ file này */
@@ -5898,7 +6096,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
                 };
             };
             /** @description Không tìm thấy file đính kèm */
@@ -5907,16 +6105,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
-                };
-            };
-            /** @description Lỗi server khi chia sẻ file */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
                 };
             };
         };
@@ -6397,13 +6586,36 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved all user shifts */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["UserShiftDTO"][];
+                    "*/*": components["schemas"]["ApiAllUserShiftsResponse"];
+                };
+            };
+        };
+    };
+    getUsersOnDuty: {
+        parameters: {
+            query: {
+                date: string;
+                time: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved users on duty */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUsersOnDutyResponse"];
                 };
             };
         };
@@ -6421,13 +6633,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully filtered schedules */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ScheduleDTO"][];
+                    "*/*": components["schemas"]["ApiSchedulesResponse"];
                 };
             };
         };
@@ -6445,13 +6657,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully filtered schedules by user and date range */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["ScheduleDTO"][];
+                    "*/*": components["schemas"]["ApiSchedulesResponse"];
                 };
             };
         };
@@ -7347,6 +7559,90 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    bulkRevokeMultipleUsers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkRevokeMultipleUsersRequest"];
+            };
+        };
+        responses: {
+            /** @description Hủy chia sẻ với nhiều user thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
+            };
+            /** @description Không có quyền hủy chia sẻ của file này */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
+            };
+        };
+    };
+    bulkRevokeAllShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkRevokeAllSharesRequest"];
+            };
+        };
+        responses: {
+            /** @description Hủy toàn bộ chia sẻ thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
+            };
+            /** @description Không có quyền hủy chia sẻ của file này */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
+            };
+            /** @description Không tìm thấy file đính kèm */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiCreateFileShareResponse"];
+                };
             };
         };
     };

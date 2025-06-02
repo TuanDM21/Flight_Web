@@ -23,12 +23,12 @@ import {
   TaskAssignment,
   TaskAssignmentStatus,
 } from '@/features/tasks/types'
-import { taskStatusLabels } from '@/features/tasks/utils/tasks'
+import { allTaskAssignmentStatusLabels } from '@/features/tasks/utils/tasks'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
 import { useDeleteTaskAssignmentMutation } from '../hooks/use-delete-task-assignment'
 import { useTaskAssignments } from '../hooks/use-task-assignments'
-import { useCreateAssignmentColumns } from './assignment-columns'
 import { AssignmentDataTable } from './assignment-data-table'
+import { useAssignmentTableColumns } from './assignment-table-columns'
 import { TaskAssignmentCommentsSheet } from './task-assignment-comments-sheet'
 import { TaskAssignmentFormSheet } from './task-assignment-form-sheet'
 
@@ -133,7 +133,7 @@ export function TaskAssignmentsDialog({
     })
     toast.promise(updatePromise, {
       loading: `Updating assignment status...`,
-      success: `Assignment status updated to ${taskStatusLabels[newStatus]}!`,
+      success: `Assignment status updated to ${allTaskAssignmentStatusLabels[newStatus]}!`,
       error: `Failed to update assignment status. Please try again.`,
     })
   }
@@ -185,7 +185,7 @@ export function TaskAssignmentsDialog({
     })
   }
 
-  const assignmentColumns = useCreateAssignmentColumns({
+  const assignmentColumns = useAssignmentTableColumns({
     editingAssignmentId,
     form,
     task,
@@ -224,11 +224,8 @@ export function TaskAssignmentsDialog({
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={(event) => event.preventDefault()}
         >
-          <DialogHeader className='pb-4'>
+          <DialogHeader>
             <DialogTitle>Assignments for Task #{taskId}</DialogTitle>
-            <p className='text-muted-foreground mt-1 text-sm'>
-              View all assignments for this task
-            </p>
           </DialogHeader>
 
           <div className='flex justify-end gap-2'>

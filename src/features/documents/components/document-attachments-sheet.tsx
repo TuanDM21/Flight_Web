@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
+import { useDownloadAttachmentUrl } from '../../attachments/hooks/use-download-attachment-url'
 import { useDocumentDetail } from '../hooks/use-document-detail'
-import { useDownloadAttachmentUrl } from '../hooks/use-download-attachment-url'
 import { DocumentAttachment } from '../types'
 
 interface AttachmentItemProps {

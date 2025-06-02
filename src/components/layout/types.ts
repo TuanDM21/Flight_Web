@@ -1,44 +1,55 @@
 import { LinkProps } from '@tanstack/react-router'
 
-interface User {
+// User information for sidebar
+export interface SidebarUser {
   name: string
   email: string
   avatar: string
 }
 
-interface Team {
+// Team information for sidebar
+export interface SidebarTeam {
   name: string
   logo: React.ElementType
   plan: string
 }
 
-interface BaseNavItem {
+// Base navigation item with common properties
+export interface BaseNavItem {
   title: string
   badge?: string
   icon?: React.ElementType
 }
 
-type NavLink = BaseNavItem & {
-  url: LinkProps['to']
+// Navigation item that links to a specific URL
+export interface NavLinkItem extends BaseNavItem {
+  url: LinkProps['to'] // Ensure that url is LinkProps['to']
   items?: never
 }
 
-type NavCollapsible = BaseNavItem & {
-  items: (BaseNavItem & { url: LinkProps['to'] })[]
+// Sub-navigation item for collapsible sections
+export interface NavSubItem extends BaseNavItem {
+  url: LinkProps['to'] // Ensure that url is LinkProps['to']
+}
+
+// Navigation item that can be collapsed/expanded with sub-items
+export interface NavCollapsibleItem extends BaseNavItem {
+  items: NavSubItem[]
   url?: never
 }
 
-type NavItem = NavCollapsible | NavLink
+// Union type for all navigation item types
+export type NavItem = NavLinkItem | NavCollapsibleItem
 
-interface NavGroup {
+// Group of navigation items
+export interface NavGroup {
   title: string
   items: NavItem[]
 }
 
-interface SidebarData {
-  user: User
-  teams: Team[]
+// Complete sidebar data structure
+export interface SidebarData {
+  user: SidebarUser
+  team: SidebarTeam
   navGroups: NavGroup[]
 }
-
-export type { SidebarData, NavGroup, NavItem, NavCollapsible, NavLink }

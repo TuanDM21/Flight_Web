@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import { CalendarSearch, FileText, FileTextIcon, Hash } from 'lucide-react'
+import { Calendar, FileType, ScrollText, IdCard, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
@@ -71,7 +71,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           label: 'Document ID',
           placeholder: 'Search document ID...',
           variant: 'text',
-          icon: Hash,
+          icon: IdCard,
         },
         enableColumnFilter: true,
       },
@@ -89,7 +89,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           label: 'Document Type',
           placeholder: 'Search document type...',
           variant: 'text',
-          icon: FileText,
+          icon: FileType,
         },
         enableColumnFilter: true,
       },
@@ -105,7 +105,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           label: 'Content',
           placeholder: 'Search content...',
           variant: 'text',
-          icon: FileTextIcon,
+          icon: ScrollText,
         },
         enableColumnFilter: true,
       },
@@ -127,7 +127,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           label: 'Created At',
           placeholder: 'Filter by creation date...',
           variant: 'date',
-          icon: CalendarSearch,
+          icon: Calendar,
         },
         enableColumnFilter: true,
       },
@@ -149,7 +149,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           label: 'Updated At',
           placeholder: 'Filter by update date...',
           variant: 'date',
-          icon: CalendarSearch,
+          icon: Clock,
         },
         enableColumnFilter: true,
       },

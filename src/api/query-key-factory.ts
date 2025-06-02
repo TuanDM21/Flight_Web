@@ -34,6 +34,7 @@ export const taskKeysFactory = {
 
 export const userKeysFactory = {
   me: ['get', '/api/users/me', {}] as const,
+  list: () => ['get', '/api/users', {}] as const,
 }
 
 export const documentKeysFactory = {
@@ -49,7 +50,15 @@ export const documentKeysFactory = {
 }
 
 export const attachmentKeysFactory = {
-  myFiles: () => ['get', '/api/attachments/my-files', {}] as const,
+  myAttachments: () => ['get', '/api/attachments/my-files'] as const,
   detail: (id: number) =>
     ['get', '/api/attachments/{id}', { params: { path: { id } } }] as const,
+  sharedWithMe: () => ['get', '/api/attachments/shared-with-me'] as const,
+  usersSharedWithAttachments: (attachmentId: number) =>
+    [
+      'get',
+      '/api/attachments/{attachmentId}/shares',
+      { params: { path: { attachmentId } } },
+    ] as const,
+  accessibleFiles: () => ['get', '/api/attachments/accessible-files'] as const,
 }
