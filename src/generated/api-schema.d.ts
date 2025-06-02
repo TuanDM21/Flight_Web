@@ -317,16 +317,36 @@ export interface paths {
         };
         get?: never;
         /**
-         * Cập nhật quyền chia sẻ file
-         * @description Cập nhật quyền truy cập và thông tin chia sẻ file
+         * Cập nhật quyền chia sẻ file đơn lẻ
+         * @description Cập nhật quyền truy cập và thông tin chia sẻ cho 1 file share cụ thể
          */
-        put: operations["updateFileShare"];
+        put: operations["updateSingleFileShare"];
         post?: never;
         /**
          * Hủy chia sẻ file
          * @description Hủy chia sẻ file với user cụ thể
          */
         delete: operations["revokeFileShare"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/batch-update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Cập nhật batch nhiều file shares
+         * @description Cập nhật quyền và thông tin cho nhiều file shares cùng lúc
+         */
+        put: operations["batchUpdateFileShares"];
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -838,6 +858,66 @@ export interface paths {
          * @description Authenticate user and return JWT token
          */
         post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/replace-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Thay thế toàn bộ sharing scope
+         * @description Hủy tất cả shares hiện có và tạo mới theo request
+         */
+        post: operations["replaceAllFileShares"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/add-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Thêm user vào file shares hiện có
+         * @description Thêm user mới vào danh sách chia sẻ của các file đã được share
+         */
+        post: operations["addUsersToShares"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/add-files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Thêm file vào user group shares hiện có
+         * @description Thêm file mới vào nhóm user đã được chia sẻ
+         */
+        post: operations["addFilesToUserShares"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1901,6 +1981,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/attachments/shares/remove-users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xóa user khỏi file shares
+         * @description Xóa user khỏi danh sách chia sẻ của các file
+         */
+        delete: operations["removeUsersFromShares"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attachments/shares/remove-files": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xóa file khỏi user shares
+         * @description Xóa file khỏi danh sách chia sẻ với các user
+         */
+        delete: operations["removeFilesFromUserShares"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/attachments/bulk-delete": {
         parameters: {
             query?: never;
@@ -2729,6 +2849,38 @@ export interface components {
             /** Format: int32 */
             unitId?: number;
         };
+        /**
+         * @description Response cho các trường hợp lỗi
+         * @example {
+         *       "message": "Không tìm thấy tài nguyên",
+         *       "statusCode": 404,
+         *       "errorDetails": null,
+         *       "success": false
+         *     }
+         */
+        ApiErrorResponse: {
+            /**
+             * @description Thông báo lỗi
+             * @example Không tìm thấy tài nguyên
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 404
+             */
+            statusCode?: number;
+            /**
+             * @description Chi tiết lỗi (nếu có)
+             * @example null
+             */
+            errorDetails?: Record<string, never> | null;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example false
+             */
+            success?: boolean;
+        };
         /** @description API response for register, data is RegisterResponse */
         ApiRegisterResponse: {
             /**
@@ -2766,38 +2918,6 @@ export interface components {
             unitName?: string;
             /** Format: int32 */
             teamId?: number;
-        };
-        /**
-         * @description Response cho các trường hợp lỗi
-         * @example {
-         *       "message": "Không tìm thấy tài nguyên",
-         *       "statusCode": 404,
-         *       "errorDetails": null,
-         *       "success": false
-         *     }
-         */
-        ApiErrorResponse: {
-            /**
-             * @description Thông báo lỗi
-             * @example Không tìm thấy tài nguyên
-             */
-            message?: string;
-            /**
-             * Format: int32
-             * @description Mã trạng thái HTTP
-             * @example 404
-             */
-            statusCode?: number;
-            /**
-             * @description Chi tiết lỗi (nếu có)
-             * @example null
-             */
-            errorDetails?: Record<string, never> | null;
-            /**
-             * @description Trạng thái thành công hay thất bại
-             * @example false
-             */
-            success?: boolean;
         };
         LoginRequest: {
             email: string;
@@ -4781,7 +4901,7 @@ export interface operations {
             };
         };
     };
-    updateFileShare: {
+    updateSingleFileShare: {
         parameters: {
             query?: never;
             header?: never;
@@ -4855,6 +4975,48 @@ export interface operations {
                 };
             };
             /** @description Không tìm thấy chia sẻ file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    batchUpdateFileShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateFileShareRequest"];
+            };
+        };
+        responses: {
+            /** @description Cập nhật batch thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền cập nhật */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file */
             404: {
                 headers: {
                     [name: string]: unknown;
@@ -5857,6 +6019,132 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
+    replaceAllFileShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareFileRequest"];
+            };
+        };
+        responses: {
+            /** @description Thay thế sharing thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền quản lý chia sẻ */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    addUsersToShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareFileRequest"];
+            };
+        };
+        responses: {
+            /** @description Thêm user thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền chia sẻ file */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    addFilesToUserShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareFileRequest"];
+            };
+        };
+        responses: {
+            /** @description Thêm file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền chia sẻ file */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file hoặc user */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
                 };
             };
         };
@@ -7347,6 +7635,90 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    removeUsersFromShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareFileRequest"];
+            };
+        };
+        responses: {
+            /** @description Xóa user thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền quản lý chia sẻ */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+        };
+    };
+    removeFilesFromUserShares: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareFileRequest"];
+            };
+        };
+        responses: {
+            /** @description Xóa file thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không có quyền quản lý chia sẻ */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
+            };
+            /** @description Không tìm thấy file */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiShareFileResponse"];
+                };
             };
         };
     };

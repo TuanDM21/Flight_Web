@@ -12,6 +12,7 @@ import {
   IconNotification,
   IconPackages,
   IconPalette,
+  IconPaperclip,
   IconServerOff,
   IconSettings,
   IconTool,
@@ -53,6 +54,21 @@ export const sidebarData: SidebarData = {
           title: 'Documents',
           url: '/documents',
           icon: IconFileTypeDoc,
+        },
+        {
+          title: 'Attachments',
+          url: '/attachments',
+          icon: IconPaperclip,
+          items: [
+            {
+              title: 'My Attachments',
+              url: '/attachments',
+            },
+            {
+              title: 'Shared with me',
+              url: '/attachments/shared-with-me',
+            },
+          ],
         },
         {
           title: 'Apps',

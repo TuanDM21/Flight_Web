@@ -27,6 +27,7 @@ import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticat
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedDocumentsIndexImport } from './routes/_authenticated/documents/index'
 import { Route as AuthenticatedChatsIndexImport } from './routes/_authenticated/chats/index'
+import { Route as AuthenticatedAttachmentsIndexImport } from './routes/_authenticated/attachments/index'
 import { Route as AuthenticatedAppsIndexImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedTasksCreateImport } from './routes/_authenticated/tasks/create'
 import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_authenticated/settings/notifications'
@@ -34,8 +35,10 @@ import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authentic
 import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedDocumentsCreateImport } from './routes/_authenticated/documents/create'
+import { Route as AuthenticatedAttachmentsSharedWithMeImport } from './routes/_authenticated/attachments/shared-with-me'
 import { Route as AuthenticatedTasksTaskIdIndexImport } from './routes/_authenticated/tasks/$task-id/index'
 import { Route as AuthenticatedDocumentsDocumentIdIndexImport } from './routes/_authenticated/documents/$document-id/index'
+import { Route as AuthenticatedAttachmentsAttachmentIdIndexImport } from './routes/_authenticated/attachments/$attachment-id/index'
 import { Route as AuthenticatedTasksTaskIdEditImport } from './routes/_authenticated/tasks/$task-id/edit'
 import { Route as AuthenticatedDocumentsDocumentIdEditImport } from './routes/_authenticated/documents/$document-id/edit'
 
@@ -142,6 +145,13 @@ const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexImport.update({
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
+const AuthenticatedAttachmentsIndexRoute =
+  AuthenticatedAttachmentsIndexImport.update({
+    id: '/attachments/',
+    path: '/attachments/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexImport.update({
   id: '/apps/',
   path: '/apps/',
@@ -189,6 +199,13 @@ const AuthenticatedDocumentsCreateRoute =
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
+const AuthenticatedAttachmentsSharedWithMeRoute =
+  AuthenticatedAttachmentsSharedWithMeImport.update({
+    id: '/attachments/shared-with-me',
+    path: '/attachments/shared-with-me',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedTasksTaskIdIndexRoute =
   AuthenticatedTasksTaskIdIndexImport.update({
     id: '/tasks/$task-id/',
@@ -200,6 +217,13 @@ const AuthenticatedDocumentsDocumentIdIndexRoute =
   AuthenticatedDocumentsDocumentIdIndexImport.update({
     id: '/documents/$document-id/',
     path: '/documents/$document-id/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedAttachmentsAttachmentIdIndexRoute =
+  AuthenticatedAttachmentsAttachmentIdIndexImport.update({
+    id: '/attachments/$attachment-id/',
+    path: '/attachments/$attachment-id/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -291,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/attachments/shared-with-me': {
+      id: '/_authenticated/attachments/shared-with-me'
+      path: '/attachments/shared-with-me'
+      fullPath: '/attachments/shared-with-me'
+      preLoaderRoute: typeof AuthenticatedAttachmentsSharedWithMeImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/documents/create': {
       id: '/_authenticated/documents/create'
       path: '/documents/create'
@@ -338,6 +369,13 @@ declare module '@tanstack/react-router' {
       path: '/apps'
       fullPath: '/apps'
       preLoaderRoute: typeof AuthenticatedAppsIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/attachments/': {
+      id: '/_authenticated/attachments/'
+      path: '/attachments'
+      fullPath: '/attachments'
+      preLoaderRoute: typeof AuthenticatedAttachmentsIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/chats/': {
@@ -396,6 +434,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksTaskIdEditImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/attachments/$attachment-id/': {
+      id: '/_authenticated/attachments/$attachment-id/'
+      path: '/attachments/$attachment-id'
+      fullPath: '/attachments/$attachment-id'
+      preLoaderRoute: typeof AuthenticatedAttachmentsAttachmentIdIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/documents/$document-id/': {
       id: '/_authenticated/documents/$document-id/'
       path: '/documents/$document-id'
@@ -441,9 +486,11 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAttachmentsSharedWithMeRoute: typeof AuthenticatedAttachmentsSharedWithMeRoute
   AuthenticatedDocumentsCreateRoute: typeof AuthenticatedDocumentsCreateRoute
   AuthenticatedTasksCreateRoute: typeof AuthenticatedTasksCreateRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
+  AuthenticatedAttachmentsIndexRoute: typeof AuthenticatedAttachmentsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedDocumentsIndexRoute: typeof AuthenticatedDocumentsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
@@ -451,6 +498,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedDocumentsDocumentIdEditRoute: typeof AuthenticatedDocumentsDocumentIdEditRoute
   AuthenticatedTasksTaskIdEditRoute: typeof AuthenticatedTasksTaskIdEditRoute
+  AuthenticatedAttachmentsAttachmentIdIndexRoute: typeof AuthenticatedAttachmentsAttachmentIdIndexRoute
   AuthenticatedDocumentsDocumentIdIndexRoute: typeof AuthenticatedDocumentsDocumentIdIndexRoute
   AuthenticatedTasksTaskIdIndexRoute: typeof AuthenticatedTasksTaskIdIndexRoute
 }
@@ -458,9 +506,12 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAttachmentsSharedWithMeRoute:
+    AuthenticatedAttachmentsSharedWithMeRoute,
   AuthenticatedDocumentsCreateRoute: AuthenticatedDocumentsCreateRoute,
   AuthenticatedTasksCreateRoute: AuthenticatedTasksCreateRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
+  AuthenticatedAttachmentsIndexRoute: AuthenticatedAttachmentsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedDocumentsIndexRoute: AuthenticatedDocumentsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
@@ -469,6 +520,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDocumentsDocumentIdEditRoute:
     AuthenticatedDocumentsDocumentIdEditRoute,
   AuthenticatedTasksTaskIdEditRoute: AuthenticatedTasksTaskIdEditRoute,
+  AuthenticatedAttachmentsAttachmentIdIndexRoute:
+    AuthenticatedAttachmentsAttachmentIdIndexRoute,
   AuthenticatedDocumentsDocumentIdIndexRoute:
     AuthenticatedDocumentsDocumentIdIndexRoute,
   AuthenticatedTasksTaskIdIndexRoute: AuthenticatedTasksTaskIdIndexRoute,
@@ -488,6 +541,7 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -495,6 +549,7 @@ export interface FileRoutesByFullPath {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/attachments': typeof AuthenticatedAttachmentsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/documents': typeof AuthenticatedDocumentsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -503,6 +558,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedUsersIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/attachments/$attachment-id': typeof AuthenticatedAttachmentsAttachmentIdIndexRoute
   '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
   '/tasks/$task-id': typeof AuthenticatedTasksTaskIdIndexRoute
 }
@@ -516,6 +572,7 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -523,6 +580,7 @@ export interface FileRoutesByTo {
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
+  '/attachments': typeof AuthenticatedAttachmentsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/documents': typeof AuthenticatedDocumentsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
@@ -531,6 +589,7 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedUsersIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/attachments/$attachment-id': typeof AuthenticatedAttachmentsAttachmentIdIndexRoute
   '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
   '/tasks/$task-id': typeof AuthenticatedTasksTaskIdIndexRoute
 }
@@ -547,6 +606,7 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/_authenticated/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -554,6 +614,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/tasks/create': typeof AuthenticatedTasksCreateRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
+  '/_authenticated/attachments/': typeof AuthenticatedAttachmentsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/documents/': typeof AuthenticatedDocumentsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
@@ -562,6 +623,7 @@ export interface FileRoutesById {
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/_authenticated/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
+  '/_authenticated/attachments/$attachment-id/': typeof AuthenticatedAttachmentsAttachmentIdIndexRoute
   '/_authenticated/documents/$document-id/': typeof AuthenticatedDocumentsDocumentIdIndexRoute
   '/_authenticated/tasks/$task-id/': typeof AuthenticatedTasksTaskIdIndexRoute
 }
@@ -579,6 +641,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/attachments/shared-with-me'
     | '/documents/create'
     | '/settings/account'
     | '/settings/appearance'
@@ -586,6 +649,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/tasks/create'
     | '/apps'
+    | '/attachments'
     | '/chats'
     | '/documents'
     | '/help-center'
@@ -594,6 +658,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
+    | '/attachments/$attachment-id'
     | '/documents/$document-id'
     | '/tasks/$task-id'
   fileRoutesByTo: FileRoutesByTo
@@ -606,6 +671,7 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/attachments/shared-with-me'
     | '/documents/create'
     | '/settings/account'
     | '/settings/appearance'
@@ -613,6 +679,7 @@ export interface FileRouteTypes {
     | '/settings/notifications'
     | '/tasks/create'
     | '/apps'
+    | '/attachments'
     | '/chats'
     | '/documents'
     | '/help-center'
@@ -621,6 +688,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
+    | '/attachments/$attachment-id'
     | '/documents/$document-id'
     | '/tasks/$task-id'
   id:
@@ -635,6 +703,7 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/attachments/shared-with-me'
     | '/_authenticated/documents/create'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
@@ -642,6 +711,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/notifications'
     | '/_authenticated/tasks/create'
     | '/_authenticated/apps/'
+    | '/_authenticated/attachments/'
     | '/_authenticated/chats/'
     | '/_authenticated/documents/'
     | '/_authenticated/help-center/'
@@ -650,6 +720,7 @@ export interface FileRouteTypes {
     | '/_authenticated/users/'
     | '/_authenticated/documents/$document-id/edit'
     | '/_authenticated/tasks/$task-id/edit'
+    | '/_authenticated/attachments/$attachment-id/'
     | '/_authenticated/documents/$document-id/'
     | '/_authenticated/tasks/$task-id/'
   fileRoutesById: FileRoutesById
@@ -702,9 +773,11 @@ export const routeTree = rootRoute
       "children": [
         "/_authenticated/settings",
         "/_authenticated/",
+        "/_authenticated/attachments/shared-with-me",
         "/_authenticated/documents/create",
         "/_authenticated/tasks/create",
         "/_authenticated/apps/",
+        "/_authenticated/attachments/",
         "/_authenticated/chats/",
         "/_authenticated/documents/",
         "/_authenticated/help-center/",
@@ -712,6 +785,7 @@ export const routeTree = rootRoute
         "/_authenticated/users/",
         "/_authenticated/documents/$document-id/edit",
         "/_authenticated/tasks/$task-id/edit",
+        "/_authenticated/attachments/$attachment-id/",
         "/_authenticated/documents/$document-id/",
         "/_authenticated/tasks/$task-id/"
       ]
@@ -752,6 +826,10 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/attachments/shared-with-me": {
+      "filePath": "_authenticated/attachments/shared-with-me.tsx",
+      "parent": "/_authenticated"
+    },
     "/_authenticated/documents/create": {
       "filePath": "_authenticated/documents/create.tsx",
       "parent": "/_authenticated"
@@ -778,6 +856,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/apps/": {
       "filePath": "_authenticated/apps/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/attachments/": {
+      "filePath": "_authenticated/attachments/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/chats/": {
@@ -810,6 +892,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/tasks/$task-id/edit": {
       "filePath": "_authenticated/tasks/$task-id/edit.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/attachments/$attachment-id/": {
+      "filePath": "_authenticated/attachments/$attachment-id/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/documents/$document-id/": {

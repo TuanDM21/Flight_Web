@@ -30,15 +30,15 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { AppDialog } from '@/components/app-dialog'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
-import { SelectAttachmentsDialog } from './components/select-attachments-dialog'
 import {
   ACCEPTED_FILE_TYPES,
   MAX_FILE_SIZE,
   MAX_FILES_COUNT,
   MAX_TOTAL_FILES_SIZE,
-} from './constants'
+} from '../../constants/file'
+import { useUploadAttachments } from '../attachments/hooks/use-upload-attachments'
+import { SelectAttachmentsDialog } from './components/select-attachments-dialog'
 import { useCreateDocument } from './hooks/use-create-document'
-import { useUploadAttachments } from './hooks/use-upload-attachments'
 import { createDocumentSchema } from './schema'
 import { CreateDocumentForm, DocumentAttachment } from './types'
 

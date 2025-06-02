@@ -16,7 +16,7 @@ import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
-import { useViewAttachments } from '@/features/attachments/hooks/use-view-attachments'
+import { useMyAttachments } from '@/features/attachments/hooks/use-my-attachments'
 import { DocumentAttachment } from '../types'
 
 interface SelectAttachmentDialogProps {
@@ -152,7 +152,7 @@ export function SelectAttachmentsDialog({
   onSubmit,
   dialog,
 }: SelectAttachmentDialogProps) {
-  const { data: allAttachments, isLoading } = useViewAttachments()
+  const { data: allAttachments, isLoading } = useMyAttachments()
 
   const availableAttachments = useMemo(() => {
     if (!allAttachments?.data) return []

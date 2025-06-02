@@ -1,16 +1,17 @@
-import { DocumentAttachment } from '../types'
-import { useConfirmUpload } from './use-confirm-upload'
+import { DocumentAttachment } from '../../documents/types'
+import { useConfirmUploadAttachments } from './use-confirm-upload-attachments'
 import { useGenerateUploadUrls } from './use-generate-upload-urls'
 
 interface UploadOptions {
   onProgress: (file: File, progress: number) => void
   onSuccess: (file: File) => void
   onError: (file: File, error: Error) => void
+  abortController?: AbortController
 }
 
 export const useUploadAttachments = () => {
   const generateUploadUrls = useGenerateUploadUrls()
-  const confirmUpload = useConfirmUpload()
+  const confirmUpload = useConfirmUploadAttachments()
 
   return async (files: File[], options: UploadOptions) => {
     files.forEach((file) => options.onProgress(file, 10))
@@ -21,8 +22,10 @@ export const useUploadAttachments = () => {
         contentType: file.type,
       })),
     }
+
     const presignUrlsMutation = await generateUploadUrls.mutateAsync({
       body: uploadRequest,
+      signal: options.abortController?.signal,
     })
 
     const uploadUrls = presignUrlsMutation.data!
@@ -41,6 +44,7 @@ export const useUploadAttachments = () => {
             'Content-Type': file.type,
           },
           body: file,
+          signal: options.abortController?.signal,
         })
 
         if (!response.ok) {
@@ -69,7 +73,8 @@ export const useUploadAttachments = () => {
           const failedIndex = uploadResults.findIndex((r) => r === result)
           const file = files[failedIndex]
           if (file) {
-            options.onError(file, result.reason as Error)
+            const error = result.reason as Error
+            options.onError(file, error)
           }
         })
       }
@@ -87,6 +92,7 @@ export const useUploadAttachments = () => {
           body: {
             attachmentIds,
           },
+          signal: options.abortController?.signal,
         })
 
         successfulUploads.forEach((result) => {
@@ -102,6 +108,18 @@ export const useUploadAttachments = () => {
         }
       }
     } catch (error) {
+      // Handle AbortError specifically
+      if (error instanceof Error && error.name === 'AbortError') {
+        files.forEach((file) => {
+          options.onError(file, error)
+        })
+        return {
+          success: false,
+          error: error,
+          confirmedAttachments: [],
+        }
+      }
+
       files.forEach((file) => {
         options.onError(file, error as Error)
       })

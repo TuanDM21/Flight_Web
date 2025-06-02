@@ -49,7 +49,7 @@ export const documentKeysFactory = {
 }
 
 export const attachmentKeysFactory = {
-  myFiles: () => ['get', '/api/attachments/my-files', {}] as const,
+  myFiles: () => ['get', '/api/attachments/my-files'] as const,
   detail: (id: number) =>
     ['get', '/api/attachments/{id}', { params: { path: { id } } }] as const,
 }

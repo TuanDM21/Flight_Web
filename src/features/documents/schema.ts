@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { MAX_FILE_SIZE, MAX_FILES_COUNT } from './constants'
+import { MAX_FILE_SIZE, MAX_FILES_COUNT } from '../../constants/file'
 
 export const createDocumentSchema = z.object({
   documentType: z.string().min(1, 'Document type is required'),
