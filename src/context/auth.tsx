@@ -3,8 +3,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
 import { AUTH_TOKEN_KEY } from '@/config/auth'
 import { AuthorizedUser, LoginCredentials } from '@/types/auth'
-import { until } from '@open-draft/until'
 import { useLocalStorage } from 'react-use'
+import { toast } from 'sonner'
 
 export interface AuthContext {
   isAuthenticated: boolean
@@ -26,7 +26,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const [user, setUser] = React.useState<AuthorizedUser | null>(null)
   const [isLoading, setIsLoading] = React.useState<boolean>(!!token)
-
   const isAuthenticated = token != null
 
   const loginMutation = $queryClient.useMutation('post', '/api/auth/login')
@@ -61,17 +60,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const { remember, ...loginData } = credentials
 
-      const { error, data } = await until(() =>
-        loginMutation.mutateAsync({
-          body: loginData,
-        })
-      )
-      if (!error) {
-        const newToken = data?.data?.accessToken
-        setToken(newToken)
+      const loginPromise = loginMutation.mutateAsync({
+        body: loginData,
+      })
 
-        setIsLoading(false)
-      }
+      toast.promise(loginPromise, {
+        loading: 'Logging in...',
+        success: (data) => {
+          const newToken = data?.data?.accessToken
+          setToken(newToken)
+
+          setIsLoading(false)
+          return 'Login successful!'
+        },
+      })
     },
     [loginMutation, setToken]
   )
