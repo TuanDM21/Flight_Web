@@ -26,7 +26,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const [user, setUser] = React.useState<AuthorizedUser | null>(null)
   const [isLoading, setIsLoading] = React.useState<boolean>(!!token)
-
   const isAuthenticated = token != null
 
   const loginMutation = $queryClient.useMutation('post', '/api/auth/login')

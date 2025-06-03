@@ -11,7 +11,7 @@ export const loginSchema: z.ZodType<LoginCredentials> = z.object({
     .min(1, {
       message: 'Please enter your password',
     })
-    .min(7, {
+    .min(6, {
       message: 'Password must be at least 7 characters long',
     }),
   remember: z.boolean().optional(),
