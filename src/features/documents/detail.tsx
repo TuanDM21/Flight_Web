@@ -23,19 +23,18 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
-import { DeleteDocumentAttachmentConfirmDialog } from './components/delete-document-attachment-confirm-dialog'
-import DeleteDocumentConfirmDialog from './components/delete-document-confirm-dialog'
-import { getDocumentDetailQueryOptions } from './hooks/use-view-document-detail'
-import { getDownloadUrlQueryOptions } from './hooks/use-view-download-attachment-url'
+import { useDeleteDocumentConfirm } from './hooks/use-delete-document-confirm'
+import { getDocumentDetailQueryOptions } from './hooks/use-document-detail'
+import { getDownloadUrlQueryOptions } from './hooks/use-download-attachment-url'
+import { useUnlinkAttachmentsFromDocumentConfirm } from './hooks/use-unlink-attachments-from-document-confirm'
 import { DocumentAttachment } from './types'
 
 export default function DocumentDetailPage() {
   const documentId = DocumentDetailRoute.useParams()['document-id']
-  const deleteDialogInstance = AppConfirmDialog.useDialog()
-  const [selectedAttachment, setSelectedAttachment] =
-    React.useState<DocumentAttachment | null>(null)
+  const { onDeleteDocument } = useDeleteDocumentConfirm()
+  const { onUnlinkAttachmentFromDocument } =
+    useUnlinkAttachmentsFromDocumentConfirm()
 
   const { data: documentDetail } = useSuspenseQuery(
     getDocumentDetailQueryOptions(Number(documentId))
@@ -44,19 +43,6 @@ export default function DocumentDetailPage() {
 
   const { getFileType, getFileIcon } = useFileIconType()
   const queryClient = useQueryClient()
-  const deleteDocumentAttachmentConfirmDialog = AppConfirmDialog.useDialog()
-
-  const handleDelete = async () => {
-    deleteDialogInstance.open()
-  }
-
-  const handleRemoveAttachment = React.useCallback(
-    (attachment: DocumentAttachment) => {
-      setSelectedAttachment(attachment)
-      deleteDocumentAttachmentConfirmDialog.open()
-    },
-    [deleteDocumentAttachmentConfirmDialog]
-  )
 
   const handleDownloadAttachment = React.useCallback(
     async (attachment: DocumentAttachment) => {
@@ -122,21 +108,6 @@ export default function DocumentDetailPage() {
 
   return (
     <>
-      {deleteDialogInstance.isOpen && (
-        <DeleteDocumentConfirmDialog
-          documentId={Number(documentId)}
-          dialog={deleteDialogInstance}
-        />
-      )}
-
-      {deleteDocumentAttachmentConfirmDialog.isOpen && selectedAttachment && (
-        <DeleteDocumentAttachmentConfirmDialog
-          dialog={deleteDocumentAttachmentConfirmDialog}
-          documentId={Number(documentId)}
-          attachment={selectedAttachment}
-        />
-      )}
-
       <div className='px-4 py-2'>
         <div className='mb-4 flex items-center justify-between'>
           <div className='flex items-center space-x-4'>
@@ -160,7 +131,7 @@ export default function DocumentDetailPage() {
             <Button
               variant='destructive'
               className='space-x-1'
-              onClick={handleDelete}
+              onClick={() => onDeleteDocument(document)}
             >
               <Trash2 className='mr-2 h-4 w-4' />
               Delete
@@ -264,7 +235,12 @@ export default function DocumentDetailPage() {
                         <DataTableActionBarAction
                           size='icon'
                           tooltip='Remove file'
-                          onClick={() => handleRemoveAttachment(attachment)}
+                          onClick={() =>
+                            onUnlinkAttachmentFromDocument(
+                              document.id!,
+                              attachment
+                            )
+                          }
                           tabIndex={-1}
                         >
                           <Trash />

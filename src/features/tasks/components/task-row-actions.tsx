@@ -1,8 +1,11 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
-import { FileTextIcon, PencilIcon, UserSearchIcon } from 'lucide-react'
+import { TasksRoute } from '@/routes/_authenticated/tasks'
+import { PencilIcon } from 'lucide-react'
+import { useAuth } from '@/context/auth-context'
+import { useDialogs } from '@/hooks/use-dialogs'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,46 +15,39 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
-import { AppDialog } from '@/components/app-dialog'
-import DeleteTaskConfirmDialog from './delete-task-confirm-dialog'
-import { ViewAssignmentDialog } from './view-assignment-dialog'
-import { ViewDocumentDialog } from './view-document-dialog'
+import { useTaskDeleteConfirm } from '../hooks/use-delete-task-confirm'
+import { Task } from '../types'
+import { TaskAssignmentsDialog } from './task-assignments-dialog'
+import { TaskDocumentsDialog } from './task-documents-dialog'
 
-interface TaskRowActionsProps<TData> {
-  row: Row<TData>
+interface TaskRowActionsProps {
+  row: Row<Task>
 }
 
-export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
-  const task = row.original as any
-  const navigate = useNavigate()
+export function TaskRowActions({ row }: TaskRowActionsProps) {
+  const task = row.original
+  const searchParams = TasksRoute.useSearch()
+  const navigate = TasksRoute.useNavigate()
+  const filterType = searchParams.type || 'assigned'
+  const { user } = useAuth()
+  const isTaskOwner = user?.id === task.createdByUser?.id
+  const dialogs = useDialogs()
+  const { onDeleteTask } = useTaskDeleteConfirm(filterType)
 
-  const viewAssignmentDialogInstance = AppDialog.useDialog()
-  const viewDocumentDialogInstance = AppDialog.useDialog()
-  const deleteTaskDialogInstance = AppConfirmDialog.useDialog()
+  const handleViewAssignments = async () => {
+    await dialogs.open(TaskAssignmentsDialog, {
+      task,
+    })
+  }
+
+  const handleViewDocuments = async () => {
+    await dialogs.open(TaskDocumentsDialog, {
+      task,
+    })
+  }
 
   return (
     <>
-      {viewAssignmentDialogInstance.isOpen && (
-        <ViewAssignmentDialog
-          dialog={viewAssignmentDialogInstance}
-          taskId={task.id}
-        />
-      )}
-      {viewDocumentDialogInstance.isOpen && (
-        <ViewDocumentDialog
-          dialog={viewDocumentDialogInstance}
-          taskId={task.id}
-        />
-      )}
-      {deleteTaskDialogInstance.isOpen && (
-        <DeleteTaskConfirmDialog
-          dialog={deleteTaskDialogInstance}
-          taskId={task.id}
-          onSuccess={deleteTaskDialogInstance.close}
-        />
-      )}
-
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
@@ -62,44 +58,55 @@ export function TaskRowActions<TData>({ row }: TaskRowActionsProps<TData>) {
             <span className='sr-only'>Open menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end' className='w-[220px]'>
-          <DropdownMenuItem onClick={viewAssignmentDialogInstance.open}>
-            View assignments
-            <DropdownMenuShortcut>
-              <UserSearchIcon />
-            </DropdownMenuShortcut>
+        <DropdownMenuContent align='end'>
+          <DropdownMenuItem onClick={handleViewAssignments}>
+            <div className='flex w-full items-center justify-between'>
+              <div className='flex items-center'>
+                <span>View assignments</span>
+              </div>
+              <Badge variant='secondary' className='ml-2 text-xs'>
+                {task?.assignments?.length ?? 0}
+              </Badge>
+            </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={viewDocumentDialogInstance.open}>
-            View documents
-            <DropdownMenuShortcut>
-              <FileTextIcon />
-            </DropdownMenuShortcut>
+          <DropdownMenuItem onClick={handleViewDocuments}>
+            <div className='flex w-full items-center justify-between'>
+              <div className='flex items-center'>
+                <span>View documents</span>
+              </div>
+              <Badge variant='secondary' className='ml-2 text-xs'>
+                {task?.documents?.length ?? 0}
+              </Badge>
+            </div>
           </DropdownMenuItem>
-
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              navigate({
-                to: '/tasks/$task-id/edit',
-                params: { 'task-id': task.id },
-              })
-            }}
-          >
-            Edit
-            <DropdownMenuShortcut>
-              <PencilIcon />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              deleteTaskDialogInstance.open()
-            }}
-          >
-            Delete
-            <DropdownMenuShortcut>
-              <IconTrash />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+          {isTaskOwner && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  navigate({
+                    to: '/tasks/$task-id/edit',
+                    params: { 'task-id': String(task.id) },
+                    search: (prev) => ({
+                      ...prev,
+                      type: filterType,
+                    }),
+                  })
+                }}
+              >
+                Edit
+                <DropdownMenuShortcut>
+                  <PencilIcon />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDeleteTask(task)}>
+                Delete
+                <DropdownMenuShortcut>
+                  <IconTrash />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>

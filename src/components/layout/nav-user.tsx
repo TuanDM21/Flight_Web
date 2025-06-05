@@ -7,7 +7,7 @@ import {
   CreditCard,
   Sparkles,
 } from 'lucide-react'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,

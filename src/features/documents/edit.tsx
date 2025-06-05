@@ -39,10 +39,10 @@ import {
   MAX_FILES_COUNT,
   MAX_TOTAL_FILES_SIZE,
 } from './constants'
-import { useRemoveDocumentAttachments } from './hooks/use-remove-document-attachments'
+import { getDocumentDetailQueryOptions } from './hooks/use-document-detail'
+import { useUnlinkAttachmentsFromDocument } from './hooks/use-unlink-attachments-from-document'
 import { useUpdateDocument } from './hooks/use-update-document'
 import { useUploadAttachments } from './hooks/use-upload-attachments'
-import { getDocumentDetailQueryOptions } from './hooks/use-view-document-detail'
 import { createDocumentSchema } from './schema'
 import { CreateDocumentForm, DocumentAttachment } from './types'
 
@@ -56,7 +56,7 @@ export default function EditDocumentPage() {
   const uploadAttachments = useUploadAttachments()
   const navigate = useNavigate()
   const updateDocumentMutation = useUpdateDocument()
-  const deleteDocumentAttachmentsMutation = useRemoveDocumentAttachments()
+  const deleteDocumentAttachmentsMutation = useUnlinkAttachmentsFromDocument()
   const selectAttachmentsDialog = AppDialog.useDialog()
 
   const form = useForm<CreateDocumentForm>({
