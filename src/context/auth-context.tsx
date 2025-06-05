@@ -12,6 +12,8 @@ export interface AuthContext {
   user: AuthorizedUser | null
   login: (credentials: LoginCredentials) => Promise<void>
   logout: () => void
+
+  hasRole: (role: string) => boolean
 }
 
 const AuthContext = React.createContext<AuthContext | null>(null)
@@ -81,6 +83,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [getMeQuery.data])
 
+  const hasRole = React.useCallback(
+    (role: string) => {
+      return user?.roleName === role
+    },
+    [user]
+  )
+
   const contextValue = React.useMemo(
     () => ({
       isAuthenticated,
@@ -88,8 +97,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       login,
       logout,
+      hasRole,
     }),
-    [isAuthenticated, isLoading, user, login, logout]
+    [isAuthenticated, isLoading, user, login, logout, hasRole]
   )
 
   return (

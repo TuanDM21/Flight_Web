@@ -14,8 +14,8 @@ import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
 import { Search } from '@/components/search'
 import { DocumentsPrimaryButtons } from './components/documents-primary-buttons'
 import { DocumentsTableActionBar } from './components/documents-table-action-bar'
-import { documentColumns } from './config'
-import { getDocumentListQueryOptions } from './hooks/use-view-documents'
+import { useDocumentColumns } from './hooks/use-document-columns'
+import { getDocumentListQueryOptions } from './hooks/use-documents'
 import type { DocumentFilters, DocumentItem } from './types'
 import { documentsSearchParamsCache } from './utils'
 
@@ -73,6 +73,8 @@ export function DocumentListPage() {
 
     return filteredDocuments
   }, [documentList.data, queryFilter, validFilters, search.sort])
+
+  const documentColumns = useDocumentColumns()
 
   const { table, debounceMs, shallow, throttleMs } = useDataTable({
     data: filteredData,

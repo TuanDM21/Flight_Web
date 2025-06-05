@@ -2,32 +2,32 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
+import { DialogProps } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import {
+  Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { AppSheet } from '@/components/app-sheet'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
 import { createTaskAssignmentsSchema } from '../schema'
 import { TaskAssignmentField } from './task-assignment-field'
 
 type TaskSheetFormValues = z.infer<typeof createTaskAssignmentsSchema>
 
-interface TaskAssignmentFormSheetProps {
+interface TaskAssignmentFormSheetPayload {
   taskId: number
-  dialog: AppDialogInstance
 }
 
 export const TaskAssignmentFormSheet = ({
-  taskId,
-  dialog,
-}: TaskAssignmentFormSheetProps) => {
+  payload,
+  open,
+  onClose,
+}: DialogProps<TaskAssignmentFormSheetPayload>) => {
+  const { taskId } = payload
   const taskAssignmentsMutation = useCreateTaskAssignmentsMutation()
 
   const form = useForm<TaskSheetFormValues>({
@@ -48,7 +48,7 @@ export const TaskAssignmentFormSheet = ({
     toast.promise(promise, {
       loading: `Creating task assignment...`,
       success: () => {
-        dialog.close()
+        onClose()
         form.reset()
         return `Task assignment created successfully!`
       },
@@ -57,8 +57,8 @@ export const TaskAssignmentFormSheet = ({
   }
 
   return (
-    <AppSheet dialog={dialog}>
-      <SheetContent className='h-full w-full sm:max-w-2xl'>
+    <Sheet open={open} onOpenChange={() => onClose()}>
+      <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
           <SheetTitle>Create Task Assignment</SheetTitle>
           <SheetDescription>
@@ -66,28 +66,22 @@ export const TaskAssignmentFormSheet = ({
           </SheetDescription>
         </SheetHeader>
 
-        <div className='flex min-h-0 flex-1 flex-col p-4'>
-          <Card className='flex-1 border-none shadow-none'>
-            <CardContent className='h-full p-0'>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleSubmit)}
-                  className='flex h-full flex-col space-y-4'
-                >
-                  <div className='flex-1 overflow-y-auto'>
-                    <TaskAssignmentField form={form} name='assignments' />
-                  </div>
-                  <div className='flex-shrink-0 border-t pt-4'>
-                    <Button type='submit' size='lg' className='w-full'>
-                      Create Assignments
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='flex min-h-0 flex-1 flex-col'
+          >
+            <div className='min-h-0 flex-1 overflow-y-auto p-4'>
+              <TaskAssignmentField form={form} name='assignments' />
+            </div>
+            <div className='flex-shrink-0 border-t p-4'>
+              <Button type='submit' size='lg' className='w-full'>
+                Save Assignment
+              </Button>
+            </div>
+          </form>
+        </Form>
       </SheetContent>
-    </AppSheet>
+    </Sheet>
   )
 }

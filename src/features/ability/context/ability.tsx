@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { AppAbility, AppRoles } from '@/features/ability/types'
-import { useAuth } from '../../../context/auth'
+import { useAuth } from '../../../context/auth-context'
 import buildAbilityFor from '../lib'
 
 export const AbilityContext = createContext<AppAbility>(undefined!)

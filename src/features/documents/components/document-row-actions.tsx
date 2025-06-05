@@ -3,7 +3,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
 import { PencilIcon } from 'lucide-react'
-import { useDialogInstance } from '@/hooks/use-dialog-instance'
+import { useDialogs } from '@/hooks/use-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,10 +14,9 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
+import { useDeleteDocumentConfirm } from '../hooks/use-delete-document-confirm'
+import { useShowDocumentAttachments } from '../hooks/use-show-document-attachments'
 import { DocumentItem } from '../types'
-import DeleteDocumentConfirmDialog from './delete-document-confirm-dialog'
-import { DocumentAttachmentsSheet } from './document-attachments-sheet'
 
 interface DocumentRowActionsProps<TData extends DocumentItem> {
   row: Row<TData>
@@ -28,33 +27,28 @@ export function DocumentRowActions<TData extends DocumentItem>({
 }: DocumentRowActionsProps<TData>) {
   const document = row.original
   const navigate = useNavigate()
+  const { closeAll } = useDialogs()
+
+  const { onDeleteDocument } = useDeleteDocumentConfirm()
+  const { showAttachments } = useShowDocumentAttachments()
 
   const attachments = document.attachments || []
   const hasAttachments = attachments.length > 0
 
-  const deleteDialogInstance = AppConfirmDialog.useDialog()
-  const attachmentsDialogInstance = useDialogInstance()
+  const handleShowAttachments = () => {
+    showAttachments(Number(document.id))
+  }
 
-  const confirmDeleteDocument = () => {
-    deleteDialogInstance.open()
+  const handleEdit = () => {
+    closeAll()
+    navigate({
+      to: '/documents/$document-id/edit',
+      params: { 'document-id': String(document.id!) },
+    })
   }
 
   return (
     <>
-      {deleteDialogInstance.isOpen && (
-        <DeleteDocumentConfirmDialog
-          documentId={Number(document.id)}
-          dialog={deleteDialogInstance}
-        />
-      )}
-
-      {attachmentsDialogInstance.isOpen && hasAttachments && (
-        <DocumentAttachmentsSheet
-          dialog={attachmentsDialogInstance}
-          documentId={Number(document.id)}
-        />
-      )}
-
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
@@ -67,7 +61,7 @@ export function DocumentRowActions<TData extends DocumentItem>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-[260px]'>
           {hasAttachments ? (
-            <DropdownMenuItem onClick={attachmentsDialogInstance.open}>
+            <DropdownMenuItem onClick={handleShowAttachments}>
               <div className='flex w-full items-center justify-between'>
                 <div className='flex items-center'>
                   <span>View attachments</span>
@@ -86,20 +80,13 @@ export function DocumentRowActions<TData extends DocumentItem>({
           )}
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              navigate({
-                to: '/documents/$document-id/edit',
-                params: { 'document-id': String(document.id!) },
-              })
-            }}
-          >
+          <DropdownMenuItem onClick={handleEdit}>
             Edit
             <DropdownMenuShortcut>
               <PencilIcon />
             </DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={confirmDeleteDocument}>
+          <DropdownMenuItem onClick={() => onDeleteDocument(document)}>
             Delete
             <DropdownMenuShortcut>
               <IconTrash />

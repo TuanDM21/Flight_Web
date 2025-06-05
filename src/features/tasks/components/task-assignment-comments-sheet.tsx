@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { dateFormatPatterns } from '@/config/date'
 import { MessageCircle } from 'lucide-react'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
+import { DialogProps } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/card'
 import { Mention, MentionInput } from '@/components/ui/mention'
 import {
+  Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -20,20 +21,19 @@ import {
 } from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import { AppSheet } from '@/components/app-sheet'
 import { useCreateTaskAssignmentComment } from '../hooks/use-create-task-assignment-comment'
-import { useViewTaskAssignmentComments } from '../hooks/use-view-task-assignment-comments'
+import { useTaskAssignmentComments } from '../hooks/use-task-assignment-comments'
 
-interface TaskAssignmentCommentsSheetProps {
+interface TaskAssignmentCommentsSheetPayload {
   assignmentId: number
-  dialog: AppDialogInstance
 }
 
 export const TaskAssignmentCommentsSheet: React.FC<
-  TaskAssignmentCommentsSheetProps
-> = ({ assignmentId, dialog }) => {
+  DialogProps<TaskAssignmentCommentsSheetPayload>
+> = ({ payload, open, onClose }) => {
+  const { assignmentId } = payload
   const { data: comments, isLoading: isCommentsLoading } =
-    useViewTaskAssignmentComments(assignmentId)
+    useTaskAssignmentComments(assignmentId)
   const createTaskAssignmentCommentMutation =
     useCreateTaskAssignmentComment(assignmentId)
 
@@ -82,7 +82,7 @@ export const TaskAssignmentCommentsSheet: React.FC<
   }
 
   return (
-    <AppSheet dialog={dialog}>
+    <Sheet open={open} onOpenChange={() => onClose()}>
       <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
           <SheetTitle>Comments for Assignment #{assignmentId}</SheetTitle>
@@ -179,6 +179,6 @@ export const TaskAssignmentCommentsSheet: React.FC<
           </div>
         </div>
       </SheetContent>
-    </AppSheet>
+    </Sheet>
   )
 }

@@ -34,10 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import {
-  useRecipientOptions,
-  RECIPIENT_TYPES,
-} from '../hooks/use-recipient-options'
+import { useRecipientOptions } from '../hooks/use-recipient-options'
 
 type TaskAssignmentFieldProps<T extends FieldValues = FieldValues> = {
   form: UseFormReturn<T>
@@ -48,7 +45,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
   form,
   name,
 }: TaskAssignmentFieldProps<T>) {
-  const { getRecipientOptions } = useRecipientOptions()
+  const { getRecipientOptions, deriveRecipientOptions } = useRecipientOptions()
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -62,9 +59,9 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
 
   const handleAddAssignment = () => {
     append({
-      recipientId: undefined!,
+      recipientId: null,
       recipientType: '',
-      dueAt: undefined!,
+      dueAt: null,
       note: '',
     } as any)
   }
@@ -73,16 +70,6 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
         <FormLabel className='text-base font-medium'>Assignments</FormLabel>
-        <Button
-          type='button'
-          variant='outline'
-          size='sm'
-          onClick={handleAddAssignment}
-          className='flex items-center gap-1'
-        >
-          <PlusCircle className='h-4 w-4' />
-          <span>Add Assignment</span>
-        </Button>
       </div>
 
       {fields.length === 0 && (
@@ -132,11 +119,11 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                         field.onChange(value)
                         form.setValue(
                           `${name}.${index}.recipientId` as Path<T>,
-                          undefined!,
+                          null as any,
                           {
                             shouldDirty: true,
-                            shouldTouch: true,
-                            shouldValidate: true,
+                            shouldTouch: false,
+                            shouldValidate: false,
                           }
                         )
                       }}
@@ -148,13 +135,11 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {RECIPIENT_TYPES.map(
-                          (type: { label: string; value: string }) => (
-                            <SelectItem key={type.value} value={type.value}>
-                              {type.label}
-                            </SelectItem>
-                          )
-                        )}
+                        {deriveRecipientOptions.map((type) => (
+                          <SelectItem key={type.value} value={type.value}>
+                            {type.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -165,37 +150,54 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
               <FormField
                 control={form.control}
                 name={`${name}.${index}.recipientId` as Path<T>}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Recipient</FormLabel>
-                    <Select
-                      onValueChange={(value) => {
-                        field.onChange(Number(value))
-                      }}
-                      value={field.value?.toString()}
-                      disabled={!assignmentValues?.[index]?.recipientType}
-                    >
-                      <FormControl className='w-full'>
-                        <SelectTrigger className='min-w-0 truncate'>
-                          <SelectValue placeholder='Select recipient' />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {getRecipientOptions(
-                          assignmentValues?.[index]?.recipientType || ''
-                        )?.map((recipient) => (
-                          <SelectItem
-                            key={recipient.value}
-                            value={(recipient.value ?? '').toString()}
-                          >
-                            {recipient.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const currentRecipientType = useWatch({
+                    control: form.control,
+                    name: `${name}.${index}.recipientType` as Path<T>,
+                  })
+
+                  return (
+                    <FormItem>
+                      <FormLabel>Recipient</FormLabel>
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(Number(value))
+                        }}
+                        value={field.value ? String(field.value) : ''}
+                        disabled={!currentRecipientType}
+                      >
+                        <FormControl className='w-full'>
+                          <SelectTrigger className='min-w-0 truncate'>
+                            <SelectValue placeholder='Select recipient' />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {(() => {
+                            const options = getRecipientOptions(
+                              currentRecipientType || ''
+                            )
+                            if (options.length === 0) {
+                              return (
+                                <div className='text-muted-foreground px-2 py-1.5 text-sm'>
+                                  No recipients available
+                                </div>
+                              )
+                            }
+                            return options.map((recipient) => (
+                              <SelectItem
+                                key={recipient.value}
+                                value={String(recipient.value)}
+                              >
+                                {recipient.label}
+                              </SelectItem>
+                            ))
+                          })()}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
               />
 
               <FormField
@@ -277,8 +279,8 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                     className='border-dashed p-2 text-xs'
                   >
                     {(() => {
-                      const recipientTypeName = RECIPIENT_TYPES.find(
-                        (t: { label: string; value: string }) =>
+                      const recipientTypeName = deriveRecipientOptions.find(
+                        (t) =>
                           t.value === assignmentValues?.[index]?.recipientType
                       )?.label
                       const recipientType =

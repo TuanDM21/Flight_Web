@@ -13,8 +13,8 @@ import {
 import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
-import { documentColumns } from '@/features/documents/config'
-import { useViewDocuments } from '@/features/documents/hooks/use-view-documents'
+import { useDocumentColumns } from '@/features/documents/hooks/use-document-columns'
+import { useDocuments } from '@/features/documents/hooks/use-documents'
 import { TaskDocument } from '@/features/tasks/types'
 
 interface SelectDocumentDialogProps {
@@ -28,7 +28,7 @@ export function SelectDocumentsDialog({
   onSubmit,
   dialog,
 }: SelectDocumentDialogProps) {
-  const { data: allDocuments, isLoading } = useViewDocuments()
+  const { data: allDocuments, isLoading } = useDocuments()
 
   const availableDocuments = useMemo(() => {
     if (!allDocuments?.data) return []
@@ -37,6 +37,8 @@ export function SelectDocumentsDialog({
       (doc) => !selectedDocumentIds.includes(doc.id!)
     )
   }, [allDocuments, getSelectedDocumentIds])
+
+  const documentColumns = useDocumentColumns()
 
   const { table } = useDataTable({
     data: availableDocuments,

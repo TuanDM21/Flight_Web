@@ -1,5 +1,5 @@
 import { useLayoutEffect, useNavigate, useRouter } from '@tanstack/react-router'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 
 export default function SignOutPage() {
   const router = useRouter()

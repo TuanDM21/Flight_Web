@@ -1,11 +1,24 @@
+import { useMemo } from 'react'
 import $queryClient from '@/api'
+import { LiteralUnion } from 'type-fest'
+import { useAuth } from '@/context/auth-context'
 
 export function useRecipientOptions() {
-  const getTeamQuery = $queryClient.useQuery('get', '/api/teams')
-  const getUnitsQuery = $queryClient.useQuery('get', '/api/units')
-  const getUsersQuery = $queryClient.useQuery('get', '/api/users')
+  const { user, hasRole } = useAuth()
 
-  const getRecipientOptions = (type: string) => {
+  const getTeamQuery = $queryClient.useQuery('get', '/api/teams')
+  const getUnitsQuery = $queryClient.useQuery('get', '/api/units', {
+    params: {
+      query: {
+        teamId: user?.teamId,
+      },
+    },
+  })
+  const getUsersQuery = $queryClient.useQuery('get', '/api/users/assignable')
+
+  const getRecipientOptions = (
+    type: LiteralUnion<'team' | 'unit' | 'user', string>
+  ) => {
     if (type === 'team') {
       return (
         (getTeamQuery.data?.data ?? []).map((team) => ({
@@ -30,16 +43,25 @@ export function useRecipientOptions() {
     )
   }
 
+  const deriveRecipientOptions = useMemo(() => {
+    const userOption = { label: 'User', value: 'user' }
+    const teamOption = { label: 'Team', value: 'team' }
+    const unitOption = { label: 'Unit', value: 'unit' }
+
+    const higherRoles = ['ADMIN', 'DIRECTOR', 'VICE_DIRECTOR']
+    if (higherRoles.some((role) => hasRole(role)))
+      return [userOption, teamOption, unitOption]
+    const mediumRoles = ['TEAM_VICE_LEAD', 'TEAM_LEAD']
+    if (mediumRoles.some((role) => hasRole(role)))
+      return [userOption, unitOption]
+    return [userOption]
+  }, [hasRole])
+
   return {
     getTeamQuery,
     getUnitsQuery,
     getUsersQuery,
     getRecipientOptions,
+    deriveRecipientOptions,
   }
 }
-
-export const RECIPIENT_TYPES = [
-  { label: 'User', value: 'user' },
-  { label: 'Team', value: 'team' },
-  { label: 'Unit', value: 'unit' },
-]

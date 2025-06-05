@@ -9,7 +9,7 @@ export const getDocumentDetailQueryOptions = (documentId: number) =>
     },
   })
 
-export const useViewDocumentDetail = (documentId: number) => {
+export const useDocumentDetail = (documentId: number) => {
   return $queryClient.useQuery('get', '/api/documents/{id}', {
     params: {
       path: {

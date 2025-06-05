@@ -9,7 +9,7 @@ export const getTaskAssignmentsQueryOptions = (taskId: number) =>
     },
   })
 
-export const useViewTaskAssignments = (taskId: number) => {
+export const useTaskAssignments = (taskId: number) => {
   return $queryClient.useQuery('get', `/api/assignments/task/{taskId}`, {
     params: {
       path: {
