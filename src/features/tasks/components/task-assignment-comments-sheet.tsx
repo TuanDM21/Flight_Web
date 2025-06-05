@@ -22,7 +22,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { AppSheet } from '@/components/app-sheet'
 import { useCreateTaskAssignmentComment } from '../hooks/use-create-task-assignment-comment'
-import { useViewTaskAssignmentComments } from '../hooks/use-view-task-assignment-comments'
+import { useTaskAssignmentComments } from '../hooks/use-task-assignment-comments'
 
 interface TaskAssignmentCommentsSheetProps {
   assignmentId: number
@@ -33,7 +33,7 @@ export const TaskAssignmentCommentsSheet: React.FC<
   TaskAssignmentCommentsSheetProps
 > = ({ assignmentId, dialog }) => {
   const { data: comments, isLoading: isCommentsLoading } =
-    useViewTaskAssignmentComments(assignmentId)
+    useTaskAssignmentComments(assignmentId)
   const createTaskAssignmentCommentMutation =
     useCreateTaskAssignmentComment(assignmentId)
 

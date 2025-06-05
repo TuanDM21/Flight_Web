@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
 import { EditTaskRoute } from '@/routes/_authenticated/tasks/$task-id/edit'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -17,17 +16,19 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { createTaskSchema } from '@/features/tasks/schema'
 import { CreateTasksForm } from './create'
-import { useUpdateTaskMutation } from './hooks/use-update-task'
-import { getTaskDetailQueryOptions } from './hooks/use-view-task-detail'
+import { getTaskDetailQueryOptions } from './hooks/use-task-detail'
+import { useUpdateTask } from './hooks/use-update-task'
 
 export default function EditTaskPage() {
   const taskId = EditTaskRoute.useParams()['task-id']
+  const searchParams = EditTaskRoute.useSearch()
+  const navigate = EditTaskRoute.useNavigate()
+  const currentType = searchParams.type || 'assigned'
+
   const { data: taskDetailsQuery } = useSuspenseQuery(
     getTaskDetailQueryOptions(Number(taskId))
   )
-
-  const navigate = useNavigate()
-  const updateTaskMutation = useUpdateTaskMutation(Number(taskId))
+  const updateTaskMutation = useUpdateTask(currentType)
 
   const taskData = taskDetailsQuery?.data || {}
 
@@ -66,7 +67,7 @@ export default function EditTaskPage() {
     toast.promise(taskUpdatePromise, {
       loading: `Updating task #${taskId}...`,
       success: () => {
-        void navigate({ to: '/tasks' })
+        void navigate({ to: '/tasks', search: { type: currentType } })
         return `Task #${taskId} updated successfully!`
       },
       error: `Failed to update task #${taskId}`,

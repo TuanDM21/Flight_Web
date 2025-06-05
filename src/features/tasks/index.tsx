@@ -1,263 +1,22 @@
 'use client'
 
 import * as React from 'react'
-import { format } from 'date-fns'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { Link } from '@tanstack/react-router'
-import type { ColumnDef } from '@tanstack/react-table'
-import { dateFormatPatterns } from '@/config/date'
-import { TaskListRoute } from '@/routes/_authenticated/tasks'
-import {
-  BadgeCheck,
-  CalendarSearch,
-  DollarSign,
-  Search,
-  Text,
-  UserSearch,
-} from 'lucide-react'
-import { parseAsString, useQueryState } from 'nuqs'
-import { getValidFilters } from '@/lib/data-table'
-import { filterColumns } from '@/lib/filter-columns'
-import { sortColumns } from '@/lib/sort-columns'
 import { useDataTable } from '@/hooks/use-data-table'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Input } from '@/components/ui/input'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
-import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
-import { Task, TaskFilters } from '@/features/tasks/types'
-import { TaskRowActions } from './components/task-row-actions'
-import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
+import { TaskSearchInput } from './components/task-search-input'
+import { TaskTypeFilter } from './components/task-type-filter'
+import { TasksPageHeader } from './components/tasks-page-header'
 import { TasksTableActionBar } from './components/tasks-table-action-bar'
-import { getTaskListQueryOptions } from './hooks/use-view-task'
-import { taskSearchParamsCache, taskStatusOptions } from './utils'
+import { useTasksTableColumns } from './hooks/use-tasks-table-columns'
+import { useTasksWithFiltering } from './hooks/use-tasks-with-filtering'
 
-export function TaskListPage() {
-  const { data: taskList } = useSuspenseQuery(getTaskListQueryOptions())
-  const [queryFilter, setQueryFilter] = useQueryState(
-    'q',
-    parseAsString.withDefault('')
-  )
+export function TasksPage() {
+  const { filteredData, isFiltering } = useTasksWithFiltering()
 
-  const searchParams = TaskListRoute.useSearch()
-  const search = taskSearchParamsCache.parse(searchParams)
-  const validFilters = getValidFilters(search.filters as any[])
-
-  // Update isFiltering state based on both text search and column filters
-  const isFiltering = Boolean(queryFilter) || validFilters.length > 0
-
-  const filteredData = React.useMemo((): Task[] => {
-    const tasks = taskList.data ?? []
-
-    // Text search filter
-    let filteredTasks = tasks
-    if (queryFilter) {
-      const searchTerm = String(queryFilter).toLowerCase()
-      filteredTasks = tasks.filter((task) => {
-        // Search in multiple fields - adjust as needed for your data structure
-        const content = (task.content || '').toLowerCase()
-        const createdBy = (task.createdByUser?.name ?? '')
-          ?.toString()
-          .toLowerCase()
-
-        return content.includes(searchTerm) || createdBy.includes(searchTerm)
-      })
-    }
-
-    // Apply column filters using filterColumns
-    if (validFilters.length > 0) {
-      const filterFn = filterColumns<TaskFilters>({
-        filters: validFilters,
-        joinOperator: 'or',
-      })
-
-      if (filterFn) {
-        filteredTasks = filteredTasks.filter(filterFn)
-      }
-    }
-
-    // Apply sorting using sortColumns
-    if (search.sort.length > 0) {
-      filteredTasks = sortColumns<Task>(filteredTasks, search.sort as any[])
-    }
-
-    return filteredTasks
-  }, [taskList.data, queryFilter, validFilters, search.sort])
-
-  const columns = React.useMemo<ColumnDef<Task>[]>(
-    () => [
-      {
-        id: 'select',
-        header: ({ table }) => (
-          <div className='px-4 py-2'>
-            <Checkbox
-              checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && 'indeterminate')
-              }
-              onCheckedChange={(value) => {
-                table.toggleAllPageRowsSelected(!!value)
-              }}
-              aria-label='Select all'
-            />
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className='px-4 py-2'>
-            <Checkbox
-              checked={row.getIsSelected()}
-              onCheckedChange={(value) => {
-                row.toggleSelected(!!value)
-              }}
-              aria-label='Select row'
-            />
-          </div>
-        ),
-        size: 64,
-        enableSorting: false,
-        enableHiding: false,
-        meta: {
-          className: 'sticky left-0 bg-background border-r',
-        },
-      },
-      {
-        id: 'id',
-        accessorKey: 'id',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Task ID' />
-        ),
-        cell: ({ cell }) => {
-          const taskId = cell.getValue<number>()
-          return (
-            <Button variant='link' size='sm' asChild className='h-auto p-0'>
-              <Link to='/tasks/$task-id' params={{ 'task-id': String(taskId) }}>
-                #{taskId ?? 'N/A'}
-              </Link>
-            </Button>
-          )
-        },
-        meta: {
-          className: '',
-          label: 'Task ID',
-          placeholder: 'Search task ID...',
-          variant: 'text',
-          icon: DollarSign,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'status',
-        accessorKey: 'status',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Status' />
-        ),
-        cell: ({ cell }) => <div>{cell.getValue<string>() ?? 'N/A'}</div>,
-        meta: {
-          className: '',
-          label: 'Status',
-          placeholder: 'Search Status...',
-          variant: 'select',
-          options: taskStatusOptions,
-          icon: BadgeCheck,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'content',
-        accessorKey: 'content',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Content' />
-        ),
-        cell: ({ cell }) => <div>{cell.getValue<string>() || 'N/A'}</div>,
-        meta: {
-          className: '',
-          label: 'Content',
-          placeholder: 'Search content...',
-          variant: 'text',
-          icon: Text,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'createdBy',
-        accessorFn: (row) => row.createdByUser?.name,
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Created By' />
-        ),
-        cell: ({ cell }) => {
-          return <div>{cell.getValue<string | undefined>() || 'Unknown'}</div>
-        },
-        meta: {
-          className: '',
-          label: 'Created By',
-          placeholder: 'Search creator...',
-          variant: 'text',
-          icon: UserSearch,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'createdAt',
-        accessorKey: 'createdAt',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Created At' />
-        ),
-        cell: ({ cell }) => {
-          const value = cell.getValue<string | undefined>()
-          if (!value) return <div>Not set</div>
-
-          const date = new Date(value)
-          return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
-        },
-        meta: {
-          className: '',
-          label: 'Created At',
-          placeholder: 'Filter by creation date...',
-          variant: 'date',
-          icon: CalendarSearch,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'updatedAt',
-        accessorKey: 'updatedAt',
-        accessorFn: (row) => row.updatedAt,
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Updated At' />
-        ),
-        cell: ({ cell }) => {
-          const value = cell.getValue<string | undefined>()
-          if (!value) return <div>Not set</div>
-
-          const date = new Date(value)
-          return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
-        },
-        meta: {
-          className: '',
-          label: 'Updated At',
-          placeholder: 'Filter by update date...',
-          variant: 'date',
-          icon: CalendarSearch,
-        },
-        enableColumnFilter: true,
-      },
-      {
-        id: 'actions',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Actions' />
-        ),
-        cell: ({ row }) => <TaskRowActions row={row} />,
-        size: 20,
-        meta: {
-          className: 'sticky right-0 bg-background border-l',
-        },
-      },
-    ],
-    []
-  )
+  const columns = useTasksTableColumns()
 
   const { table, debounceMs, shallow, throttleMs } = useDataTable({
     data: filteredData,
@@ -274,15 +33,7 @@ export function TaskListPage() {
 
   return (
     <div className='px-4 py-2'>
-      <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
-        <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Tasks</h2>
-          <p className='text-muted-foreground'>
-            Here&apos;s a list of your tasks for this month!
-          </p>
-        </div>
-        <TasksPrimaryButtons />
-      </div>
+      <TasksPageHeader />
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
         <React.Suspense fallback={<div>Loading...</div>}>
           <DataTable table={table}>
@@ -295,17 +46,8 @@ export function TaskListPage() {
                 debounceMs={debounceMs}
                 throttleMs={throttleMs}
               />
-              <div className='flex items-center gap-2'>
-                <Search
-                  className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
-                />
-                <Input
-                  placeholder='Search tasks...'
-                  className={`w-full pl-8 ${isFiltering ? 'border-primary' : ''}`}
-                  value={queryFilter}
-                  onChange={(e) => void setQueryFilter(e.target.value)}
-                />
-              </div>
+              <TaskSearchInput isFiltering={isFiltering} />
+              <TaskTypeFilter />
             </DataTableAdvancedToolbar>
           </DataTable>
         </React.Suspense>

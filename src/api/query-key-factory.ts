@@ -1,7 +1,11 @@
 export const taskKeysFactory = {
   lists: () => ['get', '/api/tasks'] as const,
-  listsFilter: (filters: string) =>
-    [...taskKeysFactory.lists(), { filters }] as const,
+  listAssignees: (filterType = 'created') =>
+    [
+      'get',
+      '/api/tasks/my',
+      { params: { query: { type: filterType } } },
+    ] as const,
 
   detail: (id: number) =>
     ['get', '/api/tasks/{id}', { params: { path: { id: id } } }] as const,
@@ -21,7 +25,11 @@ export const taskKeysFactory = {
     ] as const,
 
   documents: (taskId: number) =>
-    ['get', '/api/task-documents', { params: { query: { taskId } } }] as const,
+    [
+      'get',
+      '/api/task-documents',
+      { params: { query: { taskId: taskId } } },
+    ] as const,
 }
 
 export const userKeysFactory = {

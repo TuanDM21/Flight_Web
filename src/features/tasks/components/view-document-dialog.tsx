@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { IconTrash } from '@tabler/icons-react'
+import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { FileChartPie, FilePlus2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useDataTable } from '@/hooks/use-data-table'
@@ -16,7 +17,7 @@ import { DataTable } from '@/components/data-table/data-table'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import { documentColumns } from '@/features/documents/config'
 import { useInsertBulkTaskDocuments } from '../hooks/use-insert-bulk-task-document'
-import { useViewTaskDocuments } from '../hooks/use-view-task-documents'
+import { useViewTaskDocuments } from '../hooks/use-task-documents'
 import { TaskDocument } from '../types'
 import DeleteTaskDocumentsConfirmDialog from './delete-task-document-confirm-dialog'
 import { SelectDocumentsDialog } from './select-documents-dialog'
@@ -24,15 +25,18 @@ import { SelectDocumentsDialog } from './select-documents-dialog'
 interface Props {
   taskId: number
   dialog: AppDialogInstance
+  isTaskOwner: boolean
 }
 
-export function ViewDocumentDialog({ taskId, dialog }: Props) {
+export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
   const { data: taskDocuments, isLoading: isTaskDocumentsLoading } =
     useViewTaskDocuments(taskId)
-
+  const searchParams = TasksRoute.useSearch()
+  const currentType = searchParams.type || 'assigned'
   const deleteDocumentsDialogInstance = AppConfirmDialog.useDialog()
   const [selectedDocumentIds, setSelectedDocumentIds] = useState<number[]>([])
-  const insertBulkTaskDocumentsMutation = useInsertBulkTaskDocuments()
+  const insertBulkTaskDocumentsMutation =
+    useInsertBulkTaskDocuments(currentType)
 
   const selectDocumentDialogInstance = AppDialog.useDialog()
 
@@ -146,32 +150,38 @@ export function ViewDocumentDialog({ taskId, dialog }: Props) {
                   <h3 className='text-muted-foreground text-lg font-medium'>
                     No documents yet
                   </h3>
-                  <Button className='space-x-1' onClick={handleAddDocument}>
-                    <span>Add Document</span> <FilePlus2Icon />
-                  </Button>
-                  <p className='text-muted-foreground max-w-sm text-sm'>
-                    Be the first to add a document for this task.
-                  </p>
+                  {isTaskOwner && (
+                    <>
+                      <Button className='space-x-1' onClick={handleAddDocument}>
+                        <span>Add Document</span> <FilePlus2Icon />
+                      </Button>
+                      <p className='text-muted-foreground max-w-sm text-sm'>
+                        Be the first to add a document for this task.
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             ) : (
               <>
-                <div className='mb-4 flex justify-end gap-2'>
-                  {selectedDocumentRows.length > 0 && (
-                    <Button
-                      variant='destructive'
-                      className='space-x-2'
-                      onClick={handleDeleteTaskDocuments}
-                    >
-                      <IconTrash className='h-4 w-4' />
-                      <span>Remove ({selectedDocumentRows.length})</span>
+                {isTaskOwner && (
+                  <div className='mb-4 flex justify-end gap-2'>
+                    {selectedDocumentRows.length > 0 && (
+                      <Button
+                        variant='destructive'
+                        className='space-x-2'
+                        onClick={handleDeleteTaskDocuments}
+                      >
+                        <IconTrash className='h-4 w-4' />
+                        <span>Remove ({selectedDocumentRows.length})</span>
+                      </Button>
+                    )}
+                    <Button className='space-x-2' onClick={handleAddDocument}>
+                      <FilePlus2Icon className='h-4 w-4' />
+                      <span>Add Document</span>
                     </Button>
-                  )}
-                  <Button className='space-x-2' onClick={handleAddDocument}>
-                    <FilePlus2Icon className='h-4 w-4' />
-                    <span>Add Document</span>
-                  </Button>
-                </div>
+                  </div>
+                )}
                 <DataTable table={documentsTable} />
               </>
             )}

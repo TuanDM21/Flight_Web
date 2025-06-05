@@ -23,7 +23,25 @@ export const taskStatusLabels: Record<TaskAssignmentStatus, string> = {
   CANCELLED: 'Cancelled',
 }
 
-export const taskStatusVariants: Record<
+export const assigneeTaskAssignmentStatusLabels: Partial<
+  Record<TaskAssignmentStatus, string>
+> = {
+  IN_PROGRESS: 'In Progress',
+  SUBMITTED: 'Submitted',
+}
+
+export const ownerTaskAssignmentStatusLabels: Partial<
+  Record<TaskAssignmentStatus, string>
+> = {
+  REVIEWING: 'Reviewing',
+  REJECTED: 'Rejected',
+  COMPLETED: 'Completed',
+  LATE_COMPLETED: 'Late Completed',
+  REOPENED: 'Reopened',
+  CANCELLED: 'Cancelled',
+}
+
+export const taskAssignmentStatusVariants: Record<
   TaskAssignmentStatus,
   NonNullable<VariantProps<typeof badgeVariants>['variant']>
 > = {
@@ -38,26 +56,28 @@ export const taskStatusVariants: Record<
   CANCELLED: 'cancelled',
 }
 
-export const taskStatusIcons: Record<TaskAssignmentStatus, React.ElementType> =
-  {
-    ASSIGNED: CircleEllipsis,
-    IN_PROGRESS: Clock,
-    SUBMITTED: CheckCircle,
-    REVIEWING: CircleEllipsis,
-    REJECTED: Ban,
-    COMPLETED: CheckCircle,
-    LATE_COMPLETED: Clock,
-    REOPENED: CircleEllipsis,
-    CANCELLED: Ban,
-  }
+export const taskAssignmentsStatusIcons: Record<
+  TaskAssignmentStatus,
+  React.ElementType
+> = {
+  ASSIGNED: CircleEllipsis,
+  IN_PROGRESS: Clock,
+  SUBMITTED: CheckCircle,
+  REVIEWING: CircleEllipsis,
+  REJECTED: Ban,
+  COMPLETED: CheckCircle,
+  LATE_COMPLETED: Clock,
+  REOPENED: CircleEllipsis,
+  CANCELLED: Ban,
+}
 
-export const taskStatusOptions: Option[] = Object.entries(taskStatusLabels).map(
-  ([value, label]) => ({
-    value,
-    label,
-    variant: taskStatusVariants[value as TaskAssignmentStatus],
-    icon: taskStatusIcons[value as TaskAssignmentStatus] as React.FC<
-      React.SVGProps<SVGSVGElement>
-    >,
-  })
-)
+export const taskStatusOptions: Option[] = Object.entries(
+  assigneeTaskAssignmentStatusLabels
+).map(([value, label]) => ({
+  value,
+  label,
+  variant: taskAssignmentStatusVariants[value as TaskAssignmentStatus],
+  icon: taskAssignmentsStatusIcons[value as TaskAssignmentStatus] as React.FC<
+    React.SVGProps<SVGSVGElement>
+  >,
+}))
