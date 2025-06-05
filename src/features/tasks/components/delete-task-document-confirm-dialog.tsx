@@ -2,7 +2,7 @@ import { toast } from 'sonner'
 import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { AppConfirmDialog } from '@/components/app-confirm-dialog'
 import { ConfirmDialogContent } from '@/components/confirm-dialog-content'
-import { useDeleteBulkTaskDocumentsMutation } from '../hooks/use-delete-bulk-task-documents'
+import { useDeleteBulkTaskDocuments } from '../hooks/use-delete-bulk-task-documents'
 
 interface DeleteTaskDocumentsConfirmDialogProps {
   taskId: number
@@ -17,7 +17,7 @@ export default function DeleteTaskDocumentsConfirmDialog({
   onSuccess,
   dialog,
 }: DeleteTaskDocumentsConfirmDialogProps) {
-  const deleteBulkTaskDocumentsMutation = useDeleteBulkTaskDocumentsMutation()
+  const deleteBulkTaskDocumentsMutation = useDeleteBulkTaskDocuments()
 
   const documentCount = documentIds.length
 

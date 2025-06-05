@@ -17,13 +17,13 @@ import { Textarea } from '@/components/ui/textarea'
 import { createTaskSchema } from '@/features/tasks/schema'
 import { TaskAssignmentField } from './components/task-assignment-field'
 import { TaskDocumentField } from './components/task-document-field'
-import { useCreateTaskMutation } from './hooks/use-create-task'
+import { useCreateTask } from './hooks/use-create-task'
 
 export type CreateTasksForm = z.infer<typeof createTaskSchema>
 
 export default function CreateTaskPage() {
   const navigate = useNavigate()
-  const createTaskMutation = useCreateTaskMutation()
+  const createTaskMutation = useCreateTask()
 
   const form = useForm<CreateTasksForm>({
     resolver: zodResolver(createTaskSchema),

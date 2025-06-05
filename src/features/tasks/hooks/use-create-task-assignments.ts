@@ -7,6 +7,10 @@ import { TaskAssignment } from '../types'
 export function useCreateTaskAssignmentsMutation() {
   const queryClient = useQueryClient()
   return $queryClient.useMutation('post', '/api/assignments', {
+    meta: {
+      successMessage: 'Task assignments created successfully',
+      errorMessage: 'Failed to create task assignments',
+    },
     onMutate: async (variables) => {
       // Extract the updated data
       const { assignments, taskId } = variables?.body || {}

@@ -68,9 +68,9 @@ import { useUpdateAssignmentMutation } from '@/features/tasks/hooks/use-update-a
 import { updateTaskAssignmentSchema } from '@/features/tasks/schema'
 import { TaskAssignment, TaskAssignmentStatus } from '@/features/tasks/types'
 import {
-  taskStatusIcons,
-  taskStatusLabels,
-  taskStatusVariants,
+  taskAssignmentsStatusIcons,
+  taskAssignmentStatusLabels,
+  taskAssignmentStatusVariants,
 } from '@/features/tasks/utils'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
 import {
@@ -220,7 +220,7 @@ export function ViewAssignmentDialog({
     })
     toast.promise(updatePromise, {
       loading: `Updating assignment status...`,
-      success: `Assignment status updated to ${taskStatusLabels[newStatus]}!`,
+      success: `Assignment status updated to ${taskAssignmentStatusLabels[newStatus]}!`,
       error: `Failed to update assignment status. Please try again.`,
     })
   }
@@ -332,16 +332,27 @@ export function ViewAssignmentDialog({
                         </SelectTrigger>
                       </FormFieldTooltipError>
                       <SelectContent>
-                        {getRecipientOptions(
-                          form.getValues('recipientType') || ''
-                        ).map((recipient) => (
-                          <SelectItem
-                            key={recipient.value}
-                            value={String(recipient.value)}
-                          >
-                            {recipient.label}
-                          </SelectItem>
-                        ))}
+                        {(() => {
+                          const options = getRecipientOptions(
+                            form.getValues('recipientType') || ''
+                          )
+                          if (options.length === 0) {
+                            return (
+                              <div className='text-muted-foreground p-2 text-sm'>
+                                No recipients available
+                              </div>
+                            )
+                          }
+
+                          return options.map((recipient) => (
+                            <SelectItem
+                              key={recipient.value}
+                              value={String(recipient.value)}
+                            >
+                              {recipient.label}
+                            </SelectItem>
+                          ))
+                        })()}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -389,7 +400,7 @@ export function ViewAssignmentDialog({
                           <SelectValue placeholder='Select status' />
                         </SelectTrigger>
                         <SelectContent>
-                          {Object.entries(taskStatusLabels).map(
+                          {Object.entries(taskAssignmentStatusLabels).map(
                             ([value, label]) => (
                               <SelectItem key={value} value={value}>
                                 {label}
@@ -406,9 +417,9 @@ export function ViewAssignmentDialog({
           )
         }
         const status = assignment.status || 'ASSIGNED'
-        const Icon = taskStatusIcons[status]
-        const label = taskStatusLabels[status]
-        const variant = taskStatusVariants[status]
+        const Icon = taskAssignmentsStatusIcons[status]
+        const label = taskAssignmentStatusLabels[status]
+        const variant = taskAssignmentStatusVariants[status]
         return (
           <Badge
             className='flex items-center gap-1 capitalize'
@@ -597,24 +608,26 @@ export function ViewAssignmentDialog({
                 <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
                   <DropdownMenuRadioGroup value={String(assignment.status)}>
-                    {Object.entries(taskStatusLabels).map(([value, label]) => {
-                      const correctValue = value as TaskAssignmentStatus
-                      return (
-                        <DropdownMenuRadioItem
-                          key={value}
-                          value={value}
-                          disabled={value === String(assignment.status)}
-                          onClick={() =>
-                            handleUpdateAssignmentStatus(
-                              assignment,
-                              correctValue
-                            )
-                          }
-                        >
-                          {label}
-                        </DropdownMenuRadioItem>
-                      )
-                    })}
+                    {Object.entries(taskAssignmentStatusLabels).map(
+                      ([value, label]) => {
+                        const correctValue = value as TaskAssignmentStatus
+                        return (
+                          <DropdownMenuRadioItem
+                            key={value}
+                            value={value}
+                            disabled={value === String(assignment.status)}
+                            onClick={() =>
+                              handleUpdateAssignmentStatus(
+                                assignment,
+                                correctValue
+                              )
+                            }
+                          >
+                            {label}
+                          </DropdownMenuRadioItem>
+                        )
+                      }
+                    )}
                   </DropdownMenuRadioGroup>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>

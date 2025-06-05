@@ -73,16 +73,6 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
         <FormLabel className='text-base font-medium'>Assignments</FormLabel>
-        <Button
-          type='button'
-          variant='outline'
-          size='sm'
-          onClick={handleAddAssignment}
-          className='flex items-center gap-1'
-        >
-          <PlusCircle className='h-4 w-4' />
-          <span>Add Assignment</span>
-        </Button>
       </div>
 
       {fields.length === 0 && (
@@ -181,16 +171,26 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {getRecipientOptions(
-                          assignmentValues?.[index]?.recipientType || ''
-                        )?.map((recipient) => (
-                          <SelectItem
-                            key={recipient.value}
-                            value={(recipient.value ?? '').toString()}
-                          >
-                            {recipient.label}
-                          </SelectItem>
-                        ))}
+                        {(() => {
+                          const options = getRecipientOptions(
+                            assignmentValues?.[index]?.recipientType || ''
+                          )
+                          if (options.length === 0) {
+                            return (
+                              <div className='text-muted-foreground px-2 py-1.5 text-sm'>
+                                No recipients available
+                              </div>
+                            )
+                          }
+                          return options.map((recipient) => (
+                            <SelectItem
+                              key={recipient.value}
+                              value={String(recipient.value)}
+                            >
+                              {recipient.label}
+                            </SelectItem>
+                          ))
+                        })()}
                       </SelectContent>
                     </Select>
                     <FormMessage />

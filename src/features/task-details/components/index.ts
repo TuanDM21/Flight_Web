@@ -1,0 +1,8 @@
+export { TaskDetailHeader } from './task-detail-header'
+export { TaskInformationCard } from './task-information-card'
+export { TaskAssignmentsCard } from './task-assignments-card'
+export { TaskDocumentsCard } from './task-documents-card'
+export { TaskMetadataCard } from './task-metadata-card'
+export { DocumentAttachment } from './document-attachment'
+export { getStatusIcon, getStatusVariant } from './task-status-utils'
+export { getAssignmentsInfo, getDocumentsInfo } from './task-detail-utils'

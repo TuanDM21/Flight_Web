@@ -1,8 +1,12 @@
 import ReactDOM from 'react-dom/client'
 import {
+  DefaultError,
+  Mutation,
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
+  QueryKey,
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { NuqsAdapter } from 'nuqs/adapters/react'
@@ -19,18 +23,26 @@ import { routeTree } from './routeTree.gen'
 
 loadEnvVariables()
 
+declare module '@tanstack/react-query' {
+  interface Register {
+    mutationMeta: {
+      invalidatesQuery?: QueryKey
+    }
+  }
+}
+
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: import.meta.env.PROD,
-      staleTime: 10 * 1000,
+  mutationCache: new MutationCache({
+    onSettled: (_data, _error, _variables, _context, mutation) => {
+      {
+        if (mutation.meta?.invalidatesQuery) {
+          queryClient.invalidateQueries({
+            queryKey: mutation.meta?.invalidatesQuery,
+          })
+        }
+      }
     },
-    mutations: {
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    },
-  },
+  }),
   queryCache: new QueryCache({
     onError: (error) => {
       if (error instanceof FetchError) {

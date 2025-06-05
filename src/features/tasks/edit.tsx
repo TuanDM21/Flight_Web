@@ -17,17 +17,19 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { createTaskSchema } from '@/features/tasks/schema'
 import { CreateTasksForm } from './create'
-import { useUpdateTaskMutation } from './hooks/use-update-task'
+import { useUpdateTask } from './hooks/use-update-task'
 import { getTaskDetailQueryOptions } from './hooks/use-view-task-detail'
 
 export default function EditTaskPage() {
   const taskId = EditTaskRoute.useParams()['task-id']
+  const searchParams = EditTaskRoute.useSearch()
+  const navigate = EditTaskRoute.useNavigate()
+  const currentType = searchParams.type || 'assigned'
+
   const { data: taskDetailsQuery } = useSuspenseQuery(
     getTaskDetailQueryOptions(Number(taskId))
   )
-
-  const navigate = useNavigate()
-  const updateTaskMutation = useUpdateTaskMutation(Number(taskId))
+  const updateTaskMutation = useUpdateTask(currentType)
 
   const taskData = taskDetailsQuery?.data || {}
 
@@ -66,7 +68,7 @@ export default function EditTaskPage() {
     toast.promise(taskUpdatePromise, {
       loading: `Updating task #${taskId}...`,
       success: () => {
-        void navigate({ to: '/tasks' })
+        void navigate({ to: '/tasks', search: { type: currentType } })
         return `Task #${taskId} updated successfully!`
       },
       error: `Failed to update task #${taskId}`,

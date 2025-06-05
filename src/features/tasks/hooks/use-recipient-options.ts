@@ -1,11 +1,14 @@
 import $queryClient from '@/api'
+import { LiteralUnion } from 'type-fest'
 
 export function useRecipientOptions() {
   const getTeamQuery = $queryClient.useQuery('get', '/api/teams')
   const getUnitsQuery = $queryClient.useQuery('get', '/api/units')
-  const getUsersQuery = $queryClient.useQuery('get', '/api/users')
+  const getUsersQuery = $queryClient.useQuery('get', '/api/users/assignable')
 
-  const getRecipientOptions = (type: string) => {
+  const getRecipientOptions = (
+    type: LiteralUnion<'team' | 'unit' | 'user', string>
+  ) => {
     if (type === 'team') {
       return (
         (getTeamQuery.data?.data ?? []).map((team) => ({

@@ -25,3 +25,5 @@ export type TaskAssignmentComment = Required<
     paths['/api/assignments/{id}/comments']['get']['responses']['200']['content']['*/*']['data']
   >
 >[number]
+
+export type TaskFilterTypes = 'created' | 'assigned' | 'received'

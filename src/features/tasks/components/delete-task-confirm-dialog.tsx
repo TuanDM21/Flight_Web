@@ -1,3 +1,4 @@
+import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { toast } from 'sonner'
 import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { AppConfirmDialog } from '@/components/app-confirm-dialog'
@@ -14,7 +15,9 @@ export default function DeleteTaskConfirmDialog({
   onSuccess,
   dialog,
 }: DeleteTaskConfirmDialogProps) {
-  const deleteTaskMutation = useDeleteTask()
+  const searchParams = TasksRoute.useSearch()
+  const currentType = searchParams.type || 'assigned'
+  const deleteTaskMutation = useDeleteTask(currentType)
 
   return (
     <AppConfirmDialog dialog={dialog}>

@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import {
   SheetContent,
@@ -58,7 +57,7 @@ export const TaskAssignmentFormSheet = ({
 
   return (
     <AppSheet dialog={dialog}>
-      <SheetContent className='h-full w-full sm:max-w-2xl'>
+      <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
           <SheetTitle>Create Task Assignment</SheetTitle>
           <SheetDescription>
@@ -66,27 +65,21 @@ export const TaskAssignmentFormSheet = ({
           </SheetDescription>
         </SheetHeader>
 
-        <div className='flex min-h-0 flex-1 flex-col p-4'>
-          <Card className='flex-1 border-none shadow-none'>
-            <CardContent className='h-full p-0'>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleSubmit)}
-                  className='flex h-full flex-col space-y-4'
-                >
-                  <div className='flex-1 overflow-y-auto'>
-                    <TaskAssignmentField form={form} name='assignments' />
-                  </div>
-                  <div className='flex-shrink-0 border-t pt-4'>
-                    <Button type='submit' size='lg' className='w-full'>
-                      Create Assignments
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </div>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className='flex min-h-0 flex-1 flex-col'
+          >
+            <div className='min-h-0 flex-1 overflow-y-auto p-4'>
+              <TaskAssignmentField form={form} name='assignments' />
+            </div>
+            <div className='flex-shrink-0 border-t p-4'>
+              <Button type='submit' size='lg' className='w-full'>
+                Save Assignment
+              </Button>
+            </div>
+          </form>
+        </Form>
       </SheetContent>
     </AppSheet>
   )

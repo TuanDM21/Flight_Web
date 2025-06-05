@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
 import { BaseApiResponse } from '@/types/response'
 import { taskKeysFactory } from '@/api/query-key-factory'
-import { Task } from '@/features/tasks/types'
+import { Task, TaskFilterTypes } from '@/features/tasks/types'
 
 interface OptimisticUpdateContext {
   taskId: number
@@ -10,23 +10,20 @@ interface OptimisticUpdateContext {
   previousTasksList?: BaseApiResponse<Task[]>
 }
 
-export const useUpdateTaskMutation = (currentTaskId?: number | null) => {
+export const useUpdateTask = (filterType: TaskFilterTypes) => {
   const queryClient = useQueryClient()
 
   return $queryClient.useMutation('put', '/api/tasks/{id}', {
     onMutate: async (variables): Promise<OptimisticUpdateContext> => {
       // Get the task ID from the variables
       const taskId = variables?.params?.path?.id
-      if (!taskId) {
-        return { taskId: currentTaskId || 0 }
-      }
 
       // Cancel any outgoing refetches to avoid overwriting our optimistic update
       await queryClient.cancelQueries({
         queryKey: taskKeysFactory.detail(Number(taskId)),
       })
       await queryClient.cancelQueries({
-        queryKey: taskKeysFactory.lists(),
+        queryKey: taskKeysFactory.listAssignees(filterType),
       })
 
       // Snapshot the previous values
@@ -35,7 +32,7 @@ export const useUpdateTaskMutation = (currentTaskId?: number | null) => {
       >(taskKeysFactory.detail(Number(taskId)))
       const previousTasksList = queryClient.getQueryData<
         BaseApiResponse<Task[]>
-      >(taskKeysFactory.lists())
+      >(taskKeysFactory.listAssignees(filterType))
 
       // Extract the updated data
       const { content, instructions, notes } = variables?.body || {}
@@ -61,7 +58,7 @@ export const useUpdateTaskMutation = (currentTaskId?: number | null) => {
 
       // Optimistically update the tasks list
       queryClient.setQueryData(
-        taskKeysFactory.lists(),
+        taskKeysFactory.listAssignees(filterType),
         (old: BaseApiResponse<Task[]> | undefined) => {
           if (!old?.data) return old
 
@@ -95,7 +92,7 @@ export const useUpdateTaskMutation = (currentTaskId?: number | null) => {
 
       if (typedContext.previousTasksList) {
         queryClient.setQueryData(
-          taskKeysFactory.lists(),
+          taskKeysFactory.listAssignees(filterType),
           typedContext.previousTasksList
         )
       }
@@ -109,14 +106,13 @@ export const useUpdateTaskMutation = (currentTaskId?: number | null) => {
     },
     onSettled: (_data, _error, variables, context) => {
       const typedContext = context as OptimisticUpdateContext | undefined
-      const taskId =
-        variables?.params?.path?.id ?? typedContext?.taskId ?? currentTaskId
+      const taskId = variables?.params?.path?.id ?? typedContext?.taskId
 
       if (!taskId) return
 
       // Always refetch after error or success
       queryClient.invalidateQueries({
-        queryKey: taskKeysFactory.lists(),
+        queryKey: taskKeysFactory.listAssignees(filterType),
       })
 
       queryClient.invalidateQueries({
