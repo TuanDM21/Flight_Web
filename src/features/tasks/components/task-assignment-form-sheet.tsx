@@ -2,31 +2,32 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
+import { DialogProps } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import {
+  Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { AppSheet } from '@/components/app-sheet'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
 import { createTaskAssignmentsSchema } from '../schema'
 import { TaskAssignmentField } from './task-assignment-field'
 
 type TaskSheetFormValues = z.infer<typeof createTaskAssignmentsSchema>
 
-interface TaskAssignmentFormSheetProps {
+interface TaskAssignmentFormSheetPayload {
   taskId: number
-  dialog: AppDialogInstance
 }
 
 export const TaskAssignmentFormSheet = ({
-  taskId,
-  dialog,
-}: TaskAssignmentFormSheetProps) => {
+  payload,
+  open,
+  onClose,
+}: DialogProps<TaskAssignmentFormSheetPayload>) => {
+  const { taskId } = payload
   const taskAssignmentsMutation = useCreateTaskAssignmentsMutation()
 
   const form = useForm<TaskSheetFormValues>({
@@ -47,7 +48,7 @@ export const TaskAssignmentFormSheet = ({
     toast.promise(promise, {
       loading: `Creating task assignment...`,
       success: () => {
-        dialog.close()
+        onClose()
         form.reset()
         return `Task assignment created successfully!`
       },
@@ -56,7 +57,7 @@ export const TaskAssignmentFormSheet = ({
   }
 
   return (
-    <AppSheet dialog={dialog}>
+    <Sheet open={open} onOpenChange={() => onClose()}>
       <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
           <SheetTitle>Create Task Assignment</SheetTitle>
@@ -81,6 +82,6 @@ export const TaskAssignmentFormSheet = ({
           </form>
         </Form>
       </SheetContent>
-    </AppSheet>
+    </Sheet>
   )
 }

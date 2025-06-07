@@ -18,7 +18,7 @@ import {
   ownerTaskAssignmentStatusLabels,
   taskAssignmentsStatusIcons,
   taskAssignmentStatusVariants,
-} from '@/features/tasks/utils'
+} from '@/features/tasks/utils/tasks'
 
 interface TaskAssignmentsCardProps {
   assignments: TaskAssignment[]

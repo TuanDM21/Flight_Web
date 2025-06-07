@@ -1,8 +1,8 @@
 import type * as React from 'react'
 import { type Table as TanstackTable, flexRender } from '@tanstack/react-table'
-import { AuthorizedUser } from '@/types/auth'
 import { getCommonPinningStyles } from '@/lib/data-table'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/context/auth-context'
 import {
   Table,
   TableBody,
@@ -17,7 +17,6 @@ import { TaskAssignment } from '@/features/tasks/types'
 interface AssignmentDataTableProps<TData> extends React.ComponentProps<'div'> {
   table: TanstackTable<TData>
   actionBar?: React.ReactNode
-  user?: AuthorizedUser | null
 }
 
 export function AssignmentDataTable<TData>({
@@ -25,9 +24,10 @@ export function AssignmentDataTable<TData>({
   actionBar,
   children,
   className,
-  user,
   ...props
 }: AssignmentDataTableProps<TData>) {
+  const { user } = useAuth()
+
   return (
     <div className={cn('flex w-full flex-col gap-2.5', className)} {...props}>
       {children}

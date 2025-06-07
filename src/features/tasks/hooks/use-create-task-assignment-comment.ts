@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
 import { taskKeysFactory } from '@/api/query-key-factory'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { TaskAssignmentComment } from '../types'
 
 export const useCreateTaskAssignmentComment = (assignmentId: number) => {

@@ -5,7 +5,7 @@ import { getValidFilters } from '@/lib/data-table'
 import { filterColumns } from '@/lib/filter-columns'
 import { sortColumns } from '@/lib/sort-columns'
 import { Task, TaskFilters, TaskFilterTypes } from '@/features/tasks/types'
-import { taskSearchParamsCache } from '../utils'
+import { taskSearchParamsCache } from '../utils/tasks'
 import { tasksQueryOptions } from './use-tasks'
 
 interface UseTasksWithFilteringProps {

@@ -1,6 +1,4 @@
-'use client'
-
-import * as React from 'react'
+import { Suspense } from 'react'
 import { useDataTable } from '@/hooks/use-data-table'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
@@ -15,9 +13,7 @@ import { useTasksWithFiltering } from './hooks/use-tasks-with-filtering'
 
 export function TasksPage() {
   const { filteredData, isFiltering } = useTasksWithFiltering()
-
   const columns = useTasksTableColumns()
-
   const { table, debounceMs, shallow, throttleMs } = useDataTable({
     data: filteredData,
     columns,
@@ -35,7 +31,7 @@ export function TasksPage() {
     <div className='px-4 py-2'>
       <TasksPageHeader />
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-        <React.Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
           <DataTable table={table}>
             <TasksTableActionBar table={table} />
             <DataTableAdvancedToolbar table={table}>
@@ -50,7 +46,7 @@ export function TasksPage() {
               <TaskTypeFilter />
             </DataTableAdvancedToolbar>
           </DataTable>
-        </React.Suspense>
+        </Suspense>
       </div>
     </div>
   )

@@ -2,31 +2,53 @@ import React from 'react'
 import { Download, Eye, File, Trash } from 'lucide-react'
 import { formatFileSize } from '@/lib/format'
 import { downloadFileFromUrl } from '@/utils/file'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
-import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import { DialogProps, useDialogs } from '@/hooks/use-dialogs'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
-import { AppSheet } from '@/components/app-sheet'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
-import { useViewDocumentDetail } from '../hooks/use-view-document-detail'
-import { useViewDownloadAttachmentUrl } from '../hooks/use-view-download-attachment-url'
+import { useDocumentDetail } from '../hooks/use-document-detail'
+import { useDownloadAttachmentUrl } from '../hooks/use-download-attachment-url'
 import { DocumentAttachment } from '../types'
-import { DeleteDocumentAttachmentConfirmDialog } from './delete-document-attachment-confirm-dialog'
 
 interface AttachmentItemProps {
   attachment: DocumentAttachment
-  documentId: number
 }
 
-function AttachmentItem({ attachment, documentId }: AttachmentItemProps) {
-  const deleteDocumentAttachmentConfirmDialog = AppConfirmDialog.useDialog()
-  const { data: attachmentDownloadUrl } = useViewDownloadAttachmentUrl({
+function AttachmentItem({ attachment }: AttachmentItemProps) {
+  const dialogs = useDialogs()
+  const { data: attachmentDownloadUrl } = useDownloadAttachmentUrl({
     attachmentId: attachment.id!,
   })
 
-  const handleRemoveAttachment = React.useCallback(() => {
-    deleteDocumentAttachmentConfirmDialog.open()
-  }, [deleteDocumentAttachmentConfirmDialog])
+  const handleRemoveAttachment = React.useCallback(async () => {
+    const confirmed = await dialogs.confirm(
+      <div>
+        <p>Are you sure you want to delete this attachment?</p>
+        <p className='text-muted-foreground mt-2 text-sm'>
+          File: {attachment.fileName}
+        </p>
+        <p className='text-muted-foreground text-sm'>
+          This action cannot be undone.
+        </p>
+      </div>,
+      {
+        title: 'Delete Attachment',
+        okText: 'Delete',
+        cancelText: 'Cancel',
+        severity: 'error',
+      }
+    )
+
+    if (confirmed) {
+      // TODO: Implement actual delete functionality
+      console.log('Deleting attachment:', attachment.id)
+    }
+  }, [dialogs, attachment.fileName, attachment.id])
 
   const handleDownloadAttachment = React.useCallback(async () => {
     if (!attachmentDownloadUrl) return
@@ -38,76 +60,66 @@ function AttachmentItem({ attachment, documentId }: AttachmentItemProps) {
   }, [attachmentDownloadUrl?.data])
 
   return (
-    <>
-      {deleteDocumentAttachmentConfirmDialog.isOpen && (
-        <DeleteDocumentAttachmentConfirmDialog
-          dialog={deleteDocumentAttachmentConfirmDialog}
-          documentId={documentId}
-          attachment={attachment}
-        />
-      )}
-
-      <div className='group hover:bg-muted/60 flex items-center justify-between gap-4 rounded-lg border p-4 transition-colors'>
-        <div className='flex min-w-0 flex-1 items-center gap-3'>
-          <div className='flex-shrink-0'>
-            <File className='text-primary/80 h-7 w-7' />
-          </div>
-          <div className='min-w-0 flex-1'>
-            <p className='text-foreground truncate text-base font-medium'>
-              {attachment.fileName || 'Unknown file'}
-            </p>
-            <p className='text-muted-foreground mt-0.5 text-xs'>
-              {formatFileSize(attachment.fileSize || 0)}
-            </p>
-          </div>
+    <div className='group hover:bg-muted/60 flex items-center justify-between gap-4 rounded-lg border p-4 transition-colors'>
+      <div className='flex min-w-0 flex-1 items-center gap-3'>
+        <div className='flex-shrink-0'>
+          <File className='text-primary/80 h-7 w-7' />
         </div>
-        <div className='flex flex-shrink-0 items-center gap-4'>
-          <DataTableActionBarAction
-            size='icon'
-            tooltip='Remove file'
-            onClick={handleRemoveAttachment}
-            tabIndex={-1}
-          >
-            <Trash />
-          </DataTableActionBarAction>
-          <a
-            href={attachment.filePath}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <DataTableActionBarAction
-              size='icon'
-              tooltip='View file'
-              tabIndex={-1}
-            >
-              <Eye />
-            </DataTableActionBarAction>
-          </a>
-
-          <DataTableActionBarAction
-            size='icon'
-            tooltip='Download file'
-            tabIndex={-1}
-            onClick={handleDownloadAttachment}
-          >
-            <Download />
-          </DataTableActionBarAction>
+        <div className='min-w-0 flex-1'>
+          <p className='text-foreground truncate text-base font-medium'>
+            {attachment.fileName || 'Unknown file'}
+          </p>
+          <p className='text-muted-foreground mt-0.5 text-xs'>
+            {formatFileSize(attachment.fileSize || 0)}
+          </p>
         </div>
       </div>
-    </>
+      <div className='flex flex-shrink-0 items-center gap-4'>
+        <DataTableActionBarAction
+          size='icon'
+          tooltip='Remove file'
+          onClick={handleRemoveAttachment}
+          tabIndex={-1}
+        >
+          <Trash />
+        </DataTableActionBarAction>
+        <a href={attachment.filePath} target='_blank' rel='noopener noreferrer'>
+          <DataTableActionBarAction
+            size='icon'
+            tooltip='View file'
+            tabIndex={-1}
+          >
+            <Eye />
+          </DataTableActionBarAction>
+        </a>
+
+        <DataTableActionBarAction
+          size='icon'
+          tooltip='Download file'
+          tabIndex={-1}
+          onClick={handleDownloadAttachment}
+        >
+          <Download />
+        </DataTableActionBarAction>
+      </div>
+    </div>
   )
 }
 
-interface DocumentAttachmentsSheetProps {
+interface DocumentAttachmentsSheetPayload {
   documentId: number
-  dialog: AppDialogInstance
 }
 
+interface DocumentAttachmentsSheetProps
+  extends DialogProps<DocumentAttachmentsSheetPayload> {}
+
 export function DocumentAttachmentsSheet({
-  documentId,
-  dialog,
+  payload,
+  open,
+  onClose,
 }: DocumentAttachmentsSheetProps) {
-  const { data: documentDetails, isLoading } = useViewDocumentDetail(documentId)
+  const { documentId } = payload
+  const { data: documentDetails, isLoading } = useDocumentDetail(documentId)
 
   const attachments = documentDetails?.data?.attachments || []
 
@@ -117,7 +129,7 @@ export function DocumentAttachmentsSheet({
   )
 
   return (
-    <AppSheet dialog={dialog}>
+    <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <SheetContent className='h-full w-full sm:max-w-2xl'>
         <SheetHeader className='space-y-3'>
           <SheetTitle className='flex items-center gap-2'>
@@ -147,14 +159,13 @@ export function DocumentAttachmentsSheet({
                 <AttachmentItem
                   key={attachment.id || index}
                   attachment={attachment}
-                  documentId={documentId}
                 />
               ))
             )}
           </div>
         </div>
       </SheetContent>
-    </AppSheet>
+    </Sheet>
   )
 }
 

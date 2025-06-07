@@ -5,7 +5,7 @@ import { useNavigate, useRouterState } from '@tanstack/react-router'
 import { loginSchema } from '@/schemas/auth'
 import { LoginCredentials } from '@/types/auth'
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
   Form,

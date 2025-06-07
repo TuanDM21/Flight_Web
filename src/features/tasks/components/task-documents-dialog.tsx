@@ -1,44 +1,54 @@
-import { useState } from 'react'
 import { IconTrash } from '@tabler/icons-react'
 import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { FileChartPie, FilePlus2Icon } from 'lucide-react'
 import { toast } from 'sonner'
+import { useAuth } from '@/context/auth-context'
 import { useDataTable } from '@/hooks/use-data-table'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
+import { DialogProps, useDialogs } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
 import {
+  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
 import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
-import { documentColumns } from '@/features/documents/config'
+import { useDocumentColumns } from '@/features/documents/hooks/use-document-columns'
+import { useDeleteBulkTaskDocuments } from '../hooks/use-delete-bulk-task-documents'
 import { useInsertBulkTaskDocuments } from '../hooks/use-insert-bulk-task-document'
 import { useViewTaskDocuments } from '../hooks/use-task-documents'
-import { TaskDocument } from '../types'
-import DeleteTaskDocumentsConfirmDialog from './delete-task-document-confirm-dialog'
+import { Task, TaskDocument } from '../types'
 import { SelectDocumentsDialog } from './select-documents-dialog'
 
-interface Props {
-  taskId: number
-  dialog: AppDialogInstance
-  isTaskOwner: boolean
+interface TaskDocumentsDialogProps {
+  task: Task
 }
 
-export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
-  const { data: taskDocuments, isLoading: isTaskDocumentsLoading } =
-    useViewTaskDocuments(taskId)
+export function TaskDocumentsDialog({
+  payload,
+  open,
+  onClose,
+}: DialogProps<TaskDocumentsDialogProps>) {
+  const { task } = payload
+  const taskId = task.id!
+  const { user } = useAuth()
+  const isTaskOwner = user?.id === task.createdByUser?.id
+
   const searchParams = TasksRoute.useSearch()
   const currentType = searchParams.type || 'assigned'
-  const deleteDocumentsDialogInstance = AppConfirmDialog.useDialog()
-  const [selectedDocumentIds, setSelectedDocumentIds] = useState<number[]>([])
   const insertBulkTaskDocumentsMutation =
     useInsertBulkTaskDocuments(currentType)
+  const deleteBulkTaskDocumentsMutation = useDeleteBulkTaskDocuments()
+
+  const { data: taskDocuments, isLoading: isTaskDocumentsLoading } =
+    useViewTaskDocuments(taskId)
 
   const selectDocumentDialogInstance = AppDialog.useDialog()
+  const dialogs = useDialogs()
+
+  const documentColumns = useDocumentColumns()
 
   const { table: documentsTable } = useDataTable({
     data: taskDocuments?.data || [],
@@ -47,21 +57,54 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
   })
 
   const selectedDocumentRows = documentsTable.getFilteredSelectedRowModel().rows
+  const noDocuments = !taskDocuments?.data || taskDocuments.data.length === 0
 
-  const handleDeleteTaskDocuments = () => {
+  const handleDeleteTaskDocuments = async () => {
     const deleteDocumentIds = selectedDocumentRows.map(
       (row) => row.original.id
     ) as number[]
 
-    setSelectedDocumentIds(deleteDocumentIds)
-    deleteDocumentsDialogInstance.open()
-  }
+    const documentCount = deleteDocumentIds.length
 
-  const handleAddDocument = () => {
-    selectDocumentDialogInstance.open()
-  }
+    const confirmed = await dialogs.confirm(
+      <div className='space-y-2'>
+        <p className='text-muted-foreground text-sm'>
+          This will permanently remove {documentCount} document
+          {documentCount === 1 ? '' : 's'} from Task #{taskId}.
+        </p>
+        <p className='text-muted-foreground text-sm font-medium'>
+          This action cannot be undone.
+        </p>
+      </div>,
+      {
+        title: `Delete ${documentCount} Document${documentCount === 1 ? '' : 's'}`,
+        severity: 'error',
+        okText: 'Delete',
+        cancelText: 'Cancel',
+      }
+    )
 
-  const noDocuments = !taskDocuments?.data || taskDocuments.data.length === 0
+    if (confirmed) {
+      const deleteDocumentsPromise =
+        deleteBulkTaskDocumentsMutation.mutateAsync({
+          params: {
+            query: {
+              taskId: taskId,
+            },
+          },
+          body: deleteDocumentIds,
+        })
+
+      toast.promise(deleteDocumentsPromise, {
+        loading: 'Deleting task documents...',
+        success: () => {
+          documentsTable.resetRowSelection()
+          return `Successfully deleted ${documentCount} document${documentCount === 1 ? '' : 's'}.`
+        },
+        error: 'Error deleting task documents',
+      })
+    }
+  }
 
   const getSelectedDocumentIds = () => {
     return (
@@ -88,7 +131,6 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
       loading: 'Adding documents...',
       success: () => {
         documentsTable.resetRowSelection()
-        setSelectedDocumentIds([])
         selectDocumentDialogInstance.close()
         return `Added ${selectedDocumentIds.length} documents successfully`
       },
@@ -101,20 +143,6 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
 
   return (
     <>
-      {selectedDocumentIds.length > 0 &&
-        deleteDocumentsDialogInstance.isOpen && (
-          <DeleteTaskDocumentsConfirmDialog
-            taskId={taskId}
-            documentIds={selectedDocumentIds}
-            onSuccess={() => {
-              documentsTable.resetRowSelection()
-              setSelectedDocumentIds([])
-              deleteDocumentsDialogInstance.close()
-            }}
-            dialog={deleteDocumentsDialogInstance}
-          />
-        )}
-
       {selectDocumentDialogInstance.isOpen && (
         <SelectDocumentsDialog
           getSelectedDocumentIds={getSelectedDocumentIds}
@@ -123,12 +151,8 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
         />
       )}
 
-      <AppDialog dialog={dialog}>
-        <DialogContent
-          className='max-h-7xl flex flex-col sm:max-w-7xl'
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onEscapeKeyDown={(event) => event.preventDefault()}
-        >
+      <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+        <DialogContent className='max-h-7xl flex flex-col sm:max-w-7xl'>
           <DialogHeader>
             <DialogTitle className='text-lg font-bold'>
               All Documents for Task #{taskId}
@@ -152,7 +176,10 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
                   </h3>
                   {isTaskOwner && (
                     <>
-                      <Button className='space-x-1' onClick={handleAddDocument}>
+                      <Button
+                        className='space-x-1'
+                        onClick={selectDocumentDialogInstance.open}
+                      >
                         <span>Add Document</span> <FilePlus2Icon />
                       </Button>
                       <p className='text-muted-foreground max-w-sm text-sm'>
@@ -176,7 +203,10 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
                         <span>Remove ({selectedDocumentRows.length})</span>
                       </Button>
                     )}
-                    <Button className='space-x-2' onClick={handleAddDocument}>
+                    <Button
+                      className='space-x-2'
+                      onClick={selectDocumentDialogInstance.open}
+                    >
                       <FilePlus2Icon className='h-4 w-4' />
                       <span>Add Document</span>
                     </Button>
@@ -187,7 +217,7 @@ export function ViewDocumentDialog({ taskId, dialog, isTaskOwner }: Props) {
             )}
           </div>
         </DialogContent>
-      </AppDialog>
+      </Dialog>
     </>
   )
 }

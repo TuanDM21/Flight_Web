@@ -1,26 +1,21 @@
 import React from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
 import { TaskDetailRoute } from '@/routes/_authenticated/tasks/$task-id'
 import { downloadFileFromUrl } from '@/utils/file'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { useFileIconType } from '@/hooks/use-file-icon-type'
 import { Card, CardContent } from '@/components/ui/card'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
 import { TaskAssignmentsCard } from '@/features/task-details/components/task-assignments-card'
 import { TaskDetailHeader } from '@/features/task-details/components/task-detail-header'
 import { getAssignmentsInfo } from '@/features/task-details/components/task-detail-utils'
 import { TaskDocumentsCard } from '@/features/task-details/components/task-documents-card'
 import { TaskInformationCard } from '@/features/task-details/components/task-information-card'
 import { TaskMetadataCard } from '@/features/task-details/components/task-metadata-card'
-import DeleteTaskConfirmDialog from './components/delete-task-confirm-dialog'
 import { getTaskDetailQueryOptions } from './hooks/use-task-detail'
 import { TaskDocumentAttachment } from './types'
 
 export default function TaskDetailPage() {
   const taskId = TaskDetailRoute.useParams()['task-id']
-  const deleteDialogInstance = AppConfirmDialog.useDialog()
-  const navigate = useNavigate()
   const { user } = useAuth()
 
   const { data: taskDetail } = useSuspenseQuery(
@@ -31,14 +26,6 @@ export default function TaskDetailPage() {
   const isTaskOwner = user?.id === task?.createdByUser?.id
 
   const { getFileIcon } = useFileIconType()
-
-  const handleDelete = async () => {
-    deleteDialogInstance.open()
-  }
-
-  const handleDeleteSuccess = () => {
-    navigate({ to: '/tasks' })
-  }
 
   const handleDownloadAttachment = React.useCallback(
     async (attachment: TaskDocumentAttachment) => {
@@ -67,34 +54,24 @@ export default function TaskDetailPage() {
   }
 
   return (
-    <>
-      {deleteDialogInstance.isOpen && (
-        <DeleteTaskConfirmDialog
-          taskId={Number(taskId)}
-          dialog={deleteDialogInstance}
-          onSuccess={handleDeleteSuccess}
+    <div className='px-4 py-2'>
+      <TaskDetailHeader task={task} />
+
+      <div className='grid gap-6'>
+        <TaskInformationCard task={task} />
+
+        <TaskAssignmentsCard
+          assignments={task.assignments || []}
+          isTaskOwner={isTaskOwner}
         />
-      )}
+        <TaskDocumentsCard
+          documents={task.documents || []}
+          onDownloadAttachment={handleDownloadAttachment}
+          getFileIcon={getFileIcon}
+        />
 
-      <div className='px-4 py-2'>
-        <TaskDetailHeader taskId={task.id ?? 0} onDelete={handleDelete} />
-
-        <div className='grid gap-6'>
-          <TaskInformationCard task={task} />
-
-          <TaskAssignmentsCard
-            assignments={task.assignments || []}
-            isTaskOwner={isTaskOwner}
-          />
-          <TaskDocumentsCard
-            documents={task.documents || []}
-            onDownloadAttachment={handleDownloadAttachment}
-            getFileIcon={getFileIcon}
-          />
-
-          <TaskMetadataCard task={task} assignmentsInfo={assignmentsInfo} />
-        </div>
+        <TaskMetadataCard task={task} assignmentsInfo={assignmentsInfo} />
       </div>
-    </>
+    </div>
   )
 }

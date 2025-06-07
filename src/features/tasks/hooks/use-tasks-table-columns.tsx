@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { Task } from '@/features/tasks/types'
 import { TaskRowActions } from '../components/task-row-actions'
-import { taskStatusOptions } from '../utils'
+import { taskStatusOptions } from '../utils/tasks'
 
 export function useTasksTableColumns(): ColumnDef<Task>[] {
   return [

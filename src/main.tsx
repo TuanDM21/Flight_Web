@@ -9,7 +9,7 @@ import {
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { NuqsAdapter } from 'nuqs/adapters/react'
 import { toast } from 'sonner'
-import { AuthProvider, useAuth } from './context/auth'
+import { AuthProvider, useAuth } from './context/auth-context'
 import { FontProvider } from './context/font-context'
 import { ThemeProvider } from './context/theme-context'
 import AbilityProvider from './features/ability/context/ability'

@@ -101,8 +101,7 @@ export const useUpdateDocument = () => {
       }
     },
     onSettled: (_data, _error, _variables, context) => {
-      const typedContext = context as OptimisticUpdateContext | undefined
-      if (!typedContext) return
+      const typedContext = context as OptimisticUpdateContext
 
       // Invalidate queries to ensure we have the latest server state
       queryClient.invalidateQueries({ queryKey: documentKeysFactory.lists() })

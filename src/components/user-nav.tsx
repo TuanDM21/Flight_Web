@@ -2,7 +2,7 @@
 
 import { useNavigate, useRouter } from '@tanstack/react-router'
 import { IconLogout } from '@tabler/icons-react'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,

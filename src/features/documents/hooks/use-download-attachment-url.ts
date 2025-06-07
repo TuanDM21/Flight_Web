@@ -16,7 +16,7 @@ export const getDownloadUrlQueryOptions = (attachmentId: number) =>
     }
   )
 
-export function useViewDownloadAttachmentUrl({
+export function useDownloadAttachmentUrl({
   attachmentId,
   enabled = true,
 }: {

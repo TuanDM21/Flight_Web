@@ -3,7 +3,8 @@ import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { envVariables } from '@/lib/env'
-import { AuthContext } from '@/context/auth'
+import { AuthContext } from '@/context/auth-context'
+import { DialogsProvider } from '@/context/dialogs-context'
 import { Toaster } from '@/components/ui/sonner'
 import { NavigationProgress } from '@/components/navigation-progress'
 import { AppAbility } from '@/features/ability/types'
@@ -19,7 +20,7 @@ interface AppRouterContext {
 export const Route = createRootRouteWithContext<AppRouterContext>()({
   component: () => {
     return (
-      <>
+      <DialogsProvider>
         <NavigationProgress />
         <Outlet />
         <Toaster richColors />
@@ -29,7 +30,7 @@ export const Route = createRootRouteWithContext<AppRouterContext>()({
             <TanStackRouterDevtools position='bottom-right' />
           </>
         )}
-      </>
+      </DialogsProvider>
     )
   },
   notFoundComponent: NotFoundError,

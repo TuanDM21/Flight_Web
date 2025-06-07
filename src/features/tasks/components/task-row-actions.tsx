@@ -3,7 +3,8 @@ import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
 import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { PencilIcon } from 'lucide-react'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
+import { useDialogs } from '@/hooks/use-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,12 +15,10 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
-import { AppDialog } from '@/components/app-dialog'
+import { useTaskDeleteConfirm } from '../hooks/use-delete-task-confirm'
 import { Task } from '../types'
-import DeleteTaskConfirmDialog from './delete-task-confirm-dialog'
-import { ViewAssignmentDialog } from './view-assignment-dialog'
-import { ViewDocumentDialog } from './view-document-dialog'
+import { TaskAssignmentsDialog } from './task-assignments-dialog'
+import { TaskDocumentsDialog } from './task-documents-dialog'
 
 interface TaskRowActionsProps {
   row: Row<Task>
@@ -29,40 +28,26 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
   const task = row.original
   const searchParams = TasksRoute.useSearch()
   const navigate = TasksRoute.useNavigate()
-  const currentType = searchParams.type || 'assigned'
-
-  const viewAssignmentDialogInstance = AppDialog.useDialog()
-  const viewDocumentDialogInstance = AppDialog.useDialog()
-  const deleteTaskDialogInstance = AppConfirmDialog.useDialog()
-
+  const filterType = searchParams.type || 'assigned'
   const { user } = useAuth()
-
   const isTaskOwner = user?.id === task.createdByUser?.id
+  const dialogs = useDialogs()
+  const { onDeleteTask } = useTaskDeleteConfirm(filterType)
+
+  const handleViewAssignments = async () => {
+    await dialogs.open(TaskAssignmentsDialog, {
+      task,
+    })
+  }
+
+  const handleViewDocuments = async () => {
+    await dialogs.open(TaskDocumentsDialog, {
+      task,
+    })
+  }
 
   return (
     <>
-      {viewAssignmentDialogInstance.isOpen && (
-        <ViewAssignmentDialog
-          dialog={viewAssignmentDialogInstance}
-          taskId={task.id!}
-          task={task}
-        />
-      )}
-      {viewDocumentDialogInstance.isOpen && (
-        <ViewDocumentDialog
-          dialog={viewDocumentDialogInstance}
-          taskId={task.id!}
-          isTaskOwner={isTaskOwner}
-        />
-      )}
-      {deleteTaskDialogInstance.isOpen && (
-        <DeleteTaskConfirmDialog
-          dialog={deleteTaskDialogInstance}
-          taskId={task.id!}
-          onSuccess={deleteTaskDialogInstance.close}
-        />
-      )}
-
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
@@ -74,7 +59,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuItem onClick={viewAssignmentDialogInstance.open}>
+          <DropdownMenuItem onClick={handleViewAssignments}>
             <div className='flex w-full items-center justify-between'>
               <div className='flex items-center'>
                 <span>View assignments</span>
@@ -84,7 +69,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
               </Badge>
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={viewDocumentDialogInstance.open}>
+          <DropdownMenuItem onClick={handleViewDocuments}>
             <div className='flex w-full items-center justify-between'>
               <div className='flex items-center'>
                 <span>View documents</span>
@@ -104,7 +89,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
                     params: { 'task-id': String(task.id) },
                     search: (prev) => ({
                       ...prev,
-                      type: currentType,
+                      type: filterType,
                     }),
                   })
                 }}
@@ -114,7 +99,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
                   <PencilIcon />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={deleteTaskDialogInstance.open}>
+              <DropdownMenuItem onClick={() => onDeleteTask(task)}>
                 Delete
                 <DropdownMenuShortcut>
                   <IconTrash />

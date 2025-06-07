@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import $queryClient from '@/api'
 import { LiteralUnion } from 'type-fest'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 
 export function useRecipientOptions() {
   const { user, hasRole } = useAuth()

@@ -1,23 +1,20 @@
-import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { FileUser, Users } from 'lucide-react'
 import { toast } from 'sonner'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { useDataTable } from '@/hooks/use-data-table'
-import { AppDialogInstance } from '@/hooks/use-dialog-instance'
+import { DialogProps, useDialogs } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
 import {
+  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { AppConfirmDialog } from '@/components/app-confirm-dialog'
-import { AppDialog } from '@/components/app-dialog'
-import { AppSheet } from '@/components/app-sheet'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
 import { useUpdateTaskAssignment } from '@/features/tasks/hooks/use-update-task-assignment'
 import { updateTaskAssignmentSchema } from '@/features/tasks/schema'
@@ -26,12 +23,12 @@ import {
   TaskAssignment,
   TaskAssignmentStatus,
 } from '@/features/tasks/types'
-import { taskStatusLabels } from '@/features/tasks/utils'
+import { taskStatusLabels } from '@/features/tasks/utils/tasks'
 import { useCreateTaskAssignmentsMutation } from '../hooks/use-create-task-assignments'
+import { useDeleteTaskAssignmentMutation } from '../hooks/use-delete-task-assignment'
 import { useTaskAssignments } from '../hooks/use-task-assignments'
 import { useCreateAssignmentColumns } from './assignment-columns'
 import { AssignmentDataTable } from './assignment-data-table'
-import DeleteTaskAssignmentConfirmDialog from './delete-task-assignment-confirm-dialog'
 import { TaskAssignmentCommentsSheet } from './task-assignment-comments-sheet'
 import { TaskAssignmentFormSheet } from './task-assignment-form-sheet'
 
@@ -39,9 +36,7 @@ type TaskAssignmentUpdateForm = z.infer<typeof updateTaskAssignmentSchema> & {
   assignmentId?: number
 }
 
-interface ViewAssignmentDialogContentProps {
-  taskId: number
-  dialog: AppDialogInstance
+interface TaskAssignmentsDialogProps {
   task: Task
 }
 
@@ -53,14 +48,18 @@ const initialFormValues: TaskAssignmentUpdateForm = {
   dueAt: new Date().toISOString(),
 }
 
-export function ViewAssignmentDialog({
-  taskId,
-  dialog,
-  task,
-}: ViewAssignmentDialogContentProps) {
+export function TaskAssignmentsDialog({
+  payload,
+  open,
+  onClose,
+}: DialogProps<TaskAssignmentsDialogProps>) {
+  const { task } = payload
+
+  const taskId = task.id!
   const searchParams = TasksRoute.useSearch()
   const currentType = searchParams.type || 'assigned'
   const { user } = useAuth()
+  const dialogs = useDialogs()
 
   const isTaskOwner = user?.id === task.createdByUser?.id
 
@@ -68,18 +67,10 @@ export function ViewAssignmentDialog({
   const { data: assignments, isLoading: isLoadingAssignments } =
     useTaskAssignments(taskId)
 
-  const [selectedAssignment, setSelectedAssignment] =
-    useState<TaskAssignment | null>(null)
-  const [commentsAssignment, setCommentsAssignment] =
-    useState<TaskAssignment | null>(null)
-
   const form = useForm<TaskAssignmentUpdateForm>({
     resolver: zodResolver(updateTaskAssignmentSchema),
     defaultValues: initialFormValues,
   })
-  const deleteAssignmentDialogInstance = AppConfirmDialog.useDialog()
-  const commentsSheetDialogInstance = AppSheet.useDialog()
-  const createAssignmentSheetDialogInstance = AppSheet.useDialog()
 
   const editingAssignmentId = form.watch('assignmentId')
 
@@ -147,9 +138,51 @@ export function ViewAssignmentDialog({
     })
   }
 
-  const handleDeleteAssignment = (assignment: TaskAssignment) => {
-    setSelectedAssignment(assignment)
-    deleteAssignmentDialogInstance.open()
+  const deleteAssignmentMutation = useDeleteTaskAssignmentMutation(taskId)
+
+  const handleDeleteAssignment = async (assignment: TaskAssignment) => {
+    const recipientName =
+      assignment?.recipientUser?.name ||
+      assignment?.recipientUser?.teamName ||
+      assignment?.recipientUser?.unitName
+
+    const confirmed = await dialogs.confirm(
+      <div className='space-y-2'>
+        <p className='text-muted-foreground text-sm'>
+          You are about to delete the assignment for{' '}
+          <span className='text-foreground font-medium'>{recipientName}</span>.
+        </p>
+        <p className='text-muted-foreground text-sm'>
+          This will remove all comments and progress associated with this
+          assignment.
+        </p>
+        <p className='text-muted-foreground text-sm font-medium'>
+          This action cannot be undone.
+        </p>
+      </div>,
+      {
+        title: 'Delete Assignment',
+        severity: 'error',
+        okText: 'Delete Assignment',
+        cancelText: 'Cancel',
+      }
+    )
+
+    if (!confirmed || !assignment.assignmentId) return
+
+    const deleteAssignmentPromise = deleteAssignmentMutation.mutateAsync({
+      params: {
+        path: {
+          id: assignment.assignmentId,
+        },
+      },
+    })
+
+    toast.promise(deleteAssignmentPromise, {
+      loading: 'Deleting assignment...',
+      success: `Successfully deleted assignment for ${recipientName}.`,
+      error: 'Error deleting assignment',
+    })
   }
 
   const assignmentColumns = useCreateAssignmentColumns({
@@ -159,8 +192,11 @@ export function ViewAssignmentDialog({
     handleSaveEdit,
     resetAssignmentForm,
     handleUpdateAssignmentStatus,
-    setCommentsAssignment,
-    commentsSheetDialogInstance,
+    handleOpenCommentsSheet: (assignment: TaskAssignment) => {
+      dialogs.sheet(TaskAssignmentCommentsSheet, {
+        assignmentId: assignment.assignmentId!,
+      })
+    },
     startEditing,
     handleDeleteAssignment,
     updateAssignmentMutation,
@@ -176,38 +212,13 @@ export function ViewAssignmentDialog({
 
   const noAssignments = !assignments?.data || assignments.data.length === 0
 
-  const handleOpenCreateAssignmentSheet = () => {
-    createAssignmentSheetDialogInstance.open()
+  const handleOpenCreateAssignmentSheet = async () => {
+    await dialogs.sheet(TaskAssignmentFormSheet, { taskId })
   }
 
   return (
     <>
-      {selectedAssignment && (
-        <DeleteTaskAssignmentConfirmDialog
-          taskId={taskId}
-          assignment={selectedAssignment}
-          onSuccess={() => {
-            setSelectedAssignment(null)
-          }}
-          dialog={deleteAssignmentDialogInstance}
-        />
-      )}
-
-      {commentsAssignment && commentsSheetDialogInstance.isOpen && (
-        <TaskAssignmentCommentsSheet
-          assignmentId={commentsAssignment.assignmentId!}
-          dialog={commentsSheetDialogInstance}
-        />
-      )}
-
-      {createAssignmentSheetDialogInstance.isOpen && (
-        <TaskAssignmentFormSheet
-          taskId={taskId}
-          dialog={createAssignmentSheetDialogInstance}
-        />
-      )}
-
-      <AppDialog dialog={dialog}>
+      <Dialog open={open} onOpenChange={() => onClose()}>
         <DialogContent
           className='max-h-7xl flex flex-col sm:max-w-7xl'
           onPointerDownOutside={(e) => e.preventDefault()}
@@ -262,11 +273,11 @@ export function ViewAssignmentDialog({
                 </div>
               </div>
             ) : (
-              <AssignmentDataTable table={assignmentsTable} user={user} />
+              <AssignmentDataTable table={assignmentsTable} />
             )}
           </Form>
         </DialogContent>
-      </AppDialog>
+      </Dialog>
     </>
   )
 }

@@ -12,7 +12,7 @@ import {
 import { dateFormatPatterns } from '@/config/date'
 import { FileTextIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/context/auth'
+import { useAuth } from '@/context/auth-context'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -62,7 +62,7 @@ import {
   taskAssignmentsStatusIcons,
   taskAssignmentStatusVariants,
   taskStatusLabels,
-} from '@/features/tasks/utils'
+} from '@/features/tasks/utils/tasks'
 import { EditableNoteCell } from './editable-note-cell'
 
 type TaskAssignmentUpdateForm = z.infer<typeof updateTaskAssignmentSchema> & {
@@ -78,8 +78,7 @@ interface AssignmentColumnsProps {
     assignment: TaskAssignment,
     newStatus: TaskAssignmentStatus
   ) => void
-  setCommentsAssignment: (assignment: TaskAssignment) => void
-  commentsSheetDialogInstance: { open: () => void }
+  handleOpenCommentsSheet: (assignment: TaskAssignment) => void
   startEditing: (assignment: TaskAssignment) => void
   handleDeleteAssignment: (assignment: TaskAssignment) => void
   updateAssignmentMutation: { isPending: boolean }
@@ -93,8 +92,7 @@ export function useCreateAssignmentColumns({
   handleSaveEdit,
   resetAssignmentForm,
   handleUpdateAssignmentStatus,
-  setCommentsAssignment,
-  commentsSheetDialogInstance,
+  handleOpenCommentsSheet,
   startEditing,
   handleDeleteAssignment,
   updateAssignmentMutation,
@@ -530,10 +528,7 @@ export function useCreateAssignmentColumns({
                 </DropdownMenuSub>
               )}
               <DropdownMenuItem
-                onClick={() => {
-                  setCommentsAssignment(assignment)
-                  commentsSheetDialogInstance.open()
-                }}
+                onClick={() => handleOpenCommentsSheet(assignment)}
               >
                 View comments
                 <DropdownMenuShortcut>

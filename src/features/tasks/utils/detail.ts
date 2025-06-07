@@ -1,18 +1,4 @@
-interface Assignment {
-  status?: string
-}
-
-interface Document {
-  attachments?: Array<{
-    fileName?: string
-    fileSize?: number
-  }>
-}
-
-interface Task {
-  assignments?: Assignment[]
-  documents?: Document[]
-}
+import { Task } from '../types'
 
 export const getAssignmentsInfo = (task?: Task) => {
   if (!task?.assignments || task.assignments.length === 0) {

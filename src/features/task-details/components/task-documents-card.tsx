@@ -6,8 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { AppSheet } from '@/components/app-sheet'
-import { DocumentAttachmentsSheet } from '@/features/documents/components/document-attachments-sheet'
+import { useShowDocumentAttachments } from '@/features/documents/hooks/use-show-document-attachments'
 import { TaskDocument, TaskDocumentAttachment } from '@/features/tasks/types'
 
 interface TaskDocumentsCardProps {
@@ -24,110 +23,105 @@ interface TaskDocumentItemProps {
 }
 
 function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
-  const attachmentsSheetDialog = AppSheet.useDialog()
+  const { showAttachments } = useShowDocumentAttachments()
+
+  const handleViewAttachments = () => {
+    if (document.id) {
+      showAttachments(document.id)
+    }
+  }
 
   return (
-    <>
-      {attachmentsSheetDialog.isOpen && document.id && (
-        <DocumentAttachmentsSheet
-          documentId={document.id}
-          dialog={attachmentsSheetDialog}
-        />
-      )}
-
-      <div
-        key={document.id || index}
-        className='rounded-lg border p-3 transition-colors sm:p-4'
-      >
-        <div className='space-y-3'>
-          <div className='flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between'>
-            <div className='min-w-0 flex-1'>
-              <div className='flex flex-col gap-2 sm:flex-row sm:items-center'>
-                <div className='flex items-center space-x-2'>
-                  <FileText className='h-4 w-4 shrink-0' />
-                  <span className='truncate text-sm font-medium'>
-                    Document #{document.id}
-                  </span>
-                </div>
-                {document.documentType && (
-                  <Badge variant='outline' className='w-fit shrink-0 text-xs'>
-                    {document.documentType}
-                  </Badge>
-                )}
+    <div
+      key={document.id || index}
+      className='rounded-lg border p-3 transition-colors sm:p-4'
+    >
+      <div className='space-y-3'>
+        <div className='flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between'>
+          <div className='min-w-0 flex-1'>
+            <div className='flex flex-col gap-2 sm:flex-row sm:items-center'>
+              <div className='flex items-center space-x-2'>
+                <FileText className='h-4 w-4 shrink-0' />
+                <span className='truncate text-sm font-medium'>
+                  Document #{document.id}
+                </span>
               </div>
-              <p className='text-muted-foreground mt-1 text-xs'>
-                <span className='hidden sm:inline'>Created on </span>
-                <span className='sm:hidden'>Created: </span>
-                {format(
-                  new Date(document.createdAt || ''),
-                  dateFormatPatterns.fullDateTime
-                )}
+              {document.documentType && (
+                <Badge variant='outline' className='w-fit shrink-0 text-xs'>
+                  {document.documentType}
+                </Badge>
+              )}
+            </div>
+            <p className='text-muted-foreground mt-1 text-xs'>
+              <span className='hidden sm:inline'>Created on </span>
+              <span className='sm:hidden'>Created: </span>
+              {format(
+                new Date(document.createdAt || ''),
+                dateFormatPatterns.fullDateTime
+              )}
+            </p>
+          </div>
+        </div>
+
+        {document.content && (
+          <div className='space-y-2'>
+            <h5 className='text-muted-foreground text-xs font-medium'>
+              Content
+            </h5>
+            <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
+              <p className='text-sm break-words whitespace-pre-wrap'>
+                {document.content}
               </p>
             </div>
           </div>
+        )}
 
-          {document.content && (
-            <div className='space-y-2'>
-              <h5 className='text-muted-foreground text-xs font-medium'>
-                Content
-              </h5>
-              <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
-                <p className='text-sm break-words whitespace-pre-wrap'>
-                  {document.content}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {document.notes && (
-            <div className='space-y-2'>
-              <h5 className='text-muted-foreground text-xs font-medium'>
-                Notes
-              </h5>
-              <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
-                <p className='text-xs break-words italic'>{document.notes}</p>
-              </div>
-            </div>
-          )}
-
+        {document.notes && (
           <div className='space-y-2'>
-            <div className='flex items-center justify-between'>
-              <h4 className='text-muted-foreground text-xs font-medium'>
-                Attachments ({document.attachments?.length || 0})
-              </h4>
-              {document.attachments &&
-                document.attachments.length > 0 &&
-                document.id && (
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    className='h-7 gap-1.5 text-xs'
-                    onClick={() => attachmentsSheetDialog.open()}
-                  >
-                    <Eye className='h-3 w-3' />
-                    View All
-                  </Button>
-                )}
+            <h5 className='text-muted-foreground text-xs font-medium'>Notes</h5>
+            <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
+              <p className='text-xs break-words italic'>{document.notes}</p>
             </div>
-            <div className='bg-muted/30 rounded-md p-2'>
-              {document.attachments && document.attachments.length > 0 ? (
-                <p className='text-muted-foreground text-xs'>
-                  {document.attachments.length} file
-                  {document.attachments.length !== 1 ? 's' : ''} attached.{' '}
-                  <span className='font-medium'>
-                    Click "View All" to see details.
-                  </span>
-                </p>
-              ) : (
-                <p className='text-muted-foreground text-xs'>
-                  No attachments available for this document.
-                </p>
+          </div>
+        )}
+
+        <div className='space-y-2'>
+          <div className='flex items-center justify-between'>
+            <h4 className='text-muted-foreground text-xs font-medium'>
+              Attachments ({document.attachments?.length || 0})
+            </h4>
+            {document.attachments &&
+              document.attachments.length > 0 &&
+              document.id && (
+                <Button
+                  variant='outline'
+                  size='sm'
+                  className='h-7 gap-1.5 text-xs'
+                  onClick={handleViewAttachments}
+                >
+                  <Eye className='h-3 w-3' />
+                  View All
+                </Button>
               )}
-            </div>
+          </div>
+          <div className='bg-muted/30 rounded-md p-2'>
+            {document.attachments && document.attachments.length > 0 ? (
+              <p className='text-muted-foreground text-xs'>
+                {document.attachments.length} file
+                {document.attachments.length !== 1 ? 's' : ''} attached.{' '}
+                <span className='font-medium'>
+                  Click "View All" to see details.
+                </span>
+              </p>
+            ) : (
+              <p className='text-muted-foreground text-xs'>
+                No attachments available for this document.
+              </p>
+            )}
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

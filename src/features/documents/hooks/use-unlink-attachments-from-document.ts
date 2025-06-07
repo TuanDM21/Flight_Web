@@ -4,7 +4,7 @@ import { BaseApiResponse } from '@/types/response'
 import { documentKeysFactory } from '@/api/query-key-factory'
 import { DocumentItem } from '../types'
 
-export function useRemoveDocumentAttachments() {
+export function useUnlinkAttachmentsFromDocument() {
   const queryClient = useQueryClient()
 
   return $queryClient.useMutation(
