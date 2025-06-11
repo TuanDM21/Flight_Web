@@ -26,7 +26,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { NavCollapsible, NavItem, NavLink, type NavGroup } from './types'
+import {
+  NavCollapsibleItem,
+  NavItem,
+  NavLinkItem,
+  type NavGroup,
+} from './types'
 
 export function NavGroup({ title, items }: NavGroup) {
   const { state } = useSidebar()
@@ -57,7 +62,13 @@ const NavBadge = ({ children }: { children: ReactNode }) => (
   <Badge className='rounded-full px-1 py-0 text-xs'>{children}</Badge>
 )
 
-const SidebarMenuLink = ({ item, href }: { item: NavLink; href: string }) => {
+const SidebarMenuLink = ({
+  item,
+  href,
+}: {
+  item: NavLinkItem
+  href: string
+}) => {
   const { setOpenMobile } = useSidebar()
   return (
     <SidebarMenuItem>
@@ -85,7 +96,7 @@ const SidebarMenuCollapsible = ({
   item,
   href,
 }: {
-  item: NavCollapsible
+  item: NavCollapsibleItem
   href: string
 }) => {
   const { setOpenMobile } = useSidebar()
@@ -136,7 +147,7 @@ const SidebarMenuCollapsedDropdown = ({
   item,
   href,
 }: {
-  item: NavCollapsible
+  item: NavCollapsibleItem
   href: string
 }) => {
   return (

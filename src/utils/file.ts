@@ -44,3 +44,29 @@ export function downloadFileFromUrl({
     }
   })
 }
+
+export function getFileExtension(fileName: string): string {
+  return fileName.split('.').pop()?.toLowerCase() || ''
+}
+
+export function getFileType(fileName: string): string {
+  const extension = getFileExtension(fileName)
+
+  const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg']
+  const documentTypes = ['pdf', 'doc', 'docx', 'txt', 'rtf']
+  const spreadsheetTypes = ['xls', 'xlsx', 'csv']
+  const presentationTypes = ['ppt', 'pptx']
+  const archiveTypes = ['zip', 'rar', '7z', 'tar', 'gz']
+  const videoTypes = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm']
+  const audioTypes = ['mp3', 'wav', 'flac', 'aac', 'ogg']
+
+  if (imageTypes.includes(extension)) return 'image'
+  if (documentTypes.includes(extension)) return 'document'
+  if (spreadsheetTypes.includes(extension)) return 'spreadsheet'
+  if (presentationTypes.includes(extension)) return 'presentation'
+  if (archiveTypes.includes(extension)) return 'archive'
+  if (videoTypes.includes(extension)) return 'video'
+  if (audioTypes.includes(extension)) return 'audio'
+
+  return 'other'
+}

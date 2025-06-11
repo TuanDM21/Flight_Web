@@ -1,14 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
 import PageTableSkeleton from '@/components/page-table-skeleton'
-import { DocumentListPage } from '@/features/documents'
+import { DocumentsPage } from '@/features/documents'
 import { getDocumentListQueryOptions } from '@/features/documents/hooks/use-documents'
 
 export const Route = createFileRoute('/_authenticated/documents/')({
   loader: ({ context: { queryClient } }) => {
     return queryClient.ensureQueryData(getDocumentListQueryOptions())
   },
-  component: DocumentListPage,
+  component: DocumentsPage,
   pendingComponent: PageTableSkeleton,
 })
 
-export { Route as DocumentListRoute }
+export { Route as DocumentsRoute }

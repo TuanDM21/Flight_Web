@@ -1,10 +1,4 @@
 import React from 'react'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { DocumentListRoute } from '@/routes/_authenticated/documents'
-import { parseAsString, useQueryState } from 'nuqs'
-import { getValidFilters } from '@/lib/data-table'
-import { filterColumns } from '@/lib/filter-columns'
-import { sortColumns } from '@/lib/sort-columns'
 import { useDataTable } from '@/hooks/use-data-table'
 import { Input } from '@/components/ui/input'
 import { DataTable } from '@/components/data-table/data-table'
@@ -15,64 +9,11 @@ import { Search } from '@/components/search'
 import { DocumentsPrimaryButtons } from './components/documents-primary-buttons'
 import { DocumentsTableActionBar } from './components/documents-table-action-bar'
 import { useDocumentColumns } from './hooks/use-document-columns'
-import { getDocumentListQueryOptions } from './hooks/use-documents'
-import type { DocumentFilters, DocumentItem } from './types'
-import { documentsSearchParamsCache } from './utils'
+import { useDocumentsSearchFilter } from './hooks/use-documents-search-filter'
 
-export function DocumentListPage() {
-  const { data: documentList } = useSuspenseQuery(getDocumentListQueryOptions())
-  const [queryFilter, setQueryFilter] = useQueryState(
-    'q',
-    parseAsString.withDefault('')
-  )
-
-  const searchParams = DocumentListRoute.useSearch()
-  const search = documentsSearchParamsCache.parse(searchParams)
-  const validFilters = getValidFilters(search.filters as any[])
-
-  const isFiltering = Boolean(queryFilter) || validFilters.length > 0
-
-  const filteredData = React.useMemo(() => {
-    const documents = documentList.data ?? []
-
-    let filteredDocuments = documents
-    if (queryFilter) {
-      const searchTerm = String(queryFilter).toLowerCase()
-      filteredDocuments = documents.filter((document) => {
-        const content = (document.content || '').toLowerCase()
-        const note = (document.notes || '').toLowerCase()
-        const documentType = (document.documentType || '').toLowerCase()
-
-        return (
-          content.includes(searchTerm) ||
-          note.includes(searchTerm) ||
-          documentType.includes(searchTerm)
-        )
-      })
-    }
-
-    // Apply column filters using filterColumns
-    if (validFilters.length > 0) {
-      const filterFn = filterColumns<DocumentFilters>({
-        filters: validFilters,
-        joinOperator: 'or',
-      })
-
-      if (filterFn) {
-        filteredDocuments = filteredDocuments.filter(filterFn)
-      }
-    }
-
-    // Apply sorting using sortColumns
-    if (search.sort.length > 0) {
-      filteredDocuments = sortColumns<DocumentItem>(
-        filteredDocuments,
-        search.sort as any
-      )
-    }
-
-    return filteredDocuments
-  }, [documentList.data, queryFilter, validFilters, search.sort])
+export function DocumentsPage() {
+  const { filteredData, isFiltering, queryFilter, setQueryFilter } =
+    useDocumentsSearchFilter()
 
   const documentColumns = useDocumentColumns()
 

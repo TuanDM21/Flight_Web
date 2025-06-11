@@ -8,6 +8,12 @@ import { EditDocumentRoute } from '@/routes/_authenticated/documents/$document-i
 import { Eye, Trash, Upload } from 'lucide-react'
 import { toast } from 'sonner'
 import { convertToFile } from '@/utils/file'
+import {
+  ACCEPTED_FILE_TYPES,
+  MAX_FILE_SIZE,
+  MAX_FILES_COUNT,
+  MAX_TOTAL_FILES_SIZE,
+} from '@/constants/file'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -32,17 +38,11 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { AppDialog } from '@/components/app-dialog'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
+import { useUploadAttachments } from '../attachments/hooks/use-upload-attachments'
 import { SelectAttachmentsDialog } from './components/select-attachments-dialog'
-import {
-  ACCEPTED_FILE_TYPES,
-  MAX_FILE_SIZE,
-  MAX_FILES_COUNT,
-  MAX_TOTAL_FILES_SIZE,
-} from './constants'
 import { getDocumentDetailQueryOptions } from './hooks/use-document-detail'
 import { useUnlinkAttachmentsFromDocument } from './hooks/use-unlink-attachments-from-document'
 import { useUpdateDocument } from './hooks/use-update-document'
-import { useUploadAttachments } from './hooks/use-upload-attachments'
 import { createDocumentSchema } from './schema'
 import { CreateDocumentForm, DocumentAttachment } from './types'
 

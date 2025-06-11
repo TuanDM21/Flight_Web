@@ -1,22 +1,14 @@
 import {
-  IconBarrierBlock,
-  IconBrowserCheck,
-  IconBug,
   IconChecklist,
-  IconError404,
   IconFileTypeDoc,
   IconHelp,
   IconLayoutDashboard,
-  IconLock,
-  IconMessages,
   IconNotification,
-  IconPackages,
   IconPalette,
-  IconServerOff,
+  IconPaperclip,
   IconSettings,
   IconTool,
   IconUserCog,
-  IconUserOff,
   IconUsers,
 } from '@tabler/icons-react'
 import { Command } from 'lucide-react'
@@ -24,17 +16,15 @@ import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
+    name: 'Flight Admin',
+    email: 'flight@gmail.com',
     avatar: '/avatars/shadcn.jpg',
   },
-  teams: [
-    {
-      name: 'Flight',
-      logo: Command,
-      plan: 'Flight',
-    },
-  ],
+  team: {
+    name: 'Flight',
+    logo: Command,
+    plan: 'Flight',
+  },
   navGroups: [
     {
       title: 'General',
@@ -55,56 +45,24 @@ export const sidebarData: SidebarData = {
           icon: IconFileTypeDoc,
         },
         {
-          title: 'Apps',
-          url: '/apps',
-          icon: IconPackages,
-        },
-        {
-          title: 'Chats',
-          url: '/chats',
-          badge: '3',
-          icon: IconMessages,
+          title: 'Attachments',
+          url: '/attachments',
+          icon: IconPaperclip,
+          items: [
+            {
+              title: 'My Attachments',
+              url: '/attachments',
+            },
+            {
+              title: 'Shared With Me',
+              url: '/attachments/shared-with-me',
+            },
+          ],
         },
         {
           title: 'Users',
           url: '/users',
           icon: IconUsers,
-        },
-      ],
-    },
-    {
-      title: 'Pages',
-      items: [
-        {
-          title: 'Errors',
-          icon: IconBug,
-          items: [
-            {
-              title: 'Unauthorized',
-              url: '/401',
-              icon: IconLock,
-            },
-            {
-              title: 'Forbidden',
-              url: '/403',
-              icon: IconUserOff,
-            },
-            {
-              title: 'Not Found',
-              url: '/404',
-              icon: IconError404,
-            },
-            {
-              title: 'Internal Server Error',
-              url: '/500',
-              icon: IconServerOff,
-            },
-            {
-              title: 'Maintenance Error',
-              url: '/503',
-              icon: IconBarrierBlock,
-            },
-          ],
         },
       ],
     },
@@ -134,11 +92,6 @@ export const sidebarData: SidebarData = {
               title: 'Notifications',
               url: '/settings/notifications',
               icon: IconNotification,
-            },
-            {
-              title: 'Display',
-              url: '/settings/display',
-              icon: IconBrowserCheck,
             },
           ],
         },

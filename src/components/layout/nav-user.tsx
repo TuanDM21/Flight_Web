@@ -1,12 +1,6 @@
 import { Link, useNavigate, useRouter } from '@tanstack/react-router'
 import { IconLogout } from '@tabler/icons-react'
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  Sparkles,
-} from 'lucide-react'
+import { BadgeCheck, Bell, ChevronsUpDown } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -80,23 +74,10 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
               <DropdownMenuItem asChild>
                 <Link to='/settings/account'>
                   <BadgeCheck />
                   Account
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to='/settings'>
-                  <CreditCard />
-                  Billing
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
