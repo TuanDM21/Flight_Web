@@ -74,7 +74,7 @@ export default function CreateDocumentPage() {
                   return file
                 } catch (error) {
                   toast.error(
-                    `The attachment "${att.fileName}" is not a valid file. Please select a different attachment.`
+                    `Tệp đính kèm "${att.fileName}" không phải là tệp hợp lệ. Vui lòng chọn tệp đính kèm khác.`
                   )
                   return null
                 }
@@ -107,12 +107,12 @@ export default function CreateDocumentPage() {
       },
     })
     toast.promise(createDocumentPromise, {
-      loading: 'Creating document...',
+      loading: 'Đang tạo tài liệu...',
       success: () => {
         navigate({ to: '/documents' })
-        return 'Document created successfully!'
+        return 'Tạo tài liệu thành công!'
       },
-      error: 'Failed to create document. Please try again.',
+      error: 'Không thể tạo tài liệu. Vui lòng thử lại.',
     })
   }
 
@@ -147,7 +147,7 @@ export default function CreateDocumentPage() {
       message,
     })
     toast(message, {
-      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
+      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" đã bị từ chối`,
     })
   }, [])
 
@@ -173,7 +173,7 @@ export default function CreateDocumentPage() {
       <div className='px-4 py-2'>
         <Card className='py-4'>
           <CardHeader>
-            <CardTitle>Create Document</CardTitle>
+            <CardTitle>Tạo tài liệu</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -187,9 +187,9 @@ export default function CreateDocumentPage() {
                   name='documentType'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Document Type</FormLabel>
+                      <FormLabel>Loại tài liệu</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder='Enter document type' />
+                        <Input {...field} placeholder='Nhập loại tài liệu' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -200,12 +200,12 @@ export default function CreateDocumentPage() {
                   name='content'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Content</FormLabel>
+                      <FormLabel>Nội dung</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           className='min-h-32'
-                          placeholder='Enter your content here'
+                          placeholder='Nhập nội dung của bạn tại đây'
                         />
                       </FormControl>
                       <FormMessage />
@@ -217,12 +217,12 @@ export default function CreateDocumentPage() {
                   name='notes'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Notes</FormLabel>
+                      <FormLabel>Ghi chú</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           className='min-h-32'
-                          placeholder='Enter your notes here'
+                          placeholder='Nhập ghi chú của bạn tại đây'
                         />
                       </FormControl>
                       <FormMessage />
@@ -234,7 +234,7 @@ export default function CreateDocumentPage() {
                   name='files'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Attachments</FormLabel>
+                      <FormLabel>Tệp đính kèm</FormLabel>
                       <FormControl>
                         <div className='border-primary/30 bg-background relative flex flex-col items-center rounded-lg border-2 border-dashed p-4 font-medium transition-colors'>
                           <Button
@@ -249,14 +249,14 @@ export default function CreateDocumentPage() {
                           >
                             <span className='flex items-center gap-2'>
                               <IconTableShare className='size-5' />
-                              Choose from shared attachments
+                              Chọn từ tệp đính kèm được chia sẻ
                             </span>
                           </Button>
                           <div className='flex w-full flex-col items-center'>
                             <div className='my-4 flex w-full items-center gap-2'>
                               <div className='border-muted-foreground/30 flex-grow border-t'></div>
                               <span className='text-muted-foreground text-xs font-semibold tracking-wider uppercase'>
-                                or
+                                hoặc
                               </span>
                               <div className='border-muted-foreground/30 flex-grow border-t'></div>
                             </div>
@@ -278,13 +278,14 @@ export default function CreateDocumentPage() {
                                       <Upload className='text-primary size-6' />
                                     </div>
                                     <p className='text-sm font-medium'>
-                                      Drag & drop files here or click to select
-                                      from your device
+                                      Kéo thả tệp vào đây hoặc nhấn để chọn từ
+                                      thiết bị của bạn
                                     </p>
                                     <p className='text-muted-foreground text-xs'>
-                                      (Up to {MAX_FILES_COUNT} files,{' '}
-                                      {MAX_FILE_SIZE / 1024 / 1024}MB each,
-                                      total {MAX_TOTAL_FILES_SIZE / 1024 / 1024}
+                                      (Tối đa {MAX_FILES_COUNT} tệp,{' '}
+                                      {MAX_FILE_SIZE / 1024 / 1024}MB mỗi tệp,
+                                      tổng cộng{' '}
+                                      {MAX_TOTAL_FILES_SIZE / 1024 / 1024}
                                       MB)
                                     </p>
                                   </div>
@@ -301,7 +302,7 @@ export default function CreateDocumentPage() {
                                           <DataTableActionBarAction
                                             type='button'
                                             size='icon'
-                                            tooltip='View file'
+                                            tooltip='Xem tệp'
                                             onClick={() =>
                                               handleOpenPreview(file)
                                             }
@@ -315,7 +316,7 @@ export default function CreateDocumentPage() {
                                             <DataTableActionBarAction
                                               type='button'
                                               size='icon'
-                                              tooltip='Remove file'
+                                              tooltip='Xóa tệp'
                                             >
                                               <Trash />
                                             </DataTableActionBarAction>
@@ -344,10 +345,10 @@ export default function CreateDocumentPage() {
               size='lg'
               onClick={() => void navigate({ to: '/documents' })}
             >
-              Cancel
+              Hủy
             </Button>
             <Button form='document-form' type='submit' size='lg'>
-              Create Document
+              Tạo tài liệu
             </Button>
           </div>
         </Card>

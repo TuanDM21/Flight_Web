@@ -18,7 +18,7 @@ export function AttachmentsTableToolbar({
     <div className='flex items-center justify-between'>
       <div className='flex flex-1 items-center space-x-2'>
         <Input
-          placeholder='Filter files...'
+          placeholder='Lọc tệp...'
           value={
             (table.getColumn('fileName')?.getFilterValue() as string) ?? ''
           }
@@ -33,7 +33,7 @@ export function AttachmentsTableToolbar({
             onClick={() => table.resetColumnFilters()}
             className='h-8 px-2 lg:px-3'
           >
-            Reset
+            Đặt lại
             <Cross2Icon className='ml-2 h-4 w-4' />
           </Button>
         )}

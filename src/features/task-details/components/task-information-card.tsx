@@ -14,17 +14,17 @@ export function TaskInformationCard({ task }: TaskInformationCardProps) {
       <CardHeader>
         <CardTitle className='flex items-center space-x-2'>
           <FileText className='h-5 w-5' />
-          <span>Task Information</span>
+          <span>Thông tin nhiệm vụ</span>
         </CardTitle>
       </CardHeader>
       <CardContent className='space-y-6'>
         <div>
           <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-            Content
+            Nội dung
           </h3>
           <div className='bg-muted/50 rounded-md p-4'>
             <p className='text-sm whitespace-pre-wrap'>
-              {task.content || 'No content provided'}
+              {task.content || 'Không có nội dung được cung cấp'}
             </p>
           </div>
         </div>
@@ -34,7 +34,7 @@ export function TaskInformationCard({ task }: TaskInformationCardProps) {
             <Separator />
             <div>
               <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                Instructions
+                Hướng dẫn
               </h3>
               <div className='bg-muted/50 rounded-md p-4'>
                 <p className='text-sm whitespace-pre-wrap'>
@@ -50,7 +50,7 @@ export function TaskInformationCard({ task }: TaskInformationCardProps) {
             <Separator />
             <div>
               <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                Notes
+                Ghi chú
               </h3>
               <div className='bg-muted/50 rounded-md p-4'>
                 <p className='text-sm whitespace-pre-wrap'>{task.notes}</p>
@@ -65,7 +65,7 @@ export function TaskInformationCard({ task }: TaskInformationCardProps) {
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
               <div>
                 <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                  Created By
+                  Được tạo bởi
                 </h3>
                 <div className='flex items-center space-x-3'>
                   <Avatar className='h-8 w-8'>
@@ -100,13 +100,13 @@ export function TaskInformationCard({ task }: TaskInformationCardProps) {
 
               <div>
                 <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                  Created At
+                  Ngày tạo
                 </h3>
                 <div className='rounded-md p-3'>
                   <p className='text-sm'>
                     {task.createdAt
                       ? new Date(task.createdAt).toLocaleString()
-                      : 'Not available'}
+                      : 'Không có sẵn'}
                   </p>
                 </div>
               </div>

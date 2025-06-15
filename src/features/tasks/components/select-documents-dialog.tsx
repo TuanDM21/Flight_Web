@@ -56,10 +56,10 @@ export function SelectDocumentsDialog({
           <FileText className='text-muted-foreground h-12 w-12' />
         </div>
         <div className='space-y-2'>
-          <h3 className='text-lg font-semibold'>No documents available</h3>
+          <h3 className='text-lg font-semibold'>Không có tài liệu nào</h3>
           <p className='text-muted-foreground max-w-sm text-sm'>
-            There are no documents in the system yet. Create some documents
-            first before assigning them to tasks.
+            Chưa có tài liệu nào trong hệ thống. Hãy tạo tài liệu trước khi phân
+            công cho nhiệm vụ.
           </p>
         </div>
       </div>
@@ -79,9 +79,9 @@ export function SelectDocumentsDialog({
     <AppDialog dialog={dialog}>
       <DialogContent className='flex h-[80vh] max-h-[800px] flex-col sm:max-w-7xl'>
         <DialogHeader className='text-left'>
-          <DialogTitle>Select Documents</DialogTitle>
+          <DialogTitle>Chọn tài liệu</DialogTitle>
           <DialogDescription>
-            Select one or more documents from the list below
+            Chọn một hoặc nhiều tài liệu từ danh sách bên dưới
           </DialogDescription>
         </DialogHeader>
         <div className='flex-1 overflow-auto'>
@@ -95,7 +95,7 @@ export function SelectDocumentsDialog({
         </div>
         <DialogFooter className='gap-2'>
           <Button variant='outline' onClick={dialog.close}>
-            Close
+            Đóng
           </Button>
           <Button
             onClick={handleSaveSelection}
@@ -105,7 +105,7 @@ export function SelectDocumentsDialog({
               table.getFilteredSelectedRowModel().rows.length === 0
             }
           >
-            Confirm
+            Xác nhận
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -52,14 +52,14 @@ export const useAttachmentTableColumns = (
             (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
+          aria-label='Chọn tất cả'
         />
       ),
       cell: ({ row }) => (
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label='Select row'
+          aria-label='Chọn hàng'
         />
       ),
       enableSorting: false,
@@ -73,7 +73,7 @@ export const useAttachmentTableColumns = (
       meta: {
         className: '',
         label: 'ID',
-        placeholder: 'Search ID...',
+        placeholder: 'Tìm kiếm ID...',
         variant: 'text',
         icon: Hash,
       },
@@ -100,13 +100,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'File Name',
-        placeholder: 'Search file name...',
+        label: 'Tên tệp',
+        placeholder: 'Tìm kiếm tên tệp...',
         variant: 'text',
         icon: FileText,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='File Name' />
+        <DataTableColumnHeader column={column} title='Tên tệp' />
       ),
       cell: ({ row }) => <FileNameCell fileName={row.getValue('fileName')} />,
       minSize: 200,
@@ -118,13 +118,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'File Size',
-        placeholder: 'Filter by file size...',
+        label: 'Kích thước tệp',
+        placeholder: 'Lọc theo kích thước tệp...',
         variant: 'number',
         icon: HardDrive,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Size' />
+        <DataTableColumnHeader column={column} title='Kích thước' />
       ),
       cell: ({ row }) => {
         const size = (row.getValue('fileSize') as number) || 0
@@ -142,13 +142,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'Upload Date',
-        placeholder: 'Filter by upload date...',
+        label: 'Ngày tải lên',
+        placeholder: 'Lọc theo ngày tải lên...',
         variant: 'date',
         icon: Calendar,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Uploaded Date' />
+        <DataTableColumnHeader column={column} title='Ngày tải lên' />
       ),
       cell: ({ row }) => {
         const dateValue = row.getValue('createdAt') as string
@@ -165,7 +165,7 @@ export const useAttachmentTableColumns = (
             >
               {isRecent && <Clock className='mr-1 inline-block h-4 w-4' />}
               {format(date, dateFormatPatterns.fullDate)}
-              {isRecent && ' (New)'}
+              {isRecent && ' (Mới)'}
             </span>
           </div>
         )
@@ -178,7 +178,7 @@ export const useAttachmentTableColumns = (
   optionalColumns.push({
     id: 'fileType',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='File Type' />
+      <DataTableColumnHeader column={column} title='Loại tệp' />
     ),
     cell: ({ row }) => {
       const fileName = row.getValue('fileName') as string
@@ -195,13 +195,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'Shared',
-        placeholder: 'Filter by shared status...',
+        label: 'Đã chia sẻ',
+        placeholder: 'Lọc theo trạng thái chia sẻ...',
         variant: 'number',
         icon: Users,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Shared' />
+        <DataTableColumnHeader column={column} title='Đã chia sẻ' />
       ),
       cell: ({ row }) => {
         const attachment = row.original
@@ -221,7 +221,7 @@ export const useAttachmentTableColumns = (
       id: 'actions',
       size: 20,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Actions' />
+        <DataTableColumnHeader column={column} title='Hành động' />
       ),
       cell: ({ row }) => {
         const attachment = row.original

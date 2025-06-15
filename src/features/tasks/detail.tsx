@@ -46,7 +46,9 @@ export default function TaskDetailPage() {
       <div className='px-4 py-2'>
         <Card>
           <CardContent className='pt-6'>
-            <p className='text-muted-foreground text-center'>Task not found</p>
+            <p className='text-muted-foreground text-center'>
+              Không tìm thấy nhiệm vụ
+            </p>
           </CardContent>
         </Card>
       </div>
