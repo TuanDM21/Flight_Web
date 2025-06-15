@@ -21,6 +21,7 @@ import { Route as errors401Import } from './routes/(errors)/401'
 import { Route as authSignOutImport } from './routes/(auth)/sign-out'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
@@ -100,6 +101,12 @@ const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any,
 )
+
+const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexImport.update({
   id: '/tasks/',
@@ -369,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/users/': {
+      id: '/_authenticated/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthenticatedUsersIndexImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/documents/$document-id/edit': {
       id: '/_authenticated/documents/$document-id/edit'
       path: '/documents/$document-id/edit'
@@ -434,6 +448,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDocumentsIndexRoute: typeof AuthenticatedDocumentsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
+  AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedDocumentsDocumentIdEditRoute: typeof AuthenticatedDocumentsDocumentIdEditRoute
   AuthenticatedTasksTaskIdEditRoute: typeof AuthenticatedTasksTaskIdEditRoute
   AuthenticatedDocumentsDocumentIdIndexRoute: typeof AuthenticatedDocumentsDocumentIdIndexRoute
@@ -452,6 +467,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDocumentsIndexRoute: AuthenticatedDocumentsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
+  AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
   AuthenticatedDocumentsDocumentIdEditRoute:
     AuthenticatedDocumentsDocumentIdEditRoute,
   AuthenticatedTasksTaskIdEditRoute: AuthenticatedTasksTaskIdEditRoute,
@@ -486,6 +502,7 @@ export interface FileRoutesByFullPath {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/users': typeof AuthenticatedUsersIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
   '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
@@ -513,6 +530,7 @@ export interface FileRoutesByTo {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/users': typeof AuthenticatedUsersIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
   '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
@@ -543,6 +561,7 @@ export interface FileRoutesById {
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/_authenticated/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
   '/_authenticated/documents/$document-id/': typeof AuthenticatedDocumentsDocumentIdIndexRoute
@@ -574,6 +593,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/settings/'
     | '/tasks'
+    | '/users'
     | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
     | '/documents/$document-id'
@@ -600,6 +620,7 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/settings'
     | '/tasks'
+    | '/users'
     | '/documents/$document-id/edit'
     | '/tasks/$task-id/edit'
     | '/documents/$document-id'
@@ -628,6 +649,7 @@ export interface FileRouteTypes {
     | '/_authenticated/help-center/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
+    | '/_authenticated/users/'
     | '/_authenticated/documents/$document-id/edit'
     | '/_authenticated/tasks/$task-id/edit'
     | '/_authenticated/documents/$document-id/'
@@ -690,6 +712,7 @@ export const routeTree = rootRoute
         "/_authenticated/documents/",
         "/_authenticated/help-center/",
         "/_authenticated/tasks/",
+        "/_authenticated/users/",
         "/_authenticated/documents/$document-id/edit",
         "/_authenticated/tasks/$task-id/edit",
         "/_authenticated/documents/$document-id/",
@@ -777,6 +800,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/tasks/": {
       "filePath": "_authenticated/tasks/index.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/users/": {
+      "filePath": "_authenticated/users/index.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/documents/$document-id/edit": {

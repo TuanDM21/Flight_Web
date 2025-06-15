@@ -39,11 +39,11 @@ export const useTaskDeleteConfirm = (filterType: TaskFilterTypes) => {
       })
 
       toast.promise(deleteTaskPromise, {
-        loading: `Đang xóa nhiệm vụ #${task.id}...`,
+        loading: `Deleting task #${task.id}...`,
         success: () => {
-          return `Đã xóa thành công nhiệm vụ #${task.id}.`
+          return `Successfully deleted task #${task.id}.`
         },
-        error: `Không thể xóa nhiệm vụ #${task.id}. Vui lòng thử lại.`,
+        error: `Failed to delete task #${task.id}. Please try again.`,
       })
     }
   }

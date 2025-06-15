@@ -24,7 +24,7 @@ export function TaskTypeFilter() {
     <div className='flex w-fit items-center gap-2 rounded-lg border pl-4'>
       <div className='flex items-center gap-2'>
         <label className='text-muted-foreground text-xs font-medium'>
-          Lọc theo
+          Filter by
         </label>
         <div className='bg-border h-8 w-px' />
       </div>
@@ -34,14 +34,14 @@ export function TaskTypeFilter() {
         onValueChange={onTypeChange}
         className='h-9 justify-start'
       >
-        <ToggleGroupItem value='assigned' aria-label='Nhiệm vụ được giao'>
-          Được giao
+        <ToggleGroupItem value='assigned' aria-label='Assigned tasks'>
+          Assigned
         </ToggleGroupItem>
-        <ToggleGroupItem value='created' aria-label='Nhiệm vụ đã tạo'>
-          Đã tạo
+        <ToggleGroupItem value='created' aria-label='Created tasks'>
+          Created
         </ToggleGroupItem>
-        <ToggleGroupItem value='received' aria-label='Nhiệm vụ đã nhận'>
-          Đã nhận
+        <ToggleGroupItem value='received' aria-label='Received tasks'>
+          Received
         </ToggleGroupItem>
       </ToggleGroup>
     </div>

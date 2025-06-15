@@ -2,7 +2,7 @@ import React from 'react'
 import { Download, Eye, File, Trash } from 'lucide-react'
 import { formatFileSize } from '@/lib/format'
 import { downloadFileFromUrl } from '@/utils/file'
-import { DialogProps } from '@/hooks/use-dialogs'
+import { DialogProps, useDialogs } from '@/hooks/use-dialogs'
 import {
   Sheet,
   SheetContent,
@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/sheet'
 import { Skeleton } from '@/components/ui/skeleton'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
-import { useDeleteAttachmentsConfirm } from '@/features/attachments/hooks/use-delete-attachments-confirm'
 import { useDownloadAttachmentUrl } from '../../attachments/hooks/use-download-attachment-url'
 import { useDocumentDetail } from '../hooks/use-document-detail'
 import { DocumentAttachment } from '../types'
@@ -21,15 +20,35 @@ interface AttachmentItemProps {
 }
 
 function AttachmentItem({ attachment }: AttachmentItemProps) {
-  const { onDeleteAttachments, isAttachmentsDeleting } =
-    useDeleteAttachmentsConfirm()
+  const dialogs = useDialogs()
   const { data: attachmentDownloadUrl } = useDownloadAttachmentUrl({
     attachmentId: attachment.id!,
   })
 
   const handleRemoveAttachment = React.useCallback(async () => {
-    await onDeleteAttachments([attachment])
-  }, [onDeleteAttachments, attachment])
+    const confirmed = await dialogs.confirm(
+      <div>
+        <p>Are you sure you want to delete this attachment?</p>
+        <p className='text-muted-foreground mt-2 text-sm'>
+          File: {attachment.fileName}
+        </p>
+        <p className='text-muted-foreground text-sm'>
+          This action cannot be undone.
+        </p>
+      </div>,
+      {
+        title: 'Delete Attachment',
+        okText: 'Delete',
+        cancelText: 'Cancel',
+        severity: 'error',
+      }
+    )
+
+    if (confirmed) {
+      // TODO: Implement actual delete functionality
+      console.log('Deleting attachment:', attachment.id)
+    }
+  }, [dialogs, attachment.fileName, attachment.id])
 
   const handleDownloadAttachment = React.useCallback(async () => {
     if (!attachmentDownloadUrl) return
@@ -48,7 +67,7 @@ function AttachmentItem({ attachment }: AttachmentItemProps) {
         </div>
         <div className='min-w-0 flex-1'>
           <p className='text-foreground truncate text-base font-medium'>
-            {attachment.fileName || 'Tệp không xác định'}
+            {attachment.fileName || 'Unknown file'}
           </p>
           <p className='text-muted-foreground mt-0.5 text-xs'>
             {formatFileSize(attachment.fileSize || 0)}
@@ -58,22 +77,25 @@ function AttachmentItem({ attachment }: AttachmentItemProps) {
       <div className='flex flex-shrink-0 items-center gap-4'>
         <DataTableActionBarAction
           size='icon'
-          tooltip='Xóa tệp'
+          tooltip='Remove file'
           onClick={handleRemoveAttachment}
-          disabled={isAttachmentsDeleting}
           tabIndex={-1}
         >
           <Trash />
         </DataTableActionBarAction>
         <a href={attachment.filePath} target='_blank' rel='noopener noreferrer'>
-          <DataTableActionBarAction size='icon' tooltip='Xem tệp' tabIndex={-1}>
+          <DataTableActionBarAction
+            size='icon'
+            tooltip='View file'
+            tabIndex={-1}
+          >
             <Eye />
           </DataTableActionBarAction>
         </a>
 
         <DataTableActionBarAction
           size='icon'
-          tooltip='Tải xuống tệp'
+          tooltip='Download file'
           tabIndex={-1}
           onClick={handleDownloadAttachment}
         >
@@ -112,10 +134,11 @@ export function DocumentAttachmentsSheet({
         <SheetHeader className='space-y-3'>
           <SheetTitle className='flex items-center gap-2'>
             <File className='h-5 w-5' />
-            Tệp đính kèm
+            Attachments
           </SheetTitle>
           <div className='text-muted-foreground text-sm'>
-            {attachments.length} tệp • {formatFileSize(totalSize)}
+            {attachments.length} {attachments.length === 1 ? 'file' : 'files'} •{' '}
+            {formatFileSize(totalSize)}
           </div>
         </SheetHeader>
 

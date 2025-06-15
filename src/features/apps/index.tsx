@@ -18,9 +18,9 @@ import { Main } from '@/components/layout/main'
 import { apps } from './data/apps'
 
 const appText = new Map<string, string>([
-  ['all', 'Tất cả ứng dụng'],
-  ['connected', 'Đã kết nối'],
-  ['notConnected', 'Chưa kết nối'],
+  ['all', 'All Apps'],
+  ['connected', 'Connected'],
+  ['notConnected', 'Not Connected'],
 ])
 
 export default function Apps() {
@@ -49,16 +49,16 @@ export default function Apps() {
       <Main fixed>
         <div>
           <h1 className='text-2xl font-bold tracking-tight'>
-            Tích hợp ứng dụng
+            App Integrations
           </h1>
           <p className='text-muted-foreground'>
-            Đây là danh sách các ứng dụng của bạn để tích hợp!
+            Here&apos;s a list of your apps for the integration!
           </p>
         </div>
         <div className='my-4 flex items-end justify-between sm:my-0 sm:items-center'>
           <div className='flex flex-col gap-4 sm:my-4 sm:flex-row'>
             <Input
-              placeholder='Lọc ứng dụng...'
+              placeholder='Filter apps...'
               className='h-9 w-40 lg:w-[250px]'
               value={searchTerm}
               onChange={(e) => {
@@ -70,9 +70,9 @@ export default function Apps() {
                 <SelectValue>{appText.get(appType)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='all'>Tất cả ứng dụng</SelectItem>
-                <SelectItem value='connected'>Đã kết nối</SelectItem>
-                <SelectItem value='notConnected'>Chưa kết nối</SelectItem>
+                <SelectItem value='all'>All Apps</SelectItem>
+                <SelectItem value='connected'>Connected</SelectItem>
+                <SelectItem value='notConnected'>Not Connected</SelectItem>
               </SelectContent>
             </Select>
           </div>

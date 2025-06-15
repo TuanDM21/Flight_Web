@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import { Search } from 'lucide-react'
 import { useDataTable } from '@/hooks/use-data-table'
 import { Input } from '@/components/ui/input'
 import { DataTable } from '@/components/data-table/data-table'
@@ -7,6 +6,7 @@ import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-adv
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
 import { Main } from '@/components/layout/main'
+import { Search } from '@/components/search'
 import { DocumentsTableActionBar } from '../documents/components/documents-table-action-bar'
 import { SharedWithMeAttachmentsPrimaryButtons } from './components/shared-with-me-attachments-primary-buttons'
 import { useShareWithMeSearchFilter } from './hooks/use-share-with-me-search-filter'
@@ -34,17 +34,15 @@ export default function SharedWithMeAttachmentsPage() {
     <Main>
       <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
         <div>
-          <h2 className='text-3xl font-bold tracking-tight'>
-            Được chia sẻ với tôi
-          </h2>
+          <h2 className='text-3xl font-bold tracking-tight'>Shared with Me</h2>
           <p className='text-muted-foreground'>
-            Tất cả các tệp đính kèm được chia sẻ với bạn bởi người khác.
+            All attachments shared with you by others.
           </p>
         </div>
         <SharedWithMeAttachmentsPrimaryButtons />
       </div>
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-        <Suspense fallback={<div>Đang tải...</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
           <DataTable table={table}>
             <DocumentsTableActionBar table={table} />
             <DataTableAdvancedToolbar table={table}>
@@ -60,7 +58,7 @@ export default function SharedWithMeAttachmentsPage() {
                   className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
                 />
                 <Input
-                  placeholder='Tìm kiếm tệp đính kèm...'
+                  placeholder='Search attachments...'
                   className={`w-full pl-8 ${isFiltering ? 'border-primary' : ''}`}
                   value={queryFilter}
                   onChange={(e) => void setQueryFilter(e.target.value)}

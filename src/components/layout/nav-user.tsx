@@ -77,20 +77,20 @@ export function NavUser() {
               <DropdownMenuItem asChild>
                 <Link to='/settings/account'>
                   <BadgeCheck />
-                  Tài khoản
+                  Account
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to='/settings/notifications'>
                   <Bell />
-                  Thông báo
+                  Notifications
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <IconLogout className='mr-2 h-4 w-4' />
-              Đăng xuất
+              Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -62,7 +62,7 @@ export function TaskDocumentField() {
         name='documentIds'
         render={() => (
           <FormItem>
-            <FormLabel>Tệp đính kèm</FormLabel>
+            <FormLabel>Attachments</FormLabel>
             <FormControl>
               <div className='border-primary/30 bg-background relative flex flex-col items-center rounded-lg border-2 border-dashed p-4 font-medium transition-colors'>
                 <Button
@@ -77,7 +77,7 @@ export function TaskDocumentField() {
                 >
                   <span className='flex items-center gap-2'>
                     <IconTableShare className='size-5' />
-                    Chọn từ tài liệu chia sẻ
+                    Choose from shared documents
                   </span>
                 </Button>
                 <div className='flex w-full flex-col items-center'>
@@ -119,8 +119,8 @@ export function TaskDocumentField() {
                                   {document.attachments &&
                                     document.attachments.length > 0 && (
                                       <p className='text-muted-foreground text-xs'>
-                                        {document.attachments.length} tệp đính
-                                        kèm
+                                        {document.attachments.length}{' '}
+                                        attachment(s)
                                       </p>
                                     )}
                                 </div>
@@ -128,7 +128,7 @@ export function TaskDocumentField() {
                               <div className='flex items-center gap-1'>
                                 <DataTableActionBarAction
                                   size='icon'
-                                  tooltip='Xem tài liệu'
+                                  tooltip='View document'
                                 >
                                   <Button
                                     variant='link'
@@ -149,7 +149,7 @@ export function TaskDocumentField() {
                                 </DataTableActionBarAction>
                                 <DataTableActionBarAction
                                   size='icon'
-                                  tooltip='Xóa tài liệu'
+                                  tooltip='Remove document'
                                   onClick={(e) => {
                                     e.preventDefault()
                                     e.stopPropagation()

@@ -43,9 +43,9 @@ export function useUnlinkAttachmentsFromDocumentConfirm() {
             toast.promise(unlinkPromise, {
               loading: `Unlinking attachment "${fileName}"...`,
               success: () => {
-                return `Tệp đính kèm "${fileName}" đã được hủy liên kết thành công!`
+                return `Attachment "${fileName}" unlinked successfully!`
               },
-              error: () => `Không thể hủy liên kết tệp đính kèm "${fileName}"`,
+              error: () => `Failed to unlink attachment "${fileName}"`,
             })
 
             await unlinkPromise

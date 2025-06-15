@@ -18,9 +18,9 @@ export default function GeneralError({
         {!minimal && (
           <h1 className='text-[7rem] leading-tight font-bold'>500</h1>
         )}
-        <span className='font-medium'>Oops! Đã có lỗi xảy ra {`:')`}</span>
+        <span className='font-medium'>Oops! Something went wrong {`:')`}</span>
         <p className='text-muted-foreground text-center'>
-          Chúng tôi xin lỗi vì sự bất tiện này. <br /> Vui lòng thử lại sau.
+          We apologize for the inconvenience. <br /> Please try again later.
         </p>
         {!minimal && (
           <div className='mt-6 flex gap-4'>
@@ -30,10 +30,10 @@ export default function GeneralError({
                 history.go(-1)
               }}
             >
-              Quay lại
+              Go Back
             </Button>
             <Button onClick={() => void navigate({ to: '/' })}>
-              Về trang chủ
+              Back to Home
             </Button>
           </div>
         )}

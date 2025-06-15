@@ -24,14 +24,14 @@ export function TaskMetadataCard({
       <CardHeader>
         <CardTitle className='flex items-center space-x-2'>
           <Calendar className='h-5 w-5' />
-          <span>Thông tin chi tiết</span>
+          <span>Metadata</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div>
             <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-              Cập nhật lần cuối
+              Last Updated
             </h3>
             <p className='text-sm'>
               {format(
@@ -42,17 +42,17 @@ export function TaskMetadataCard({
           </div>
           <div>
             <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-              Phân công
+              Assignments
             </h3>
             {assignmentsInfo.count > 0 ? (
               <div className='space-y-1'>
                 <p className='text-sm'>
-                  {assignmentsInfo.count} phân công •{' '}
-                  {assignmentsInfo.completed} đã hoàn thành
+                  {assignmentsInfo.count} assignment(s) •{' '}
+                  {assignmentsInfo.completed} completed
                 </p>
               </div>
             ) : (
-              <p className='text-sm'>Chưa có phân công</p>
+              <p className='text-sm'>No assignments</p>
             )}
           </div>
         </div>

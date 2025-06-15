@@ -43,7 +43,7 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
               <div className='flex items-center space-x-2'>
                 <FileText className='h-4 w-4 shrink-0' />
                 <span className='truncate text-sm font-medium'>
-                  Tài liệu #{document.id}
+                  Document #{document.id}
                 </span>
               </div>
               {document.documentType && (
@@ -53,8 +53,8 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
               )}
             </div>
             <p className='text-muted-foreground mt-1 text-xs'>
-              <span className='hidden sm:inline'>Tạo ngày </span>
-              <span className='sm:hidden'>Tạo: </span>
+              <span className='hidden sm:inline'>Created on </span>
+              <span className='sm:hidden'>Created: </span>
               {format(
                 new Date(document.createdAt || ''),
                 dateFormatPatterns.fullDateTime
@@ -66,7 +66,7 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
         {document.content && (
           <div className='space-y-2'>
             <h5 className='text-muted-foreground text-xs font-medium'>
-              Nội dung
+              Content
             </h5>
             <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
               <p className='text-sm break-words whitespace-pre-wrap'>
@@ -78,9 +78,7 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
 
         {document.notes && (
           <div className='space-y-2'>
-            <h5 className='text-muted-foreground text-xs font-medium'>
-              Ghi chú
-            </h5>
+            <h5 className='text-muted-foreground text-xs font-medium'>Notes</h5>
             <div className='bg-muted/50 rounded-md p-2.5 sm:p-3'>
               <p className='text-xs break-words italic'>{document.notes}</p>
             </div>
@@ -90,7 +88,7 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
         <div className='space-y-2'>
           <div className='flex items-center justify-between'>
             <h4 className='text-muted-foreground text-xs font-medium'>
-              Tệp đính kèm ({document.attachments?.length || 0})
+              Attachments ({document.attachments?.length || 0})
             </h4>
             {document.attachments &&
               document.attachments.length > 0 &&
@@ -102,22 +100,22 @@ function TaskDocumentItem({ document, index }: TaskDocumentItemProps) {
                   onClick={handleViewAttachments}
                 >
                   <Eye className='h-3 w-3' />
-                  Xem tất cả
+                  View All
                 </Button>
               )}
           </div>
           <div className='bg-muted/30 rounded-md p-2'>
             {document.attachments && document.attachments.length > 0 ? (
               <p className='text-muted-foreground text-xs'>
-                {document.attachments.length} tệp
-                {document.attachments.length !== 1 ? '' : ''} đã đính kèm.{' '}
+                {document.attachments.length} file
+                {document.attachments.length !== 1 ? 's' : ''} attached.{' '}
                 <span className='font-medium'>
-                  Nhấn "Xem tất cả" để xem chi tiết.
+                  Click "View All" to see details.
                 </span>
               </p>
             ) : (
               <p className='text-muted-foreground text-xs'>
-                Không có tệp đính kèm nào cho tài liệu này.
+                No attachments available for this document.
               </p>
             )}
           </div>
@@ -141,7 +139,7 @@ export function TaskDocumentsCard({
       <CardHeader className='pb-4'>
         <CardTitle className='flex items-center space-x-2 text-lg'>
           <Paperclip className='h-5 w-5 shrink-0' />
-          <span className='truncate'>Tài liệu ({documents.length})</span>
+          <span className='truncate'>Documents ({documents.length})</span>
         </CardTitle>
       </CardHeader>
       <CardContent className='px-3 sm:px-6'>

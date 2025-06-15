@@ -423,7 +423,7 @@ function DataTableFilterItem<TData>({
             className='w-40 origin-[var(--radix-popover-content-transform-origin)] p-0'
           >
             <Command>
-              <CommandInput placeholder='Tìm kiếm trường...' />
+              <CommandInput placeholder='Search fields...' />
               <CommandList>
                 <CommandEmpty>No fields found.</CommandEmpty>
                 <CommandGroup>
@@ -590,7 +590,7 @@ function onFilterInputRender<TData>({
           aria-label={`${columnMeta?.label} filter value`}
           aria-describedby={`${inputId}-description`}
           inputMode={isNumber ? 'numeric' : undefined}
-          placeholder={columnMeta?.placeholder ?? 'Nhập giá trị...'}
+          placeholder={columnMeta?.placeholder ?? 'Enter a value...'}
           className='h-8 w-full rounded'
           defaultValue={
             typeof filter.value === 'string' ? filter.value : undefined
@@ -626,11 +626,11 @@ function onFilterInputRender<TData>({
             aria-label={`${columnMeta?.label} boolean filter`}
             className='h-8 w-full rounded [&[data-size]]:h-8'
           >
-            <SelectValue placeholder={filter.value ? 'Đúng' : 'Sai'} />
+            <SelectValue placeholder={filter.value ? 'True' : 'False'} />
           </SelectTrigger>
           <SelectContent id={inputListboxId}>
-            <SelectItem value='true'>Đúng</SelectItem>
-            <SelectItem value='false'>Sai</SelectItem>
+            <SelectItem value='true'>True</SelectItem>
+            <SelectItem value='false'>False</SelectItem>
           </SelectContent>
         </Select>
       )
@@ -685,7 +685,7 @@ function onFilterInputRender<TData>({
           >
             <FacetedInput
               aria-label={`Search ${columnMeta?.label} options`}
-              placeholder={columnMeta?.placeholder ?? 'Tìm kiếm tùy chọn...'}
+              placeholder={columnMeta?.placeholder ?? 'Search options...'}
             />
             <FacetedList>
               <FacetedEmpty>No options found.</FacetedEmpty>

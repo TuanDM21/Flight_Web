@@ -40,14 +40,14 @@ export function AttachmentsTableActionBar({
       <div className='flex items-center gap-1.5'>
         <DataTableActionBarAction
           size='icon'
-          tooltip='Tải xuống các tệp đã chọn'
+          tooltip='Download selected files'
           onClick={handleBulkDownload}
         >
           <Download />
         </DataTableActionBarAction>
         <DataTableActionBarAction
           size='icon'
-          tooltip='Xóa các tệp đã chọn'
+          tooltip='Delete selected files'
           onClick={handleBulkDelete}
           disabled={isAttachmentsDeleting}
           isPending={isAttachmentsDeleting}

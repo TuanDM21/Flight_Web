@@ -3,36 +3,36 @@ import { z } from 'zod'
 export const assignmentsSchema = z
   .array(
     z.object({
-      recipientType: z.string().min(1, 'Vui lòng chọn loại người nhận'),
+      recipientType: z.string().min(1, 'Please select a recipient type'),
       recipientId: z
-        .number({ message: 'Vui lòng chọn người nhận' })
-        .int('Vui lòng chọn người nhận hợp lệ'),
-      dueAt: z.string({ message: 'Vui lòng chọn ngày hạn' }),
+        .number({ message: 'Please select a recipient' })
+        .int('Please select a valid recipient'),
+      dueAt: z.string({ message: 'Please select a due date' }),
       note: z.string().optional(),
     })
   )
   .default([])
   .optional()
 export const createTaskSchema = z.object({
-  content: z.string().min(1, { message: 'Vui lòng nhập nội dung nhiệm vụ' }),
+  content: z.string().min(1, { message: 'Please enter task content' }),
   instructions: z
     .string()
-    .min(1, { message: 'Vui lòng nhập hướng dẫn nhiệm vụ' }),
+    .min(1, { message: 'Please enter task instructions' }),
   notes: z.string().optional(),
   assignments: assignmentsSchema,
 
   documentIds: z
-    .array(z.number().min(1, { message: 'Vui lòng chọn tài liệu hợp lệ' }))
+    .array(z.number().min(1, { message: 'Please select valid documents' }))
     .default([])
     .optional(),
 })
 
 export const updateTaskAssignmentSchema = z.object({
-  recipientId: z.number({ message: 'Vui lòng chọn người nhận' }),
+  recipientId: z.number({ message: 'Please select a recipient' }),
   recipientType: z
     .string()
-    .min(1, { message: 'Vui lòng chọn loại người nhận' }),
-  dueAt: z.string({ message: 'Vui lòng chọn ngày hạn' }),
+    .min(1, { message: 'Please select a recipient type' }),
+  dueAt: z.string({ message: 'Please select a due date' }),
   note: z.string().optional(),
   status: z.enum([
     'ASSIGNED',

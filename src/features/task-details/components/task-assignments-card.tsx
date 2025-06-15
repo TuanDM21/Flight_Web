@@ -55,7 +55,7 @@ function TaskAssignmentItem({
           <div className='min-w-0 flex-1'>
             <div className='flex flex-col gap-2 sm:flex-row sm:items-center'>
               <p className='truncate text-sm font-medium'>
-                {assignment.recipientUser?.name || 'Người dùng không xác định'}
+                {assignment.recipientUser?.name || 'Unknown User'}
               </p>
               {assignment.status && (
                 <Badge
@@ -93,8 +93,8 @@ function TaskAssignmentItem({
                 <div className='flex items-center space-x-2'>
                   <Clock className='h-3 w-3 shrink-0' />
                   <span className='truncate'>
-                    <span className='hidden sm:inline'>Phân công vào </span>
-                    <span className='sm:hidden'>Phân công: </span>
+                    <span className='hidden sm:inline'>Assigned on </span>
+                    <span className='sm:hidden'>Assigned: </span>
                     {format(
                       new Date(assignment.assignedAt),
                       dateFormatPatterns.fullDateTime
@@ -106,8 +106,8 @@ function TaskAssignmentItem({
                 <div className='flex items-center space-x-2'>
                   <Calendar className='h-3 w-3 shrink-0' />
                   <span className='truncate'>
-                    <span className='hidden sm:inline'>Hạn chót </span>
-                    <span className='sm:hidden'>Hạn: </span>
+                    <span className='hidden sm:inline'>Due by </span>
+                    <span className='sm:hidden'>Due: </span>
                     {format(
                       new Date(assignment.dueAt),
                       dateFormatPatterns.fullDateTime
@@ -119,8 +119,8 @@ function TaskAssignmentItem({
                 <div className='flex items-center space-x-2 sm:col-span-2'>
                   <CheckCircle className='h-3 w-3 shrink-0' />
                   <span className='truncate'>
-                    <span className='hidden sm:inline'>Hoàn thành vào </span>
-                    <span className='sm:hidden'>Hoàn thành: </span>
+                    <span className='hidden sm:inline'>Completed on </span>
+                    <span className='sm:hidden'>Done: </span>
                     {format(
                       new Date(assignment.completedAt),
                       dateFormatPatterns.fullDateTime
@@ -151,7 +151,7 @@ export function TaskAssignmentsCard({
     return (
       <Card>
         <CardContent className='text-muted-foreground py-8 text-center'>
-          Không tìm thấy phân công nào.
+          No assignments found.
         </CardContent>
       </Card>
     )
@@ -162,7 +162,7 @@ export function TaskAssignmentsCard({
       <CardHeader className='pb-4'>
         <CardTitle className='flex items-center space-x-2 text-lg'>
           <Users className='h-5 w-5 shrink-0' />
-          <span className='truncate'>Phân công ({assignments.length})</span>
+          <span className='truncate'>Assignments ({assignments.length})</span>
         </CardTitle>
       </CardHeader>
       <CardContent className='px-3 sm:px-6'>

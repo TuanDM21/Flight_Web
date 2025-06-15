@@ -65,12 +65,12 @@ export default function EditTaskPage() {
     })
 
     toast.promise(taskUpdatePromise, {
-      loading: `Đang cập nhật nhiệm vụ #${taskId}...`,
+      loading: `Updating task #${taskId}...`,
       success: () => {
         void navigate({ to: '/tasks', search: { type: currentType } })
-        return `Nhiệm vụ #${taskId} đã được cập nhật thành công!`
+        return `Task #${taskId} updated successfully!`
       },
-      error: `Không thể cập nhật nhiệm vụ #${taskId}`,
+      error: `Failed to update task #${taskId}`,
     })
   }
 
@@ -78,7 +78,7 @@ export default function EditTaskPage() {
     <div className='px-4 py-2'>
       <Card className='py-4'>
         <CardHeader>
-          <CardTitle>Chỉnh sửa nhiệm vụ</CardTitle>
+          <CardTitle>Edit Task</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -93,12 +93,12 @@ export default function EditTaskPage() {
                 name='content'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Nội dung</FormLabel>
+                    <FormLabel>Content</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Nhập nội dung của bạn tại đây'
+                        placeholder='Enter your content here'
                       />
                     </FormControl>
                     <FormMessage />
@@ -111,12 +111,12 @@ export default function EditTaskPage() {
                 name='instructions'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Hướng dẫn</FormLabel>
+                    <FormLabel>Instructions</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Nhập hướng dẫn của bạn tại đây'
+                        placeholder='Enter your instructions here'
                       />
                     </FormControl>
                     <FormMessage />
@@ -129,12 +129,12 @@ export default function EditTaskPage() {
                 name='notes'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Ghi chú</FormLabel>
+                    <FormLabel>Notes</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Nhập ghi chú của bạn tại đây'
+                        placeholder='Enter your notes here'
                       />
                     </FormControl>
                     <FormMessage />
@@ -146,7 +146,7 @@ export default function EditTaskPage() {
         </CardContent>
         <div className='bg-background sticky bottom-0 z-10 flex items-center justify-end space-x-2 border-t px-2 pt-2'>
           <Button variant='outline' size='lg' form='tasks-form' type='button'>
-            Lưu bản nháp
+            Save as Draft
           </Button>
           <Button
             form='tasks-form'
@@ -154,7 +154,7 @@ export default function EditTaskPage() {
             size='lg'
             disabled={updateTaskMutation.isPending}
           >
-            Lưu nhiệm vụ
+            Save Task
           </Button>
         </div>
       </Card>

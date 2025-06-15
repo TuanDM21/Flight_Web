@@ -5,9 +5,9 @@ import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-adv
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
 import { TaskSearchInput } from './components/task-search-input'
+import { TaskTypeFilter } from './components/task-type-filter'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import { TasksTableActionBar } from './components/tasks-table-action-bar'
-import { TasksTypeFilter } from './components/tasks-type-filter'
 import { useTasksSearchFilter } from './hooks/use-tasks-search-filter'
 import { useTasksTableColumns } from './hooks/use-tasks-table-columns'
 
@@ -43,7 +43,6 @@ export function TasksPage() {
           <DataTable table={table}>
             <TasksTableActionBar table={table} />
             <DataTableAdvancedToolbar table={table}>
-              <TasksTypeFilter />
               <DataTableSortList table={table} />
               <DataTableFilterMenu
                 table={table}
@@ -52,6 +51,7 @@ export function TasksPage() {
                 throttleMs={throttleMs}
               />
               <TaskSearchInput isFiltering={isFiltering} />
+              <TaskTypeFilter />
             </DataTableAdvancedToolbar>
           </DataTable>
         </Suspense>

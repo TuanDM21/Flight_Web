@@ -135,7 +135,7 @@ export function DataTableSortList<TData>({
         <PopoverTrigger asChild>
           <Button variant='outline' size='sm' onKeyDown={onTriggerKeyDown}>
             <ArrowDownUp />
-            Sắp xếp
+            Sort
             {sorting.length > 0 && (
               <Badge
                 variant='secondary'
@@ -154,7 +154,7 @@ export function DataTableSortList<TData>({
         >
           <div className='flex flex-col gap-1'>
             <h4 id={labelId} className='leading-none font-medium'>
-              {sorting.length > 0 ? 'Sắp xếp theo' : 'Chưa áp dụng sắp xếp'}
+              {sorting.length > 0 ? 'Sort by' : 'No sorting applied'}
             </h4>
             <p
               id={descriptionId}
@@ -164,8 +164,8 @@ export function DataTableSortList<TData>({
               )}
             >
               {sorting.length > 0
-                ? 'Chỉnh sửa sắp xếp để tổ chức các hàng của bạn.'
-                : 'Thêm sắp xếp để tổ chức các hàng của bạn.'}
+                ? 'Modify sorting to organize your rows.'
+                : 'Add sorting to organize your rows.'}
             </p>
           </div>
           {sorting.length > 0 && (
@@ -196,7 +196,7 @@ export function DataTableSortList<TData>({
               onClick={onSortAdd}
               disabled={columns.length === 0}
             >
-              Thêm sắp xếp
+              Add sort
             </Button>
             {sorting.length > 0 && (
               <Button
@@ -205,7 +205,7 @@ export function DataTableSortList<TData>({
                 className='rounded'
                 onClick={onSortingReset}
               >
-                Đặt lại sắp xếp
+                Reset sorting
               </Button>
             )}
           </div>
@@ -297,9 +297,9 @@ function DataTableSortItem({
             className='w-[var(--radix-popover-trigger-width)] origin-[var(--radix-popover-content-transform-origin)] p-0'
           >
             <Command>
-              <CommandInput placeholder='Tìm kiếm trường...' />
+              <CommandInput placeholder='Search fields...' />
               <CommandList>
-                <CommandEmpty>Không tìm thấy trường.</CommandEmpty>
+                <CommandEmpty>No fields found.</CommandEmpty>
                 <CommandGroup>
                   {columns.map((column) => (
                     <CommandItem

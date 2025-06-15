@@ -19,7 +19,7 @@ import { Switch } from '@/components/ui/switch'
 
 const notificationsFormSchema = z.object({
   type: z.enum(['all', 'mentions', 'none'], {
-    required_error: 'Bạn cần chọn loại thông báo.',
+    required_error: 'You need to select a notification type.',
   }),
   mobile: z.boolean().default(false).optional(),
   communication_emails: z.boolean().default(false).optional(),
@@ -57,7 +57,7 @@ export function NotificationsForm() {
           name='type'
           render={({ field }) => (
             <FormItem className='relative space-y-3'>
-              <FormLabel>Thông báo cho tôi về...</FormLabel>
+              <FormLabel>Notify me about...</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -69,7 +69,7 @@ export function NotificationsForm() {
                       <RadioGroupItem value='all' />
                     </FormControl>
                     <FormLabel className='font-normal'>
-                      Tất cả tin nhắn mới
+                      All new messages
                     </FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-y-0 space-x-3'>
@@ -77,14 +77,14 @@ export function NotificationsForm() {
                       <RadioGroupItem value='mentions' />
                     </FormControl>
                     <FormLabel className='font-normal'>
-                      Tin nhắn trực tiếp và nhắc đến
+                      Direct messages and mentions
                     </FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-y-0 space-x-3'>
                     <FormControl>
                       <RadioGroupItem value='none' />
                     </FormControl>
-                    <FormLabel className='font-normal'>Không có</FormLabel>
+                    <FormLabel className='font-normal'>Nothing</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -93,7 +93,7 @@ export function NotificationsForm() {
           )}
         />
         <div className='relative'>
-          <h3 className='mb-4 text-lg font-medium'>Thông báo qua Email</h3>
+          <h3 className='mb-4 text-lg font-medium'>Email Notifications</h3>
           <div className='space-y-4'>
             <FormField
               control={form.control}
@@ -101,9 +101,11 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                   <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Email giao tiếp</FormLabel>
+                    <FormLabel className='text-base'>
+                      Communication emails
+                    </FormLabel>
                     <FormDescription>
-                      Nhận email về hoạt động tài khoản của bạn.
+                      Receive emails about your account activity.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -121,9 +123,11 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                   <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Email tiếp thị</FormLabel>
+                    <FormLabel className='text-base'>
+                      Marketing emails
+                    </FormLabel>
                     <FormDescription>
-                      Nhận email về sản phẩm mới, tính năng và nhiều hơn nữa.
+                      Receive emails about new products, features, and more.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -141,9 +145,9 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                   <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Email xã hội</FormLabel>
+                    <FormLabel className='text-base'>Social emails</FormLabel>
                     <FormDescription>
-                      Nhận email về yêu cầu kết bạn, theo dõi và nhiều hơn nữa.
+                      Receive emails for friend requests, follows, and more.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -161,9 +165,9 @@ export function NotificationsForm() {
               render={({ field }) => (
                 <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                   <div className='space-y-0.5'>
-                    <FormLabel className='text-base'>Email bảo mật</FormLabel>
+                    <FormLabel className='text-base'>Security emails</FormLabel>
                     <FormDescription>
-                      Nhận email về hoạt động tài khoản và bảo mật của bạn.
+                      Receive emails about your account activity and security.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -191,22 +195,24 @@ export function NotificationsForm() {
                 />
               </FormControl>
               <div className='space-y-1 leading-none'>
-                <FormLabel>Sử dụng cài đặt khác cho thiết bị di động</FormLabel>
+                <FormLabel>
+                  Use different settings for my mobile devices
+                </FormLabel>
                 <FormDescription>
-                  Bạn có thể quản lý thông báo di động trong trang{' '}
+                  You can manage your mobile notifications in the{' '}
                   <Link
                     to='/settings'
                     className='underline decoration-dashed underline-offset-4 hover:decoration-solid'
                   >
-                    cài đặt di động
-                  </Link>
-                  .
+                    mobile settings
+                  </Link>{' '}
+                  page.
                 </FormDescription>
               </div>
             </FormItem>
           )}
         />
-        <Button type='submit'>Cập nhật thông báo</Button>
+        <Button type='submit'>Update notifications</Button>
       </form>
     </Form>
   )

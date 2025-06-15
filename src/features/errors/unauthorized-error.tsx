@@ -8,10 +8,10 @@ export default function UnauthorisedError() {
     <div className='h-svh'>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
         <h1 className='text-[7rem] leading-tight font-bold'>401</h1>
-        <span className='font-medium'>Truy cập không được phép</span>
+        <span className='font-medium'>Unauthorized Access</span>
         <p className='text-muted-foreground text-center'>
-          Vui lòng đăng nhập với thông tin đăng nhập phù hợp <br /> để truy cập
-          tài nguyên này.
+          Please log in with the appropriate credentials <br /> to access this
+          resource.
         </p>
         <div className='mt-6 flex gap-4'>
           <Button
@@ -20,10 +20,10 @@ export default function UnauthorisedError() {
               history.go(-1)
             }}
           >
-            Quay lại
+            Go Back
           </Button>
           <Button onClick={() => void navigate({ to: '/' })}>
-            Về trang chủ
+            Back to Home
           </Button>
         </div>
       </div>

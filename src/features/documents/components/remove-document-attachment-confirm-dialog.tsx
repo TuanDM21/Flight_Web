@@ -38,9 +38,9 @@ export function RemoveDocumentAttachmentConfirmDialog({
       loading: `Removing attachment "${fileName}"...`,
       success: () => {
         payload.onSuccess?.()
-        return `Tệp đính kèm "${fileName}" đã được xóa thành công!`
+        return `Attachment "${fileName}" removed successfully!`
       },
-      error: () => `Không thể xóa tệp đính kèm "${fileName}"`,
+      error: () => `Failed to remove attachment "${fileName}"`,
     })
 
     try {

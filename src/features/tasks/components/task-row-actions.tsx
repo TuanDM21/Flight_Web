@@ -55,14 +55,14 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
             className='data-[state=open]:bg-muted flex h-8 w-8 p-0'
           >
             <DotsHorizontalIcon className='h-4 w-4' />
-            <span className='sr-only'>Mở menu</span>
+            <span className='sr-only'>Open menu</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem onClick={handleViewAssignments}>
             <div className='flex w-full items-center justify-between'>
               <div className='flex items-center'>
-                <span>Xem phân công</span>
+                <span>View assignments</span>
               </div>
               <Badge variant='secondary' className='ml-2 text-xs'>
                 {task?.assignments?.length ?? 0}
@@ -72,7 +72,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
           <DropdownMenuItem onClick={handleViewDocuments}>
             <div className='flex w-full items-center justify-between'>
               <div className='flex items-center'>
-                <span>Xem tài liệu</span>
+                <span>View documents</span>
               </div>
               <Badge variant='secondary' className='ml-2 text-xs'>
                 {task?.documents?.length ?? 0}
@@ -94,13 +94,13 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
                   })
                 }}
               >
-                Chỉnh sửa
+                Edit
                 <DropdownMenuShortcut>
                   <PencilIcon />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onDeleteTask(task)}>
-                Xóa
+                Delete
                 <DropdownMenuShortcut>
                   <IconTrash />
                 </DropdownMenuShortcut>

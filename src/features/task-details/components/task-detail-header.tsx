@@ -15,7 +15,7 @@ export function TaskDetailHeader({ task }: TaskDetailHeaderProps) {
     <div className='mb-4 flex items-center justify-between'>
       <div className='flex items-center space-x-4'>
         <div>
-          <h1 className='text-2xl font-bold'>Nhiệm vụ #{task.id}</h1>
+          <h1 className='text-2xl font-bold'>Task #{task.id}</h1>
         </div>
       </div>
 
@@ -28,7 +28,7 @@ export function TaskDetailHeader({ task }: TaskDetailHeaderProps) {
             }}
           >
             <Edit className='mr-2 h-4 w-4' />
-            Chỉnh sửa
+            Edit
           </Link>
         </Button>
         <Button
@@ -37,7 +37,7 @@ export function TaskDetailHeader({ task }: TaskDetailHeaderProps) {
           onClick={() => onDeleteTask(task)}
         >
           <Trash2 className='mr-2 h-4 w-4' />
-          Xóa
+          Delete
         </Button>
       </div>
     </div>

@@ -14,20 +14,20 @@ export function useDeleteAttachmentsConfirm() {
     const confirmed = await dialogs.confirm(
       <div>
         <p>
-          Bạn có chắc chắn muốn xóa{' '}
+          Are you sure you want to delete{' '}
           {isMultiple
-            ? `${attachmentCount} tệp đính kèm này`
-            : 'tệp đính kèm này'}
+            ? `these ${attachmentCount} attachments`
+            : 'this attachment'}
           ?
         </p>
         <p className='text-muted-foreground mt-2 text-sm'>
-          Hành động này không thể hoàn tác.
+          This action cannot be undone.
         </p>
       </div>,
       {
-        title: isMultiple ? 'Xóa tệp đính kèm' : 'Xóa tệp đính kèm',
-        okText: 'Xóa',
-        cancelText: 'Hủy',
+        title: isMultiple ? 'Delete Attachments' : 'Delete Attachment',
+        okText: 'Delete',
+        cancelText: 'Cancel',
         severity: 'error',
       }
     )
@@ -44,11 +44,11 @@ export function useDeleteAttachmentsConfirm() {
       })
 
       toast.promise(deleteAttachmentsPromise, {
-        loading: `Đang xóa ${attachmentCount > 1 ? `${attachmentCount} tệp đính kèm` : 'tệp đính kèm'}...`,
+        loading: `Deleting ${attachmentCount > 1 ? `${attachmentCount} attachments` : 'attachment'}...`,
         success: () => {
-          return `${attachmentCount > 1 ? `${attachmentCount} tệp đính kèm` : 'Tệp đính kèm'} đã được xóa thành công!`
+          return `${attachmentCount > 1 ? `${attachmentCount} attachments` : 'Attachment'} deleted successfully!`
         },
-        error: `Không thể xóa ${attachmentCount > 1 ? 'tệp đính kèm' : 'tệp đính kèm'}. Vui lòng thử lại.`,
+        error: `Failed to delete ${attachmentCount > 1 ? 'attachments' : 'attachment'}. Please try again.`,
       })
     }
   }

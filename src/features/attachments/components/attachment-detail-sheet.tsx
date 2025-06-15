@@ -26,7 +26,7 @@ function AttachmentDetailSheetSkeleton() {
       {/* Who has access section skeleton */}
       <div className='flex min-h-0 flex-1 flex-col space-y-3'>
         <h4 className='text-muted-foreground text-sm font-medium tracking-wide uppercase'>
-          Ai có quyền truy cập
+          Who has access
         </h4>
         <div className='min-h-0 flex-1 overflow-hidden'>
           <div className='flex items-center gap-3'>
@@ -45,7 +45,7 @@ function AttachmentDetailSheetSkeleton() {
       {/* File Details skeleton */}
       <div className='space-y-4'>
         <h4 className='text-muted-foreground text-sm font-medium tracking-wide uppercase'>
-          Chi tiết tệp
+          File Details
         </h4>
         <div className='space-y-3'>
           {Array.from({ length: 4 }).map((_, i) => (
@@ -70,7 +70,7 @@ function AttachmentDetailSheetContent({
     <div className='flex min-h-0 flex-1 flex-col gap-4 p-4'>
       <div className='flex min-h-0 flex-1 flex-col space-y-3'>
         <h4 className='text-muted-foreground text-sm font-medium tracking-wide uppercase'>
-          Ai có quyền truy cập
+          Who has access
         </h4>
         <div className='min-h-0 flex-1 overflow-hidden'>
           <UserAccessAttachmentList attachment={attachment} />
@@ -80,36 +80,36 @@ function AttachmentDetailSheetContent({
       <Separator />
       <div className='space-y-4'>
         <h4 className='text-muted-foreground text-sm font-medium tracking-wide uppercase'>
-          Chi tiết tệp
+          File Details
         </h4>
 
         <div className='space-y-3'>
           <div className='flex items-center justify-between'>
-            <span className='text-sm font-medium'>Kích thước</span>
+            <span className='text-sm font-medium'>Size</span>
             <span className='text-muted-foreground text-sm'>
               {attachment.fileSize
                 ? formatFileSize(attachment.fileSize)
-                : 'Không xác định'}
+                : 'Unknown'}
             </span>
           </div>
           <div className='flex items-center justify-between'>
-            <span className='text-sm font-medium'>Chủ sở hữu</span>
+            <span className='text-sm font-medium'>Owner</span>
             <span className='text-muted-foreground text-sm'>
-              {attachment.uploadedBy?.name || 'tôi'}
+              {attachment.uploadedBy?.name || 'me'}
             </span>
           </div>
           {attachment.createdAt && (
             <div className='flex items-center justify-between'>
-              <span className='text-sm font-medium'>Đã sửa đổi</span>
+              <span className='text-sm font-medium'>Modified</span>
               <span className='text-muted-foreground text-sm'>
-                {format(new Date(attachment.createdAt), 'MMM dd, yyyy')} bởi{' '}
-                {attachment.uploadedBy?.name || 'tôi'}
+                {format(new Date(attachment.createdAt), 'MMM dd, yyyy')} by{' '}
+                {attachment.uploadedBy?.name || 'me'}
               </span>
             </div>
           )}
           {attachment.createdAt && (
             <div className='flex items-center justify-between'>
-              <span className='text-sm font-medium'>Được tạo</span>
+              <span className='text-sm font-medium'>Created</span>
               <span className='text-muted-foreground text-sm'>
                 {format(new Date(attachment.createdAt), 'MMM dd, yyyy')}
               </span>
@@ -134,10 +134,10 @@ export function AttachmentDetailSheet({
         <SheetHeader>
           <SheetTitle className='flex items-center gap-2'>
             <InfoIcon className='h-5 w-5' />
-            Thông tin tệp
+            File Information
           </SheetTitle>
           <SheetDescription>
-            Thông tin chi tiết về tệp đã chọn.
+            Detailed information about the selected file.
           </SheetDescription>
         </SheetHeader>
 

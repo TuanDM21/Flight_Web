@@ -112,11 +112,11 @@ export function UserAccessAttachmentList({
           <UserX className='text-muted-foreground h-6 w-6' />
         </div>
         <h3 className='text-foreground mb-1 text-sm font-medium'>
-          Chưa có quyền truy cập được chia sẻ
+          No shared access yet
         </h3>
         <p className='text-muted-foreground max-w-sm text-xs'>
-          Thêm người ở trên để cấp cho họ quyền truy cập vào tệp này. Họ sẽ có
-          thể xem và tải xuống tệp.
+          Add people above to give them access to this file. They'll be able to
+          view and download it.
         </p>
       </div>
     )
@@ -131,10 +131,10 @@ export function UserAccessAttachmentList({
             checked={isAllSelected}
             onCheckedChange={handleSelectAll}
             {...(isIndeterminate && { 'data-state': 'indeterminate' })}
-            aria-label='Chọn tất cả người dùng'
+            aria-label='Select all users'
           />
           <span className='text-muted-foreground text-sm'>
-            {hasSelection ? `${selectedUsers.size} đã chọn` : 'Chọn tất cả'}
+            {hasSelection ? `${selectedUsers.size} selected` : 'Select all'}
           </span>
         </div>
 
@@ -147,7 +147,7 @@ export function UserAccessAttachmentList({
             className='flex items-center gap-1'
           >
             <IconEyeX className='h-3 w-3' />
-            Thu hồi ({selectedUsers.size})
+            Revoke ({selectedUsers.size})
           </Button>
         )}
       </div>
@@ -162,7 +162,7 @@ export function UserAccessAttachmentList({
                 onCheckedChange={(checked) =>
                   user.id && handleSelectUser(user.id, !!checked)
                 }
-                aria-label={`Chọn ${user.sharedWith?.name}`}
+                aria-label={`Select ${user.sharedWith?.name}`}
               />
               <Avatar className='h-8 w-8 bg-gray-100 text-gray-600'>
                 <AvatarFallback>
@@ -193,7 +193,7 @@ export function UserAccessAttachmentList({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <span>Thu hồi quyền truy cập</span>
+                    <span>Revoke access</span>
                   </TooltipContent>
                 </Tooltip>
               )}

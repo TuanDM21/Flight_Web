@@ -47,15 +47,15 @@ export function DataTableViewOptions<TData>({
           className='ml-auto hidden h-8 lg:flex'
         >
           <Settings2 />
-          Hiển thị
+          View
           <ChevronsUpDown className='ml-auto opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent align='end' className='w-44 p-0'>
         <Command>
-          <CommandInput placeholder='Tìm kiếm cột...' />
+          <CommandInput placeholder='Search columns...' />
           <CommandList>
-            <CommandEmpty>Không tìm thấy cột.</CommandEmpty>
+            <CommandEmpty>No columns found.</CommandEmpty>
             <CommandGroup>
               {columns.map((column) => (
                 <CommandItem

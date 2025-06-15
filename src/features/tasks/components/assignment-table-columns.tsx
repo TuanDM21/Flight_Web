@@ -117,7 +117,7 @@ export function useAssignmentTableColumns({
       id: 'recipientType',
       accessorKey: 'recipientType',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Loại' />
+        <DataTableColumnHeader column={column} title='Type' />
       ),
       cell: ({ row, cell }) => {
         const assignment = row.original
@@ -151,7 +151,7 @@ export function useAssignmentTableColumns({
                             fieldState.error && 'border-destructive'
                           )}
                         >
-                          <SelectValue placeholder='Chọn loại' />
+                          <SelectValue placeholder='Select type' />
                         </SelectTrigger>
                         <SelectContent>
                           {deriveRecipientOptions.map((type) => (
@@ -189,7 +189,7 @@ export function useAssignmentTableColumns({
         return 'N/A'
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Người nhận' />
+        <DataTableColumnHeader column={column} title='Recipient' />
       ),
       cell: ({ row, cell }) => {
         const assignment = row.original
@@ -263,7 +263,7 @@ export function useAssignmentTableColumns({
       id: 'status',
       accessorKey: 'status',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Trạng thái' />
+        <DataTableColumnHeader column={column} title='Status' />
       ),
       cell: ({ row }) => {
         const assignment = row.original
@@ -329,7 +329,7 @@ export function useAssignmentTableColumns({
       accessorKey: 'assignedByUser',
       accessorFn: (row) => row.assignedByUser?.name ?? '',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Được giao bởi' />
+        <DataTableColumnHeader column={column} title='Assigned By' />
       ),
       cell: ({ cell }) => <div>{cell.getValue<string>() || 'N/A'}</div>,
       size: 100,
@@ -339,7 +339,7 @@ export function useAssignmentTableColumns({
       id: 'assignedAt',
       accessorKey: 'assignedAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Ngày giao' />
+        <DataTableColumnHeader column={column} title='Assigned At' />
       ),
       cell: ({ cell }) => {
         const value = cell.getValue<string>()
@@ -353,7 +353,7 @@ export function useAssignmentTableColumns({
       id: 'dueAt',
       accessorKey: 'dueAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Hạn hoàn thành' />
+        <DataTableColumnHeader column={column} title='Due At' />
       ),
       cell: ({ row, cell }) => {
         const assignment = row.original
@@ -427,7 +427,7 @@ export function useAssignmentTableColumns({
       id: 'note',
       accessorKey: 'note',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Ghi chú' />
+        <DataTableColumnHeader column={column} title='Note' />
       ),
       cell: ({ row }) => {
         const assignment = row.original
@@ -445,7 +445,7 @@ export function useAssignmentTableColumns({
     {
       id: 'actions',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Hành động' />
+        <DataTableColumnHeader column={column} title='Actions' />
       ),
       cell: ({ row }) => {
         const assignment = row.original

@@ -56,7 +56,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'id',
       accessorKey: 'id',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='ID Công việc' />
+        <DataTableColumnHeader column={column} title='Task ID' />
       ),
       cell: ({ cell }) => {
         const taskId = cell.getValue<number>()
@@ -69,6 +69,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         )
       },
       meta: {
+        className: '',
         label: 'Task ID',
         placeholder: 'Search task ID...',
         variant: 'text',
@@ -80,7 +81,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'status',
       accessorKey: 'status',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Trạng thái' />
+        <DataTableColumnHeader column={column} title='Status' />
       ),
       cell: ({ cell }) => <div>{cell.getValue<string>() ?? 'N/A'}</div>,
       meta: {
@@ -97,7 +98,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'content',
       accessorKey: 'content',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Nội dung' />
+        <DataTableColumnHeader column={column} title='Content' />
       ),
       cell: ({ cell }) => <div>{cell.getValue<string>() || 'N/A'}</div>,
       meta: {
@@ -113,17 +114,15 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'createdBy',
       accessorFn: (row) => row.createdByUser?.name,
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Người tạo' />
+        <DataTableColumnHeader column={column} title='Created By' />
       ),
       cell: ({ cell }) => {
-        return (
-          <div>{cell.getValue<string | undefined>() || 'Không xác định'}</div>
-        )
+        return <div>{cell.getValue<string | undefined>() || 'Unknown'}</div>
       },
       meta: {
         className: '',
-        label: 'Người tạo',
-        placeholder: 'Tìm kiếm người tạo...',
+        label: 'Created By',
+        placeholder: 'Search creator...',
         variant: 'text',
         icon: UserSearch,
       },
@@ -133,30 +132,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'createdAt',
       accessorKey: 'createdAt',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Ngày tạo' />
-      ),
-      cell: ({ cell }) => {
-        const value = cell.getValue<string | undefined>()
-        if (!value) return <div>Chưa đặt</div>
-
-        const date = new Date(value)
-        return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
-      },
-      meta: {
-        className: '',
-        label: 'Ngày tạo',
-        placeholder: 'Lọc theo ngày tạo...',
-        variant: 'date',
-        icon: CalendarSearch,
-      },
-      enableColumnFilter: true,
-    },
-    {
-      id: 'updatedAt',
-      accessorKey: 'updatedAt',
-      accessorFn: (row) => row.updatedAt,
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Ngày cập nhật' />
+        <DataTableColumnHeader column={column} title='Created At' />
       ),
       cell: ({ cell }) => {
         const value = cell.getValue<string | undefined>()
@@ -167,8 +143,31 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       },
       meta: {
         className: '',
-        label: 'Ngày cập nhật',
-        placeholder: 'Lọc theo ngày cập nhật...',
+        label: 'Created At',
+        placeholder: 'Filter by creation date...',
+        variant: 'date',
+        icon: CalendarSearch,
+      },
+      enableColumnFilter: true,
+    },
+    {
+      id: 'updatedAt',
+      accessorKey: 'updatedAt',
+      accessorFn: (row) => row.updatedAt,
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title='Updated At' />
+      ),
+      cell: ({ cell }) => {
+        const value = cell.getValue<string | undefined>()
+        if (!value) return <div>Not set</div>
+
+        const date = new Date(value)
+        return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
+      },
+      meta: {
+        className: '',
+        label: 'Updated At',
+        placeholder: 'Filter by update date...',
         variant: 'date',
         icon: CalendarSearch,
       },
@@ -177,7 +176,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
     {
       id: 'actions',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='Hành động' />
+        <DataTableColumnHeader column={column} title='Actions' />
       ),
       cell: ({ row }) => <TaskRowActions row={row} />,
       size: 20,

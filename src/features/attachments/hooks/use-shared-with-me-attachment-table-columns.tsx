@@ -35,7 +35,7 @@ function FileNameCell({ fileName }: { fileName: string | undefined }) {
     <div className='flex w-full items-center gap-2'>
       {fileName ? getFileIcon(fileName) : <div className='h-4 w-4' />}
       <span className='flex-1 truncate font-medium'>
-        {fileName || 'Tệp không xác định'}
+        {fileName || 'Unknown file'}
       </span>
     </div>
   )
@@ -128,14 +128,14 @@ export const useSharedWithMeAttachmentTableColumns =
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
-            aria-label='Chọn tất cả'
+            aria-label='Select all'
           />
         ),
         cell: ({ row }) => (
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label='Chọn hàng'
+            aria-label='Select row'
           />
         ),
         enableSorting: false,
@@ -147,6 +147,7 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'ID',
           placeholder: 'Search ID...',
           variant: 'text',
@@ -165,13 +166,14 @@ export const useSharedWithMeAttachmentTableColumns =
         accessorKey: 'fileName',
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'File Name',
           placeholder: 'Search file name...',
           variant: 'text',
           icon: FileText,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Tên tệp' />
+          <DataTableColumnHeader column={column} title='File Name' />
         ),
         cell: ({ row }) => <FileNameCell fileName={row.getValue('fileName')} />,
         minSize: 200,
@@ -182,13 +184,14 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'File Size',
           placeholder: 'Filter by file size...',
           variant: 'number',
           icon: HardDrive,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Kích thước' />
+          <DataTableColumnHeader column={column} title='Size' />
         ),
         cell: ({ row }) => {
           const size = (row.getValue('fileSize') as number) || 0
@@ -205,13 +208,14 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'Shared Date',
           placeholder: 'Filter by shared date...',
           variant: 'date',
           icon: Calendar,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Ngày chia sẻ' />
+          <DataTableColumnHeader column={column} title='Shared Date' />
         ),
         cell: ({ row }) => {
           const dateValue = row.getValue('sharedAt') as string
@@ -242,7 +246,7 @@ export const useSharedWithMeAttachmentTableColumns =
       {
         id: 'fileType',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Loại tệp' />
+          <DataTableColumnHeader column={column} title='File Type' />
         ),
         cell: ({ row }) => {
           const fileName = row.getValue('fileName') as string
@@ -257,13 +261,14 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 150,
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'Shared By',
           placeholder: 'Search by person...',
           variant: 'text',
           icon: User,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Được chia sẻ bởi' />
+          <DataTableColumnHeader column={column} title='Shared By' />
         ),
         cell: ({ row }) => {
           const sharedBy = row.original.sharedBy
@@ -277,13 +282,14 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 50,
         enableColumnFilter: true,
         meta: {
+          className: '',
           label: 'Shared Count',
           placeholder: 'Filter by share count...',
           variant: 'number',
           icon: BarChart3,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Số lượng chia sẻ' />
+          <DataTableColumnHeader column={column} title='Shared Count' />
         ),
         cell: ({ row }) => {
           const sharedCount = row.original.sharedCount

@@ -38,9 +38,9 @@ export function useDeleteDocumentConfirm() {
       toast.promise(deleteDocumentPromise, {
         loading: `Deleting document #${documentId}...`,
         success: () => {
-          return `Tài liệu #${documentId} đã được xóa thành công!`
+          return `Document #${documentId} deleted successfully!`
         },
-        error: `Không thể xóa tài liệu #${documentId}. Vui lòng thử lại.`,
+        error: `Failed to delete document #${documentId}. Please try again.`,
       })
     }
   }

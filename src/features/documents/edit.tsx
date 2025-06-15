@@ -102,12 +102,12 @@ export default function EditDocumentPage() {
     })
 
     toast.promise(documentUpdatePromise, {
-      loading: `Đang cập nhật tài liệu #${documentId}...`,
+      loading: `Updating document #${documentId}...`,
       success: () => {
         void navigate({ to: '/documents' })
-        return `Tài liệu #${documentId} đã được cập nhật thành công!`
+        return `Document #${documentId} updated successfully!`
       },
-      error: `Không thể cập nhật tài liệu #${documentId}`,
+      error: `Failed to update document #${documentId}`,
     })
   }
 
@@ -139,7 +139,7 @@ export default function EditDocumentPage() {
 
   const onFileReject = React.useCallback((file: File, message: string) => {
     toast(message, {
-      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" đã bị từ chối`,
+      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
     })
   }, [])
 
@@ -195,15 +195,15 @@ export default function EditDocumentPage() {
         })
 
       toast.promise(deleteDocumentAttachmentsPromise, {
-        loading: `Đang xóa tệp đính kèm "${attachment.fileName}"...`,
+        loading: `Removing attachment "${attachment.fileName}"...`,
         success: () => {
           const remain = uploadedAttachments.filter(
             (att) => att.id !== attachment.id
           )
           form.setValue('attachments', remain)
-          return `Tệp đính kèm "${attachment.fileName}" đã được xóa thành công!`
+          return `Attachment "${attachment.fileName}" removed successfully!`
         },
-        error: `Không thể xóa tệp đính kèm "${attachment.fileName}"`,
+        error: `Failed to remove attachment "${attachment.fileName}"`,
       })
     },
     [uploadedAttachments, form]
@@ -224,7 +224,7 @@ export default function EditDocumentPage() {
       <div className='px-4 py-2'>
         <Card className='py-4'>
           <CardHeader>
-            <CardTitle>Chỉnh sửa tài liệu</CardTitle>
+            <CardTitle>Edit Document</CardTitle>
           </CardHeader>
 
           <CardContent>
@@ -239,9 +239,9 @@ export default function EditDocumentPage() {
                   name='documentType'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Loại tài liệu</FormLabel>
+                      <FormLabel>Document Type</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder='Nhập loại tài liệu' />
+                        <Input {...field} placeholder='Enter document type' />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -253,12 +253,12 @@ export default function EditDocumentPage() {
                   name='content'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Nội dung</FormLabel>
+                      <FormLabel>Content</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           className='min-h-32'
-                          placeholder='Nhập nội dung của bạn tại đây'
+                          placeholder='Enter your content here'
                         />
                       </FormControl>
                       <FormMessage />
@@ -271,12 +271,12 @@ export default function EditDocumentPage() {
                   name='notes'
                   render={({ field }) => (
                     <FormItem className='space-y-1'>
-                      <FormLabel>Ghi chú</FormLabel>
+                      <FormLabel>Notes</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           className='min-h-32'
-                          placeholder='Nhập ghi chú của bạn tại đây'
+                          placeholder='Enter your notes here'
                         />
                       </FormControl>
                       <FormMessage />
@@ -289,7 +289,7 @@ export default function EditDocumentPage() {
                   name='files'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tệp đính kèm</FormLabel>
+                      <FormLabel>Attachments</FormLabel>
                       <FormControl>
                         <div className='border-primary/30 bg-background relative flex flex-col items-center rounded-lg border-2 border-dashed p-4 font-medium transition-colors'>
                           <Button
@@ -304,14 +304,14 @@ export default function EditDocumentPage() {
                           >
                             <span className='flex items-center gap-2'>
                               <IconTableShare className='size-5' />
-                              Chọn từ tệp đính kèm được chia sẻ
+                              Choose from shared attachments
                             </span>
                           </Button>
                           <div className='flex w-full flex-col items-center'>
                             <div className='my-4 flex w-full items-center gap-2'>
                               <div className='border-muted-foreground/30 flex-grow border-t'></div>
                               <span className='text-muted-foreground text-xs font-semibold tracking-wider uppercase'>
-                                hoặc
+                                or
                               </span>
                               <div className='border-muted-foreground/30 flex-grow border-t'></div>
                             </div>
@@ -333,14 +333,13 @@ export default function EditDocumentPage() {
                                       <Upload className='text-primary size-6' />
                                     </div>
                                     <p className='text-sm font-medium'>
-                                      Kéo thả tệp vào đây hoặc nhấn để chọn từ
-                                      thiết bị của bạn
+                                      Drag & drop files here or click to select
+                                      from your device
                                     </p>
                                     <p className='text-muted-foreground text-xs'>
-                                      (Tối đa {MAX_FILES_COUNT} tệp,{' '}
-                                      {MAX_FILE_SIZE / 1024 / 1024}MB mỗi tệp,
-                                      tổng cộng{' '}
-                                      {MAX_TOTAL_FILES_SIZE / 1024 / 1024}
+                                      (Up to {MAX_FILES_COUNT} files,{' '}
+                                      {MAX_FILE_SIZE / 1024 / 1024}MB each,
+                                      total {MAX_TOTAL_FILES_SIZE / 1024 / 1024}
                                       MB)
                                     </p>
                                   </div>
@@ -357,7 +356,7 @@ export default function EditDocumentPage() {
                                           <DataTableActionBarAction
                                             type='button'
                                             size='icon'
-                                            tooltip='Xem tệp'
+                                            tooltip='View file'
                                             onClick={() => {
                                               handleOpenPreview(file)
                                             }}
@@ -375,7 +374,7 @@ export default function EditDocumentPage() {
                                           >
                                             <DataTableActionBarAction
                                               size='icon'
-                                              tooltip='Xóa tệp'
+                                              tooltip='Remove file'
                                               type='button'
                                             >
                                               <Trash />
@@ -401,10 +400,10 @@ export default function EditDocumentPage() {
           </CardContent>
           <div className='bg-background sticky bottom-0 z-10 flex items-center justify-end space-x-2 border-t px-2 pt-2'>
             <Button variant='outline' size='lg' type='button'>
-              Lưu bản nháp
+              Save as Draft
             </Button>
             <Button form='edit-document-form' type='submit' size='lg'>
-              Lưu tài liệu
+              Save Document
             </Button>
           </div>
         </Card>

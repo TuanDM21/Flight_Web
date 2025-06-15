@@ -228,7 +228,7 @@ export function DataTableFilterMenu<TData>({
             onKeyDown={onTriggerKeyDown}
           >
             <ListFilter />
-            {filters.length > 0 ? null : 'Lọc'}
+            {filters.length > 0 ? null : 'Filter'}
           </Button>
         </PopoverTrigger>
         <PopoverContent
@@ -242,7 +242,7 @@ export function DataTableFilterMenu<TData>({
               placeholder={
                 selectedColumn
                   ? (selectedColumn.columnDef.meta?.label ?? selectedColumn.id)
-                  : 'Tìm kiếm trường...'
+                  : 'Search fields...'
               }
               value={inputValue}
               onValueChange={setInputValue}
@@ -384,7 +384,7 @@ function DataTableFilterItem<TData>({
             className='w-48 origin-[var(--radix-popover-content-transform-origin)] p-0'
           >
             <Command loop>
-              <CommandInput placeholder='Tìm kiếm trường...' />
+              <CommandInput placeholder='Search fields...' />
               <CommandList>
                 <CommandEmpty>No fields found.</CommandEmpty>
                 <CommandGroup>
@@ -647,7 +647,7 @@ function onFilterInputRender<TData>({
           id={inputId}
           type={isNumber ? 'number' : 'text'}
           inputMode={isNumber ? 'numeric' : undefined}
-          placeholder={column.columnDef.meta?.placeholder ?? 'Nhập giá trị...'}
+          placeholder={column.columnDef.meta?.placeholder ?? 'Enter value...'}
           className='h-full w-24 rounded-none px-1.5'
           defaultValue={typeof filter.value === 'string' ? filter.value : ''}
           onChange={(event) => {
@@ -674,11 +674,11 @@ function onFilterInputRender<TData>({
             aria-controls={inputListboxId}
             className='rounded-none bg-transparent px-1.5 py-0.5 [&_svg]:hidden'
           >
-            <SelectValue placeholder={filter.value ? 'Đúng' : 'Sai'} />
+            <SelectValue placeholder={filter.value ? 'True' : 'False'} />
           </SelectTrigger>
           <SelectContent id={inputListboxId}>
-            <SelectItem value='true'>Đúng</SelectItem>
-            <SelectItem value='false'>Sai</SelectItem>
+            <SelectItem value='true'>True</SelectItem>
+            <SelectItem value='false'>False</SelectItem>
           </SelectContent>
         </Select>
       )
@@ -742,7 +742,7 @@ function onFilterInputRender<TData>({
             className='w-48 origin-[var(--radix-popover-content-transform-origin)] p-0'
           >
             <Command>
-              <CommandInput placeholder='Tìm kiếm tùy chọn...' />
+              <CommandInput placeholder='Search options...' />
               <CommandList>
                 <CommandEmpty>No options found.</CommandEmpty>
                 <CommandGroup>

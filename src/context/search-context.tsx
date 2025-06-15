@@ -1,19 +1,18 @@
 import React from 'react'
 import { CommandMenu } from '@/components/command-menu'
 
-interface CommandSearchContextType {
+interface SearchContextType {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CommandSearchContext =
-  React.createContext<CommandSearchContextType | null>(null)
+const SearchContext = React.createContext<SearchContextType | null>(null)
 
 interface Props {
   children: React.ReactNode
 }
 
-export function CommandSearchProvider({ children }: Props) {
+export function SearchProvider({ children }: Props) {
   const [open, setOpen] = React.useState(false)
 
   React.useEffect(() => {
@@ -30,22 +29,20 @@ export function CommandSearchProvider({ children }: Props) {
   }, [])
 
   return (
-    <CommandSearchContext.Provider value={{ open, setOpen }}>
+    <SearchContext.Provider value={{ open, setOpen }}>
       {children}
       <CommandMenu />
-    </CommandSearchContext.Provider>
+    </SearchContext.Provider>
   )
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useCommandSearch = () => {
-  const commandSearchContext = React.useContext(CommandSearchContext)
+export const useSearch = () => {
+  const searchContext = React.useContext(SearchContext)
 
-  if (!commandSearchContext) {
-    throw new Error(
-      'useCommandSearch has to be used within <CommandSearchProvider>'
-    )
+  if (!searchContext) {
+    throw new Error('useSearch has to be used within <SearchContext.Provider>')
   }
 
-  return commandSearchContext
+  return searchContext
 }

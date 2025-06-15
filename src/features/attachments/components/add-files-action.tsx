@@ -27,7 +27,7 @@ export function AddFilesAction() {
   const onFileValidate = useCallback((file: File) => {
     const result = fileSchema.safeParse(file)
     if (result.success) return null
-    return result.error.issues[0]?.message || 'Tệp không hợp lệ'
+    return result.error.issues[0]?.message || 'Invalid file'
   }, [])
 
   const onFileAccept = useCallback(
@@ -42,14 +42,14 @@ export function AddFilesAction() {
           abortControllerRef.current.abort()
           abortControllerRef.current = null
         }
-        toast.error(`Tải lên bị hủy: ${fileName}`, {
-          description: 'Việc tải lên đã bị người dùng hủy',
+        toast.error(`Upload cancelled: ${fileName}`, {
+          description: 'Upload was cancelled by user',
         })
       }
 
-      const toastId = toast.loading(`Đang tải lên ${fileName}`, {
+      const toastId = toast.loading(`Uploading ${fileName}`, {
         action: {
-          label: 'Hủy',
+          label: 'Cancel',
           onClick: cancelUpload,
         },
       })
@@ -59,11 +59,11 @@ export function AddFilesAction() {
           abortController: abortControllerRef.current,
           onProgress: (progressFile, progress) => {
             if (progressFile.name === file.name) {
-              toast.loading(`Đang tải lên ${fileName}`, {
+              toast.loading(`Uploading ${fileName}`, {
                 id: toastId,
                 description: <Progress value={progress} className='h-2' />,
                 action: {
-                  label: 'Hủy',
+                  label: 'Cancel',
                   onClick: cancelUpload,
                 },
               })
@@ -71,12 +71,12 @@ export function AddFilesAction() {
           },
           onSuccess: (successFile) => {
             if (successFile.name === file.name) {
-              toast.success('Tải lên thành công', {
+              toast.success('Upload successful', {
                 id: toastId,
                 action: null,
                 description: fileName,
                 cancel: {
-                  label: 'Đóng',
+                  label: 'Dismiss',
                   onClick: () => toast.dismiss(toastId),
                 },
                 duration: Infinity,
@@ -89,13 +89,14 @@ export function AddFilesAction() {
               const isAbortError = error.name === 'AbortError'
 
               const errorMessage = isAbortError
-                ? 'Tải lên bị hủy'
-                : error.message || 'Đã xảy ra lỗi trong quá trình tải lên.'
+                ? 'Upload cancelled'
+                : error.message ||
+                  'Something went wrong during the upload process.'
 
               toast.error(
                 isAbortError
-                  ? `Tải lên bị hủy: ${fileName}`
-                  : `Không thể tải lên ${fileName}`,
+                  ? `Upload cancelled: ${fileName}`
+                  : `Failed to upload ${fileName}`,
                 {
                   id: toastId,
                   description: errorMessage,
@@ -114,15 +115,15 @@ export function AddFilesAction() {
           error instanceof Error && error.name === 'AbortError'
 
         const errorMessage = isAbortError
-          ? 'Tải lên bị hủy'
+          ? 'Upload cancelled'
           : error instanceof Error
             ? error.message
-            : 'Đã xảy ra lỗi không mong muốn trong quá trình tải lên.'
+            : 'An unexpected error occurred during upload.'
 
         toast.error(
           isAbortError
-            ? `Tải lên bị hủy: ${fileName}`
-            : `Không thể tải lên ${fileName}`,
+            ? `Upload cancelled: ${fileName}`
+            : `Failed to upload ${fileName}`,
           {
             id: toastId,
             description: errorMessage,
@@ -137,7 +138,7 @@ export function AddFilesAction() {
   const onFileReject = useCallback((file: File, message: string) => {
     const fileName =
       file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name
-    toast.error(`Tệp bị từ chối: ${fileName}`, {
+    toast.error(`File rejected: ${fileName}`, {
       description: `${message}`,
     })
   }, [])
@@ -155,7 +156,7 @@ export function AddFilesAction() {
         <FileUploadTrigger asChild>
           <Button>
             <FileUp className='mr-2 h-4 w-4' />
-            Tải lên tệp
+            Files upload
           </Button>
         </FileUploadTrigger>
       </FileUpload>

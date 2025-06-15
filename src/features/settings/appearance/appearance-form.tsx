@@ -21,11 +21,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 const appearanceFormSchema = z.object({
   theme: z.enum(['light', 'dark'], {
-    required_error: 'Vui lòng chọn chủ đề.',
+    required_error: 'Please select a theme.',
   }),
   font: z.enum(fonts, {
-    invalid_type_error: 'Chọn phông chữ',
-    required_error: 'Vui lòng chọn phông chữ.',
+    invalid_type_error: 'Select a font',
+    required_error: 'Please select a font.',
   }),
 })
 
@@ -61,7 +61,7 @@ export function AppearanceForm() {
           name='font'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phông chữ</FormLabel>
+              <FormLabel>Font</FormLabel>
               <div className='relative w-max'>
                 <FormControl>
                   <select
@@ -81,7 +81,7 @@ export function AppearanceForm() {
                 <ChevronDownIcon className='absolute top-2.5 right-3 h-4 w-4 opacity-50' />
               </div>
               <FormDescription className='font-manrope'>
-                Thiết lập phông chữ bạn muốn sử dụng trong bảng điều khiển.
+                Set the font you want to use in the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -92,9 +92,9 @@ export function AppearanceForm() {
           name='theme'
           render={({ field }) => (
             <FormItem className='space-y-1'>
-              <FormLabel>Chủ đề</FormLabel>
+              <FormLabel>Theme</FormLabel>
               <FormDescription>
-                Chọn chủ đề cho bảng điều khiển.
+                Select the theme for the dashboard.
               </FormDescription>
               <FormMessage />
               <RadioGroup
@@ -124,7 +124,7 @@ export function AppearanceForm() {
                       </div>
                     </div>
                     <span className='block w-full p-2 text-center font-normal'>
-                      Sáng
+                      Light
                     </span>
                   </FormLabel>
                 </FormItem>
@@ -150,7 +150,7 @@ export function AppearanceForm() {
                       </div>
                     </div>
                     <span className='block w-full p-2 text-center font-normal'>
-                      Tối
+                      Dark
                     </span>
                   </FormLabel>
                 </FormItem>
@@ -159,7 +159,7 @@ export function AppearanceForm() {
           )}
         />
 
-        <Button type='submit'>Cập nhật tùy chọn</Button>
+        <Button type='submit'>Update preferences</Button>
       </form>
     </Form>
   )

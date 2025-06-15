@@ -23,9 +23,9 @@ export const getBadgeClasses = (count: number) => {
 }
 
 export const getTooltipText = (count: number) => {
-  if (count === 0) return 'Chưa chia sẻ với ai'
-  if (count === 1) return 'Đã chia sẻ với 1 người'
-  return `Đã chia sẻ với ${count} người`
+  if (count === 0) return 'Not shared with anyone'
+  if (count === 1) return 'Shared with 1 person'
+  return `Shared with ${count} people`
 }
 
 export const getIconSize = (count: number) => {

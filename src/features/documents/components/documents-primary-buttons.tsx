@@ -23,7 +23,7 @@ export function DocumentsPrimaryButtons() {
         onClick={() => void handleRefresh()}
         disabled={isFetching}
       >
-        <span>{isFetching ? 'Đang tải lại...' : 'Tải lại'}</span>
+        <span>{isFetching ? 'Refreshing...' : 'Refresh'}</span>
         <RefreshCcw
           className={`mr-2 h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
         />
@@ -34,7 +34,7 @@ export function DocumentsPrimaryButtons() {
           void navigate({ to: '/documents/create' })
         }}
       >
-        <span>Tạo mới</span> <IconPlus size={18} />
+        <span>Create</span> <IconPlus size={18} />
       </Button>
     </div>
   )

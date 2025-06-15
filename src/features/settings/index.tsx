@@ -15,10 +15,10 @@ export default function Settings() {
       <Main fixed>
         <div className='space-y-0.5'>
           <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
-            Cài đặt
+            Settings
           </h1>
           <p className='text-muted-foreground'>
-            Quản lý cài đặt tài khoản và thiết lập tùy chọn email.
+            Manage your account settings and set e-mail preferences.
           </p>
         </div>
         <Separator className='my-4 lg:my-6' />
@@ -37,22 +37,22 @@ export default function Settings() {
 
 const sidebarNavItems = [
   {
-    title: 'Hồ sơ',
+    title: 'Profile',
     icon: <IconUser size={18} />,
     href: '/settings',
   },
   {
-    title: 'Tài khoản',
+    title: 'Account',
     icon: <IconTool size={18} />,
     href: '/settings/account',
   },
   {
-    title: 'Giao diện',
+    title: 'Appearance',
     icon: <IconPalette size={18} />,
     href: '/settings/appearance',
   },
   {
-    title: 'Thông báo',
+    title: 'Notifications',
     icon: <IconNotification size={18} />,
     href: '/settings/notifications',
   },

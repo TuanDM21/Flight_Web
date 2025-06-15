@@ -34,7 +34,7 @@ export const EditableNoteCell = React.memo(
                 >
                   <Textarea
                     {...field}
-                    placeholder='Thêm ghi chú'
+                    placeholder='Add a note'
                     className={cn(
                       'max-w-[200px] text-sm',
                       fieldState.error && 'border-destructive'
@@ -47,7 +47,7 @@ export const EditableNoteCell = React.memo(
         />
       )
     }
-    return <div>{assignment.note || 'Không có ghi chú'}</div>
+    return <div>{assignment.note || 'No notes'}</div>
   }
 )
 

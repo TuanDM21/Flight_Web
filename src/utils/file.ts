@@ -7,7 +7,7 @@ export async function convertToFile(obj: DocumentAttachment): Promise<File> {
 
   const response = await fetch(obj.filePath)
   if (!response.ok) {
-    throw new Error(`Không thể tải file: ${response.statusText}`)
+    throw new Error(`Failed to fetch file: ${response.statusText}`)
   }
 
   const blob = await response.blob()

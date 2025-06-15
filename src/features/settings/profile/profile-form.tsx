@@ -84,14 +84,13 @@ export default function ProfileForm() {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tên người dùng</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder='shadcn' {...field} />
               </FormControl>
               <FormDescription>
-                Đây là tên hiển thị công khai của bạn. Nó có thể là tên thật
-                hoặc biệt danh. Bạn chỉ có thể thay đổi điều này một lần mỗi 30
-                ngày.
+                This is your public display name. It can be your real name or a
+                pseudonym. You can only change this once every 30 days.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -106,7 +105,7 @@ export default function ProfileForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Chọn email đã xác minh để hiển thị' />
+                    <SelectValue placeholder='Select a verified email to display' />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -116,8 +115,8 @@ export default function ProfileForm() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                Bạn có thể quản lý các địa chỉ email đã xác minh trong{' '}
-                <Link to='/'>cài đặt email</Link>.
+                You can manage verified email addresses in your{' '}
+                <Link to='/'>email settings</Link>.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -128,10 +127,10 @@ export default function ProfileForm() {
           name='bio'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Tiểu sử</FormLabel>
+              <FormLabel>Bio</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='Hãy kể cho chúng tôi một chút về bản thân bạn'
+                  placeholder='Tell us a little bit about yourself'
                   className='resize-none'
                   {...field}
                 />

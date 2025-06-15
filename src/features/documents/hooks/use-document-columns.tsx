@@ -51,7 +51,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'id',
         accessorKey: 'id',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='ID Tài liệu' />
+          <DataTableColumnHeader column={column} title='Document ID' />
         ),
         cell: ({ cell }) => {
           const documentId = cell.getValue<number>()
@@ -113,7 +113,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'createdAt',
         accessorKey: 'createdAt',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Ngày tạo' />
+          <DataTableColumnHeader column={column} title='Created At' />
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<string | undefined>()
@@ -124,7 +124,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         },
         meta: {
           className: '',
-          label: 'Ngày tạo',
+          label: 'Created At',
           placeholder: 'Filter by creation date...',
           variant: 'date',
           icon: Calendar,
@@ -135,7 +135,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'updatedAt',
         accessorKey: 'updatedAt',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Ngày cập nhật' />
+          <DataTableColumnHeader column={column} title='Updated At' />
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<string | undefined>()
@@ -146,8 +146,8 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         },
         meta: {
           className: '',
-          label: 'Ngày cập nhật',
-          placeholder: 'Lọc theo ngày cập nhật...',
+          label: 'Updated At',
+          placeholder: 'Filter by update date...',
           variant: 'date',
           icon: Clock,
         },

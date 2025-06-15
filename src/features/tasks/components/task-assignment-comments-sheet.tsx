@@ -154,10 +154,7 @@ export const TaskAssignmentCommentsSheet: React.FC<
           <div className='flex-shrink-0'>
             <Mention trigger='@' className='w-full'>
               <div className='relative'>
-                <MentionInput
-                  placeholder='Nhập @ để nhắc đến người dùng...'
-                  asChild
-                >
+                <MentionInput placeholder='Type @ to mention a user...' asChild>
                   <Textarea
                     className='max-h-[200px] min-h-[80px] w-full resize-none rounded border p-2 pr-20'
                     value={commentMessage}

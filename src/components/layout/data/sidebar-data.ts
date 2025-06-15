@@ -27,71 +27,76 @@ export const sidebarData: SidebarData = {
   },
   navGroups: [
     {
-      title: 'Tổng quan',
+      title: 'General',
       items: [
         {
-          title: 'Bảng điều khiển',
+          title: 'Dashboard',
           url: '/',
           icon: IconLayoutDashboard,
         },
         {
-          title: 'Công việc',
+          title: 'Tasks',
           url: '/tasks',
           icon: IconChecklist,
         },
         {
-          title: 'Tài liệu',
+          title: 'Documents',
           url: '/documents',
           icon: IconFileTypeDoc,
         },
         {
-          title: 'Tệp đính kèm',
+          title: 'Attachments',
           url: '/attachments',
           icon: IconPaperclip,
           items: [
             {
-              title: 'Tệp của tôi',
+              title: 'My Attachments',
               url: '/attachments',
             },
             {
-              title: 'Được chia sẻ với tôi',
+              title: 'Shared With Me',
               url: '/attachments/shared-with-me',
             },
           ],
         },
+        {
+          title: 'Users',
+          url: '/users',
+          icon: IconUsers,
+        },
       ],
     },
     {
-      title: 'Khác',
+      title: 'Other',
       items: [
         {
-          title: 'Cài đặt',
+          title: 'Settings',
           icon: IconSettings,
           items: [
             {
-              title: 'Hồ sơ',
+              title: 'Profile',
               url: '/settings',
               icon: IconUserCog,
             },
             {
-              title: 'Tài khoản',
+              title: 'Account',
               url: '/settings/account',
               icon: IconTool,
             },
             {
-              title: 'Giao diện',
+              title: 'Appearance',
               url: '/settings/appearance',
               icon: IconPalette,
             },
             {
-              title: 'Thông báo',
+              title: 'Notifications',
               url: '/settings/notifications',
               icon: IconNotification,
             },
           ],
         },
         {
-          title: 'Trung tâm trợ giúp',
+          title: 'Help Center',
           url: '/help-center',
           icon: IconHelp,
         },

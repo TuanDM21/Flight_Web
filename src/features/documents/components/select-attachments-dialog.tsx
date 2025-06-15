@@ -65,10 +65,10 @@ function SelectAttachmentsContent({
           <FileText className='text-muted-foreground h-12 w-12' />
         </div>
         <div className='space-y-2'>
-          <h3 className='text-lg font-semibold'>Không có tệp đính kèm nào</h3>
+          <h3 className='text-lg font-semibold'>No attachments available</h3>
           <p className='text-muted-foreground max-w-sm text-sm'>
-            Chưa có tệp đính kèm nào trong hệ thống. Hãy tải lên một số tệp đính
-            kèm trước khi gán cho nhiệm vụ.
+            There are no attachments in the system yet. Upload some attachments
+            first before assigning them to tasks.
           </p>
         </div>
       </div>
@@ -86,9 +86,9 @@ function SelectAttachmentsContent({
   return (
     <>
       <DialogHeader className='text-left'>
-        <DialogTitle>Chọn tệp đính kèm</DialogTitle>
+        <DialogTitle>Select Attachments</DialogTitle>
         <DialogDescription>
-          Chọn một hoặc nhiều tệp đính kèm từ danh sách bên dưới
+          Select one or more attachments from the list below
         </DialogDescription>
       </DialogHeader>
       <div className='flex-1 overflow-auto'>
@@ -100,7 +100,7 @@ function SelectAttachmentsContent({
       </div>
       <DialogFooter className='gap-2'>
         <Button variant='outline' onClick={dialog.close}>
-          Đóng
+          Close
         </Button>
         <Button
           onClick={handleSaveSelection}
@@ -109,7 +109,7 @@ function SelectAttachmentsContent({
             table.getFilteredSelectedRowModel().rows.length === 0
           }
         >
-          Xác nhận
+          Confirm
         </Button>
       </DialogFooter>
     </>
@@ -128,9 +128,9 @@ export function SelectAttachmentsDialog({
           fallback={
             <div className='flex h-full flex-col'>
               <DialogHeader className='text-left'>
-                <DialogTitle>Chọn tệp đính kèm</DialogTitle>
+                <DialogTitle>Select Attachments</DialogTitle>
                 <DialogDescription>
-                  Chọn một hoặc nhiều tệp đính kèm từ danh sách bên dưới
+                  Select one or more attachments from the list below
                 </DialogDescription>
               </DialogHeader>
               <div className='flex-1 overflow-auto'>
@@ -142,9 +142,9 @@ export function SelectAttachmentsDialog({
               </div>
               <DialogFooter className='gap-2'>
                 <Button variant='outline' onClick={dialog.close}>
-                  Đóng
+                  Close
                 </Button>
-                <Button disabled>Xác nhận</Button>
+                <Button disabled>Confirm</Button>
               </DialogFooter>
             </div>
           }

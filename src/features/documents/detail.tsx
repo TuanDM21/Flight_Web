@@ -98,7 +98,7 @@ export default function DocumentDetailPage() {
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground text-center'>
-              Không tìm thấy tài liệu
+              Document not found
             </p>
           </CardContent>
         </Card>
@@ -112,7 +112,7 @@ export default function DocumentDetailPage() {
         <div className='mb-4 flex items-center justify-between'>
           <div className='flex items-center space-x-4'>
             <div>
-              <h1 className='text-2xl font-bold'>Tài liệu #{document.id}</h1>
+              <h1 className='text-2xl font-bold'>Document #{document.id}</h1>
             </div>
           </div>
 
@@ -125,7 +125,7 @@ export default function DocumentDetailPage() {
                 }}
               >
                 <Edit className='mr-2 h-4 w-4' />
-                Chỉnh sửa
+                Edit
               </Link>
             </Button>
             <Button
@@ -134,7 +134,7 @@ export default function DocumentDetailPage() {
               onClick={() => onDeleteDocument(document)}
             >
               <Trash2 className='mr-2 h-4 w-4' />
-              Xóa
+              Delete
             </Button>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function DocumentDetailPage() {
               <div className='flex items-center justify-between'>
                 <CardTitle className='flex items-center space-x-2'>
                   <FileText className='h-5 w-5' />
-                  <span>Thông tin tài liệu</span>
+                  <span>Document Information</span>
                 </CardTitle>
                 <Badge variant='secondary'>{document.documentType}</Badge>
               </div>
@@ -153,10 +153,10 @@ export default function DocumentDetailPage() {
             <CardContent className='space-y-6'>
               <div>
                 <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                  Loại tài liệu
+                  Document Type
                 </h3>
                 <p className='text-sm'>
-                  {document.documentType || 'Không xác định'}
+                  {document.documentType || 'Not specified'}
                 </p>
               </div>
 
@@ -164,11 +164,11 @@ export default function DocumentDetailPage() {
 
               <div>
                 <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                  Nội dung
+                  Content
                 </h3>
                 <div className='bg-muted/50 rounded-md p-4'>
                   <p className='text-sm whitespace-pre-wrap'>
-                    {document.content || 'Không có nội dung'}
+                    {document.content || 'No content provided'}
                   </p>
                 </div>
               </div>
@@ -177,11 +177,11 @@ export default function DocumentDetailPage() {
 
               <div>
                 <h3 className='text-muted-foreground mb-2 text-sm font-medium'>
-                  Ghi chú
+                  Notes
                 </h3>
                 <div className='bg-muted/50 rounded-md p-4'>
                   <p className='text-sm whitespace-pre-wrap'>
-                    {document.notes || 'Không có ghi chú'}
+                    {document.notes || 'No notes provided'}
                   </p>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function DocumentDetailPage() {
               <CardHeader>
                 <CardTitle className='flex items-center space-x-2'>
                   <Paperclip className='h-5 w-5' />
-                  <span>Tệp đính kèm ({document.attachments.length})</span>
+                  <span>Attachments ({document.attachments.length})</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -217,7 +217,7 @@ export default function DocumentDetailPage() {
                             </span>
                             <span>•</span>
                             <span>
-                              Thêm vào{' '}
+                              Added on{' '}
                               {format(
                                 new Date(attachment.createdAt ?? ''),
                                 dateFormatPatterns.fullDateTime
@@ -234,7 +234,7 @@ export default function DocumentDetailPage() {
                       >
                         <DataTableActionBarAction
                           size='icon'
-                          tooltip='Xóa tệp'
+                          tooltip='Remove file'
                           onClick={() =>
                             onUnlinkAttachmentFromDocument(
                               document.id!,
@@ -252,7 +252,7 @@ export default function DocumentDetailPage() {
                         >
                           <DataTableActionBarAction
                             size='icon'
-                            tooltip='Xem tệp'
+                            tooltip='View file'
                           >
                             <Eye />
                           </DataTableActionBarAction>
@@ -260,7 +260,7 @@ export default function DocumentDetailPage() {
 
                         <DataTableActionBarAction
                           size='icon'
-                          tooltip='Tải xuống tệp'
+                          tooltip='Download file'
                           onClick={() => handleDownloadAttachment(attachment)}
                         >
                           <Download />
@@ -277,14 +277,14 @@ export default function DocumentDetailPage() {
             <CardHeader>
               <CardTitle className='flex items-center space-x-2'>
                 <Calendar className='h-5 w-5' />
-                <span>Thông tin meta</span>
+                <span>Metadata</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    Tạo lúc
+                    Created At
                   </h3>
                   <p className='text-sm'>
                     {format(
@@ -295,7 +295,7 @@ export default function DocumentDetailPage() {
                 </div>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    Cập nhật lần cuối
+                    Last Updated
                   </h3>
                   <p className='text-sm'>
                     {format(
@@ -306,18 +306,18 @@ export default function DocumentDetailPage() {
                 </div>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    ID tài liệu
+                    Document ID
                   </h3>
                   <p className='font-mono text-sm'>#{document.id}</p>
                 </div>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    Tệp đính kèm
+                    Attachments
                   </h3>
                   {attachmentsInfo.count > 0 ? (
                     <div className='space-y-1'>
                       <p className='text-sm'>
-                        {attachmentsInfo.count} tệp •{' '}
+                        {attachmentsInfo.count} file(s) •{' '}
                         {formatFileSize(attachmentsInfo.totalSize)}
                       </p>
                       {attachmentsInfo.types.length > 0 && (
@@ -335,7 +335,7 @@ export default function DocumentDetailPage() {
                       )}
                     </div>
                   ) : (
-                    <p className='text-sm'>Không có tệp đính kèm</p>
+                    <p className='text-sm'>No attachments</p>
                   )}
                 </div>
               </div>
