@@ -6,7 +6,7 @@ import {
   IconMoon,
   IconSun,
 } from '@tabler/icons-react'
-import { useSearch } from '@/context/search-context'
+import { useCommandSearch } from '@/context/command-search-context'
 import { useTheme } from '@/context/theme-context'
 import {
   CommandDialog,
@@ -23,7 +23,7 @@ import { ScrollArea } from './ui/scroll-area'
 export function CommandMenu() {
   const navigate = useNavigate()
   const { setTheme } = useTheme()
-  const { open, setOpen } = useSearch()
+  const { open, setOpen } = useCommandSearch()
 
   const runCommand = React.useCallback(
     (command: () => unknown) => {
@@ -35,10 +35,10 @@ export function CommandMenu() {
 
   return (
     <CommandDialog modal open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder='Type a command or search...' />
+      <CommandInput placeholder='Nhập lệnh hoặc tìm kiếm...' />
       <CommandList>
         <ScrollArea type='hover' className='h-72 pr-1'>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>Không tìm thấy kết quả.</CommandEmpty>
           {sidebarData.navGroups.map((group) => (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items.map((navItem, i) => {
@@ -76,7 +76,7 @@ export function CommandMenu() {
             </CommandGroup>
           ))}
           <CommandSeparator />
-          <CommandGroup heading='Theme'>
+          <CommandGroup heading='Chủ đề'>
             <CommandItem
               onSelect={() => {
                 runCommand(() => {
@@ -84,7 +84,7 @@ export function CommandMenu() {
                 })
               }}
             >
-              <IconSun /> <span>Light</span>
+              <IconSun /> <span>Sáng</span>
             </CommandItem>
             <CommandItem
               onSelect={() => {
@@ -94,7 +94,7 @@ export function CommandMenu() {
               }}
             >
               <IconMoon className='scale-90' />
-              <span>Dark</span>
+              <span>Tối</span>
             </CommandItem>
             <CommandItem
               onSelect={() => {
@@ -104,7 +104,7 @@ export function CommandMenu() {
               }}
             >
               <IconDeviceLaptop />
-              <span>System</span>
+              <span>Hệ thống</span>
             </CommandItem>
           </CommandGroup>
         </ScrollArea>

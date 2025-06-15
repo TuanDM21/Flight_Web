@@ -238,8 +238,8 @@ export interface AlertDialogProps
 
 export function AlertDialog({ open, payload, onClose }: AlertDialogProps) {
   const localeText = {
-    alert: 'Alert',
-    ok: 'Ok',
+    alert: 'Cảnh báo',
+    ok: 'Đồng ý',
   }
   const okButtonProps = useDialogLoadingButton(() => onClose())
 
@@ -279,9 +279,9 @@ export interface ConfirmDialogProps
 
 export function ConfirmDialog({ open, payload, onClose }: ConfirmDialogProps) {
   const localeText = {
-    confirm: 'Confirm',
-    cancel: 'Cancel',
-    ok: 'Delete',
+    confirm: 'Xác nhận',
+    cancel: 'Hủy',
+    ok: 'Xóa',
   }
   payload.severity ??= 'error'
 
@@ -335,9 +335,9 @@ export interface PromptDialogProps
 
 export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
   const localeText = {
-    confirm: 'Confirm',
-    cancel: 'Cancel',
-    ok: 'Ok',
+    confirm: 'Xác nhận',
+    cancel: 'Hủy',
+    ok: 'Đồng ý',
   }
   const [input, setInput] = React.useState('')
   const cancelButtonProps = useDialogLoadingButton(() => onClose(null))
@@ -373,7 +373,7 @@ export function PromptDialog({ open, payload, onClose }: PromptDialogProps) {
           <div className='grid gap-4 py-4'>
             <div className='grid grid-cols-4 items-center gap-4'>
               <Label htmlFor='input' className='text-right'>
-                Input
+                Nhập liệu
               </Label>
               <Input
                 id='input'

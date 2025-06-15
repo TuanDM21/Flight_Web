@@ -110,12 +110,12 @@ export function TaskAssignmentsDialog({
       body: restValues,
     })
     toast.promise(updatePromise, {
-      loading: 'Updating assignment...',
+      loading: 'Đang cập nhật phân công...',
       success: () => {
         resetAssignmentForm()
-        return 'Assignment updated successfully!'
+        return 'Cập nhật phân công thành công!'
       },
-      error: 'Failed to update assignment. Please try again.',
+      error: 'Không thể cập nhật phân công. Vui lòng thử lại.',
     })
   }
 
@@ -132,9 +132,9 @@ export function TaskAssignmentsDialog({
       },
     })
     toast.promise(updatePromise, {
-      loading: `Updating assignment status...`,
+      loading: `Đang cập nhật trạng thái phân công...`,
       success: `Assignment status updated to ${allTaskAssignmentStatusLabels[newStatus]}!`,
-      error: `Failed to update assignment status. Please try again.`,
+      error: `Không thể cập nhật trạng thái phân công. Vui lòng thử lại.`,
     })
   }
 
@@ -179,9 +179,9 @@ export function TaskAssignmentsDialog({
     })
 
     toast.promise(deleteAssignmentPromise, {
-      loading: 'Deleting assignment...',
-      success: `Successfully deleted assignment for ${recipientName}.`,
-      error: 'Error deleting assignment',
+      loading: 'Đang xóa phân công...',
+      success: `Đã xóa thành công phân công cho ${recipientName}.`,
+      error: 'Lỗi khi xóa phân công',
     })
   }
 
@@ -225,7 +225,7 @@ export function TaskAssignmentsDialog({
           onEscapeKeyDown={(event) => event.preventDefault()}
         >
           <DialogHeader>
-            <DialogTitle>Assignments for Task #{taskId}</DialogTitle>
+            <DialogTitle>Phân công cho Task #{taskId}</DialogTitle>
           </DialogHeader>
 
           <div className='flex justify-end gap-2'>
@@ -234,7 +234,7 @@ export function TaskAssignmentsDialog({
                 className='space-x-1'
                 onClick={handleOpenCreateAssignmentSheet}
               >
-                <span>Create Assignment</span> <FileUser />
+                <span>Tạo phân công</span> <FileUser />
               </Button>
             )}
           </div>
@@ -252,7 +252,7 @@ export function TaskAssignmentsDialog({
                 </div>
                 <div className='space-y-2 text-center'>
                   <h3 className='text-muted-foreground text-lg font-medium'>
-                    No assignments yet
+                    Chưa có phân công nào
                   </h3>
                   {isTaskOwner && (
                     <>
@@ -260,10 +260,10 @@ export function TaskAssignmentsDialog({
                         className='space-x-1'
                         onClick={handleOpenCreateAssignmentSheet}
                       >
-                        <span>Create Assignment</span> <FileUser />
+                        <span>Tạo phân công</span> <FileUser />
                       </Button>
                       <p className='text-muted-foreground max-w-sm text-sm'>
-                        Be the first to create an assignment for this task.
+                        Hãy là người đầu tiên tạo phân công cho task này.
                       </p>
                     </>
                   )}

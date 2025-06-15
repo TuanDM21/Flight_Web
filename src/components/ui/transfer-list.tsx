@@ -85,7 +85,7 @@ export const TransferList = memo(function ({
       <div className='bg-background w-1/2 rounded-sm shadow-sm'>
         <div className='flex items-center justify-between'>
           <Input
-            placeholder='Search'
+            placeholder='Tìm kiếm'
             className='rounded-tr-none rounded-br-none rounded-bl-none focus-visible:border-blue-500 focus-visible:ring-0'
             value={leftSearch}
             onChange={(e) => setLeftSearch(e.target.value)}
@@ -139,7 +139,7 @@ export const TransferList = memo(function ({
             <ChevronLeftIcon className='h-4 w-4' />
           </Button>
           <Input
-            placeholder='Search'
+            placeholder='Tìm kiếm'
             className='rounded-tl-none rounded-br-none rounded-bl-none focus-visible:border-blue-500 focus-visible:ring-0'
             value={rightSearch}
             onChange={(e) => setRightSearch(e.target.value)}

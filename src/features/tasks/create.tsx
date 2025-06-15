@@ -46,9 +46,9 @@ export default function CreateTaskPage() {
     })
 
     toast.promise(createTaskPromise, {
-      loading: `Creating task...`,
-      success: `Task created successfully!`,
-      error: `Failed to create task. Please try again.`,
+      loading: `Đang tạo nhiệm vụ...`,
+      success: `Tạo nhiệm vụ thành công!`,
+      error: `Không thể tạo nhiệm vụ. Vui lòng thử lại.`,
     })
     void navigate({ to: '/tasks' })
   }
@@ -57,7 +57,7 @@ export default function CreateTaskPage() {
     <div className='px-4 py-2'>
       <Card className='py-4'>
         <CardHeader>
-          <CardTitle>Create Task</CardTitle>
+          <CardTitle>Tạo nhiệm vụ</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -72,12 +72,12 @@ export default function CreateTaskPage() {
                 name='content'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Content</FormLabel>
+                    <FormLabel>Nội dung</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Enter your content here'
+                        placeholder='Nhập nội dung của bạn tại đây'
                       />
                     </FormControl>
                     <FormMessage />
@@ -90,12 +90,12 @@ export default function CreateTaskPage() {
                 name='instructions'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Instructions</FormLabel>
+                    <FormLabel>Hướng dẫn</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Enter your instructions here'
+                        placeholder='Nhập hướng dẫn của bạn tại đây'
                       />
                     </FormControl>
                     <FormMessage />
@@ -108,12 +108,12 @@ export default function CreateTaskPage() {
                 name='notes'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>Ghi chú</FormLabel>
                     <FormControl>
                       <Textarea
                         {...field}
                         className='min-h-32'
-                        placeholder='Enter your notes here'
+                        placeholder='Nhập ghi chú của bạn tại đây'
                       />
                     </FormControl>
                     <FormMessage />
@@ -131,10 +131,10 @@ export default function CreateTaskPage() {
             size='lg'
             onClick={() => void navigate({ to: '/tasks' })}
           >
-            Save as Draft
+            Lưu bản nháp
           </Button>
           <Button form='tasks-form' type='submit' size='lg'>
-            Save Task
+            Lưu nhiệm vụ
           </Button>
         </div>
       </Card>

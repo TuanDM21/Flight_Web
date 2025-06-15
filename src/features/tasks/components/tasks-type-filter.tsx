@@ -2,7 +2,7 @@ import { TasksRoute } from '@/routes/_authenticated/tasks'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { TaskFilterTypes } from '@/features/tasks/types'
 
-export function TaskTypeFilter() {
+export function TasksTypeFilter() {
   const searchParams = TasksRoute.useSearch()
   const navigate = TasksRoute.useNavigate()
   const currentType = searchParams.type || 'assigned'

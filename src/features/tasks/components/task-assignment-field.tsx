@@ -69,7 +69,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
   return (
     <div className='space-y-4'>
       <div className='flex items-center justify-between'>
-        <FormLabel className='text-base font-medium'>Assignments</FormLabel>
+        <FormLabel className='text-base font-medium'>Phân công</FormLabel>
       </div>
 
       {fields.length === 0 && (
@@ -77,7 +77,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
           <CardContent className='flex flex-col items-center justify-center py-6'>
             <UserIcon className='text-muted-foreground h-8 w-8' />
             <p className='text-muted-foreground mt-2 text-sm'>
-              No assignments added yet
+              Chưa có phân công nào được thêm
             </p>
             <Button
               type='button'
@@ -85,7 +85,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
               onClick={handleAddAssignment}
               className='mt-4'
             >
-              Add your first assignment
+              Thêm phân công đầu tiên
             </Button>
           </CardContent>
         </Card>
@@ -103,7 +103,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
             }}
           >
             <X className='h-4 w-4' />
-            <span className='sr-only'>Remove assignment</span>
+            <span className='sr-only'>Xóa phân công</span>
           </Button>
 
           <CardContent className='pt-6'>
@@ -113,7 +113,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                 name={`${name}.${index}.recipientType` as Path<T>}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Recipient Type</FormLabel>
+                    <FormLabel>Loại người nhận</FormLabel>
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value)
@@ -131,7 +131,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                     >
                       <FormControl className='w-full'>
                         <SelectTrigger className='min-w-0 truncate'>
-                          <SelectValue placeholder='Select recipient type' />
+                          <SelectValue placeholder='Chọn loại người nhận' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -158,7 +158,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
 
                   return (
                     <FormItem>
-                      <FormLabel>Recipient</FormLabel>
+                      <FormLabel>Người nhận</FormLabel>
                       <Select
                         onValueChange={(value) => {
                           field.onChange(Number(value))
@@ -168,7 +168,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                       >
                         <FormControl className='w-full'>
                           <SelectTrigger className='min-w-0 truncate'>
-                            <SelectValue placeholder='Select recipient' />
+                            <SelectValue placeholder='Chọn người nhận' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -179,7 +179,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                             if (options.length === 0) {
                               return (
                                 <div className='text-muted-foreground px-2 py-1.5 text-sm'>
-                                  No recipients available
+                                  Không có người nhận nào
                                 </div>
                               )
                             }
@@ -205,7 +205,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                 name={`${name}.${index}.dueAt` as Path<T>}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Due Date</FormLabel>
+                    <FormLabel>Ngày hạn</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl className='w-full'>
@@ -225,7 +225,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
                                 )}
                               </span>
                             ) : (
-                              <span>Select due date</span>
+                              <span>Chọn ngày hạn</span>
                             )}
                             <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                           </Button>
@@ -258,10 +258,10 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
               name={`${name}.${index}.note` as Path<T>}
               render={({ field }) => (
                 <FormItem className='mt-4'>
-                  <FormLabel>Notes</FormLabel>
+                  <FormLabel>Ghi chú</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Add any notes about this assignment'
+                      placeholder='Thêm ghi chú về phân công này'
                       className='min-h-32 resize-none'
                       {...field}
                     />
@@ -314,7 +314,7 @@ export function TaskAssignmentField<T extends FieldValues = FieldValues>({
           onClick={handleAddAssignment}
         >
           <PlusCircle className='mr-2 h-4 w-4' />
-          Add Another Assignment
+          Thêm phân công khác
         </Button>
       )}
     </div>

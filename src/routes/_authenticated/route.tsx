@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
-import { SearchProvider } from '@/context/search-context'
+import { CommandSearchProvider } from '@/context/command-search-context'
 import { SidebarProvider } from '@/components/ui/sidebar'
+import { CommandSearch } from '@/components/command-search'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import { Header } from '@/components/layout/header'
-import { Search } from '@/components/search'
 import SkipToMain from '@/components/skip-to-main'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_authenticated')({
 function RouteComponent() {
   const defaultOpen = Cookies.get('sidebar_state') !== 'false'
   return (
-    <SearchProvider>
+    <CommandSearchProvider>
       <SidebarProvider defaultOpen={defaultOpen}>
         <SkipToMain />
         <AppSidebar />
@@ -44,7 +44,7 @@ function RouteComponent() {
           )}
         >
           <Header>
-            <Search />
+            <CommandSearch />
             <div className='ml-auto flex items-center gap-4'>
               <ThemeSwitch />
               <UserNav />
@@ -53,6 +53,6 @@ function RouteComponent() {
           <Outlet />
         </div>
       </SidebarProvider>
-    </SearchProvider>
+    </CommandSearchProvider>
   )
 }

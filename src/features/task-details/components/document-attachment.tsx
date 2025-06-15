@@ -33,7 +33,7 @@ export function DocumentAttachment({
             {attachment.uploadedBy && (
               <>
                 <span>•</span>
-                <span>by {attachment.uploadedBy.name}</span>
+                <span>bởi {attachment.uploadedBy.name}</span>
               </>
             )}
           </div>
@@ -48,7 +48,7 @@ export function DocumentAttachment({
           >
             <DataTableActionBarAction
               size='icon'
-              tooltip='View file'
+              tooltip='Xem tệp'
               className='h-6 w-6'
             >
               <Eye className='h-3 w-3' />
@@ -57,7 +57,7 @@ export function DocumentAttachment({
         )}
         <DataTableActionBarAction
           size='icon'
-          tooltip='Download file'
+          tooltip='Tải xuống tệp'
           onClick={() => onDownload(attachment)}
           className='h-6 w-6'
         >

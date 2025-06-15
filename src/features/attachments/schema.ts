@@ -7,12 +7,12 @@ export const fileSchema = z
   .refine(
     (file) => file.size <= MAX_FILE_SIZE,
     (file) => ({
-      message: `File "${file.name}" is too large. Maximum size is ${formatFileSize(MAX_FILE_SIZE)}.`,
+      message: `Tệp "${file.name}" quá lớn. Kích thước tối đa là ${formatFileSize(MAX_FILE_SIZE)}.`,
     })
   )
   .refine(
     (file) => ACCEPTED_FILE_TYPES.includes(file.type),
     (file) => ({
-      message: `File "${file.name}" has an unsupported format. Allowed formats: ${ACCEPTED_FILE_TYPES.join(', ')}`,
+      message: `Tệp "${file.name}" có định dạng không được hỗ trợ. Các định dạng được phép: ${ACCEPTED_FILE_TYPES.join(', ')}`,
     })
   )

@@ -18,7 +18,7 @@ export function TaskSearchInput({ isFiltering }: TaskSearchInputProps) {
         className={`absolute top-2.5 left-2 h-4 w-4 ${isFiltering ? 'text-primary' : 'text-muted-foreground'}`}
       />
       <Input
-        placeholder='Search tasks...'
+        placeholder='Tìm kiếm công việc...'
         className={`w-full pl-4 ${isFiltering ? 'border-primary' : ''}`}
         value={queryFilter}
         onChange={(e) => setQueryFilter(e.target.value)}

@@ -92,7 +92,7 @@ export function AssignmentDataTable<TData>({
                   colSpan={table.getAllColumns().length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  Không có kết quả.
                 </TableCell>
               </TableRow>
             )}

@@ -19,7 +19,7 @@ export function AttachmentsPrimaryButtons() {
         onClick={() => void handleRefresh()}
         disabled={isFetching}
       >
-        <span>{isFetching ? 'Refreshing...' : 'Refresh'}</span>
+        <span>{isFetching ? 'Đang làm mới...' : 'Làm mới'}</span>
         <RefreshCcw
           className={`mr-2 h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
         />

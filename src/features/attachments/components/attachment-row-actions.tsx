@@ -72,26 +72,26 @@ export function AttachmentRowActions({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
+            <span className='sr-only'>Mở menu</span>
             <MoreHorizontalIcon className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuItem onClick={handleShare}>
             <Share2Icon className='mr-2 h-4 w-4' />
-            Share
+            Chia sẻ
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleViewDetails}>
             <InfoIcon className='mr-2 h-4 w-4' />
-            View Details
+            Xem chi tiết
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handlePreview}>
             <EyeIcon className='mr-2 h-4 w-4' />
-            Preview
+            Xem trước
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleDownload}>
             <DownloadIcon className='mr-2 h-4 w-4' />
-            Download
+            Tải xuống
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -99,7 +99,7 @@ export function AttachmentRowActions({
             disabled={isAttachmentsDeleting}
           >
             <TrashIcon className='mr-2 h-4 w-4' />
-            {isAttachmentsDeleting ? 'Deleting...' : 'Delete'}
+            {isAttachmentsDeleting ? 'Đang xóa...' : 'Xóa'}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

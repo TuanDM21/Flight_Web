@@ -21,23 +21,23 @@ export function useRevokeAttachmentAccessConfirm() {
     if (userCount === 0) return false
 
     const isMultiple = userCount > 1
-    const userText = `${userCount} user${isMultiple ? 's' : ''}`
-    const fileText = fileName ? `"${fileName}"` : 'this attachment'
+    const userText = `${userCount} người dùng`
+    const fileText = fileName ? `"${fileName}"` : 'tệp đính kèm này'
 
     const confirmed = await dialogs.confirm(
       <div className='space-y-3'>
         <p className='text-sm'>
-          Are you sure you want to revoke access to {fileText} from {userText}?
+          Bạn có chắc chắn muốn thu hồi quyền truy cập {fileText} từ {userText}?
         </p>
         <p className='text-muted-foreground text-sm'>
-          {isMultiple ? 'These users' : 'This user'} will no longer be able to
-          view or download the file.
+          {isMultiple ? 'Những người dùng này' : 'Người dùng này'} sẽ không thể
+          xem hoặc tải xuống tệp nữa.
         </p>
       </div>,
       {
-        title: `Revoke Access (${userCount})`,
-        okText: 'Revoke Access',
-        cancelText: 'Cancel',
+        title: `Thu hồi quyền truy cập (${userCount})`,
+        okText: 'Thu hồi quyền truy cập',
+        cancelText: 'Hủy',
         severity: 'error',
       }
     )
@@ -46,9 +46,9 @@ export function useRevokeAttachmentAccessConfirm() {
       return false
     }
 
-    const loadingMessage = `Revoking access${fileName ? ` to "${fileName}"` : ''}...`
-    const successMessage = `Access revoked for ${userCount} user${isMultiple ? 's' : ''}`
-    const errorMessage = `Failed to revoke access for ${userCount} user${isMultiple ? 's' : ''}`
+    const loadingMessage = `Đang thu hồi quyền truy cập${fileName ? ` cho "${fileName}"` : ''}...`
+    const successMessage = `Đã thu hồi quyền truy cập cho ${userCount} người dùng`
+    const errorMessage = `Không thể thu hồi quyền truy cập cho ${userCount} người dùng`
 
     const revokePromise = revokeUserAccess.mutateAsync({
       body: {
