@@ -50,9 +50,9 @@ export const TaskAssignmentFormSheet = ({
       success: () => {
         onClose()
         form.reset()
-        return `Task assignment created successfully!`
+        return `Tạo phân công nhiệm vụ thành công!`
       },
-      error: `Failed to create task assignment. Please try again.`,
+      error: `Không thể tạo phân công nhiệm vụ. Vui lòng thử lại.`,
     })
   }
 
@@ -60,9 +60,9 @@ export const TaskAssignmentFormSheet = ({
     <Sheet open={open} onOpenChange={() => onClose()}>
       <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
-          <SheetTitle>Create Task Assignment</SheetTitle>
+          <SheetTitle>Tạo phân công nhiệm vụ</SheetTitle>
           <SheetDescription>
-            Create new assignments for this task.
+            Tạo phân công mới cho nhiệm vụ này.
           </SheetDescription>
         </SheetHeader>
 

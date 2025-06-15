@@ -28,7 +28,7 @@ export function TasksPrimaryButtons() {
         onClick={() => void handleRefresh()}
         disabled={isFetching}
       >
-        <span>{isFetching ? 'Refreshing...' : 'Refresh'}</span>
+        <span>{isFetching ? 'Đang tải lại...' : 'Tải lại'}</span>
         <RefreshCcw
           className={`mr-2 h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
         />
@@ -39,7 +39,7 @@ export function TasksPrimaryButtons() {
           void navigate({ to: '/tasks/create' })
         }}
       >
-        <span>Create</span> <IconPlus size={18} />
+        <span>Tạo mới</span> <IconPlus size={18} />
       </Button>
     </div>
   )

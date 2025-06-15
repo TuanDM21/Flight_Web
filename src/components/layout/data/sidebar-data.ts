@@ -9,7 +9,6 @@ import {
   IconSettings,
   IconTool,
   IconUserCog,
-  IconUsers,
 } from '@tabler/icons-react'
 import { Command } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -27,76 +26,71 @@ export const sidebarData: SidebarData = {
   },
   navGroups: [
     {
-      title: 'General',
+      title: 'Tổng quan',
       items: [
         {
-          title: 'Dashboard',
+          title: 'Bảng điều khiển',
           url: '/',
           icon: IconLayoutDashboard,
         },
         {
-          title: 'Tasks',
+          title: 'Công việc',
           url: '/tasks',
           icon: IconChecklist,
         },
         {
-          title: 'Documents',
+          title: 'Tài liệu',
           url: '/documents',
           icon: IconFileTypeDoc,
         },
         {
-          title: 'Attachments',
+          title: 'Tệp đính kèm',
           url: '/attachments',
           icon: IconPaperclip,
           items: [
             {
-              title: 'My Attachments',
+              title: 'Tệp của tôi',
               url: '/attachments',
             },
             {
-              title: 'Shared With Me',
+              title: 'Được chia sẻ với tôi',
               url: '/attachments/shared-with-me',
             },
           ],
         },
-        {
-          title: 'Users',
-          url: '/users',
-          icon: IconUsers,
-        },
       ],
     },
     {
-      title: 'Other',
+      title: 'Khác',
       items: [
         {
-          title: 'Settings',
+          title: 'Cài đặt',
           icon: IconSettings,
           items: [
             {
-              title: 'Profile',
+              title: 'Hồ sơ',
               url: '/settings',
               icon: IconUserCog,
             },
             {
-              title: 'Account',
+              title: 'Tài khoản',
               url: '/settings/account',
               icon: IconTool,
             },
             {
-              title: 'Appearance',
+              title: 'Giao diện',
               url: '/settings/appearance',
               icon: IconPalette,
             },
             {
-              title: 'Notifications',
+              title: 'Thông báo',
               url: '/settings/notifications',
               icon: IconNotification,
             },
           ],
         },
         {
-          title: 'Help Center',
+          title: 'Trung tâm trợ giúp',
           url: '/help-center',
           icon: IconHelp,
         },

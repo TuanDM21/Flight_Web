@@ -12,7 +12,7 @@ export function TaskDetailHeader({ taskId, onDelete }: TaskDetailHeaderProps) {
     <div className='mb-4 flex items-center justify-between'>
       <div className='flex items-center space-x-4'>
         <div>
-          <h1 className='text-2xl font-bold'>Task #{taskId}</h1>
+          <h1 className='text-2xl font-bold'>Nhiệm vụ #{taskId}</h1>
         </div>
       </div>
 
@@ -25,12 +25,12 @@ export function TaskDetailHeader({ taskId, onDelete }: TaskDetailHeaderProps) {
             }}
           >
             <Edit className='mr-2 h-4 w-4' />
-            Edit
+            Chỉnh sửa
           </Link>
         </Button>
         <Button variant='destructive' className='space-x-1' onClick={onDelete}>
           <Trash2 className='mr-2 h-4 w-4' />
-          Delete
+          Xóa
         </Button>
       </div>
     </div>

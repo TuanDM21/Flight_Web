@@ -70,7 +70,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
           name='password'
           render={({ field }) => (
             <FormItem className='relative'>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Mật khẩu</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -79,7 +79,7 @@ export function SignInForm({ className, ...props }: SignInFormProps) {
           )}
         />
         <Button className='mt-2' disabled={form.formState.isSubmitting}>
-          {isLoggingIn ? 'Loading...' : 'Login'}
+          {isLoggingIn ? 'Đang tải...' : 'Đăng nhập'}
         </Button>
 
         <div className='relative my-2'>

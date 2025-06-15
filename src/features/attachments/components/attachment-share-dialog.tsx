@@ -95,7 +95,7 @@ export function AttachmentShareDialog({
       <DialogContent className='flex h-[80vh] max-h-[800px] flex-col sm:max-w-2xl'>
         <DialogHeader className='flex flex-row items-center justify-between pb-2'>
           <DialogTitle className='flex items-center gap-2'>
-            Share {payload.attachment.fileName || 'Attachment'}
+            Chia sẻ {payload.attachment.fileName || 'Tệp đính kèm'}
           </DialogTitle>
         </DialogHeader>
 
@@ -177,14 +177,14 @@ function AttachmentShareDialogContent({
       },
     })
     toast.promise(promise, {
-      loading: 'Sharing attachment...',
+      loading: 'Đang chia sẻ tệp đính kèm...',
       success: () => {
         setSelectedUsers([])
         setInputValue('')
         onClose()
-        return 'Attachment shared successfully!'
+        return 'Chia sẻ tệp đính kèm thành công!'
       },
-      error: 'Failed to share attachment.',
+      error: 'Không thể chia sẻ tệp đính kèm.',
     })
   }
 
@@ -209,7 +209,7 @@ function AttachmentShareDialogContent({
             multiple
             autoHighlight
           >
-            <ComboboxLabel>Add people</ComboboxLabel>
+            <ComboboxLabel>Thêm người</ComboboxLabel>
             <ComboboxAnchor className='h-full flex-wrap px-3 py-2'>
               <ComboboxBadgeList className='max-h-20 overflow-y-auto'>
                 {selectedUsers.map((user) => {
@@ -227,7 +227,7 @@ function AttachmentShareDialogContent({
               </ComboboxBadgeList>
               <ComboboxInput
                 autoFocus
-                placeholder='Add people to share with...'
+                placeholder='Thêm người để chia sẻ...'
                 className='h-auto min-w-20 flex-1'
                 onFocus={() => setIsOpen(true)}
                 onBlur={() => setIsOpen(false)}
@@ -241,7 +241,7 @@ function AttachmentShareDialogContent({
                 <Users className='text-muted-foreground h-4 w-4' />
               </div>
               <p className='text-muted-foreground text-xs'>
-                Only people with access can open with the link
+                Chỉ những người có quyền truy cập mới có thể mở bằng liên kết
               </p>
             </div>
             <ComboboxContent
@@ -251,7 +251,7 @@ function AttachmentShareDialogContent({
               ref={setContent}
               className='bg-popover text-popover-foreground max-h-[300px] overflow-y-auto border shadow-md'
             >
-              <ComboboxEmpty>No users found.</ComboboxEmpty>
+              <ComboboxEmpty>Không tìm thấy người dùng.</ComboboxEmpty>
               <div
                 className='relative w-full'
                 style={{
@@ -288,14 +288,16 @@ function AttachmentShareDialogContent({
         </div>
         <div className='flex-1 overflow-hidden'>
           <div className='flex h-full flex-col space-y-3'>
-            <Label className='text-sm font-medium'>People with access</Label>
+            <Label className='text-sm font-medium'>
+              Những người có quyền truy cập
+            </Label>
             <UserAccessAttachmentList attachment={attachment} />
           </div>
         </div>
       </div>
       <div className='flex items-center justify-end space-x-2 border-t pt-4'>
         <Button variant='outline' onClick={() => onClose()}>
-          Close
+          Đóng
         </Button>
         <Button
           onClick={handleSave}
@@ -303,7 +305,9 @@ function AttachmentShareDialogContent({
             selectedUsers.length === 0 || grantAttachmentAccess.isPending
           }
         >
-          {grantAttachmentAccess.isPending ? 'Sharing...' : 'Share Attachment'}
+          {grantAttachmentAccess.isPending
+            ? 'Đang chia sẻ...'
+            : 'Chia sẻ tệp đính kèm'}
         </Button>
       </div>
     </>

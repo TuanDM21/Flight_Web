@@ -47,14 +47,14 @@ export function ConfirmDialogContent(props: ConfirmDialogContentProps) {
 
       <AlertDialogFooter>
         <AlertDialogCancel disabled={isLoading}>
-          {cancelBtnText ?? 'Cancel'}
+          {cancelBtnText ?? 'Hủy'}
         </AlertDialogCancel>
         <Button
           variant={destructive ? 'destructive' : 'default'}
           onClick={handleConfirm}
           disabled={disabled || isLoading}
         >
-          {confirmText ?? 'Continue'}
+          {confirmText ?? 'Tiếp tục'}
         </Button>
       </AlertDialogFooter>
     </AlertDialogContent>

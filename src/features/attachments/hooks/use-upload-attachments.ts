@@ -49,7 +49,7 @@ export const useUploadAttachments = () => {
 
         if (!response.ok) {
           throw new Error(
-            `Failed to upload ${file.name}: ${response.statusText}`
+            `Không thể tải lên ${file.name}: ${response.statusText}`
           )
         }
 
@@ -132,7 +132,7 @@ export const useUploadAttachments = () => {
 
     return {
       success: false,
-      error: new Error('No files were successfully uploaded'),
+      error: new Error('Không có file nào được tải lên thành công'),
       confirmedAttachments: [],
     }
   }

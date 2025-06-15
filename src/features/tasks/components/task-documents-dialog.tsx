@@ -96,10 +96,10 @@ export function TaskDocumentsDialog({
         })
 
       toast.promise(deleteDocumentsPromise, {
-        loading: 'Deleting task documents...',
+        loading: 'Đang xóa tài liệu nhiệm vụ...',
         success: () => {
           documentsTable.resetRowSelection()
-          return `Successfully deleted ${documentCount} document${documentCount === 1 ? '' : 's'}.`
+          return `Đã xóa thành công ${documentCount} tài liệu.`
         },
         error: 'Error deleting task documents',
       })
@@ -128,15 +128,15 @@ export function TaskDocumentsDialog({
     })
 
     toast.promise(promise, {
-      loading: 'Adding documents...',
+      loading: 'Đang thêm tài liệu...',
       success: () => {
         documentsTable.resetRowSelection()
         selectDocumentDialogInstance.close()
-        return `Added ${selectedDocumentIds.length} documents successfully`
+        return `Đã thêm ${selectedDocumentIds.length} tài liệu thành công`
       },
       error: (error) => {
         console.error('Error adding documents:', error)
-        return 'Failed to add documents'
+        return 'Không thể thêm tài liệu'
       },
     })
   }
@@ -155,10 +155,10 @@ export function TaskDocumentsDialog({
         <DialogContent className='max-h-7xl flex flex-col sm:max-w-7xl'>
           <DialogHeader>
             <DialogTitle className='text-lg font-bold'>
-              All Documents for Task #{taskId}
+              Tất cả tài liệu cho Task #{taskId}
             </DialogTitle>
             <p className='text-muted-foreground mt-1 text-sm'>
-              View all documents for this task
+              Xem tất cả tài liệu cho task này
             </p>
           </DialogHeader>
 
@@ -200,7 +200,7 @@ export function TaskDocumentsDialog({
                         onClick={handleDeleteTaskDocuments}
                       >
                         <IconTrash className='h-4 w-4' />
-                        <span>Remove ({selectedDocumentRows.length})</span>
+                        <span>Xóa ({selectedDocumentRows.length})</span>
                       </Button>
                     )}
                     <Button
@@ -208,7 +208,7 @@ export function TaskDocumentsDialog({
                       onClick={selectDocumentDialogInstance.open}
                     >
                       <FilePlus2Icon className='h-4 w-4' />
-                      <span>Add Document</span>
+                      <span>Thêm tài liệu</span>
                     </Button>
                   </div>
                 )}
