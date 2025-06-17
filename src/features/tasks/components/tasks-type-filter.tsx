@@ -35,7 +35,7 @@ export function TasksTypeFilter() {
         className='h-9 justify-start'
       >
         <ToggleGroupItem value='assigned' aria-label='Nhiệm vụ được giao'>
-          Được giao
+          Đã giao
         </ToggleGroupItem>
         <ToggleGroupItem value='created' aria-label='Nhiệm vụ đã tạo'>
           Đã tạo

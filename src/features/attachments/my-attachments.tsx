@@ -36,9 +36,6 @@ export default function MyAttachmentsPage() {
           <h2 className='text-3xl font-bold tracking-tight'>
             Tệp đính kèm của tôi
           </h2>
-          <p className='text-muted-foreground'>
-            Tải lên và quản lý các tệp đính kèm cá nhân của bạn.
-          </p>
         </div>
         <AttachmentsPrimaryButtons />
       </div>

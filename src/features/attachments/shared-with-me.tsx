@@ -35,11 +35,8 @@ export default function SharedWithMeAttachmentsPage() {
       <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
         <div>
           <h2 className='text-3xl font-bold tracking-tight'>
-            Được chia sẻ với tôi
+            Tệp đính kèm được chia sẻ với tôi
           </h2>
-          <p className='text-muted-foreground'>
-            Tất cả các tệp đính kèm được chia sẻ với bạn bởi người khác.
-          </p>
         </div>
         <SharedWithMeAttachmentsPrimaryButtons />
       </div>

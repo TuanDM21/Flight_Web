@@ -13,7 +13,6 @@ import { dateFormatPatterns } from '@/config/date'
 import { FileTextIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/auth-context'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -59,11 +58,9 @@ import {
 import {
   assigneeTaskAssignmentStatusLabels,
   ownerTaskAssignmentStatusLabels,
-  taskAssignmentsStatusIcons,
-  taskAssignmentStatusVariants,
-  allTaskAssignmentStatusLabels,
 } from '@/features/tasks/utils/tasks'
 import { EditableNoteCell } from './editable-note-cell'
+import { TaskAssignmentStatusBadge } from './task-assignment-status-badge'
 
 type TaskAssignmentUpdateForm = z.infer<typeof updateTaskAssignmentSchema> & {
   assignmentId?: number
@@ -220,7 +217,7 @@ export function useAssignmentTableColumns({
                               fieldState.error && 'border-destructive'
                             )}
                           >
-                            <SelectValue placeholder='Select recipient' />
+                            <SelectValue placeholder='Chọn người nhận' />
                           </SelectTrigger>
                         </FormFieldTooltipError>
                         <SelectContent>
@@ -231,7 +228,7 @@ export function useAssignmentTableColumns({
                             if (options.length === 0) {
                               return (
                                 <div className='text-muted-foreground p-2 text-sm'>
-                                  No recipients available
+                                  Không có người nhận nào
                                 </div>
                               )
                             }
@@ -291,7 +288,7 @@ export function useAssignmentTableColumns({
                             fieldState.error && 'border-destructive'
                           )}
                         >
-                          <SelectValue placeholder='Select status' />
+                          <SelectValue placeholder='Chọn trạng thái' />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.entries(taskAssignmentStatusLabels).map(
@@ -311,15 +308,7 @@ export function useAssignmentTableColumns({
           )
         }
         const status = assignment.status || 'ASSIGNED'
-        const Icon = taskAssignmentsStatusIcons[status]
-        const label = allTaskAssignmentStatusLabels[status]
-        const variant = taskAssignmentStatusVariants[status]
-        return (
-          <Badge variant={variant}>
-            <Icon className='size-4' />
-            {label}
-          </Badge>
-        )
+        return <TaskAssignmentStatusBadge status={status} />
       },
       size: 120,
       enableSorting: false,
@@ -343,7 +332,7 @@ export function useAssignmentTableColumns({
       ),
       cell: ({ cell }) => {
         const value = cell.getValue<string>()
-        if (!value) return <div>Not set</div>
+        if (!value) return <div>Chưa thiết lập</div>
         const date = new Date(value)
         return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
       },
@@ -388,7 +377,7 @@ export function useAssignmentTableColumns({
                               )
                             ) : (
                               <span className='text-muted-foreground'>
-                                Pick a date
+                                Chọn ngày
                               </span>
                             )}
                           </Button>
@@ -417,7 +406,7 @@ export function useAssignmentTableColumns({
             />
           )
         }
-        if (!value) return <div>Not set</div>
+        if (!value) return <div>Chưa thiết lập</div>
         const date = new Date(value)
         return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
       },
@@ -465,10 +454,10 @@ export function useAssignmentTableColumns({
                     disabled={updateAssignmentMutation.isPending}
                   >
                     <IconDeviceFloppy className='h-4 w-4' />
-                    <span className='sr-only'>Save changes</span>
+                    <span className='sr-only'>Lưu thay đổi</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Save changes</TooltipContent>
+                <TooltipContent>Lưu thay đổi</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -478,10 +467,10 @@ export function useAssignmentTableColumns({
                     onClick={resetAssignmentForm}
                   >
                     <IconX className='h-4 w-4' />
-                    <span className='sr-only'>Cancel edit</span>
+                    <span className='sr-only'>Hủy chỉnh sửa</span>
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Cancel edit</TooltipContent>
+                <TooltipContent>Hủy chỉnh sửa</TooltipContent>
               </Tooltip>
             </div>
           )
@@ -494,13 +483,13 @@ export function useAssignmentTableColumns({
                 className='data-[state=open]:bg-muted flex h-8 w-8 p-0'
               >
                 <DotsHorizontalIcon className='h-4 w-4' />
-                <span className='sr-only'>Open menu</span>
+                <span className='sr-only'>Mở menu</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='w-[160px]'>
               {(isAssignedToCurrentUser || isTaskOwner) && (
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+                  <DropdownMenuSubTrigger>Trạng thái</DropdownMenuSubTrigger>
                   <DropdownMenuSubContent>
                     <DropdownMenuRadioGroup value={String(assignment.status)}>
                       {Object.entries(taskAssignmentStatusLabels).map(
@@ -530,7 +519,7 @@ export function useAssignmentTableColumns({
               <DropdownMenuItem
                 onClick={() => handleOpenCommentsSheet(assignment)}
               >
-                View comments
+                Xem bình luận
                 <DropdownMenuShortcut>
                   <FileTextIcon />
                 </DropdownMenuShortcut>
@@ -539,7 +528,7 @@ export function useAssignmentTableColumns({
                 <>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => startEditing(assignment)}>
-                    Edit
+                    Chỉnh sửa
                     <DropdownMenuShortcut>
                       <IconEdit />
                     </DropdownMenuShortcut>
@@ -547,7 +536,7 @@ export function useAssignmentTableColumns({
                   <DropdownMenuItem
                     onClick={() => handleDeleteAssignment(assignment)}
                   >
-                    Delete
+                    Xóa
                     <DropdownMenuShortcut>
                       <IconTrash />
                     </DropdownMenuShortcut>

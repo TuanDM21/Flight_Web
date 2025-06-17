@@ -34,6 +34,7 @@ export const useCreateTask = (filterType = 'assigned') => {
             notes,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            status: 'ASSIGNED',
             // Add any other required fields with default values that might be needed
           }
           return {

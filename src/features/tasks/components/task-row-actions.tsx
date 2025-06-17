@@ -15,7 +15,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useTaskDeleteConfirm } from '../hooks/use-delete-task-confirm'
+import { useDeleteTasksConfirm } from '../hooks/use-delete-tasks-confirm'
 import { Task } from '../types'
 import { TaskAssignmentsDialog } from './task-assignments-dialog'
 import { TaskDocumentsDialog } from './task-documents-dialog'
@@ -32,7 +32,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
   const { user } = useAuth()
   const isTaskOwner = user?.id === task.createdByUser?.id
   const dialogs = useDialogs()
-  const { onDeleteTask } = useTaskDeleteConfirm(filterType)
+  const { onDeleteTasks } = useDeleteTasksConfirm(filterType)
 
   const handleViewAssignments = async () => {
     await dialogs.open(TaskAssignmentsDialog, {
@@ -99,7 +99,7 @@ export function TaskRowActions({ row }: TaskRowActionsProps) {
                   <PencilIcon />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDeleteTask(task)}>
+              <DropdownMenuItem onClick={() => onDeleteTasks([task])}>
                 Xóa
                 <DropdownMenuShortcut>
                   <IconTrash />

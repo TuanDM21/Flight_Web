@@ -85,9 +85,9 @@ export const TaskAssignmentCommentsSheet: React.FC<
     <Sheet open={open} onOpenChange={() => onClose()}>
       <SheetContent className='flex h-full w-full flex-col sm:max-w-2xl'>
         <SheetHeader className='flex-shrink-0 border-b'>
-          <SheetTitle>Comments for Assignment #{assignmentId}</SheetTitle>
+          <SheetTitle>Bình luận cho Phân công #{assignmentId}</SheetTitle>
           <SheetDescription>
-            View and reply to comments for this assignment.
+            Xem và trả lời bình luận cho phân công này.
           </SheetDescription>
         </SheetHeader>
 
@@ -138,11 +138,11 @@ export const TaskAssignmentCommentsSheet: React.FC<
                     </div>
                     <div className='space-y-2 text-center'>
                       <h3 className='text-muted-foreground text-lg font-medium'>
-                        No comments yet
+                        Chưa có bình luận nào
                       </h3>
                       <p className='text-muted-foreground max-w-sm text-sm'>
-                        Be the first to leave a comment on this assignment.
-                        Start a conversation below!
+                        Hãy là người đầu tiên để lại bình luận cho phân công
+                        này. Bắt đầu cuộc trò chuyện bên dưới!
                       </p>
                     </div>
                   </div>
@@ -174,8 +174,8 @@ export const TaskAssignmentCommentsSheet: React.FC<
                   }
                 >
                   {createTaskAssignmentCommentMutation.isPending
-                    ? 'Sending...'
-                    : 'Reply'}
+                    ? 'Đang gửi...'
+                    : 'Trả lời'}
                 </Button>
               </div>
             </Mention>
