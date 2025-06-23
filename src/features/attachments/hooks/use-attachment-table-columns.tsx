@@ -163,7 +163,6 @@ export const useAttachmentTableColumns = (
             <span
               className={`text-sm ${isRecent ? 'font-medium text-green-600' : ''}`}
             >
-              {isRecent && <Clock className='mr-1 inline-block h-4 w-4' />}
               {format(date, dateFormatPatterns.fullDate)}
               {isRecent && ' (Mới)'}
             </span>

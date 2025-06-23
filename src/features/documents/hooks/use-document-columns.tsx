@@ -25,7 +25,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
               onCheckedChange={(value) => {
                 table.toggleAllPageRowsSelected(!!value)
               }}
-              aria-label='Select all'
+              aria-label='Chọn tất cả'
             />
           </div>
         ),
@@ -36,7 +36,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
               onCheckedChange={(value) => {
                 row.toggleSelected(!!value)
               }}
-              aria-label='Select row'
+              aria-label='Chọn hàng'
             />
           </div>
         ),
@@ -68,8 +68,8 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         },
         meta: {
           className: '',
-          label: 'Document ID',
-          placeholder: 'Search document ID...',
+          label: 'ID Tài liệu',
+          placeholder: 'Tìm kiếm ID tài liệu...',
           variant: 'text',
           icon: IdCard,
         },
@@ -79,15 +79,15 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'documentType',
         accessorKey: 'documentType',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Document Type' />
+          <DataTableColumnHeader column={column} title='Loại tài liệu' />
         ),
         cell: ({ cell }) => (
           <div className='capitalize'>{cell.getValue<string>() ?? 'N/A'}</div>
         ),
         meta: {
           className: '',
-          label: 'Document Type',
-          placeholder: 'Search document type...',
+          label: 'Loại tài liệu',
+          placeholder: 'Tìm kiếm loại tài liệu...',
           variant: 'text',
           icon: FileType,
         },
@@ -97,13 +97,13 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'content',
         accessorKey: 'content',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Content' />
+          <DataTableColumnHeader column={column} title='Nội dung' />
         ),
         cell: ({ cell }) => <div>{cell.getValue<string>() || 'N/A'}</div>,
         meta: {
           className: '',
-          label: 'Content',
-          placeholder: 'Search content...',
+          label: 'Nội dung',
+          placeholder: 'Tìm kiếm nội dung...',
           variant: 'text',
           icon: ScrollText,
         },
@@ -117,7 +117,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<string | undefined>()
-          if (!value) return <div>Not set</div>
+          if (!value) return <div>Chưa thiết lập</div>
 
           const date = new Date(value)
           return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
@@ -125,7 +125,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         meta: {
           className: '',
           label: 'Ngày tạo',
-          placeholder: 'Filter by creation date...',
+          placeholder: 'Lọc theo ngày tạo...',
           variant: 'date',
           icon: Calendar,
         },
@@ -139,7 +139,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<string | undefined>()
-          if (!value) return <div>Not set</div>
+          if (!value) return <div>Chưa thiết lập</div>
 
           const date = new Date(value)
           return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
@@ -156,7 +156,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
       {
         id: 'actions',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Actions' />
+          <DataTableColumnHeader column={column} title='Hành động' />
         ),
         cell: ({ row }) => {
           return <DocumentRowActions row={row} />
