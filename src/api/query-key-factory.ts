@@ -32,6 +32,15 @@ export const taskKeysFactory = {
     ] as const,
 }
 
+export const flightKeysFactory = {
+  lists: () => ['get', '/api/flights'] as const,
+  detail: (id: number) =>
+    ['get', '/api/flights/{id}', { params: { path: { id: id } } }] as const,
+  search: (query: { date?: string; keyword?: string }) =>
+    ['get', '/api/flights/search', { params: { query } }] as const,
+  today: () => ['get', '/api/flights/today'] as const,
+}
+
 export const userKeysFactory = {
   me: ['get', '/api/users/me', {}] as const,
   list: () => ['get', '/api/users', {}] as const,

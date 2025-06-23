@@ -10,6 +10,8 @@ export type TaskFilters = Omit<Task, 'assignments' | 'documents'>
 
 export type TaskAssignment = Required<Task>['assignments'][number]
 
+export type TaskStatus = NonNullable<Task['status']>
+
 export type TaskDocument = Required<Task>['documents'][number]
 
 export type TaskAssignmentStatus = NonNullable<TaskAssignment['status']>

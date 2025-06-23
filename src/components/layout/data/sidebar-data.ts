@@ -6,6 +6,7 @@ import {
   IconNotification,
   IconPalette,
   IconPaperclip,
+  IconPlaneArrival,
   IconSettings,
   IconTool,
   IconUserCog,
@@ -32,6 +33,11 @@ export const sidebarData: SidebarData = {
           title: 'Bảng điều khiển',
           url: '/',
           icon: IconLayoutDashboard,
+        },
+        {
+          title: 'Chuyến bay',
+          url: '/flights',
+          icon: IconPlaneArrival,
         },
         {
           title: 'Công việc',

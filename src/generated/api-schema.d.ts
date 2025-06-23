@@ -151,9 +151,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get flight by ID
+         * @description Retrieve a flight by its ID
+         */
         get: operations["getFlightById"];
+        /**
+         * Update flight
+         * @description Update an existing flight with validated request data
+         */
         put: operations["updateFlight"];
         post?: never;
+        /**
+         * Delete flight
+         * @description Delete a flight by ID
+         */
         delete: operations["deleteFlight"];
         options?: never;
         head?: never;
@@ -355,9 +367,21 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get airport by ID
+         * @description Retrieve an airport by its ID
+         */
         get: operations["getAirportById"];
+        /**
+         * Update airport
+         * @description Update an existing airport
+         */
         put: operations["updateAirport"];
         post?: never;
+        /**
+         * Delete airport
+         * @description Delete an airport by ID
+         */
         delete: operations["deleteAirport"];
         options?: never;
         head?: never;
@@ -695,8 +719,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get all flights
+         * @description Retrieve a list of all flights
+         */
         get: operations["getAllFlights"];
         put?: never;
+        /**
+         * Create flight
+         * @description Create a new flight
+         */
         post: operations["createFlight"];
         delete?: never;
         options?: never;
@@ -967,8 +999,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get all airports
+         * @description Retrieve a list of all airports
+         */
         get: operations["getAllAirports"];
         put?: never;
+        /**
+         * Create airport
+         * @description Create a new airport
+         */
         post: operations["createAirport"];
         delete?: never;
         options?: never;
@@ -1021,6 +1061,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * Update flight times
+         * @description Update flight departure/arrival times
+         */
         patch: operations["updateFlightTimes"];
         trace?: never;
     };
@@ -1037,6 +1081,10 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        /**
+         * Update actual time and notify
+         * @description Update actual flight time and send notifications to relevant users
+         */
         patch: operations["updateActualTimeAndNotify"];
         trace?: never;
     };
@@ -1523,6 +1571,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get today flights
+         * @description Retrieve flights for today
+         */
         get: operations["getTodayFlights"];
         put?: never;
         post?: never;
@@ -1539,6 +1591,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Search flights
+         * @description Search flights by keyword
+         */
         get: operations["searchFlights"];
         put?: never;
         post?: never;
@@ -1555,6 +1611,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Search flights by exact date
+         * @description Search flights by exact date (YYYY-MM-DD format)
+         */
         get: operations["searchFlightByDate"];
         put?: never;
         post?: never;
@@ -1571,6 +1631,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Search flights by date and keyword
+         * @description Search flights by date and optional keyword
+         */
         get: operations["searchFlightByDateAndKeyword"];
         put?: never;
         post?: never;
@@ -1587,6 +1651,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
+        /**
+         * Get live tracking flights
+         * @description Get flights for live tracking (today + yesterday with specific conditions)
+         */
         get: operations["getLiveTrackingGroup"];
         put?: never;
         post?: never;
@@ -1893,6 +1961,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/tasks/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xoá nhiều task
+         * @description Xoá nhiều công việc cùng lúc
+         */
+        delete: operations["bulkDeleteTasks"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/task-documents/remove": {
         parameters: {
             query?: never;
@@ -1944,6 +2032,26 @@ export interface paths {
         put?: never;
         post?: never;
         delete: operations["deleteNotification"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/documents/bulk-delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Xóa nhiều document
+         * @description Xóa nhiều document cùng lúc
+         */
+        delete: operations["bulkDeleteDocuments"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2040,6 +2148,12 @@ export interface components {
             actualDepartureTime?: components["schemas"]["LocalTime"];
             actualArrivalTime?: components["schemas"]["LocalTime"];
             actualDepartureTimeAtArrival?: components["schemas"]["LocalTime"];
+            arrivalTimeatArrival?: components["schemas"]["LocalTime"];
+            status?: string;
+            airline?: string;
+            checkInCounters?: string;
+            /** Format: int32 */
+            gate?: number;
             note?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -2311,10 +2425,109 @@ export interface components {
             id?: number;
             roleName?: string;
         };
+        /** @description Request DTO for updating flight information */
+        UpdateFlightRequest: {
+            /**
+             * @description Flight number
+             * @example VN123
+             */
+            flightNumber: string;
+            /**
+             * Format: int64
+             * @description Departure airport ID
+             * @example 1
+             */
+            departureAirportId: number;
+            /**
+             * Format: int64
+             * @description Arrival airport ID
+             * @example 2
+             */
+            arrivalAirportId: number;
+            /**
+             * @description Scheduled departure time
+             * @example 08:30:00
+             */
+            departureTime: string;
+            /**
+             * @description Scheduled arrival time
+             * @example 10:45:00
+             */
+            arrivalTime: string;
+            /**
+             * @description Actual arrival time at destination
+             * @example 10:50:00
+             */
+            arrivalTimeatArrival?: string;
+            /**
+             * @description Flight status
+             * @example ON_TIME
+             */
+            status?: string;
+            /**
+             * Format: date
+             * @description Flight date
+             * @example 2025-06-22
+             */
+            flightDate: string;
+            /**
+             * @description Airline name
+             * @example Vietnam Airlines
+             */
+            airline?: string;
+            /**
+             * @description Check-in counters
+             * @example A1-A5
+             */
+            checkInCounters?: string;
+            /**
+             * Format: int32
+             * @description Gate number
+             * @example 12
+             */
+            gate?: number;
+            /**
+             * @description Additional notes
+             * @example Weather delay expected
+             */
+            note?: string;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         AirportDTO: {
+            /** Format: int64 */
+            id?: number;
             airportCode?: string;
             airportName?: string;
+            latitude?: number;
+            longitude?: number;
+            city?: string;
+            country?: string;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string;
         };
+        /** @description API response for update flight, data is FlightDTO */
+        ApiUpdateFlightResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["FlightDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
         FlightDTO: {
             /** Format: int64 */
             id?: number;
@@ -2328,11 +2541,17 @@ export interface components {
             actualDepartureTime?: components["schemas"]["LocalTime"];
             actualArrivalTime?: components["schemas"]["LocalTime"];
             actualDepartureTimeAtArrival?: components["schemas"]["LocalTime"];
+            arrivalTimeatArrival?: components["schemas"]["LocalTime"];
+            status?: string;
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
             note?: string;
+            airline?: string;
+            checkInCounters?: string;
+            /** Format: int32 */
+            gate?: number;
         };
         EvaluationAssignmentDTO: {
             /** Format: int32 */
@@ -2581,6 +2800,26 @@ export interface components {
             /** Format: int32 */
             recipientId?: number;
         };
+        /** @description API response for update airport, data is AirportDTO */
+        ApiUpdateAirportResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AirportDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         ActivityDTO: {
             /** Format: int64 */
             id?: number;
@@ -2743,12 +2982,19 @@ export interface components {
             dueAt?: string;
             note?: string;
         };
+        CreateDocumentInTaskRequest: {
+            documentType?: string;
+            content?: string;
+            notes?: string;
+            attachmentIds?: number[];
+        };
         CreateTaskRequest: {
             content?: string;
             instructions?: string;
             notes?: string;
             assignments?: components["schemas"]["AssignmentRequest"][];
             documentIds?: number[];
+            newDocuments?: components["schemas"]["CreateDocumentInTaskRequest"][];
         };
         /** @description API response for task document action */
         ApiTaskDocumentActionResponse: {
@@ -2765,6 +3011,44 @@ export interface components {
             statusCode?: number;
             /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        CreateFlightRequest: {
+            flightNumber: string;
+            /** Format: int64 */
+            departureAirportId: number;
+            /** Format: int64 */
+            arrivalAirportId: number;
+            departureTime: string;
+            arrivalTime: string;
+            arrivalTimeatArrival?: string;
+            status?: string;
+            /** Format: date */
+            flightDate: string;
+            airline?: string;
+            checkInCounters?: string;
+            /** Format: int32 */
+            gate?: number;
+            note?: string;
+        };
+        /** @description API response for create flight, data is FlightDTO */
+        ApiCreateFlightResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["FlightDTO"];
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -3120,10 +3404,32 @@ export interface components {
             createdAt?: string;
             user?: components["schemas"]["UserDTO"];
         };
+        /** @description API response for create airport, data is AirportDTO */
+        ApiCreateAirportResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AirportDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         FlightTimeUpdateRequest: {
             actualDepartureTime?: string;
             actualArrivalTime?: string;
             actualDepartureTimeAtArrival?: string;
+            arrivalTimeatArrival?: string;
+            status?: string;
             eventType?: string;
         };
         /** @description API response for all users, data is List<UserDTO> */
@@ -3685,6 +3991,68 @@ export interface components {
             createdAt?: string;
             isRead?: boolean;
         };
+        /** @description API response for all flights, data is List<FlightDTO> */
+        ApiAllFlightsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["FlightDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for get flight by ID, data is FlightDTO */
+        ApiFlightByIdResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["FlightDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for search flights, data is List<FlightDTO> */
+        ApiSearchFlightsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["FlightDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         /** @description API response for list of evaluation sessions */
         ApiEvaluationSessionListResponse: {
             /**
@@ -3871,6 +4239,47 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description API response for all airports, data is List<AirportDTO> */
+        ApiAllAirportsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: components["schemas"]["AirportDTO"][];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for single airport by ID, data is AirportDTO */
+        ApiAirportByIdResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            data?: components["schemas"]["AirportDTO"];
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         /** @description API response for delete user, data is Void */
         ApiDeleteUserResponse: {
             /**
@@ -3934,6 +4343,93 @@ export interface components {
              */
             success?: boolean;
         };
+        /** @description Request để xóa nhiều task cùng lúc */
+        BulkDeleteTasksRequest: {
+            /**
+             * @description Danh sách ID của các task cần xóa
+             * @example [
+             *       1,
+             *       2,
+             *       3
+             *     ]
+             */
+            taskIds: number[];
+        };
+        /** @description API response for bulk delete tasks */
+        ApiBulkDeleteTasksResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for delete flight, data is null */
+        ApiDeleteFlightResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description Request để xóa nhiều document cùng lúc */
+        BulkDeleteDocumentsRequest: {
+            /**
+             * @description Danh sách ID của các document cần xóa
+             * @example [
+             *       1,
+             *       2,
+             *       3
+             *     ]
+             */
+            documentIds: number[];
+        };
+        /** @description API response for bulk delete documents */
+        ApiBulkDeleteDocumentsResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: string;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
         /** @description API response for deleting attachment */
         ApiDeleteAttachmentResponse: {
             /**
@@ -3988,6 +4484,27 @@ export interface components {
             statusCode?: number;
             /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
             data?: string;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example true
+             */
+            success?: boolean;
+        };
+        /** @description API response for delete airport, data is null */
+        ApiDeleteAirportResponse: {
+            /**
+             * @description Thông báo kết quả
+             * @example Thành công
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 200
+             */
+            statusCode?: number;
+            /** @description Dữ liệu trả về (object, list hoặc null). Kiểu thực tế phụ thuộc vào API cụ thể. */
+            data?: Record<string, never>;
             /**
              * @description Trạng thái thành công hay thất bại
              * @example true
@@ -4462,13 +4979,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved flight */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"];
+                    "*/*": components["schemas"]["ApiFlightByIdResponse"];
+                };
+            };
+            /** @description Flight not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiFlightByIdResponse"];
                 };
             };
         };
@@ -4484,17 +5010,35 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Flight"];
+                "application/json": components["schemas"]["UpdateFlightRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Flight updated successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"];
+                    "*/*": components["schemas"]["ApiUpdateFlightResponse"];
+                };
+            };
+            /** @description Invalid input data */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateFlightResponse"];
+                };
+            };
+            /** @description Flight not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateFlightResponse"];
                 };
             };
         };
@@ -4510,12 +5054,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Flight deleted successfully */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteFlightResponse"];
+                };
             };
         };
     };
@@ -5111,13 +5657,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved airport */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Airport"];
+                    "*/*": components["schemas"]["ApiAirportByIdResponse"];
+                };
+            };
+            /** @description Airport not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiAirportByIdResponse"];
                 };
             };
         };
@@ -5137,13 +5692,22 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Airport updated successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Airport"];
+                    "*/*": components["schemas"]["ApiUpdateAirportResponse"];
+                };
+            };
+            /** @description Airport not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiUpdateAirportResponse"];
                 };
             };
         };
@@ -5159,12 +5723,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
-            200: {
+            /** @description Airport deleted successfully */
+            204: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "*/*": components["schemas"]["ApiDeleteAirportResponse"];
+                };
             };
         };
     };
@@ -5756,13 +6322,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved all flights */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiAllFlightsResponse"];
                 };
             };
         };
@@ -5776,17 +6342,17 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["Flight"];
+                "application/json": components["schemas"]["CreateFlightRequest"];
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Flight created successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"];
+                    "*/*": components["schemas"]["ApiCreateFlightResponse"];
                 };
             };
         };
@@ -6253,13 +6819,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved all airports */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Airport"][];
+                    "*/*": components["schemas"]["ApiAllAirportsResponse"];
                 };
             };
         };
@@ -6277,13 +6843,13 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Airport created successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["Airport"];
+                    "*/*": components["schemas"]["ApiCreateAirportResponse"];
                 };
             };
         };
@@ -6399,7 +6965,7 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Flight times updated successfully */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -6425,8 +6991,17 @@ export interface operations {
             };
         };
         responses: {
-            /** @description OK */
+            /** @description Actual time updated and notifications sent */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
+                };
+            };
+            /** @description Invalid request or flight not found */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7021,13 +7596,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved today flights */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
                 };
             };
         };
@@ -7043,13 +7618,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully searched flights */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
                 };
             };
         };
@@ -7065,13 +7640,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved flights by date */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
+                };
+            };
+            /** @description Invalid date format */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -7088,13 +7672,22 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved flights by date and keyword */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
+                };
+            };
+            /** @description Invalid date format */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
                 };
             };
         };
@@ -7108,13 +7701,13 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description OK */
+            /** @description Successfully retrieved live tracking flights */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["FlightDTO"][];
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
                 };
             };
         };
@@ -7493,6 +8086,39 @@ export interface operations {
             };
         };
     };
+    bulkDeleteTasks: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteTasksRequest"];
+            };
+        };
+        responses: {
+            /** @description Xoá thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteTasksResponse"];
+                };
+            };
+            /** @description Dữ liệu không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteTasksResponse"];
+                };
+            };
+        };
+    };
     removeDocument: {
         parameters: {
             query: {
@@ -7559,6 +8185,39 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    bulkDeleteDocuments: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkDeleteDocumentsRequest"];
+            };
+        };
+        responses: {
+            /** @description Xóa thành công */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteDocumentsResponse"];
+                };
+            };
+            /** @description Dữ liệu không hợp lệ */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiBulkDeleteDocumentsResponse"];
+                };
             };
         };
     };

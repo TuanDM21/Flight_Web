@@ -12,8 +12,9 @@ import {
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { Task } from '@/features/tasks/types'
+import { Task, TaskStatus } from '@/features/tasks/types'
 import { TaskRowActions } from '../components/task-row-actions'
+import { TaskStatusBadge } from '../components/task-status-badge'
 import { taskStatusOptions } from '../utils/tasks'
 
 export function useTasksTableColumns(): ColumnDef<Task>[] {
@@ -82,7 +83,19 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title='Trạng thái' />
       ),
-      cell: ({ cell }) => <div>{cell.getValue<string>() ?? 'N/A'}</div>,
+      cell: ({ cell }) => {
+        const status = cell.getValue<TaskStatus>()
+
+        return (
+          <div className='flex items-center justify-start'>
+            {status ? (
+              <TaskStatusBadge status={status} size='sm' />
+            ) : (
+              <span className='text-muted-foreground'>N/A</span>
+            )}
+          </div>
+        )
+      },
       meta: {
         className: '',
         label: 'Status',

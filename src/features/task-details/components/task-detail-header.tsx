@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useTaskDeleteConfirm } from '@/features/tasks/hooks/use-delete-task-confirm'
+import { useDeleteTasksConfirm } from '@/features/tasks/hooks/use-delete-tasks-confirm'
 import { Task } from '@/features/tasks/types'
 
 interface TaskDetailHeaderProps {
@@ -9,7 +9,7 @@ interface TaskDetailHeaderProps {
 }
 
 export function TaskDetailHeader({ task }: TaskDetailHeaderProps) {
-  const { onDeleteTask } = useTaskDeleteConfirm('assigned')
+  const { onDeleteTasks } = useDeleteTasksConfirm('assigned')
 
   return (
     <div className='mb-4 flex items-center justify-between'>
@@ -34,7 +34,7 @@ export function TaskDetailHeader({ task }: TaskDetailHeaderProps) {
         <Button
           variant='destructive'
           className='space-x-1'
-          onClick={() => onDeleteTask(task)}
+          onClick={() => onDeleteTasks([task])}
         >
           <Trash2 className='mr-2 h-4 w-4' />
           Xóa

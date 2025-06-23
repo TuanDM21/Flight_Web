@@ -9,16 +9,10 @@ import {
   Users,
 } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { TaskAssignmentStatusBadge } from '@/features/tasks/components/task-assignment-status-badge'
 import { TaskAssignment } from '@/features/tasks/types'
-import {
-  assigneeTaskAssignmentStatusLabels,
-  ownerTaskAssignmentStatusLabels,
-  taskAssignmentsStatusIcons,
-  taskAssignmentStatusVariants,
-} from '@/features/tasks/utils/tasks'
 
 interface TaskAssignmentsCardProps {
   assignments: TaskAssignment[]
@@ -32,14 +26,7 @@ interface TaskAssignmentItemProps {
   isTaskOwner: boolean
 }
 
-function TaskAssignmentItem({
-  assignment,
-  index,
-  isTaskOwner,
-}: TaskAssignmentItemProps) {
-  const taskAssignmentStatusLabels = isTaskOwner
-    ? ownerTaskAssignmentStatusLabels
-    : assigneeTaskAssignmentStatusLabels
+function TaskAssignmentItem({ assignment, index }: TaskAssignmentItemProps) {
   return (
     <div
       key={assignment.assignmentId || index}
@@ -58,18 +45,17 @@ function TaskAssignmentItem({
                 {assignment.recipientUser?.name || 'Người dùng không xác định'}
               </p>
               {assignment.status && (
-                <Badge
-                  variant={taskAssignmentStatusVariants[assignment.status]}
-                  className='w-fit shrink-0 text-xs'
-                >
-                  {(() => {
-                    const Icon = taskAssignmentsStatusIcons[assignment.status]
-                    return <Icon className='h-3 w-3' />
-                  })()}
-                  <span className='ml-1'>
-                    {taskAssignmentStatusLabels[assignment.status]}
+                <TaskAssignmentStatusBadge status={assignment.status} />
+              )}
+            </div>
+            <div className='text-muted-foreground mt-2 grid grid-cols-1 gap-1.5 text-xs sm:grid-cols-2'>
+              {assignment.recipientUser?.email && (
+                <div className='flex items-center space-x-2'>
+                  <Mail className='h-3 w-3 shrink-0' />
+                  <span className='truncate'>
+                    {assignment.recipientUser.email}
                   </span>
-                </Badge>
+                </div>
               )}
             </div>
             <div className='text-muted-foreground mt-2 grid grid-cols-1 gap-1.5 text-xs sm:grid-cols-2'>

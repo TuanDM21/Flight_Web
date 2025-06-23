@@ -1,16 +1,15 @@
-import React from 'react';
-import { Search } from 'lucide-react';
-import { useDataTable } from '@/hooks/use-data-table';
-import { Input } from '@/components/ui/input';
-import { DataTable } from '@/components/data-table/data-table';
-import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar';
-import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu';
+import React from 'react'
+import { Search } from 'lucide-react'
+import { useDataTable } from '@/hooks/use-data-table'
+import { Input } from '@/components/ui/input'
+import { DataTable } from '@/components/data-table/data-table'
+import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
+import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
-import { DocumentsPrimaryButtons } from './components/documents-primary-buttons';
-import { DocumentsTableActionBar } from './components/documents-table-action-bar';
-import { useDocumentColumns } from './hooks/use-document-columns';
-import { useDocumentsSearchFilter } from './hooks/use-documents-search-filter';
-
+import { DocumentsPrimaryButtons } from './components/documents-primary-buttons'
+import { DocumentsTableActionBar } from './components/documents-table-action-bar'
+import { useDocumentColumns } from './hooks/use-document-columns'
+import { useDocumentsSearchFilter } from './hooks/use-documents-search-filter'
 
 export function DocumentsPage() {
   const { filteredData, isFiltering, queryFilter, setQueryFilter } =
@@ -35,10 +34,9 @@ export function DocumentsPage() {
     <div className='px-4 py-2'>
       <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
         <div>
-          <h2 className='text-2xl font-bold tracking-tight'>Tài liệu</h2>
-          <p className='text-muted-foreground'>
-            Đây là danh sách tài liệu của bạn trong tháng này!
-          </p>
+          <h2 className='text-2xl font-bold tracking-tight'>
+            Quản lý tài liệu
+          </h2>
         </div>
         <DocumentsPrimaryButtons />
       </div>

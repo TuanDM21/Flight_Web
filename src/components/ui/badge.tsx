@@ -12,12 +12,6 @@ const badgeVariants = cva(
         secondary: 'bg-gray-300 text-gray-900',
         destructive: 'bg-red-500 text-white',
         outline: 'border border-gray-400 text-gray-800',
-        pending: 'bg-yellow-100 text-yellow-800',
-        'in-progress': 'bg-blue-100 text-blue-800',
-        completed: 'bg-green-100 text-green-800',
-        cancelled: 'bg-gray-100 text-gray-600',
-        reopened: 'bg-purple-100 text-purple-800',
-        'late-completed': 'bg-orange-100 text-orange-800',
       },
     },
     defaultVariants: {
