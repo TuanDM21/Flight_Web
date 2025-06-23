@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+import { useCreateDocument } from '@/features/documents/hooks/use-create-document'
 import { createTaskSchema } from '@/features/tasks/schema'
 import { TaskAssignmentField } from './components/task-assignment-field'
 import { TaskDocumentField } from './components/task-document-field'
@@ -24,8 +25,9 @@ export type CreateTasksForm = z.infer<typeof createTaskSchema>
 export default function CreateTaskPage() {
   const navigate = useNavigate()
   const createTaskMutation = useCreateTask()
+  const createDocumentMutation = useCreateDocument()
 
-  const form = useForm<CreateTasksForm>({
+  const form = useForm({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
       content: '',
@@ -33,24 +35,73 @@ export default function CreateTaskPage() {
       notes: '',
       assignments: [],
       documentIds: [],
+      documents: [],
     },
   })
 
-  const onSubmit = async (data: CreateTasksForm) => {
-    const { documentIds, ...rest } = data
-    const createTaskPromise = createTaskMutation.mutateAsync({
-      body: {
-        ...rest,
-        documentIds: documentIds ?? [],
-      },
-    })
+  const onSubmit = async (data: any) => {
+    try {
+      // Step 1: Create new documents if any (each document with its own attachments)
+      let createdDocumentIds: number[] = []
+      if (data.documents && data.documents.length > 0) {
+        const validDocuments = data.documents.filter(
+          (doc: any) => doc.documentType && doc.content && doc.notes
+        )
 
-    toast.promise(createTaskPromise, {
-      loading: `Đang tạo nhiệm vụ...`,
-      success: `Tạo nhiệm vụ thành công!`,
-      error: `Không thể tạo nhiệm vụ. Vui lòng thử lại.`,
-    })
-    void navigate({ to: '/tasks' })
+        if (validDocuments.length > 0) {
+          const documentPromises = validDocuments.map(async (document: any) => {
+            // Get attachment IDs from the document's uploaded attachments
+            const attachmentIds =
+              document.attachments?.map((att: any) => att.id) || []
+
+            return createDocumentMutation.mutateAsync({
+              body: {
+                documentType: document.documentType,
+                content: document.content,
+                notes: document.notes,
+                attachmentIds,
+              },
+            })
+          })
+
+          const createdDocuments = await Promise.all(documentPromises)
+          createdDocumentIds = createdDocuments
+            .map((doc: any) => doc.id)
+            .filter(Boolean)
+
+          toast.success(
+            `Tạo thành công ${createdDocumentIds.length} tài liệu mới!`
+          )
+        }
+      }
+
+      // Step 2: Create task with all document IDs (existing + new)
+      const allDocumentIds = [
+        ...(data.documentIds || []),
+        ...createdDocumentIds,
+      ]
+
+      const { documentIds, documents, ...taskData } = data
+
+      const createTaskPromise = createTaskMutation.mutateAsync({
+        body: {
+          ...taskData,
+          documentIds: allDocumentIds,
+        },
+      })
+
+      toast.promise(createTaskPromise, {
+        loading: `Đang tạo nhiệm vụ...`,
+        success: `Tạo nhiệm vụ thành công!`,
+        error: `Không thể tạo nhiệm vụ. Vui lòng thử lại.`,
+      })
+
+      await createTaskPromise
+      void navigate({ to: '/tasks' })
+    } catch (error) {
+      console.error('Error creating task with documents:', error)
+      toast.error('Có lỗi xảy ra khi tạo nhiệm vụ và tài liệu')
+    }
   }
 
   return (

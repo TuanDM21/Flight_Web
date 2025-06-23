@@ -13,6 +13,16 @@ export const assignmentsSchema = z
   )
   .default([])
   .optional()
+
+// Schema for creating new documents within task
+export const newDocumentItemSchema = z.object({
+  documentType: z.string().min(1, 'Loại tài liệu là bắt buộc'),
+  content: z.string().min(1, 'Nội dung là bắt buộc'),
+  notes: z.string().min(1, 'Ghi chú là bắt buộc'),
+  files: z.array(z.custom<File>()).default([]).optional(),
+  attachments: z.array(z.any()).default([]).optional(),
+})
+
 export const createTaskSchema = z.object({
   content: z.string().min(1, { message: 'Vui lòng nhập nội dung nhiệm vụ' }),
   instructions: z
@@ -25,6 +35,9 @@ export const createTaskSchema = z.object({
     .array(z.number().min(1, { message: 'Vui lòng chọn tài liệu hợp lệ' }))
     .default([])
     .optional(),
+
+  // New fields for creating documents (each document has its own files/attachments)
+  documents: z.array(newDocumentItemSchema).default([]).optional(),
 })
 
 export const updateTaskAssignmentSchema = z.object({

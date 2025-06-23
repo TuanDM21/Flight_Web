@@ -2,22 +2,10 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { IconTableShare } from '@tabler/icons-react'
-import { Eye, Trash, Upload } from 'lucide-react'
 import { toast } from 'sonner'
 import { convertToFile } from '@/utils/file'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  FileUpload,
-  FileUploadDropzone,
-  FileUploadItem,
-  FileUploadItemDelete,
-  FileUploadItemMetadata,
-  FileUploadItemPreview,
-  FileUploadItemProgress,
-  FileUploadList,
-} from '@/components/ui/file-upload'
 import {
   Form,
   FormControl,
@@ -29,14 +17,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { AppDialog } from '@/components/app-dialog'
-import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
-import {
-  ACCEPTED_FILE_TYPES,
-  MAX_FILE_SIZE,
-  MAX_FILES_COUNT,
-  MAX_TOTAL_FILES_SIZE,
-} from '../../constants/file'
 import { useUploadAttachments } from '../attachments/hooks/use-upload-attachments'
+import { DocumentAttachmentField } from './components/document-attachment-field'
 import { SelectAttachmentsDialog } from './components/select-attachments-dialog'
 import { useCreateDocument } from './hooks/use-create-document'
 import { createDocumentSchema } from './schema'
@@ -236,101 +218,14 @@ export default function CreateDocumentPage() {
                     <FormItem>
                       <FormLabel>Tệp đính kèm</FormLabel>
                       <FormControl>
-                        <div className='border-primary/30 bg-background relative flex flex-col items-center rounded-lg border-2 border-dashed p-4 font-medium transition-colors'>
-                          <Button
-                            type='button'
-                            variant='outline'
-                            className='flex min-h-20 w-full flex-col items-center rounded-lg border-2 border-dashed'
-                            onClick={(evt) => {
-                              evt.preventDefault()
-                              evt.stopPropagation()
-                              selectAttachmentsDialog.open()
-                            }}
-                          >
-                            <span className='flex items-center gap-2'>
-                              <IconTableShare className='size-5' />
-                              Chọn từ tệp đính kèm được chia sẻ
-                            </span>
-                          </Button>
-                          <div className='flex w-full flex-col items-center'>
-                            <div className='my-4 flex w-full items-center gap-2'>
-                              <div className='border-muted-foreground/30 flex-grow border-t'></div>
-                              <span className='text-muted-foreground text-xs font-semibold tracking-wider uppercase'>
-                                hoặc
-                              </span>
-                              <div className='border-muted-foreground/30 flex-grow border-t'></div>
-                            </div>
-                            <div className='w-full'>
-                              <FileUpload
-                                value={field.value}
-                                onValueChange={field.onChange}
-                                accept={ACCEPTED_FILE_TYPES.join(',')}
-                                maxFiles={MAX_FILES_COUNT}
-                                maxSize={MAX_FILE_SIZE}
-                                maxTotalSize={MAX_TOTAL_FILES_SIZE}
-                                onFileReject={onFileReject}
-                                onUpload={onUpload}
-                                multiple
-                              >
-                                <FileUploadDropzone className='p-4'>
-                                  <div className='flex w-full flex-col items-center gap-1 rounded-lg px-2 py-3 text-center'>
-                                    <div className='bg-primary/5 mb-1 flex items-center justify-center rounded-full border p-2.5'>
-                                      <Upload className='text-primary size-6' />
-                                    </div>
-                                    <p className='text-sm font-medium'>
-                                      Kéo thả tệp vào đây hoặc nhấn để chọn từ
-                                      thiết bị của bạn
-                                    </p>
-                                    <p className='text-muted-foreground text-xs'>
-                                      (Tối đa {MAX_FILES_COUNT} tệp,{' '}
-                                      {MAX_FILE_SIZE / 1024 / 1024}MB mỗi tệp,
-                                      tổng cộng{' '}
-                                      {MAX_TOTAL_FILES_SIZE / 1024 / 1024}
-                                      MB)
-                                    </p>
-                                  </div>
-                                  <FileUploadList className='w-full'>
-                                    {field.value?.map((file, index) => (
-                                      <FileUploadItem
-                                        key={index}
-                                        value={file}
-                                        className='flex-col'
-                                      >
-                                        <div className='flex w-full items-center gap-2'>
-                                          <FileUploadItemPreview />
-                                          <FileUploadItemMetadata />
-                                          <DataTableActionBarAction
-                                            type='button'
-                                            size='icon'
-                                            tooltip='Xem tệp'
-                                            onClick={() =>
-                                              handleOpenPreview(file)
-                                            }
-                                          >
-                                            <Eye />
-                                          </DataTableActionBarAction>
-                                          <FileUploadItemDelete
-                                            type='button'
-                                            asChild
-                                          >
-                                            <DataTableActionBarAction
-                                              type='button'
-                                              size='icon'
-                                              tooltip='Xóa tệp'
-                                            >
-                                              <Trash />
-                                            </DataTableActionBarAction>
-                                          </FileUploadItemDelete>
-                                        </div>
-                                        <FileUploadItemProgress />
-                                      </FileUploadItem>
-                                    ))}
-                                  </FileUploadList>
-                                </FileUploadDropzone>
-                              </FileUpload>
-                            </div>
-                          </div>
-                        </div>
+                        <DocumentAttachmentField
+                          value={field.value}
+                          onChange={field.onChange}
+                          onSelectAttachments={selectAttachmentsDialog.open}
+                          onFileReject={onFileReject}
+                          onUpload={onUpload}
+                          onOpenPreview={handleOpenPreview}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
