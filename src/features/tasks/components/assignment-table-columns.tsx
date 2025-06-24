@@ -264,49 +264,6 @@ export function useAssignmentTableColumns({
       ),
       cell: ({ row }) => {
         const assignment = row.original
-        const isEditing = editingAssignmentId === assignment.assignmentId
-
-        if (isEditing) {
-          return (
-            <FormField
-              control={form.control}
-              name='status'
-              render={({ field, fieldState }) => (
-                <FormItem className='flex flex-col'>
-                  <FormControl>
-                    <FormFieldTooltipError
-                      message={fieldState.error?.message || ''}
-                      showError={!!fieldState.error}
-                    >
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <SelectTrigger
-                          className={cn(
-                            'w-full',
-                            fieldState.error && 'border-destructive'
-                          )}
-                        >
-                          <SelectValue placeholder='Chọn trạng thái' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(taskAssignmentStatusLabels).map(
-                            ([value, label]) => (
-                              <SelectItem key={value} value={value}>
-                                {label}
-                              </SelectItem>
-                            )
-                          )}
-                        </SelectContent>
-                      </Select>
-                    </FormFieldTooltipError>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          )
-        }
         const status = assignment.status || 'ASSIGNED'
         return <TaskAssignmentStatusBadge status={status} />
       },
