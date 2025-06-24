@@ -9,9 +9,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { AttachmentDetailSheet } from '../components/attachment-detail-sheet'
 import { AttachmentRowActions } from '../components/attachment-row-actions'
+import { AttachmentViewCount } from '../components/attachment-view-count'
 import { FileExtensionCell } from '../components/file-extension-cell'
 import { FileNameCell } from '../components/file-name-cell'
-import { SharedCountCell } from '../components/shared-count-cell'
 import { AttachmentItem } from '../types'
 
 interface UseAttachmentTableColumnsOptions {
@@ -205,7 +205,7 @@ export const useAttachmentTableColumns = (
       cell: ({ row }) => {
         const attachment = row.original
         return (
-          <SharedCountCell
+          <AttachmentViewCount
             attachment={attachment}
             onViewDetails={handleViewDetails}
           />

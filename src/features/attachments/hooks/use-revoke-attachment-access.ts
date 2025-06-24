@@ -2,10 +2,11 @@ import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
 import { BaseApiResponse } from '@/types/response'
 import { attachmentKeysFactory } from '@/api/query-key-factory'
-import { UserItem } from '@/features/users/types'
+import { AttachmentItem, SharedAttachmentUserItem } from '../types'
 
 interface OptimisticRevokeContext {
-  previousSharedUsers?: BaseApiResponse<UserItem[]>
+  previousSharedUsers?: BaseApiResponse<SharedAttachmentUserItem[]>
+  previousMyFiles?: BaseApiResponse<AttachmentItem[]>
 }
 
 export const useRevokeAttachmentAccess = () => {
@@ -26,16 +27,21 @@ export const useRevokeAttachmentAccess = () => {
 
         // Snapshot the previous shared users
         const previousSharedUsers = queryClient.getQueryData<
-          BaseApiResponse<UserItem[]>
+          BaseApiResponse<SharedAttachmentUserItem[]>
         >(attachmentKeysFactory.usersSharedWithAttachments(attachmentId))
+
+        // Snapshot my files to update share count
+        const previousMyFiles = queryClient.getQueryData<
+          BaseApiResponse<AttachmentItem[]>
+        >(attachmentKeysFactory.myAttachments())
 
         // Optimistically remove the revoked users from the shared users list
         if (previousSharedUsers?.data) {
           const remainingSharedUsers = previousSharedUsers.data.filter(
-            (user) => !userIds.includes(user.id)
+            (user) => !userIds.includes(user.id!)
           )
 
-          queryClient.setQueryData<BaseApiResponse<UserItem[]>>(
+          queryClient.setQueryData<BaseApiResponse<SharedAttachmentUserItem[]>>(
             attachmentKeysFactory.usersSharedWithAttachments(attachmentId),
             {
               ...previousSharedUsers,
@@ -44,8 +50,33 @@ export const useRevokeAttachmentAccess = () => {
           )
         }
 
+        // Optimistically update share count in myFiles
+        if (previousMyFiles?.data) {
+          const updatedMyFiles = previousMyFiles.data.map((file) => {
+            if (file.id === attachmentId) {
+              return {
+                ...file,
+                sharedCount: Math.max(
+                  (file.sharedCount || 0) - userIds.length,
+                  0
+                ),
+              }
+            }
+            return file
+          })
+
+          queryClient.setQueryData<BaseApiResponse<AttachmentItem[]>>(
+            attachmentKeysFactory.myAttachments(),
+            {
+              ...previousMyFiles,
+              data: updatedMyFiles,
+            }
+          )
+        }
+
         return {
           previousSharedUsers,
+          previousMyFiles,
         }
       },
       onError: (_error, variables, context) => {
@@ -60,6 +91,14 @@ export const useRevokeAttachmentAccess = () => {
             typedContext.previousSharedUsers
           )
         }
+
+        // Rollback myFiles share count
+        if (typedContext.previousMyFiles) {
+          queryClient.setQueryData(
+            attachmentKeysFactory.myAttachments(),
+            typedContext.previousMyFiles
+          )
+        }
       },
       onSettled: (_data, _error, variables, _context) => {
         const { attachmentId } = variables.body
@@ -68,6 +107,16 @@ export const useRevokeAttachmentAccess = () => {
         queryClient.invalidateQueries({
           queryKey:
             attachmentKeysFactory.usersSharedWithAttachments(attachmentId),
+        })
+
+        // Invalidate myFiles to update the actual share count
+        queryClient.invalidateQueries({
+          queryKey: attachmentKeysFactory.myAttachments(),
+        })
+
+        // Invalidate shared with me in case access was revoked
+        queryClient.invalidateQueries({
+          queryKey: attachmentKeysFactory.sharedWithMe(),
         })
       },
     }

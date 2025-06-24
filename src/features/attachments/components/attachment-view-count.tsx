@@ -11,18 +11,17 @@ import {
   getTooltipText,
 } from '../utils/attachments'
 
-interface SharedCountCellProps {
+interface AttachmentViewCountProps {
   isLoading?: boolean
   attachment?: AttachmentItem
   onViewDetails?: (attachment: AttachmentItem) => void
 }
 
-export function SharedCountCell({
+export function AttachmentViewCount({
   attachment,
   onViewDetails,
-}: SharedCountCellProps) {
-  const hardcodedSharedCount = attachment?.id ? attachment.id % 6 : 0
-  const actualSharedCount = hardcodedSharedCount
+}: AttachmentViewCountProps) {
+  const actualSharedCount = attachment?.sharedCount || 0
 
   const handleClick = () => {
     if (attachment && onViewDetails && actualSharedCount > 0) {
