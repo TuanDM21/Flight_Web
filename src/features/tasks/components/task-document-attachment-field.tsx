@@ -20,6 +20,7 @@ import { useUploadAttachments } from '../../attachments/hooks/use-upload-attachm
 import { DocumentAttachmentField } from '../../documents/components/document-attachment-field'
 import { SelectAttachmentsDialog } from '../../documents/components/select-attachments-dialog'
 import { createTaskSchema } from '../schema'
+import { TaskDocumentAttachment } from '../types'
 
 type CreateTaskForm = z.infer<typeof createTaskSchema>
 
@@ -34,7 +35,7 @@ function NewDocumentFormCard({ index, onRemove }: DocumentCardProps) {
   const selectAttachmentsDialog = AppDialog.useDialog()
 
   const handleSelectAttachments = React.useCallback(
-    async (attachments: any[]) => {
+    async (attachments: TaskDocumentAttachment[]) => {
       selectAttachmentsDialog.close()
       const selectedFiles =
         (attachments.length ?? 0) > 0

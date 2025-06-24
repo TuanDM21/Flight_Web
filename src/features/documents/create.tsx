@@ -43,37 +43,46 @@ export default function CreateDocumentPage() {
 
   const handleSelectAttachments = React.useCallback(
     async (attachments: DocumentAttachment[]) => {
-      selectAttachmentsDialog.close()
-      const selectedFiles =
-        (attachments.length ?? 0) > 0
-          ? await Promise.all(
-              attachments.map(async (att) => {
-                try {
-                  const file = await convertToFile(att)
-                  Object.assign(file, {
-                    __uploaded: true,
-                  })
-                  return file
-                } catch (error) {
-                  toast.error(
-                    `Tệp đính kèm "${att.fileName}" không phải là tệp hợp lệ. Vui lòng chọn tệp đính kèm khác.`
-                  )
-                  return null
-                }
-              }) ?? []
-            )
-          : []
-      const allSelectedFiles = [
-        ...(form.getValues('files') ?? []),
-        ...selectedFiles.filter((file): file is File => file !== null),
-      ]
-      const allSelectedAttachments = [
-        ...(form.getValues('attachments') ?? []),
-        ...attachments,
-      ] as Required<DocumentAttachment>[]
+      const selectAttachmentsPromise = (async () => {
+        selectAttachmentsDialog.close()
+        const selectedFiles =
+          (attachments.length ?? 0) > 0
+            ? await Promise.all(
+                attachments.map(async (att) => {
+                  try {
+                    const file = await convertToFile(att)
+                    Object.assign(file, {
+                      __uploaded: true,
+                    })
+                    return file
+                  } catch (error) {
+                    toast.error(
+                      `Tệp đính kèm "${att.fileName}" không phải là tệp hợp lệ. Vui lòng chọn tệp đính kèm khác.`
+                    )
+                    return null
+                  }
+                }) ?? []
+              )
+            : []
+        const allSelectedFiles = [
+          ...(form.getValues('files') ?? []),
+          ...selectedFiles.filter((file): file is File => file !== null),
+        ]
+        const allSelectedAttachments = [
+          ...(form.getValues('attachments') ?? []),
+          ...attachments,
+        ] as Required<DocumentAttachment>[]
 
-      form.setValue('files', allSelectedFiles)
-      form.setValue('attachments', allSelectedAttachments)
+        form.setValue('files', allSelectedFiles)
+        form.setValue('attachments', allSelectedAttachments)
+        return attachments.length
+      })()
+
+      toast.promise(selectAttachmentsPromise, {
+        loading: 'Đang thêm tệp đính kèm...',
+        success: (count) => `Đã thêm ${count} tệp đính kèm thành công!`,
+        error: 'Không thể thêm tệp đính kèm',
+      })
     },
     [form, selectAttachmentsDialog]
   )
