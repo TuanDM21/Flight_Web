@@ -10,18 +10,18 @@ export function useDeleteDocumentConfirm() {
   const onDeleteDocument = async (document: DocumentItem) => {
     const confirmed = await dialogs.confirm(
       <div>
-        <p>Are you sure you want to delete this document?</p>
+        <p>Bạn có chắc chắn muốn xóa tài liệu này?</p>
         <p className='text-muted-foreground mt-2 text-sm'>
-          Document ID: #{document.id}
+          Mã tài liệu: #{document.id}
         </p>
         <p className='text-muted-foreground text-sm'>
-          This action cannot be undone.
+          Hành động này không thể hoàn tác.
         </p>
       </div>,
       {
-        title: 'Delete Document',
-        okText: 'Delete',
-        cancelText: 'Cancel',
+        title: 'Xóa Tài Liệu',
+        okText: 'Xóa',
+        cancelText: 'Hủy',
         severity: 'error',
       }
     )
@@ -36,7 +36,7 @@ export function useDeleteDocumentConfirm() {
       })
 
       toast.promise(deleteDocumentPromise, {
-        loading: `Deleting document #${documentId}...`,
+        loading: `Đang xóa tài liệu #${documentId}...`,
         success: () => {
           return `Tài liệu #${documentId} đã được xóa thành công!`
         },
