@@ -44,7 +44,7 @@ export const TaskAssignmentCommentsSheet: React.FC<
 
   // Scroll to bottom when new comments are added
   useEffect(() => {
-    if (hasComments && !isCommentsLoading) {
+    if (comments?.data && !isCommentsLoading) {
       const timer = setTimeout(() => {
         if (lastCommentRef.current) {
           lastCommentRef.current.scrollIntoView({
@@ -52,11 +52,11 @@ export const TaskAssignmentCommentsSheet: React.FC<
             block: 'end',
           })
         }
-      }, 200)
+      }, 100)
 
       return () => clearTimeout(timer)
     }
-  }, [isCommentsLoading, hasComments])
+  }, [comments?.data, isCommentsLoading])
 
   const handleReply = async () => {
     if (!commentMessage.trim()) return
