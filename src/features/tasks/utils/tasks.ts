@@ -104,7 +104,7 @@ export const taskAssignmentsStatusIcons: Record<
 }
 
 export const taskStatusOptions: Option[] = Object.entries(
-  assigneeTaskAssignmentStatusLabels
+  allTaskAssignmentStatusLabels
 ).map(([value, label]) => ({
   value,
   label,

@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
 import { PencilIcon } from 'lucide-react'
+import { useAuth } from '@/context/auth-context'
 import { useDialogs } from '@/hooks/use-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -34,6 +35,9 @@ export function DocumentRowActions<TData extends DocumentItem>({
 
   const attachments = document.attachments || []
   const hasAttachments = attachments.length > 0
+
+  const { user } = useAuth()
+  const isDocumentOwner = user?.id === document.createdByUser?.id
 
   const handleShowAttachments = () => {
     showAttachments(Number(document.id))
@@ -81,19 +85,23 @@ export function DocumentRowActions<TData extends DocumentItem>({
             </DropdownMenuItem>
           )}
 
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleEdit}>
-            Chỉnh sửa
-            <DropdownMenuShortcut>
-              <PencilIcon />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onDeleteDocument(document)}>
-            Xóa
-            <DropdownMenuShortcut>
-              <IconTrash />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
+          {isDocumentOwner && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleEdit}>
+                Chỉnh sửa
+                <DropdownMenuShortcut>
+                  <PencilIcon />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onDeleteDocument(document)}>
+                Xóa
+                <DropdownMenuShortcut>
+                  <IconTrash />
+                </DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
