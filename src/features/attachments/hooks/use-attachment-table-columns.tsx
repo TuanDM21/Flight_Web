@@ -1,7 +1,7 @@
 import { differenceInMinutes, format } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import { Clock, Hash, FileText, HardDrive, Calendar, Users } from 'lucide-react'
+import { Calendar, FileText, HardDrive, Hash, Users } from 'lucide-react'
 import { formatFileSize } from '@/lib/format'
 import { useDialogs } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
