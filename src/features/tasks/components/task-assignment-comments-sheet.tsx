@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Mention, MentionInput } from '@/components/ui/mention'
 import {
   Sheet,
   SheetContent,
@@ -42,9 +41,9 @@ export const TaskAssignmentCommentsSheet: React.FC<
 
   const hasComments = comments?.data && comments.data.length > 0
 
-  // Scroll to bottom when new comments are added
+  // Scroll to bottom when first loading comments
   useEffect(() => {
-    if (comments?.data && !isCommentsLoading) {
+    if (hasComments && !isCommentsLoading) {
       const timer = setTimeout(() => {
         if (lastCommentRef.current) {
           lastCommentRef.current.scrollIntoView({
@@ -52,17 +51,22 @@ export const TaskAssignmentCommentsSheet: React.FC<
             block: 'end',
           })
         }
-      }, 100)
+      }, 200)
 
       return () => clearTimeout(timer)
     }
-  }, [comments?.data, isCommentsLoading])
+  }, [hasComments, isCommentsLoading])
 
   const handleReply = async () => {
     if (!commentMessage.trim()) return
 
     const messageToSend = commentMessage
     setCommentMessage('')
+    if (lastCommentRef.current)
+      lastCommentRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      })
 
     try {
       await createTaskAssignmentCommentMutation.mutateAsync({
@@ -158,33 +162,26 @@ export const TaskAssignmentCommentsSheet: React.FC<
           </div>
 
           <div className='flex-shrink-0'>
-            <Mention trigger='@' className='w-full'>
-              <div className='relative'>
-                <MentionInput
-                  placeholder='Nhập @ để nhắc đến người dùng...'
-                  asChild
-                >
-                  <Textarea
-                    className='max-h-[200px] min-h-[80px] w-full resize-none rounded border p-2 pr-20'
-                    value={commentMessage}
-                    onChange={(e) => setCommentMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                </MentionInput>
-                <Button
-                  className='absolute right-2 bottom-2 h-8 rounded bg-blue-500 px-3 text-sm text-white hover:bg-blue-600'
-                  onClick={handleReply}
-                  disabled={
-                    !commentMessage.trim() ||
-                    createTaskAssignmentCommentMutation.isPending
-                  }
-                >
-                  {createTaskAssignmentCommentMutation.isPending
-                    ? 'Đang gửi...'
-                    : 'Trả lời'}
-                </Button>
-              </div>
-            </Mention>
+            <div className='relative'>
+              <Textarea
+                className='max-h-[200px] min-h-[80px] w-full resize-none rounded border p-2 pr-20'
+                value={commentMessage}
+                onChange={(e) => setCommentMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <Button
+                className='absolute right-2 bottom-2 h-8 rounded bg-blue-500 px-3 text-sm text-white hover:bg-blue-600'
+                onClick={handleReply}
+                disabled={
+                  !commentMessage.trim() ||
+                  createTaskAssignmentCommentMutation.isPending
+                }
+              >
+                {createTaskAssignmentCommentMutation.isPending
+                  ? 'Đang gửi...'
+                  : 'Trả lời'}
+              </Button>
+            </div>
           </div>
         </div>
       </SheetContent>
