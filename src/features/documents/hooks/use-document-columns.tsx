@@ -129,7 +129,6 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           variant: 'date',
           icon: Calendar,
         },
-        enableColumnFilter: true,
       },
       {
         id: 'updatedAt',
@@ -151,7 +150,6 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           variant: 'date',
           icon: Clock,
         },
-        enableColumnFilter: true,
       },
       {
         id: 'actions',

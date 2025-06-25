@@ -180,7 +180,6 @@ export const useSharedWithMeAttachmentTableColumns =
         id: 'fileSize',
         accessorKey: 'fileSize',
         size: 40,
-        enableColumnFilter: true,
         meta: {
           label: 'Kích thước tệp',
           placeholder: 'Lọc theo kích thước tệp...',
@@ -203,7 +202,6 @@ export const useSharedWithMeAttachmentTableColumns =
         id: 'sharedAt',
         accessorKey: 'sharedAt',
         size: 40,
-        enableColumnFilter: true,
         meta: {
           label: 'Ngày chia sẻ',
           placeholder: 'Lọc theo ngày chia sẻ...',
@@ -275,7 +273,6 @@ export const useSharedWithMeAttachmentTableColumns =
         id: 'sharedCount',
         accessorKey: 'sharedCount',
         size: 50,
-        enableColumnFilter: true,
         meta: {
           label: 'Số lượng chia sẻ',
           placeholder: 'Lọc theo số lượng chia sẻ...',

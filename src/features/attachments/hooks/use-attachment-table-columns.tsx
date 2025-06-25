@@ -115,7 +115,6 @@ export const useAttachmentTableColumns = (
       id: 'fileSize',
       accessorKey: 'fileSize',
       size: 40,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Kích thước tệp',
@@ -139,7 +138,6 @@ export const useAttachmentTableColumns = (
       id: 'createdAt',
       accessorKey: 'createdAt',
       size: 40,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Ngày tải lên',
@@ -191,7 +189,6 @@ export const useAttachmentTableColumns = (
     optionalColumns.push({
       id: 'shared',
       size: 50,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Đã chia sẻ',

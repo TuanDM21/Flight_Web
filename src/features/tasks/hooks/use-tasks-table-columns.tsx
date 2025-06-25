@@ -162,7 +162,6 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         variant: 'date',
         icon: CalendarSearch,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'updatedAt',
@@ -185,7 +184,6 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         variant: 'date',
         icon: CalendarSearch,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'actions',

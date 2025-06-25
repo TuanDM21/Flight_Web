@@ -47,7 +47,7 @@ export function AttachmentViewCount({
           <p>{getTooltipText(actualSharedCount)}</p>
           {actualSharedCount > 0 && (
             <p className='text-muted-foreground mt-1 text-xs'>
-              Click to view details
+              Nhấp để xem chi tiết
             </p>
           )}
         </TooltipContent>
