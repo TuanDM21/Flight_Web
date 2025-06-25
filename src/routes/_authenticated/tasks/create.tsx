@@ -5,7 +5,7 @@ export const Route = createFileRoute('/_authenticated/tasks/create')({
   component: CreateTaskPage,
   loader: async () => {
     return {
-      crumb: 'Create Task',
+      crumb: 'Tạo công việc mới',
     }
   },
 })

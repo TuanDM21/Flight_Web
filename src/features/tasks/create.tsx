@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreateDocument } from '@/features/documents/hooks/use-create-document'
 import { createTaskSchema } from '@/features/tasks/schema'
 import { TaskAssignmentField } from './components/task-assignment-field'
 import { TaskDocumentField } from './components/task-document-field'
@@ -25,7 +24,6 @@ export type CreateTasksForm = z.infer<typeof createTaskSchema>
 export default function CreateTaskPage() {
   const navigate = useNavigate()
   const createTaskMutation = useCreateTask()
-  const createDocumentMutation = useCreateDocument()
 
   const form = useForm({
     resolver: zodResolver(createTaskSchema),
@@ -39,54 +37,23 @@ export default function CreateTaskPage() {
     },
   })
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: CreateTasksForm) => {
     try {
-      // Step 1: Create new documents if any (each document with its own attachments)
-      let createdDocumentIds: number[] = []
-      if (data.documents && data.documents.length > 0) {
-        const validDocuments = data.documents.filter(
-          (doc: any) => doc.documentType && doc.content && doc.notes
-        )
+      const newDocuments =
+        data.documents?.map((document) => ({
+          documentType: document.documentType,
+          content: document.content,
+          notes: document.notes,
+          attachmentIds: document.attachments?.map((att: any) => att.id) || [],
+        })) || []
 
-        if (validDocuments.length > 0) {
-          const documentPromises = validDocuments.map(async (document: any) => {
-            // Get attachment IDs from the document's uploaded attachments
-            const attachmentIds =
-              document.attachments?.map((att: any) => att.id) || []
-
-            return createDocumentMutation.mutateAsync({
-              body: {
-                documentType: document.documentType,
-                content: document.content,
-                notes: document.notes,
-                attachmentIds,
-              },
-            })
-          })
-
-          const createdDocuments = await Promise.all(documentPromises)
-          createdDocumentIds = createdDocuments
-            .map((doc: any) => doc.id)
-            .filter(Boolean)
-
-          toast.success(
-            `Tạo thành công ${createdDocumentIds.length} tài liệu mới!`
-          )
-        }
-      }
-
-      // Step 2: Create task with all document IDs (existing + new)
-      const allDocumentIds = [
-        ...(data.documentIds || []),
-        ...createdDocumentIds,
-      ]
-
-      const { documentIds, documents, ...taskData } = data
+      // Filter out documents field and prepare the final payload
+      const { documents, ...taskData } = data
 
       const createTaskPromise = createTaskMutation.mutateAsync({
         body: {
           ...taskData,
-          documentIds: allDocumentIds,
+          newDocuments,
         },
       })
 

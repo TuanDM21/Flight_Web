@@ -1,7 +1,7 @@
 'use client'
 
 import { Table } from '@tanstack/react-table'
-import { Download, Trash2 } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
   DataTableActionBar,
@@ -25,11 +25,7 @@ export function TasksTableActionBar({ table }: TasksTableActionBarProps) {
         className='hidden data-[orientation=vertical]:h-5 sm:block'
       />
       <div className='flex items-center gap-1.5'>
-        <DataTableActionBarAction size='icon' tooltip='Export tasks'>
-          <Download />
-        </DataTableActionBarAction>
-
-        <DataTableActionBarAction size='icon' tooltip='Delete tasks'>
+        <DataTableActionBarAction size='icon' tooltip='Xóa nhiệm vụ'>
           <Trash2 />
         </DataTableActionBarAction>
       </div>
