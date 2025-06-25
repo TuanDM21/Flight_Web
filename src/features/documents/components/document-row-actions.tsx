@@ -15,7 +15,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useDeleteDocumentConfirm } from '../hooks/use-delete-document-confirm'
+import { useDeleteDocumentsConfirm } from '../hooks/use-delete-documents-confirm'
 import { useShowDocumentAttachments } from '../hooks/use-show-document-attachments'
 import { DocumentItem } from '../types'
 
@@ -30,7 +30,7 @@ export function DocumentRowActions<TData extends DocumentItem>({
   const navigate = useNavigate()
   const { closeAll } = useDialogs()
 
-  const { onDeleteDocument } = useDeleteDocumentConfirm()
+  const { onDeleteDocuments } = useDeleteDocumentsConfirm()
   const { showAttachments } = useShowDocumentAttachments()
 
   const attachments = document.attachments || []
@@ -94,7 +94,7 @@ export function DocumentRowActions<TData extends DocumentItem>({
                   <PencilIcon />
                 </DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDeleteDocument(document)}>
+              <DropdownMenuItem onClick={() => onDeleteDocuments([document])}>
                 Xóa
                 <DropdownMenuShortcut>
                   <IconTrash />

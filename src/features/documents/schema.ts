@@ -18,12 +18,8 @@ const attachmentSchema = z.object({
 })
 
 // Base files schema với các validation chung
-const createBaseFilesSchema = (minFiles?: number) => {
+const createBaseFilesSchema = () => {
   let schema = z.array(z.custom<File>())
-
-  if (minFiles) {
-    schema = schema.min(minFiles, 'Vui lòng chọn ít nhất một tệp')
-  }
 
   return schema
     .max(MAX_FILES_COUNT, `Vui lòng chọn tối đa ${MAX_FILES_COUNT} tệp`)
@@ -46,7 +42,7 @@ const createBaseFilesSchema = (minFiles?: number) => {
 
 export const createDocumentSchema = z.object({
   ...baseDocumentFields,
-  files: createBaseFilesSchema(1),
+  files: createBaseFilesSchema(),
   attachments: z.array(attachmentSchema).default([]).optional(),
 })
 

@@ -6,8 +6,8 @@ import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-adv
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
 import { Main } from '@/components/layout/main'
-import { DocumentsTableActionBar } from '../documents/components/documents-table-action-bar'
 import { AttachmentsPrimaryButtons } from './components/attachments-primary-buttons'
+import { AttachmentsTableActionBar } from './components/attachments-table-action-bar'
 import { useAttachmentTableColumns } from './hooks/use-attachment-table-columns'
 import { useAttachmentsSearchFilter } from './hooks/use-attachments-search-filter'
 
@@ -42,7 +42,7 @@ export default function MyAttachmentsPage() {
       <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
         <Suspense fallback={<div>Đang tải...</div>}>
           <DataTable table={table}>
-            <DocumentsTableActionBar table={table} />
+            <AttachmentsTableActionBar table={table} />
             <DataTableAdvancedToolbar table={table}>
               <DataTableSortList table={table} />
               <DataTableFilterMenu

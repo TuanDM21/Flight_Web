@@ -14,40 +14,47 @@ export const useDeleteTasksConfirm = (filterType: TaskFilterTypes) => {
     const taskCount = taskIds.length
 
     const confirmed = await dialogs.confirm(
-      <div className='space-y-2'>
+      <div className='space-y-3'>
         <p className='text-muted-foreground text-sm'>
-          This will permanently delete {taskCount} task
-          {taskCount > 1 ? 's' : ''} and all their associated data including:
+          Bạn có chắc chắn muốn xóa {taskCount} nhiệm vụ được chọn?
         </p>
-        <ul className='text-muted-foreground ml-2 list-inside list-disc space-y-1 text-sm'>
-          <li>All assignments and their comments</li>
-          <li>All attached documents</li>
-          <li>Task history and progress</li>
-        </ul>
+        <div className='bg-destructive/10 rounded-md p-3'>
+          <p className='text-destructive mb-2 text-sm font-medium'>
+            Việc xóa sẽ bao gồm tất cả dữ liệu liên quan:
+          </p>
+          <ul className='text-destructive ml-4 list-disc space-y-1 text-sm'>
+            <li>Tất cả phân công và bình luận</li>
+            <li>Tất cả tài liệu đính kèm</li>
+            <li>Lịch sử và tiến độ nhiệm vụ</li>
+          </ul>
+        </div>
         <div className='text-muted-foreground text-sm'>
-          <p className='mb-1 font-medium'>Tasks to be deleted:</p>
-          <div className='max-h-32 overflow-y-auto text-xs'>
+          <p className='mb-2 font-medium'>Danh sách nhiệm vụ sẽ bị xóa:</p>
+          <div className='bg-muted/50 max-h-32 overflow-y-auto rounded border p-2 text-xs'>
             {tasks.slice(0, 10).map((task) => (
-              <div key={task.id}>
-                #{task.id} - {task.content}
+              <div key={task.id} className='py-1'>
+                <span className='text-muted-foreground font-mono'>
+                  #{task.id}
+                </span>{' '}
+                - {task.content}
               </div>
             ))}
             {tasks.length > 10 && (
-              <div className='text-muted-foreground italic'>
-                ...and {tasks.length - 10} more
+              <div className='text-muted-foreground py-1 italic'>
+                ...và {tasks.length - 10} nhiệm vụ khác
               </div>
             )}
           </div>
         </div>
-        <p className='text-muted-foreground text-sm font-medium'>
-          This action cannot be undone.
+        <p className='text-destructive text-sm font-medium'>
+          Hành động này không thể hoàn tác!
         </p>
       </div>,
       {
-        title: `Delete ${taskCount} Task${taskCount > 1 ? 's' : ''}`,
+        title: `Xóa ${taskCount} nhiệm vụ`,
         severity: 'error',
-        okText: 'Delete All',
-        cancelText: 'Cancel',
+        okText: 'Xóa tất cả',
+        cancelText: 'Hủy bỏ',
       }
     )
 
