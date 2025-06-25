@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import PageFormSkeleton from '@/components/page-form-skeleton'
 import EditDocumentPage from '@/features/documents/edit'
 import { getDocumentDetailQueryOptions } from '@/features/documents/hooks/use-document-detail'
@@ -8,13 +8,29 @@ export const Route = createFileRoute(
 )({
   component: EditDocumentPage,
   pendingComponent: PageFormSkeleton,
-  loader: ({
-    context: { queryClient },
+  loader: async ({
+    context: {
+      queryClient,
+      auth: { user },
+    },
     params: { 'document-id': documentId },
   }) => {
-    return queryClient.ensureQueryData(
+    const { data: documentDetails } = await queryClient.ensureQueryData(
       getDocumentDetailQueryOptions(Number(documentId))
     )
+    const isDocumentOwner = user?.id === documentDetails?.createdByUser?.id
+    if (!isDocumentOwner) {
+      throw redirect({
+        to: '/404',
+        search: {
+          redirect: location.href,
+        },
+      })
+    }
+
+    return {
+      crumb: 'Chỉnh sửa',
+    }
   },
 })
 

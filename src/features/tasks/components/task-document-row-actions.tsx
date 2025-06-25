@@ -1,9 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
-import { PencilIcon } from 'lucide-react'
-import { useDialogs } from '@/hooks/use-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -28,8 +25,6 @@ export function TaskDocumentRowActions<TData extends DocumentItem>({
   taskId,
 }: TaskDocumentRowActionsProps<TData>) {
   const document = row.original
-  const navigate = useNavigate()
-  const { closeAll } = useDialogs()
 
   const { showAttachments } = useShowDocumentAttachments()
 
@@ -42,14 +37,6 @@ export function TaskDocumentRowActions<TData extends DocumentItem>({
 
   const handleShowAttachments = () => {
     showAttachments(Number(document.id))
-  }
-
-  const handleEdit = () => {
-    closeAll()
-    navigate({
-      to: '/documents/$document-id/edit',
-      params: { 'document-id': String(document.id!) },
-    })
   }
 
   const handleDeleteDocument = () => {
@@ -91,12 +78,6 @@ export function TaskDocumentRowActions<TData extends DocumentItem>({
           )}
 
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleEdit}>
-            Chỉnh sửa
-            <DropdownMenuShortcut>
-              <PencilIcon />
-            </DropdownMenuShortcut>
-          </DropdownMenuItem>
           <DropdownMenuItem onClick={handleDeleteDocument}>
             Xóa
             <DropdownMenuShortcut>

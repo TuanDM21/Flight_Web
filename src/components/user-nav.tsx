@@ -15,12 +15,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { useSidebar } from './ui/sidebar'
 import { UserAvatarProfile } from './user-avatar-profile'
 
 export function UserNav() {
   const { user } = useAuth()
-  const { isMobile } = useSidebar()
   const router = useRouter()
   const { logout } = useAuth()
   const navigate = useNavigate()

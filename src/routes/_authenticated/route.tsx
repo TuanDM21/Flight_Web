@@ -10,6 +10,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import { CommandSearch } from '@/components/command-search'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import { Header } from '@/components/layout/header'
+import { NavigationBreadcrumb } from '@/components/navigation-breadcrumb'
 import SkipToMain from '@/components/skip-to-main'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { UserNav } from '@/components/user-nav'
@@ -23,6 +24,11 @@ export const Route = createFileRoute('/_authenticated')({
           redirect: location.href,
         },
       })
+    }
+  },
+  loader: async () => {
+    return {
+      crumb: 'index',
     }
   },
   component: RouteComponent,
@@ -48,9 +54,10 @@ function RouteComponent() {
           )}
         >
           <Header>
-            <CommandSearch />
+            <NavigationBreadcrumb />
 
             <div className='ml-auto flex items-center gap-4'>
+              <CommandSearch />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className='flex items-center gap-2'>

@@ -7,13 +7,16 @@ export const Route = createFileRoute('/_authenticated/documents/$document-id/')(
   {
     component: DocumentDetailPage,
     pendingComponent: PageDetailSkeleton,
-    loader: ({
+    loader: async ({
       context: { queryClient },
       params: { 'document-id': documentId },
     }) => {
-      return queryClient.ensureQueryData(
+      await queryClient.ensureQueryData(
         getDocumentDetailQueryOptions(Number(documentId))
       )
+      return {
+        crumb: `Tài liệu #${documentId}`,
+      }
     },
   }
 )

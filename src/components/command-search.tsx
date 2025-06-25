@@ -11,7 +11,7 @@ interface Props {
 
 export function CommandSearch({
   className = '',
-  placeholder = 'Tìm kiếm',
+  placeholder = 'Tìm kiếm lệnh...',
 }: Props) {
   const { setOpen } = useCommandSearch()
   return (

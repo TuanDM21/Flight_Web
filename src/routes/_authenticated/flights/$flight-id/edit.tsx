@@ -7,13 +7,16 @@ export const Route = createFileRoute('/_authenticated/flights/$flight-id/edit')(
   {
     component: EditFlightPage,
     pendingComponent: PageFormSkeleton,
-    loader: ({
+    loader: async ({
       context: { queryClient },
       params: { 'flight-id': flightId },
     }) => {
-      return queryClient.ensureQueryData(
+      await queryClient.ensureQueryData(
         getFlightDetailQueryOptions(Number(flightId))
       )
+      return {
+        crumb: 'Chỉnh sửa',
+      }
     },
   }
 )

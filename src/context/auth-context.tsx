@@ -5,6 +5,7 @@ import { AUTH_TOKEN_KEY } from '@/config/auth'
 import { AuthorizedUser, LoginCredentials } from '@/types/auth'
 import { until } from '@open-draft/until'
 import { useLocalStorage } from 'react-use'
+import { toast } from 'sonner'
 
 export interface AuthContext {
   isAuthenticated: boolean
@@ -72,6 +73,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setToken(newToken)
 
         setIsLoading(false)
+      } else {
+        toast.error(
+          error?.message ||
+            'Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin đăng nhập của bạn.'
+        )
       }
     },
     [loginMutation, setToken]
