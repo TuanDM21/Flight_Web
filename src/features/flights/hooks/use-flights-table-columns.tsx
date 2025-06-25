@@ -291,7 +291,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'text',
         icon: Clock,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'actualDepartureTime',
@@ -328,7 +327,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'text',
         icon: Clock,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'arrivalTime',
@@ -351,7 +349,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'text',
         icon: Clock,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'actualArrivalTime',
@@ -388,7 +385,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'text',
         icon: Clock,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'note',
@@ -419,7 +415,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'text',
         icon: StickyNote,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'createdAt',
@@ -440,7 +435,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'date',
         icon: Calendar,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'updatedAt',
@@ -461,7 +455,6 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         variant: 'date',
         icon: Calendar,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'actions',
