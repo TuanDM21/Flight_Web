@@ -1,6 +1,6 @@
-import { Link, useNavigate, useRouter } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
 import { IconLogout } from '@tabler/icons-react'
-import { BadgeCheck, Bell, ChevronsUpDown } from 'lucide-react'
+import { BadgeCheck, ChevronsUpDown } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -30,7 +30,7 @@ export function NavUser() {
     logout()
     void navigate({ to: '/sign-in' })
     void router.invalidate().finally(() => {
-      void navigate({ to: '/' })
+      void navigate({ to: '/tasks' })
     })
   }
 
@@ -74,17 +74,9 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link to='/settings/account'>
-                  <BadgeCheck />
-                  Tài khoản
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to='/settings/notifications'>
-                  <Bell />
-                  Thông báo
-                </Link>
+              <DropdownMenuItem>
+                <BadgeCheck className='mr-2 h-4 w-4' />
+                Tài khoản
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

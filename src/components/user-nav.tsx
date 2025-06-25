@@ -2,6 +2,7 @@
 
 import { useNavigate, useRouter } from '@tanstack/react-router'
 import { IconLogout } from '@tabler/icons-react'
+import { BadgeCheck } from 'lucide-react'
 import { useAuth } from '@/context/auth-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,11 +14,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { useSidebar } from './ui/sidebar'
 import { UserAvatarProfile } from './user-avatar-profile'
 
 export function UserNav() {
   const { user } = useAuth()
-
+  const { isMobile } = useSidebar()
   const router = useRouter()
   const { logout } = useAuth()
   const navigate = useNavigate()
@@ -39,32 +42,33 @@ export function UserNav() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className='w-56'
+          className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
           align='end'
-          sideOffset={10}
-          forceMount
+          sideOffset={4}
         >
-          <DropdownMenuLabel className='font-normal'>
-            <div className='flex flex-col space-y-1'>
-              <p className='text-sm leading-none font-medium'>{user.name}</p>
-              <p className='text-muted-foreground text-xs leading-none'>
-                {user.email}
-              </p>
+          <DropdownMenuLabel className='p-0 font-normal'>
+            <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+              <Avatar className='h-8 w-8 rounded-lg'>
+                <AvatarImage src={user?.name} alt={user?.name} />
+                <AvatarFallback className='rounded-lg'>N/A</AvatarFallback>
+              </Avatar>
+              <div className='grid flex-1 text-left text-sm leading-tight'>
+                <span className='truncate font-semibold'>{user?.name}</span>
+                <span className='truncate text-xs'>{user?.email}</span>
+              </div>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={() => void navigate({ to: '/settings' })}
-            >
-              Profile
+            <DropdownMenuItem>
+              <BadgeCheck className='mr-2 h-4 w-4' />
+              Tài khoản
             </DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout}>
-            <IconLogout />
-            Log out
+            <IconLogout className='mr-2 h-4 w-4' />
+            Đăng xuất
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
