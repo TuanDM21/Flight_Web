@@ -68,7 +68,7 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
       id: 'id',
       accessorKey: 'id',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='ID' />
+        <DataTableColumnHeader column={column} title='Mã chuyến bay' />
       ),
       cell: ({ cell }) => {
         const flightId = cell.getValue<number>()
@@ -84,8 +84,8 @@ export function useFlightsTableColumns(): ColumnDef<Flight>[] {
         )
       },
       meta: {
-        label: 'ID',
-        placeholder: 'Tìm kiếm ID...',
+        label: 'Mã chuyến bay',
+        placeholder: 'Tìm kiếm mã chuyến bay...',
         variant: 'text',
         icon: Hash,
       },

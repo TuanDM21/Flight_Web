@@ -72,13 +72,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'ID',
-        placeholder: 'Tìm kiếm ID...',
+        label: 'Mã đính kèm',
+        placeholder: 'Tìm kiếm mã đính kèm...',
         variant: 'text',
         icon: Hash,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='ID' />
+        <DataTableColumnHeader column={column} title='Mã đính kèm' />
       ),
       cell: ({ cell }) => {
         const attachmentId = cell.getValue<number>()

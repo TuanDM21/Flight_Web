@@ -65,7 +65,7 @@ function SharedByCell({
   sharedBy?: SharedWithMeAttachmentItem['sharedBy']
 }) {
   if (!sharedBy) {
-    return <span className='text-muted-foreground'>Unknown</span>
+    return <span className='text-muted-foreground'>Không xác định</span>
   }
 
   const getInitialCharacter = (name: string) => {
@@ -147,13 +147,13 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
-          label: 'ID',
-          placeholder: 'Search ID...',
+          label: 'Mã đính kèm',
+          placeholder: 'Tìm kiếm mã đính kèm...',
           variant: 'text',
           icon: Hash,
         },
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='ID' />
+          <DataTableColumnHeader column={column} title='Mã đính kèm' />
         ),
         cell: ({ cell }) => {
           const attachmentId = cell.getValue<number>()
@@ -165,8 +165,8 @@ export const useSharedWithMeAttachmentTableColumns =
         accessorKey: 'fileName',
         enableColumnFilter: true,
         meta: {
-          label: 'File Name',
-          placeholder: 'Search file name...',
+          label: 'Tên tệp',
+          placeholder: 'Tìm kiếm tên tệp...',
           variant: 'text',
           icon: FileText,
         },
@@ -182,8 +182,8 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
-          label: 'File Size',
-          placeholder: 'Filter by file size...',
+          label: 'Kích thước tệp',
+          placeholder: 'Lọc theo kích thước tệp...',
           variant: 'number',
           icon: HardDrive,
         },
@@ -205,8 +205,8 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 40,
         enableColumnFilter: true,
         meta: {
-          label: 'Shared Date',
-          placeholder: 'Filter by shared date...',
+          label: 'Ngày chia sẻ',
+          placeholder: 'Lọc theo ngày chia sẻ...',
           variant: 'date',
           icon: Calendar,
         },
@@ -229,7 +229,7 @@ export const useSharedWithMeAttachmentTableColumns =
               >
                 {isRecent && <Clock className='mr-1 inline-block h-4 w-4' />}
                 {format(date, dateFormatPatterns.fullDate)}
-                {isRecent && ' (New)'}
+                {isRecent && ' (Mới)'}
               </span>
             </div>
           )
@@ -257,8 +257,8 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 150,
         enableColumnFilter: true,
         meta: {
-          label: 'Shared By',
-          placeholder: 'Search by person...',
+          label: 'Người chia sẻ',
+          placeholder: 'Tìm kiếm theo người...',
           variant: 'text',
           icon: User,
         },
@@ -277,8 +277,8 @@ export const useSharedWithMeAttachmentTableColumns =
         size: 50,
         enableColumnFilter: true,
         meta: {
-          label: 'Shared Count',
-          placeholder: 'Filter by share count...',
+          label: 'Số lượng chia sẻ',
+          placeholder: 'Lọc theo số lượng chia sẻ...',
           variant: 'number',
           icon: BarChart3,
         },

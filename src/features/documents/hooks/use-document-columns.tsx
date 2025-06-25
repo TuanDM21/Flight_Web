@@ -51,7 +51,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         id: 'id',
         accessorKey: 'id',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='ID Tài liệu' />
+          <DataTableColumnHeader column={column} title='Mã tài liệu' />
         ),
         cell: ({ cell }) => {
           const documentId = cell.getValue<number>()
@@ -68,8 +68,8 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         },
         meta: {
           className: '',
-          label: 'ID Tài liệu',
-          placeholder: 'Tìm kiếm ID tài liệu...',
+          label: 'Mã tài liệu',
+          placeholder: 'Tìm kiếm mã tài liệu...',
           variant: 'text',
           icon: IdCard,
         },

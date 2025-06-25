@@ -306,7 +306,7 @@ export default function DocumentDetailPage() {
                 </div>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    ID tài liệu
+                    Mã tài liệu
                   </h3>
                   <p className='font-mono text-sm'>#{document.id}</p>
                 </div>
