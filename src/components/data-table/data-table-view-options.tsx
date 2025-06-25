@@ -51,7 +51,7 @@ export function DataTableViewOptions<TData>({
           <ChevronsUpDown className='ml-auto opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align='end' className='w-44 p-0'>
+      <PopoverContent align='end' className='w-48 p-0'>
         <Command>
           <CommandInput placeholder='Tìm kiếm cột...' />
           <CommandList>

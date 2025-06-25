@@ -264,7 +264,9 @@ export function DataTableFilterMenu<TData>({
                 </>
               ) : (
                 <>
-                  <CommandEmpty>No fields found.</CommandEmpty>
+                  <CommandEmpty>
+                    Không tìm thấy trường nào phù hợp.
+                  </CommandEmpty>
                   <CommandGroup>
                     {columns.map((column) => (
                       <CommandItem
@@ -386,7 +388,7 @@ function DataTableFilterItem<TData>({
             <Command loop>
               <CommandInput placeholder='Tìm kiếm trường...' />
               <CommandList>
-                <CommandEmpty>No fields found.</CommandEmpty>
+                <CommandEmpty>Không tìm thấy trường nào phù hợp.</CommandEmpty>
                 <CommandGroup>
                   {columns.map((column) => (
                     <CommandItem
@@ -574,12 +576,14 @@ function FilterValueSelector<TData>({
             {isEmpty ? (
               <>
                 <Text />
-                <span>Type to add filter...</span>
+                <span>Nhập vào giá trị để lọc</span>
               </>
             ) : (
               <>
                 <BadgeCheck />
-                <span className='truncate'>Filter by &quot;{value}&quot;</span>
+                <span className='truncate'>
+                  Lọc theo giá trị: &quot;{value}&quot;
+                </span>
               </>
             )}
           </CommandItem>

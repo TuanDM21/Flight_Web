@@ -44,9 +44,9 @@ export function useRecipientOptions() {
   }
 
   const deriveRecipientOptions = useMemo(() => {
-    const userOption = { label: 'User', value: 'user' }
-    const teamOption = { label: 'Team', value: 'team' }
-    const unitOption = { label: 'Unit', value: 'unit' }
+    const userOption = { label: 'Cá nhân', value: 'user' }
+    const teamOption = { label: 'Đội', value: 'team' }
+    const unitOption = { label: 'Tổ', value: 'unit' }
 
     const higherRoles = ['ADMIN', 'DIRECTOR', 'VICE_DIRECTOR']
     if (higherRoles.some((role) => hasRole(role)))

@@ -17,14 +17,25 @@ fetchClient.use({
       request.headers.set('Authorization', `Bearer ${token}`)
     }
   },
-  onResponse: ({ response }) => {
+  onResponse: ({ response, request }) => {
     if (!response.ok) {
-      throw FetchError.fromResponse(response)
+      const error = new FetchError({
+        message: `Request failed with status ${response.status}`,
+        request,
+        response,
+        status: response.status,
+      })
+      throw error
     }
-  },
-  onError: ({ error, request }) => {
-    const message = error instanceof Error ? error.message : 'Unknown error'
-    return FetchError.networkError(new Error(message), request)
+    if (!navigator.onLine) {
+      const error = new FetchError({
+        message: 'Network error: You are offline',
+        request,
+        response,
+        status: 0,
+      })
+      throw FetchError.networkError(error, request)
+    }
   },
 })
 

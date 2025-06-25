@@ -425,7 +425,7 @@ function DataTableFilterItem<TData>({
             <Command>
               <CommandInput placeholder='Tìm kiếm trường...' />
               <CommandList>
-                <CommandEmpty>No fields found.</CommandEmpty>
+                <CommandEmpty>Không tìm thấy trường nào phù hợp.</CommandEmpty>
                 <CommandGroup>
                   {columns.map((column) => (
                     <CommandItem

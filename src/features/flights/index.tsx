@@ -4,6 +4,7 @@ import { DataTable } from '@/components/data-table/data-table'
 import { DataTableAdvancedToolbar } from '@/components/data-table/data-table-advanced-toolbar'
 import { DataTableFilterMenu } from '@/components/data-table/data-table-filter-menu'
 import { DataTableSortList } from '@/components/data-table/data-table-sort-list'
+import { Main } from '@/components/layout/main'
 import PageTableSkeleton from '@/components/page-table-skeleton'
 import { FlightSearchInput } from './components/flight-search-input'
 import { FlightStatusFilter } from './components/flight-status-filter'
@@ -30,37 +31,39 @@ export function FlightsPage() {
   })
 
   return (
-    <div className='px-4 py-2'>
-      <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
-        <div>
-          <h2 className='text-2xl font-bold tracking-tight'>
-            Quản lý chuyến bay
-          </h2>
+    <Main fixed>
+      <div className='flex h-full flex-col px-4 py-2'>
+        <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
+          <div>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              Quản lý chuyến bay
+            </h2>
+          </div>
+          <FlightsPrimaryButtons />
         </div>
-        <FlightsPrimaryButtons />
-      </div>
-      <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-        <Suspense fallback={<PageTableSkeleton />}>
-          <DataTable table={table}>
-            <FlightsTableActionBar table={table} />
-            <DataTableAdvancedToolbar table={table}>
-              <div className='flex flex-col items-start gap-2'>
-                <FlightStatusFilter />
-                <div className='flex items-center gap-2'>
-                  <DataTableSortList table={table} />
-                  <DataTableFilterMenu
-                    table={table}
-                    shallow={shallow}
-                    debounceMs={debounceMs}
-                    throttleMs={throttleMs}
-                  />
-                  <FlightSearchInput isFiltering={isFiltering} />
+        <div className='-mx-4 flex-1 overflow-hidden px-4 py-1'>
+          <Suspense fallback={<PageTableSkeleton />}>
+            <DataTable table={table} className='h-full'>
+              <FlightsTableActionBar table={table} />
+              <DataTableAdvancedToolbar table={table}>
+                <div className='flex flex-col items-start gap-2'>
+                  <FlightStatusFilter />
+                  <div className='flex items-center gap-2'>
+                    <DataTableSortList table={table} />
+                    <DataTableFilterMenu
+                      table={table}
+                      shallow={shallow}
+                      debounceMs={debounceMs}
+                      throttleMs={throttleMs}
+                    />
+                    <FlightSearchInput isFiltering={isFiltering} />
+                  </div>
                 </div>
-              </div>
-            </DataTableAdvancedToolbar>
-          </DataTable>
-        </Suspense>
+              </DataTableAdvancedToolbar>
+            </DataTable>
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </Main>
   )
 }

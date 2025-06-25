@@ -28,7 +28,7 @@ export function TasksPage() {
   })
 
   return (
-    <div className='px-4 py-2'>
+    <div className='flex h-full flex-col px-4 py-2'>
       <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
         <div>
           <h2 className='text-2xl font-bold tracking-tight'>
@@ -37,9 +37,9 @@ export function TasksPage() {
         </div>
         <TasksPrimaryButtons />
       </div>
-      <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+      <div className='-mx-4 flex-1 overflow-hidden px-4 py-1'>
         <Suspense fallback={<div>Loading...</div>}>
-          <DataTable table={table}>
+          <DataTable table={table} className='h-full'>
             <TasksTableActionBar table={table} />
             <DataTableAdvancedToolbar table={table}>
               <TasksTypeFilter />

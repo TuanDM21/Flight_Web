@@ -1,15 +1,8 @@
 import {
   IconChecklist,
   IconFileTypeDoc,
-  IconHelp,
-  IconLayoutDashboard,
-  IconNotification,
-  IconPalette,
   IconPaperclip,
   IconPlaneArrival,
-  IconSettings,
-  IconTool,
-  IconUserCog,
 } from '@tabler/icons-react'
 import { Command } from 'lucide-react'
 import { type SidebarData } from '../types'
@@ -29,11 +22,11 @@ export const sidebarData: SidebarData = {
     {
       title: 'Tổng quan',
       items: [
-        {
-          title: 'Bảng điều khiển',
-          url: '/',
-          icon: IconLayoutDashboard,
-        },
+        // {
+        //   title: 'Bảng điều khiển',
+        //   url: '/',
+        //   icon: IconLayoutDashboard,
+        // },
         {
           title: 'Chuyến bay',
           url: '/flights',
@@ -63,42 +56,6 @@ export const sidebarData: SidebarData = {
               url: '/attachments/shared-with-me',
             },
           ],
-        },
-      ],
-    },
-    {
-      title: 'Khác',
-      items: [
-        {
-          title: 'Cài đặt',
-          icon: IconSettings,
-          items: [
-            {
-              title: 'Hồ sơ',
-              url: '/settings',
-              icon: IconUserCog,
-            },
-            {
-              title: 'Tài khoản',
-              url: '/settings/account',
-              icon: IconTool,
-            },
-            {
-              title: 'Giao diện',
-              url: '/settings/appearance',
-              icon: IconPalette,
-            },
-            {
-              title: 'Thông báo',
-              url: '/settings/notifications',
-              icon: IconNotification,
-            },
-          ],
-        },
-        {
-          title: 'Trung tâm trợ giúp',
-          url: '/help-center',
-          icon: IconHelp,
         },
       ],
     },

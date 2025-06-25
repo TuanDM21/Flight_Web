@@ -1,13 +1,27 @@
 import { z } from 'zod'
 import { MAX_FILE_SIZE, MAX_FILES_COUNT } from '../../constants/file'
 
-export const createDocumentSchema = z.object({
+// Base schema với các validation chung
+const baseDocumentFields = {
   documentType: z.string().min(1, 'Loại tài liệu là bắt buộc'),
   content: z.string().min(1, 'Nội dung là bắt buộc'),
   notes: z.string().min(1, 'Ghi chú là bắt buộc'),
-  files: z
-    .array(z.custom<File>())
-    .min(1, 'Vui lòng chọn ít nhất một tệp')
+}
+
+// Schema cho attachment
+const attachmentSchema = z.object({
+  id: z.number(),
+  filePath: z.string(),
+  fileName: z.string(),
+  fileSize: z.number(),
+  createdAt: z.string(),
+})
+
+// Base files schema với các validation chung
+const createBaseFilesSchema = () => {
+  let schema = z.array(z.custom<File>())
+
+  return schema
     .max(MAX_FILES_COUNT, `Vui lòng chọn tối đa ${MAX_FILES_COUNT} tệp`)
     .refine((files) => files.every((file) => file.size <= MAX_FILE_SIZE), {
       message: `Kích thước tệp phải nhỏ hơn ${MAX_FILE_SIZE / 1024 / 1024}MB`,
@@ -23,18 +37,17 @@ export const createDocumentSchema = z.object({
       }
     )
     .default([])
-    .optional(),
+    .optional()
+}
 
-  attachments: z
-    .array(
-      z.object({
-        id: z.number(),
-        filePath: z.string(),
-        fileName: z.string(),
-        fileSize: z.number(),
-        createdAt: z.string(),
-      })
-    )
-    .default([])
-    .optional(),
+export const createDocumentSchema = z.object({
+  ...baseDocumentFields,
+  files: createBaseFilesSchema(),
+  attachments: z.array(attachmentSchema).default([]).optional(),
+})
+
+export const editDocumentSchema = z.object({
+  ...baseDocumentFields,
+  files: createBaseFilesSchema(),
+  attachments: z.array(attachmentSchema).default([]).optional(),
 })

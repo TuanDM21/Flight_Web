@@ -11,9 +11,9 @@ interface OptimisticDeleteContext {
 export const useDeleteDocuments = () => {
   const queryClient = useQueryClient()
 
-  return $queryClient.useMutation('delete', '/api/documents/{id}', {
+  return $queryClient.useMutation('delete', '/api/documents/bulk-delete', {
     onMutate: async (data): Promise<OptimisticDeleteContext> => {
-      const { id } = data.params.path
+      const { documentIds } = data.body
 
       // Cancel any outgoing refetches to avoid overwriting our optimistic update
       await queryClient.cancelQueries({
@@ -25,10 +25,10 @@ export const useDeleteDocuments = () => {
         BaseApiResponse<DocumentItem[]>
       >(documentKeysFactory.lists())
 
-      // Optimistically remove the document from the cache
+      // Optimistically remove the documents from the cache
       if (previousDocuments?.data) {
         const filteredDocuments = previousDocuments.data.filter(
-          (doc) => doc.id !== id
+          (doc) => doc.id !== undefined && !documentIds.includes(doc.id)
         )
 
         queryClient.setQueryData<BaseApiResponse<DocumentItem[]>>(

@@ -214,7 +214,7 @@ export function DataTableSortList<TData>({
       <SortableOverlay>
         <div className='flex items-center gap-2'>
           <div className='bg-primary/10 h-8 w-[180px] rounded-sm' />
-          <div className='bg-primary/10 h-8 w-24 rounded-sm' />
+          <div className='bg-primary/10 h-8 w-32 rounded-sm' />
           <div className='bg-primary/10 size-8 shrink-0 rounded-sm' />
           <div className='bg-primary/10 size-8 shrink-0 rounded-sm' />
         </div>
@@ -327,7 +327,7 @@ function DataTableSortItem({
         >
           <SelectTrigger
             aria-controls={directionListboxId}
-            className='h-8 w-24 rounded [&[data-size]]:h-8'
+            className='h-8 w-28 rounded [&[data-size]]:h-8'
           >
             <SelectValue />
           </SelectTrigger>

@@ -45,16 +45,16 @@ const queryClient = new QueryClient({
     onError: (error) => {
       if (error instanceof FetchError) {
         if (FetchError.isHttpError(error, 401)) {
-          toast.error('Session expired!')
+          toast.error('Phiên đăng nhập đã hết hạn!')
           const redirect = router.history.location.href
           void router.navigate({ to: '/sign-out', search: { redirect } })
         } else if (FetchError.isServerError(error)) {
-          toast.error('Internal Server Error!')
+          toast.error('Lỗi máy chủ nội bộ!')
           void router.navigate({ to: '/500' })
         } else if (FetchError.isNetworkError(error)) {
-          toast.error('Network Error!')
+          toast.error('Lỗi kết nối mạng!')
         } else if (FetchError.isTimeoutError(error)) {
-          toast.error('Request Timeout!')
+          toast.error('Hết thời gian chờ yêu cầu!')
         }
       }
     },

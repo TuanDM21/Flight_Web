@@ -1644,6 +1644,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/flights/searchByCriteria": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search flights by multiple criteria
+         * @description Search flights by date (YYYY-MM-DD format), flight number, departure airport, and arrival airport. All parameters are optional.
+         */
+        get: operations["searchFlightsByCriteria"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/flights/live-tracking-group": {
         parameters: {
             query?: never;
@@ -1656,6 +1676,26 @@ export interface paths {
          * @description Get flights for live tracking (today + yesterday with specific conditions)
          */
         get: operations["getLiveTrackingGroup"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/flights/debug/airports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Debug - Check airports in database
+         * @description Debug endpoint to check all airports and search for specific codes
+         */
+        get: operations["debugAirports"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2155,6 +2195,7 @@ export interface components {
             /** Format: int32 */
             gate?: number;
             note?: string;
+            userFlightShifts?: components["schemas"]["UserFlightShift"][];
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
@@ -2724,6 +2765,7 @@ export interface components {
             /** Format: date-time */
             updatedAt?: string;
             attachments?: components["schemas"]["AttachmentDTO"][];
+            createdByUser?: components["schemas"]["UserDTO"];
         };
         UpdateAttachmentFileNameRequest: {
             fileName?: string;
@@ -3077,6 +3119,38 @@ export interface components {
             /** Format: int32 */
             unitId?: number;
         };
+        /**
+         * @description Response cho các trường hợp lỗi
+         * @example {
+         *       "message": "Không tìm thấy tài nguyên",
+         *       "statusCode": 404,
+         *       "errorDetails": null,
+         *       "success": false
+         *     }
+         */
+        ApiErrorResponse: {
+            /**
+             * @description Thông báo lỗi
+             * @example Không tìm thấy tài nguyên
+             */
+            message?: string;
+            /**
+             * Format: int32
+             * @description Mã trạng thái HTTP
+             * @example 404
+             */
+            statusCode?: number;
+            /**
+             * @description Chi tiết lỗi (nếu có)
+             * @example null
+             */
+            errorDetails?: Record<string, never> | null;
+            /**
+             * @description Trạng thái thành công hay thất bại
+             * @example false
+             */
+            success?: boolean;
+        };
         /** @description API response for register, data is RegisterResponse */
         ApiRegisterResponse: {
             /**
@@ -3114,38 +3188,6 @@ export interface components {
             unitName?: string;
             /** Format: int32 */
             teamId?: number;
-        };
-        /**
-         * @description Response cho các trường hợp lỗi
-         * @example {
-         *       "message": "Không tìm thấy tài nguyên",
-         *       "statusCode": 404,
-         *       "errorDetails": null,
-         *       "success": false
-         *     }
-         */
-        ApiErrorResponse: {
-            /**
-             * @description Thông báo lỗi
-             * @example Không tìm thấy tài nguyên
-             */
-            message?: string;
-            /**
-             * Format: int32
-             * @description Mã trạng thái HTTP
-             * @example 404
-             */
-            statusCode?: number;
-            /**
-             * @description Chi tiết lỗi (nếu có)
-             * @example null
-             */
-            errorDetails?: Record<string, never> | null;
-            /**
-             * @description Trạng thái thành công hay thất bại
-             * @example false
-             */
-            success?: boolean;
         };
         LoginRequest: {
             email: string;
@@ -7692,6 +7734,40 @@ export interface operations {
             };
         };
     };
+    searchFlightsByCriteria: {
+        parameters: {
+            query?: {
+                date?: string;
+                flightNumber?: string;
+                departureAirport?: string;
+                arrivalAirport?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successfully retrieved flights by criteria */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiSearchFlightsResponse"];
+                };
+            };
+            /** @description Invalid date format or parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["ApiErrorResponse"];
+                };
+            };
+        };
+    };
     getLiveTrackingGroup: {
         parameters: {
             query?: never;
@@ -7708,6 +7784,28 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["ApiSearchFlightsResponse"];
+                };
+            };
+        };
+    };
+    debugAirports: {
+        parameters: {
+            query?: {
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": Record<string, never>;
                 };
             };
         };

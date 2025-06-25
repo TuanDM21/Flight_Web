@@ -96,7 +96,7 @@ export function TaskAssignmentsDialog({
     const { assignmentId, ...restValues } = form.getValues()
 
     if (!assignmentId) {
-      toast.error('Assignment ID is missing.')
+      toast.error('Vui lòng chọn phân công để cập nhật.')
       return
     }
 
@@ -133,7 +133,7 @@ export function TaskAssignmentsDialog({
     })
     toast.promise(updatePromise, {
       loading: `Đang cập nhật trạng thái phân công...`,
-      success: `Assignment status updated to ${allTaskAssignmentStatusLabels[newStatus]}!`,
+      success: `Trạng thái phân công đã được cập nhật thành ${allTaskAssignmentStatusLabels[newStatus]}!`,
       error: `Không thể cập nhật trạng thái phân công. Vui lòng thử lại.`,
     })
   }
@@ -149,22 +149,22 @@ export function TaskAssignmentsDialog({
     const confirmed = await dialogs.confirm(
       <div className='space-y-2'>
         <p className='text-muted-foreground text-sm'>
-          You are about to delete the assignment for{' '}
+          Bạn sắp xóa phân công cho{' '}
           <span className='text-foreground font-medium'>{recipientName}</span>.
         </p>
         <p className='text-muted-foreground text-sm'>
-          This will remove all comments and progress associated with this
-          assignment.
+          Điều này sẽ xóa tất cả bình luận và tiến trình liên quan đến phân công
+          này.
         </p>
         <p className='text-muted-foreground text-sm font-medium'>
-          This action cannot be undone.
+          Hành động này không thể hoàn tác.
         </p>
       </div>,
       {
-        title: 'Delete Assignment',
+        title: 'Xóa phân công',
         severity: 'error',
-        okText: 'Delete Assignment',
-        cancelText: 'Cancel',
+        okText: 'Xóa phân công',
+        cancelText: 'Hủy',
       }
     )
 

@@ -25,14 +25,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { DataTableActionBarAction } from '@/components/data-table/data-table-action-bar'
 import { getDownloadUrlQueryOptions } from '../attachments/hooks/use-download-attachment-url'
-import { useDeleteDocumentConfirm } from './hooks/use-delete-document-confirm'
+import { useDeleteDocumentsConfirm } from './hooks/use-delete-documents-confirm'
 import { getDocumentDetailQueryOptions } from './hooks/use-document-detail'
 import { useUnlinkAttachmentsFromDocumentConfirm } from './hooks/use-unlink-attachments-from-document-confirm'
 import { DocumentAttachment } from './types'
 
 export default function DocumentDetailPage() {
   const documentId = DocumentDetailRoute.useParams()['document-id']
-  const { onDeleteDocument } = useDeleteDocumentConfirm()
+  const { onDeleteDocuments } = useDeleteDocumentsConfirm()
   const { onUnlinkAttachmentFromDocument } =
     useUnlinkAttachmentsFromDocumentConfirm()
 
@@ -131,7 +131,7 @@ export default function DocumentDetailPage() {
             <Button
               variant='destructive'
               className='space-x-1'
-              onClick={() => onDeleteDocument(document)}
+              onClick={() => onDeleteDocuments([document])}
             >
               <Trash2 className='mr-2 h-4 w-4' />
               Xóa
@@ -306,7 +306,7 @@ export default function DocumentDetailPage() {
                 </div>
                 <div>
                   <h3 className='text-muted-foreground mb-1 text-sm font-medium'>
-                    ID tài liệu
+                    Mã tài liệu
                   </h3>
                   <p className='font-mono text-sm'>#{document.id}</p>
                 </div>

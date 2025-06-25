@@ -11,18 +11,17 @@ import {
   getTooltipText,
 } from '../utils/attachments'
 
-interface SharedCountCellProps {
+interface AttachmentViewCountProps {
   isLoading?: boolean
   attachment?: AttachmentItem
   onViewDetails?: (attachment: AttachmentItem) => void
 }
 
-export function SharedCountCell({
+export function AttachmentViewCount({
   attachment,
   onViewDetails,
-}: SharedCountCellProps) {
-  const hardcodedSharedCount = attachment?.id ? attachment.id % 6 : 0
-  const actualSharedCount = hardcodedSharedCount
+}: AttachmentViewCountProps) {
+  const actualSharedCount = attachment?.sharedCount || 0
 
   const handleClick = () => {
     if (attachment && onViewDetails && actualSharedCount > 0) {
@@ -48,7 +47,7 @@ export function SharedCountCell({
           <p>{getTooltipText(actualSharedCount)}</p>
           {actualSharedCount > 0 && (
             <p className='text-muted-foreground mt-1 text-xs'>
-              Click to view details
+              Nhấp để xem chi tiết
             </p>
           )}
         </TooltipContent>

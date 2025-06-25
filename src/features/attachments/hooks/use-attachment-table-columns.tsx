@@ -1,7 +1,7 @@
 import { differenceInMinutes, format } from 'date-fns'
 import { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import { Clock, Hash, FileText, HardDrive, Calendar, Users } from 'lucide-react'
+import { Calendar, FileText, HardDrive, Hash, Users } from 'lucide-react'
 import { formatFileSize } from '@/lib/format'
 import { useDialogs } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
@@ -9,9 +9,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
 import { AttachmentDetailSheet } from '../components/attachment-detail-sheet'
 import { AttachmentRowActions } from '../components/attachment-row-actions'
+import { AttachmentViewCount } from '../components/attachment-view-count'
 import { FileExtensionCell } from '../components/file-extension-cell'
 import { FileNameCell } from '../components/file-name-cell'
-import { SharedCountCell } from '../components/shared-count-cell'
 import { AttachmentItem } from '../types'
 
 interface UseAttachmentTableColumnsOptions {
@@ -72,13 +72,13 @@ export const useAttachmentTableColumns = (
       enableColumnFilter: true,
       meta: {
         className: '',
-        label: 'ID',
-        placeholder: 'Tìm kiếm ID...',
+        label: 'Mã đính kèm',
+        placeholder: 'Tìm kiếm mã đính kèm...',
         variant: 'text',
         icon: Hash,
       },
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='ID' />
+        <DataTableColumnHeader column={column} title='Mã đính kèm' />
       ),
       cell: ({ cell }) => {
         const attachmentId = cell.getValue<number>()
@@ -115,7 +115,6 @@ export const useAttachmentTableColumns = (
       id: 'fileSize',
       accessorKey: 'fileSize',
       size: 40,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Kích thước tệp',
@@ -139,7 +138,6 @@ export const useAttachmentTableColumns = (
       id: 'createdAt',
       accessorKey: 'createdAt',
       size: 40,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Ngày tải lên',
@@ -191,7 +189,6 @@ export const useAttachmentTableColumns = (
     optionalColumns.push({
       id: 'shared',
       size: 50,
-      enableColumnFilter: true,
       meta: {
         className: '',
         label: 'Đã chia sẻ',
@@ -205,7 +202,7 @@ export const useAttachmentTableColumns = (
       cell: ({ row }) => {
         const attachment = row.original
         return (
-          <SharedCountCell
+          <AttachmentViewCount
             attachment={attachment}
             onViewDetails={handleViewDetails}
           />

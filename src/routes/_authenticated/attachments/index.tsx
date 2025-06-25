@@ -5,8 +5,11 @@ import MyAttachmentsPage from '@/features/attachments/my-attachments'
 
 export const Route = createFileRoute('/_authenticated/attachments/')({
   component: MyAttachmentsPage,
-  loader: ({ context: { queryClient } }) => {
-    return queryClient.ensureQueryData(myAttachmentsQueryOptions())
+  loader: async ({ context: { queryClient } }) => {
+    await queryClient.ensureQueryData(myAttachmentsQueryOptions())
+    return {
+      crumb: 'Tệp của tôi',
+    }
   },
   pendingComponent: MyAttachmentsSkeleton,
 })

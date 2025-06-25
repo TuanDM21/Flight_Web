@@ -31,7 +31,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
             onCheckedChange={(value) => {
               table.toggleAllPageRowsSelected(!!value)
             }}
-            aria-label='Select all'
+            aria-label='Chọn tất cả'
           />
         </div>
       ),
@@ -42,7 +42,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
             onCheckedChange={(value) => {
               row.toggleSelected(!!value)
             }}
-            aria-label='Select row'
+            aria-label='Chọn dòng'
           />
         </div>
       ),
@@ -57,7 +57,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       id: 'id',
       accessorKey: 'id',
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title='ID Công việc' />
+        <DataTableColumnHeader column={column} title='Mã công việc' />
       ),
       cell: ({ cell }) => {
         const taskId = cell.getValue<number>()
@@ -70,8 +70,8 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         )
       },
       meta: {
-        label: 'Task ID',
-        placeholder: 'Search task ID...',
+        label: 'Mã công việc',
+        placeholder: 'Tìm kiếm mã công việc...',
         variant: 'text',
         icon: DollarSign,
       },
@@ -98,8 +98,8 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       },
       meta: {
         className: '',
-        label: 'Status',
-        placeholder: 'Search Status...',
+        label: 'Trạng thái',
+        placeholder: 'Tìm kiếm trạng thái...',
         variant: 'select',
         options: taskStatusOptions,
         icon: BadgeCheck,
@@ -115,8 +115,8 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       cell: ({ cell }) => <div>{cell.getValue<string>() || 'N/A'}</div>,
       meta: {
         className: '',
-        label: 'Content',
-        placeholder: 'Search content...',
+        label: 'Nội dung',
+        placeholder: 'Tìm kiếm nội dung...',
         variant: 'text',
         icon: Text,
       },
@@ -162,7 +162,6 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         variant: 'date',
         icon: CalendarSearch,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'updatedAt',
@@ -173,7 +172,7 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
       ),
       cell: ({ cell }) => {
         const value = cell.getValue<string | undefined>()
-        if (!value) return <div>Not set</div>
+        if (!value) return <div>Chưa đặt</div>
 
         const date = new Date(value)
         return <div>{format(date, dateFormatPatterns.fullDateTime)}</div>
@@ -185,7 +184,6 @@ export function useTasksTableColumns(): ColumnDef<Task>[] {
         variant: 'date',
         icon: CalendarSearch,
       },
-      enableColumnFilter: true,
     },
     {
       id: 'actions',

@@ -4,7 +4,7 @@ import { FileChartPie, FilePlus2Icon } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/context/auth-context'
 import { useDataTable } from '@/hooks/use-data-table'
-import { DialogProps, useDialogs } from '@/hooks/use-dialogs'
+import { DialogProps } from '@/hooks/use-dialogs'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -15,9 +15,9 @@ import {
 import { AppDialog } from '@/components/app-dialog'
 import { DataTable } from '@/components/data-table/data-table'
 import { DataTableSkeleton } from '@/components/data-table/data-table-skeleton'
-import { useDocumentColumns } from '@/features/documents/hooks/use-document-columns'
-import { useDeleteBulkTaskDocuments } from '../hooks/use-delete-bulk-task-documents'
+import { useDeleteTaskDocumentsConfirm } from '../hooks/use-delete-task-documents-confirm'
 import { useInsertBulkTaskDocuments } from '../hooks/use-insert-bulk-task-document'
+import { useTaskDocumentColumns } from '../hooks/use-task-document-columns'
 import { useViewTaskDocuments } from '../hooks/use-task-documents'
 import { Task, TaskDocument } from '../types'
 import { SelectDocumentsDialog } from './select-documents-dialog'
@@ -40,20 +40,25 @@ export function TaskDocumentsDialog({
   const currentType = searchParams.type || 'assigned'
   const insertBulkTaskDocumentsMutation =
     useInsertBulkTaskDocuments(currentType)
-  const deleteBulkTaskDocumentsMutation = useDeleteBulkTaskDocuments()
 
   const { data: taskDocuments, isLoading: isTaskDocumentsLoading } =
     useViewTaskDocuments(taskId)
 
   const selectDocumentDialogInstance = AppDialog.useDialog()
-  const dialogs = useDialogs()
 
-  const documentColumns = useDocumentColumns()
+  const taskDocumentColumns = useTaskDocumentColumns({ taskId })
 
   const { table: documentsTable } = useDataTable({
     data: taskDocuments?.data || [],
-    columns: documentColumns,
+    columns: taskDocumentColumns,
     pageCount: 1,
+  })
+
+  const { onDeleteTaskDocuments } = useDeleteTaskDocumentsConfirm({
+    taskId,
+    onSuccess: () => {
+      documentsTable.resetRowSelection()
+    },
   })
 
   const selectedDocumentRows = documentsTable.getFilteredSelectedRowModel().rows
@@ -64,46 +69,7 @@ export function TaskDocumentsDialog({
       (row) => row.original.id
     ) as number[]
 
-    const documentCount = deleteDocumentIds.length
-
-    const confirmed = await dialogs.confirm(
-      <div className='space-y-2'>
-        <p className='text-muted-foreground text-sm'>
-          This will permanently remove {documentCount} document
-          {documentCount === 1 ? '' : 's'} from Task #{taskId}.
-        </p>
-        <p className='text-muted-foreground text-sm font-medium'>
-          This action cannot be undone.
-        </p>
-      </div>,
-      {
-        title: `Delete ${documentCount} Document${documentCount === 1 ? '' : 's'}`,
-        severity: 'error',
-        okText: 'Delete',
-        cancelText: 'Cancel',
-      }
-    )
-
-    if (confirmed) {
-      const deleteDocumentsPromise =
-        deleteBulkTaskDocumentsMutation.mutateAsync({
-          params: {
-            query: {
-              taskId: taskId,
-            },
-          },
-          body: deleteDocumentIds,
-        })
-
-      toast.promise(deleteDocumentsPromise, {
-        loading: 'Đang xóa tài liệu nhiệm vụ...',
-        success: () => {
-          documentsTable.resetRowSelection()
-          return `Đã xóa thành công ${documentCount} tài liệu.`
-        },
-        error: 'Error deleting task documents',
-      })
-    }
+    await onDeleteTaskDocuments(deleteDocumentIds)
   }
 
   const getSelectedDocumentIds = () => {
@@ -157,9 +123,6 @@ export function TaskDocumentsDialog({
             <DialogTitle className='text-lg font-bold'>
               Tất cả tài liệu cho Task #{taskId}
             </DialogTitle>
-            <p className='text-muted-foreground mt-1 text-sm'>
-              Xem tất cả tài liệu cho task này
-            </p>
           </DialogHeader>
 
           <div className='flex-1 overflow-hidden'>
@@ -172,7 +135,7 @@ export function TaskDocumentsDialog({
                 </div>
                 <div className='space-y-2 text-center'>
                   <h3 className='text-muted-foreground text-lg font-medium'>
-                    No documents yet
+                    Chưa có tài liệu nào được thêm cho nhiệm vụ này
                   </h3>
                   {isTaskOwner && (
                     <>
@@ -180,10 +143,10 @@ export function TaskDocumentsDialog({
                         className='space-x-1'
                         onClick={selectDocumentDialogInstance.open}
                       >
-                        <span>Add Document</span> <FilePlus2Icon />
+                        <span>Thêm Tài Liệu</span> <FilePlus2Icon />
                       </Button>
                       <p className='text-muted-foreground max-w-sm text-sm'>
-                        Be the first to add a document for this task.
+                        Hãy là người đầu tiên thêm tài liệu cho nhiệm vụ này.
                       </p>
                     </>
                   )}

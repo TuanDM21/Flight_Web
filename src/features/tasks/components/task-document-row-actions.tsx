@@ -1,10 +1,6 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { useNavigate } from '@tanstack/react-router'
 import { Row } from '@tanstack/react-table'
 import { IconTrash } from '@tabler/icons-react'
-import { PencilIcon } from 'lucide-react'
-import { useAuth } from '@/context/auth-context'
-import { useDialogs } from '@/hooks/use-dialogs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,40 +11,36 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useDeleteDocumentsConfirm } from '../hooks/use-delete-documents-confirm'
-import { useShowDocumentAttachments } from '../hooks/use-show-document-attachments'
-import { DocumentItem } from '../types'
+import { useShowDocumentAttachments } from '@/features/documents/hooks/use-show-document-attachments'
+import { DocumentItem } from '@/features/documents/types'
+import { useDeleteTaskDocumentsConfirm } from '@/features/tasks/hooks/use-delete-task-documents-confirm'
 
-interface DocumentRowActionsProps<TData extends DocumentItem> {
+interface TaskDocumentRowActionsProps<TData extends DocumentItem> {
   row: Row<TData>
+  taskId: number
 }
 
-export function DocumentRowActions<TData extends DocumentItem>({
+export function TaskDocumentRowActions<TData extends DocumentItem>({
   row,
-}: DocumentRowActionsProps<TData>) {
+  taskId,
+}: TaskDocumentRowActionsProps<TData>) {
   const document = row.original
-  const navigate = useNavigate()
-  const { closeAll } = useDialogs()
 
-  const { onDeleteDocuments } = useDeleteDocumentsConfirm()
   const { showAttachments } = useShowDocumentAttachments()
+
+  const { onDeleteTaskDocuments } = useDeleteTaskDocumentsConfirm({
+    taskId,
+  })
 
   const attachments = document.attachments || []
   const hasAttachments = attachments.length > 0
-
-  const { user } = useAuth()
-  const isDocumentOwner = user?.id === document.createdByUser?.id
 
   const handleShowAttachments = () => {
     showAttachments(Number(document.id))
   }
 
-  const handleEdit = () => {
-    closeAll()
-    navigate({
-      to: '/documents/$document-id/edit',
-      params: { 'document-id': String(document.id!) },
-    })
+  const handleDeleteDocument = () => {
+    onDeleteTaskDocuments([document.id!])
   }
 
   return (
@@ -85,23 +77,13 @@ export function DocumentRowActions<TData extends DocumentItem>({
             </DropdownMenuItem>
           )}
 
-          {isDocumentOwner && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleEdit}>
-                Chỉnh sửa
-                <DropdownMenuShortcut>
-                  <PencilIcon />
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDeleteDocuments([document])}>
-                Xóa
-                <DropdownMenuShortcut>
-                  <IconTrash />
-                </DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </>
-          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleDeleteDocument}>
+            Xóa
+            <DropdownMenuShortcut>
+              <IconTrash />
+            </DropdownMenuShortcut>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

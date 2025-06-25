@@ -1,7 +1,8 @@
 'use client'
 
 import { Table } from '@tanstack/react-table'
-import { Download, Trash2 } from 'lucide-react'
+import { TasksRoute } from '@/routes/_authenticated/tasks'
+import { Trash2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import {
   DataTableActionBar,
@@ -9,6 +10,7 @@ import {
   DataTableActionBarSelection,
 } from '@/components/data-table/data-table-action-bar'
 import { Task } from '@/features/tasks/types'
+import { useDeleteTasksConfirm } from '../hooks/use-delete-tasks-confirm'
 
 interface TasksTableActionBarProps {
   table: Table<Task>
@@ -16,6 +18,14 @@ interface TasksTableActionBarProps {
 
 export function TasksTableActionBar({ table }: TasksTableActionBarProps) {
   const rows = table.getFilteredSelectedRowModel().rows
+  const searchParams = TasksRoute.useSearch()
+  const currentType = searchParams.type || 'assigned'
+  const { onDeleteTasks } = useDeleteTasksConfirm(currentType)
+
+  const handleDeleteSelected = () => {
+    const selectedTasks = rows.map((row) => row.original)
+    onDeleteTasks(selectedTasks)
+  }
 
   return (
     <DataTableActionBar table={table} visible={rows.length > 0}>
@@ -25,11 +35,11 @@ export function TasksTableActionBar({ table }: TasksTableActionBarProps) {
         className='hidden data-[orientation=vertical]:h-5 sm:block'
       />
       <div className='flex items-center gap-1.5'>
-        <DataTableActionBarAction size='icon' tooltip='Export tasks'>
-          <Download />
-        </DataTableActionBarAction>
-
-        <DataTableActionBarAction size='icon' tooltip='Delete tasks'>
+        <DataTableActionBarAction
+          size='icon'
+          tooltip='Xóa nhiệm vụ'
+          onClick={handleDeleteSelected}
+        >
           <Trash2 />
         </DataTableActionBarAction>
       </div>

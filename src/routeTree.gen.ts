@@ -20,21 +20,19 @@ import { Route as errors403Import } from './routes/(errors)/403'
 import { Route as errors401Import } from './routes/(errors)/401'
 import { Route as authSignOutImport } from './routes/(auth)/sign-out'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks/route'
+import { Route as AuthenticatedFlightsRouteImport } from './routes/_authenticated/flights/route'
+import { Route as AuthenticatedDocumentsRouteImport } from './routes/_authenticated/documents/route'
+import { Route as AuthenticatedAttachmentsRouteImport } from './routes/_authenticated/attachments/route'
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
-import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
-import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedFlightsIndexImport } from './routes/_authenticated/flights/index'
 import { Route as AuthenticatedDocumentsIndexImport } from './routes/_authenticated/documents/index'
 import { Route as AuthenticatedAttachmentsIndexImport } from './routes/_authenticated/attachments/index'
-import { Route as AuthenticatedAppsIndexImport } from './routes/_authenticated/apps/index'
 import { Route as AuthenticatedTasksCreateImport } from './routes/_authenticated/tasks/create'
-import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_authenticated/settings/notifications'
-import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
-import { Route as AuthenticatedSettingsAccountImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedFlightsCreateImport } from './routes/_authenticated/flights/create'
 import { Route as AuthenticatedDocumentsCreateImport } from './routes/_authenticated/documents/create'
 import { Route as AuthenticatedAttachmentsSharedWithMeImport } from './routes/_authenticated/attachments/shared-with-me'
+import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$task-id/route'
 import { Route as AuthenticatedTasksTaskIdIndexImport } from './routes/_authenticated/tasks/$task-id/index'
 import { Route as AuthenticatedFlightsFlightIdIndexImport } from './routes/_authenticated/flights/$flight-id/index'
 import { Route as AuthenticatedDocumentsDocumentIdIndexImport } from './routes/_authenticated/documents/$document-id/index'
@@ -97,150 +95,133 @@ const authSignInRoute = authSignInImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
-  {
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any,
-)
-
-const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexImport.update({
-  id: '/tasks/',
-  path: '/tasks/',
+const AuthenticatedTasksRouteRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
-const AuthenticatedSettingsIndexRoute = AuthenticatedSettingsIndexImport.update(
-  {
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any,
-)
+const AuthenticatedFlightsRouteRoute = AuthenticatedFlightsRouteImport.update({
+  id: '/flights',
+  path: '/flights',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
-const AuthenticatedHelpCenterIndexRoute =
-  AuthenticatedHelpCenterIndexImport.update({
-    id: '/help-center/',
-    path: '/help-center/',
+const AuthenticatedDocumentsRouteRoute =
+  AuthenticatedDocumentsRouteImport.update({
+    id: '/documents',
+    path: '/documents',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
+const AuthenticatedAttachmentsRouteRoute =
+  AuthenticatedAttachmentsRouteImport.update({
+    id: '/attachments',
+    path: '/attachments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedTasksRouteRoute,
+} as any)
+
 const AuthenticatedFlightsIndexRoute = AuthenticatedFlightsIndexImport.update({
-  id: '/flights/',
-  path: '/flights/',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedFlightsRouteRoute,
 } as any)
 
 const AuthenticatedDocumentsIndexRoute =
   AuthenticatedDocumentsIndexImport.update({
-    id: '/documents/',
-    path: '/documents/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDocumentsRouteRoute,
   } as any)
 
 const AuthenticatedAttachmentsIndexRoute =
   AuthenticatedAttachmentsIndexImport.update({
-    id: '/attachments/',
-    path: '/attachments/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedAttachmentsRouteRoute,
   } as any)
-
-const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexImport.update({
-  id: '/apps/',
-  path: '/apps/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 
 const AuthenticatedTasksCreateRoute = AuthenticatedTasksCreateImport.update({
-  id: '/tasks/create',
-  path: '/tasks/create',
-  getParentRoute: () => AuthenticatedRouteRoute,
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => AuthenticatedTasksRouteRoute,
 } as any)
-
-const AuthenticatedSettingsNotificationsRoute =
-  AuthenticatedSettingsNotificationsImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-
-const AuthenticatedSettingsAppearanceRoute =
-  AuthenticatedSettingsAppearanceImport.update({
-    id: '/appearance',
-    path: '/appearance',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
-
-const AuthenticatedSettingsAccountRoute =
-  AuthenticatedSettingsAccountImport.update({
-    id: '/account',
-    path: '/account',
-    getParentRoute: () => AuthenticatedSettingsRouteRoute,
-  } as any)
 
 const AuthenticatedFlightsCreateRoute = AuthenticatedFlightsCreateImport.update(
   {
-    id: '/flights/create',
-    path: '/flights/create',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => AuthenticatedFlightsRouteRoute,
   } as any,
 )
 
 const AuthenticatedDocumentsCreateRoute =
   AuthenticatedDocumentsCreateImport.update({
-    id: '/documents/create',
-    path: '/documents/create',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => AuthenticatedDocumentsRouteRoute,
   } as any)
 
 const AuthenticatedAttachmentsSharedWithMeRoute =
   AuthenticatedAttachmentsSharedWithMeImport.update({
-    id: '/attachments/shared-with-me',
-    path: '/attachments/shared-with-me',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/shared-with-me',
+    path: '/shared-with-me',
+    getParentRoute: () => AuthenticatedAttachmentsRouteRoute,
+  } as any)
+
+const AuthenticatedTasksTaskIdRouteRoute =
+  AuthenticatedTasksTaskIdRouteImport.update({
+    id: '/$task-id',
+    path: '/$task-id',
+    getParentRoute: () => AuthenticatedTasksRouteRoute,
   } as any)
 
 const AuthenticatedTasksTaskIdIndexRoute =
   AuthenticatedTasksTaskIdIndexImport.update({
-    id: '/tasks/$task-id/',
-    path: '/tasks/$task-id/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedTasksTaskIdRouteRoute,
   } as any)
 
 const AuthenticatedFlightsFlightIdIndexRoute =
   AuthenticatedFlightsFlightIdIndexImport.update({
-    id: '/flights/$flight-id/',
-    path: '/flights/$flight-id/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/$flight-id/',
+    path: '/$flight-id/',
+    getParentRoute: () => AuthenticatedFlightsRouteRoute,
   } as any)
 
 const AuthenticatedDocumentsDocumentIdIndexRoute =
   AuthenticatedDocumentsDocumentIdIndexImport.update({
-    id: '/documents/$document-id/',
-    path: '/documents/$document-id/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/$document-id/',
+    path: '/$document-id/',
+    getParentRoute: () => AuthenticatedDocumentsRouteRoute,
   } as any)
 
 const AuthenticatedTasksTaskIdEditRoute =
   AuthenticatedTasksTaskIdEditImport.update({
-    id: '/tasks/$task-id/edit',
-    path: '/tasks/$task-id/edit',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => AuthenticatedTasksTaskIdRouteRoute,
   } as any)
 
 const AuthenticatedFlightsFlightIdEditRoute =
   AuthenticatedFlightsFlightIdEditImport.update({
-    id: '/flights/$flight-id/edit',
-    path: '/flights/$flight-id/edit',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/$flight-id/edit',
+    path: '/$flight-id/edit',
+    getParentRoute: () => AuthenticatedFlightsRouteRoute,
   } as any)
 
 const AuthenticatedDocumentsDocumentIdEditRoute =
   AuthenticatedDocumentsDocumentIdEditImport.update({
-    id: '/documents/$document-id/edit',
-    path: '/documents/$document-id/edit',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/$document-id/edit',
+    path: '/$document-id/edit',
+    getParentRoute: () => AuthenticatedDocumentsRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -254,11 +235,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+    '/_authenticated/attachments': {
+      id: '/_authenticated/attachments'
+      path: '/attachments'
+      fullPath: '/attachments'
+      preLoaderRoute: typeof AuthenticatedAttachmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/documents': {
+      id: '/_authenticated/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof AuthenticatedDocumentsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/flights': {
+      id: '/_authenticated/flights'
+      path: '/flights'
+      fullPath: '/flights'
+      preLoaderRoute: typeof AuthenticatedFlightsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteImport
     }
     '/(auth)/sign-in': {
@@ -317,216 +319,228 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/tasks/$task-id': {
+      id: '/_authenticated/tasks/$task-id'
+      path: '/$task-id'
+      fullPath: '/tasks/$task-id'
+      preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
+      parentRoute: typeof AuthenticatedTasksRouteImport
+    }
     '/_authenticated/attachments/shared-with-me': {
       id: '/_authenticated/attachments/shared-with-me'
-      path: '/attachments/shared-with-me'
+      path: '/shared-with-me'
       fullPath: '/attachments/shared-with-me'
       preLoaderRoute: typeof AuthenticatedAttachmentsSharedWithMeImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedAttachmentsRouteImport
     }
     '/_authenticated/documents/create': {
       id: '/_authenticated/documents/create'
-      path: '/documents/create'
+      path: '/create'
       fullPath: '/documents/create'
       preLoaderRoute: typeof AuthenticatedDocumentsCreateImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedDocumentsRouteImport
     }
     '/_authenticated/flights/create': {
       id: '/_authenticated/flights/create'
-      path: '/flights/create'
+      path: '/create'
       fullPath: '/flights/create'
       preLoaderRoute: typeof AuthenticatedFlightsCreateImport
-      parentRoute: typeof AuthenticatedRouteImport
-    }
-    '/_authenticated/settings/account': {
-      id: '/_authenticated/settings/account'
-      path: '/account'
-      fullPath: '/settings/account'
-      preLoaderRoute: typeof AuthenticatedSettingsAccountImport
-      parentRoute: typeof AuthenticatedSettingsRouteImport
-    }
-    '/_authenticated/settings/appearance': {
-      id: '/_authenticated/settings/appearance'
-      path: '/appearance'
-      fullPath: '/settings/appearance'
-      preLoaderRoute: typeof AuthenticatedSettingsAppearanceImport
-      parentRoute: typeof AuthenticatedSettingsRouteImport
-    }
-    '/_authenticated/settings/notifications': {
-      id: '/_authenticated/settings/notifications'
-      path: '/notifications'
-      fullPath: '/settings/notifications'
-      preLoaderRoute: typeof AuthenticatedSettingsNotificationsImport
-      parentRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedFlightsRouteImport
     }
     '/_authenticated/tasks/create': {
       id: '/_authenticated/tasks/create'
-      path: '/tasks/create'
+      path: '/create'
       fullPath: '/tasks/create'
       preLoaderRoute: typeof AuthenticatedTasksCreateImport
-      parentRoute: typeof AuthenticatedRouteImport
-    }
-    '/_authenticated/apps/': {
-      id: '/_authenticated/apps/'
-      path: '/apps'
-      fullPath: '/apps'
-      preLoaderRoute: typeof AuthenticatedAppsIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedTasksRouteImport
     }
     '/_authenticated/attachments/': {
       id: '/_authenticated/attachments/'
-      path: '/attachments'
-      fullPath: '/attachments'
+      path: '/'
+      fullPath: '/attachments/'
       preLoaderRoute: typeof AuthenticatedAttachmentsIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedAttachmentsRouteImport
     }
     '/_authenticated/documents/': {
       id: '/_authenticated/documents/'
-      path: '/documents'
-      fullPath: '/documents'
+      path: '/'
+      fullPath: '/documents/'
       preLoaderRoute: typeof AuthenticatedDocumentsIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedDocumentsRouteImport
     }
     '/_authenticated/flights/': {
       id: '/_authenticated/flights/'
-      path: '/flights'
-      fullPath: '/flights'
-      preLoaderRoute: typeof AuthenticatedFlightsIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
-    }
-    '/_authenticated/help-center/': {
-      id: '/_authenticated/help-center/'
-      path: '/help-center'
-      fullPath: '/help-center'
-      preLoaderRoute: typeof AuthenticatedHelpCenterIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
-    }
-    '/_authenticated/settings/': {
-      id: '/_authenticated/settings/'
       path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof AuthenticatedSettingsIndexImport
-      parentRoute: typeof AuthenticatedSettingsRouteImport
+      fullPath: '/flights/'
+      preLoaderRoute: typeof AuthenticatedFlightsIndexImport
+      parentRoute: typeof AuthenticatedFlightsRouteImport
     }
     '/_authenticated/tasks/': {
       id: '/_authenticated/tasks/'
-      path: '/tasks'
-      fullPath: '/tasks'
+      path: '/'
+      fullPath: '/tasks/'
       preLoaderRoute: typeof AuthenticatedTasksIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedTasksRouteImport
     }
     '/_authenticated/documents/$document-id/edit': {
       id: '/_authenticated/documents/$document-id/edit'
-      path: '/documents/$document-id/edit'
+      path: '/$document-id/edit'
       fullPath: '/documents/$document-id/edit'
       preLoaderRoute: typeof AuthenticatedDocumentsDocumentIdEditImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedDocumentsRouteImport
     }
     '/_authenticated/flights/$flight-id/edit': {
       id: '/_authenticated/flights/$flight-id/edit'
-      path: '/flights/$flight-id/edit'
+      path: '/$flight-id/edit'
       fullPath: '/flights/$flight-id/edit'
       preLoaderRoute: typeof AuthenticatedFlightsFlightIdEditImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedFlightsRouteImport
     }
     '/_authenticated/tasks/$task-id/edit': {
       id: '/_authenticated/tasks/$task-id/edit'
-      path: '/tasks/$task-id/edit'
+      path: '/edit'
       fullPath: '/tasks/$task-id/edit'
       preLoaderRoute: typeof AuthenticatedTasksTaskIdEditImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedTasksTaskIdRouteImport
     }
     '/_authenticated/documents/$document-id/': {
       id: '/_authenticated/documents/$document-id/'
-      path: '/documents/$document-id'
+      path: '/$document-id'
       fullPath: '/documents/$document-id'
       preLoaderRoute: typeof AuthenticatedDocumentsDocumentIdIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedDocumentsRouteImport
     }
     '/_authenticated/flights/$flight-id/': {
       id: '/_authenticated/flights/$flight-id/'
-      path: '/flights/$flight-id'
+      path: '/$flight-id'
       fullPath: '/flights/$flight-id'
       preLoaderRoute: typeof AuthenticatedFlightsFlightIdIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedFlightsRouteImport
     }
     '/_authenticated/tasks/$task-id/': {
       id: '/_authenticated/tasks/$task-id/'
-      path: '/tasks/$task-id'
-      fullPath: '/tasks/$task-id'
+      path: '/'
+      fullPath: '/tasks/$task-id/'
       preLoaderRoute: typeof AuthenticatedTasksTaskIdIndexImport
-      parentRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof AuthenticatedTasksTaskIdRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthenticatedSettingsRouteRouteChildren {
-  AuthenticatedSettingsAccountRoute: typeof AuthenticatedSettingsAccountRoute
-  AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
-  AuthenticatedSettingsNotificationsRoute: typeof AuthenticatedSettingsNotificationsRoute
-  AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
+interface AuthenticatedAttachmentsRouteRouteChildren {
+  AuthenticatedAttachmentsSharedWithMeRoute: typeof AuthenticatedAttachmentsSharedWithMeRoute
+  AuthenticatedAttachmentsIndexRoute: typeof AuthenticatedAttachmentsIndexRoute
 }
 
-const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteChildren =
+const AuthenticatedAttachmentsRouteRouteChildren: AuthenticatedAttachmentsRouteRouteChildren =
   {
-    AuthenticatedSettingsAccountRoute: AuthenticatedSettingsAccountRoute,
-    AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
-    AuthenticatedSettingsNotificationsRoute:
-      AuthenticatedSettingsNotificationsRoute,
-    AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
+    AuthenticatedAttachmentsSharedWithMeRoute:
+      AuthenticatedAttachmentsSharedWithMeRoute,
+    AuthenticatedAttachmentsIndexRoute: AuthenticatedAttachmentsIndexRoute,
   }
 
-const AuthenticatedSettingsRouteRouteWithChildren =
-  AuthenticatedSettingsRouteRoute._addFileChildren(
-    AuthenticatedSettingsRouteRouteChildren,
+const AuthenticatedAttachmentsRouteRouteWithChildren =
+  AuthenticatedAttachmentsRouteRoute._addFileChildren(
+    AuthenticatedAttachmentsRouteRouteChildren,
   )
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
-  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedAttachmentsSharedWithMeRoute: typeof AuthenticatedAttachmentsSharedWithMeRoute
+interface AuthenticatedDocumentsRouteRouteChildren {
   AuthenticatedDocumentsCreateRoute: typeof AuthenticatedDocumentsCreateRoute
-  AuthenticatedFlightsCreateRoute: typeof AuthenticatedFlightsCreateRoute
-  AuthenticatedTasksCreateRoute: typeof AuthenticatedTasksCreateRoute
-  AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
-  AuthenticatedAttachmentsIndexRoute: typeof AuthenticatedAttachmentsIndexRoute
   AuthenticatedDocumentsIndexRoute: typeof AuthenticatedDocumentsIndexRoute
-  AuthenticatedFlightsIndexRoute: typeof AuthenticatedFlightsIndexRoute
-  AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedDocumentsDocumentIdEditRoute: typeof AuthenticatedDocumentsDocumentIdEditRoute
-  AuthenticatedFlightsFlightIdEditRoute: typeof AuthenticatedFlightsFlightIdEditRoute
-  AuthenticatedTasksTaskIdEditRoute: typeof AuthenticatedTasksTaskIdEditRoute
   AuthenticatedDocumentsDocumentIdIndexRoute: typeof AuthenticatedDocumentsDocumentIdIndexRoute
+}
+
+const AuthenticatedDocumentsRouteRouteChildren: AuthenticatedDocumentsRouteRouteChildren =
+  {
+    AuthenticatedDocumentsCreateRoute: AuthenticatedDocumentsCreateRoute,
+    AuthenticatedDocumentsIndexRoute: AuthenticatedDocumentsIndexRoute,
+    AuthenticatedDocumentsDocumentIdEditRoute:
+      AuthenticatedDocumentsDocumentIdEditRoute,
+    AuthenticatedDocumentsDocumentIdIndexRoute:
+      AuthenticatedDocumentsDocumentIdIndexRoute,
+  }
+
+const AuthenticatedDocumentsRouteRouteWithChildren =
+  AuthenticatedDocumentsRouteRoute._addFileChildren(
+    AuthenticatedDocumentsRouteRouteChildren,
+  )
+
+interface AuthenticatedFlightsRouteRouteChildren {
+  AuthenticatedFlightsCreateRoute: typeof AuthenticatedFlightsCreateRoute
+  AuthenticatedFlightsIndexRoute: typeof AuthenticatedFlightsIndexRoute
+  AuthenticatedFlightsFlightIdEditRoute: typeof AuthenticatedFlightsFlightIdEditRoute
   AuthenticatedFlightsFlightIdIndexRoute: typeof AuthenticatedFlightsFlightIdIndexRoute
+}
+
+const AuthenticatedFlightsRouteRouteChildren: AuthenticatedFlightsRouteRouteChildren =
+  {
+    AuthenticatedFlightsCreateRoute: AuthenticatedFlightsCreateRoute,
+    AuthenticatedFlightsIndexRoute: AuthenticatedFlightsIndexRoute,
+    AuthenticatedFlightsFlightIdEditRoute:
+      AuthenticatedFlightsFlightIdEditRoute,
+    AuthenticatedFlightsFlightIdIndexRoute:
+      AuthenticatedFlightsFlightIdIndexRoute,
+  }
+
+const AuthenticatedFlightsRouteRouteWithChildren =
+  AuthenticatedFlightsRouteRoute._addFileChildren(
+    AuthenticatedFlightsRouteRouteChildren,
+  )
+
+interface AuthenticatedTasksTaskIdRouteRouteChildren {
+  AuthenticatedTasksTaskIdEditRoute: typeof AuthenticatedTasksTaskIdEditRoute
   AuthenticatedTasksTaskIdIndexRoute: typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
+const AuthenticatedTasksTaskIdRouteRouteChildren: AuthenticatedTasksTaskIdRouteRouteChildren =
+  {
+    AuthenticatedTasksTaskIdEditRoute: AuthenticatedTasksTaskIdEditRoute,
+    AuthenticatedTasksTaskIdIndexRoute: AuthenticatedTasksTaskIdIndexRoute,
+  }
+
+const AuthenticatedTasksTaskIdRouteRouteWithChildren =
+  AuthenticatedTasksTaskIdRouteRoute._addFileChildren(
+    AuthenticatedTasksTaskIdRouteRouteChildren,
+  )
+
+interface AuthenticatedTasksRouteRouteChildren {
+  AuthenticatedTasksTaskIdRouteRoute: typeof AuthenticatedTasksTaskIdRouteRouteWithChildren
+  AuthenticatedTasksCreateRoute: typeof AuthenticatedTasksCreateRoute
+  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
+}
+
+const AuthenticatedTasksRouteRouteChildren: AuthenticatedTasksRouteRouteChildren =
+  {
+    AuthenticatedTasksTaskIdRouteRoute:
+      AuthenticatedTasksTaskIdRouteRouteWithChildren,
+    AuthenticatedTasksCreateRoute: AuthenticatedTasksCreateRoute,
+    AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
+  }
+
+const AuthenticatedTasksRouteRouteWithChildren =
+  AuthenticatedTasksRouteRoute._addFileChildren(
+    AuthenticatedTasksRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAttachmentsRouteRoute: typeof AuthenticatedAttachmentsRouteRouteWithChildren
+  AuthenticatedDocumentsRouteRoute: typeof AuthenticatedDocumentsRouteRouteWithChildren
+  AuthenticatedFlightsRouteRoute: typeof AuthenticatedFlightsRouteRouteWithChildren
+  AuthenticatedTasksRouteRoute: typeof AuthenticatedTasksRouteRouteWithChildren
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+}
+
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedAttachmentsRouteRoute:
+    AuthenticatedAttachmentsRouteRouteWithChildren,
+  AuthenticatedDocumentsRouteRoute:
+    AuthenticatedDocumentsRouteRouteWithChildren,
+  AuthenticatedFlightsRouteRoute: AuthenticatedFlightsRouteRouteWithChildren,
+  AuthenticatedTasksRouteRoute: AuthenticatedTasksRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedAttachmentsSharedWithMeRoute:
-    AuthenticatedAttachmentsSharedWithMeRoute,
-  AuthenticatedDocumentsCreateRoute: AuthenticatedDocumentsCreateRoute,
-  AuthenticatedFlightsCreateRoute: AuthenticatedFlightsCreateRoute,
-  AuthenticatedTasksCreateRoute: AuthenticatedTasksCreateRoute,
-  AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
-  AuthenticatedAttachmentsIndexRoute: AuthenticatedAttachmentsIndexRoute,
-  AuthenticatedDocumentsIndexRoute: AuthenticatedDocumentsIndexRoute,
-  AuthenticatedFlightsIndexRoute: AuthenticatedFlightsIndexRoute,
-  AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
-  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
-  AuthenticatedDocumentsDocumentIdEditRoute:
-    AuthenticatedDocumentsDocumentIdEditRoute,
-  AuthenticatedFlightsFlightIdEditRoute: AuthenticatedFlightsFlightIdEditRoute,
-  AuthenticatedTasksTaskIdEditRoute: AuthenticatedTasksTaskIdEditRoute,
-  AuthenticatedDocumentsDocumentIdIndexRoute:
-    AuthenticatedDocumentsDocumentIdIndexRoute,
-  AuthenticatedFlightsFlightIdIndexRoute:
-    AuthenticatedFlightsFlightIdIndexRoute,
-  AuthenticatedTasksTaskIdIndexRoute: AuthenticatedTasksTaskIdIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -534,7 +548,10 @@ const AuthenticatedRouteRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
-  '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/attachments': typeof AuthenticatedAttachmentsRouteRouteWithChildren
+  '/documents': typeof AuthenticatedDocumentsRouteRouteWithChildren
+  '/flights': typeof AuthenticatedFlightsRouteRouteWithChildren
+  '/tasks': typeof AuthenticatedTasksRouteRouteWithChildren
   '/sign-in': typeof authSignInRoute
   '/sign-out': typeof authSignOutRoute
   '/401': typeof errors401Route
@@ -543,26 +560,21 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/tasks/$task-id': typeof AuthenticatedTasksTaskIdRouteRouteWithChildren
   '/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/flights/create': typeof AuthenticatedFlightsCreateRoute
-  '/settings/account': typeof AuthenticatedSettingsAccountRoute
-  '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
-  '/attachments': typeof AuthenticatedAttachmentsIndexRoute
-  '/documents': typeof AuthenticatedDocumentsIndexRoute
-  '/flights': typeof AuthenticatedFlightsIndexRoute
-  '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/attachments/': typeof AuthenticatedAttachmentsIndexRoute
+  '/documents/': typeof AuthenticatedDocumentsIndexRoute
+  '/flights/': typeof AuthenticatedFlightsIndexRoute
+  '/tasks/': typeof AuthenticatedTasksIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/flights/$flight-id/edit': typeof AuthenticatedFlightsFlightIdEditRoute
   '/tasks/$task-id/edit': typeof AuthenticatedTasksTaskIdEditRoute
   '/documents/$document-id': typeof AuthenticatedDocumentsDocumentIdIndexRoute
   '/flights/$flight-id': typeof AuthenticatedFlightsFlightIdIndexRoute
-  '/tasks/$task-id': typeof AuthenticatedTasksTaskIdIndexRoute
+  '/tasks/$task-id/': typeof AuthenticatedTasksTaskIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -577,16 +589,10 @@ export interface FileRoutesByTo {
   '/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/flights/create': typeof AuthenticatedFlightsCreateRoute
-  '/settings/account': typeof AuthenticatedSettingsAccountRoute
-  '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/tasks/create': typeof AuthenticatedTasksCreateRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
   '/attachments': typeof AuthenticatedAttachmentsIndexRoute
   '/documents': typeof AuthenticatedDocumentsIndexRoute
   '/flights': typeof AuthenticatedFlightsIndexRoute
-  '/help-center': typeof AuthenticatedHelpCenterIndexRoute
-  '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/flights/$flight-id/edit': typeof AuthenticatedFlightsFlightIdEditRoute
@@ -599,7 +605,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/attachments': typeof AuthenticatedAttachmentsRouteRouteWithChildren
+  '/_authenticated/documents': typeof AuthenticatedDocumentsRouteRouteWithChildren
+  '/_authenticated/flights': typeof AuthenticatedFlightsRouteRouteWithChildren
+  '/_authenticated/tasks': typeof AuthenticatedTasksRouteRouteWithChildren
   '/(auth)/sign-in': typeof authSignInRoute
   '/(auth)/sign-out': typeof authSignOutRoute
   '/(errors)/401': typeof errors401Route
@@ -608,19 +617,14 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/tasks/$task-id': typeof AuthenticatedTasksTaskIdRouteRouteWithChildren
   '/_authenticated/attachments/shared-with-me': typeof AuthenticatedAttachmentsSharedWithMeRoute
   '/_authenticated/documents/create': typeof AuthenticatedDocumentsCreateRoute
   '/_authenticated/flights/create': typeof AuthenticatedFlightsCreateRoute
-  '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
-  '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
-  '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/tasks/create': typeof AuthenticatedTasksCreateRoute
-  '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/attachments/': typeof AuthenticatedAttachmentsIndexRoute
   '/_authenticated/documents/': typeof AuthenticatedDocumentsIndexRoute
   '/_authenticated/flights/': typeof AuthenticatedFlightsIndexRoute
-  '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
-  '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/documents/$document-id/edit': typeof AuthenticatedDocumentsDocumentIdEditRoute
   '/_authenticated/flights/$flight-id/edit': typeof AuthenticatedFlightsFlightIdEditRoute
@@ -634,7 +638,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
-    | '/settings'
+    | '/attachments'
+    | '/documents'
+    | '/flights'
+    | '/tasks'
     | '/sign-in'
     | '/sign-out'
     | '/401'
@@ -643,26 +650,21 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/tasks/$task-id'
     | '/attachments/shared-with-me'
     | '/documents/create'
     | '/flights/create'
-    | '/settings/account'
-    | '/settings/appearance'
-    | '/settings/notifications'
     | '/tasks/create'
-    | '/apps'
-    | '/attachments'
-    | '/documents'
-    | '/flights'
-    | '/help-center'
-    | '/settings/'
-    | '/tasks'
+    | '/attachments/'
+    | '/documents/'
+    | '/flights/'
+    | '/tasks/'
     | '/documents/$document-id/edit'
     | '/flights/$flight-id/edit'
     | '/tasks/$task-id/edit'
     | '/documents/$document-id'
     | '/flights/$flight-id'
-    | '/tasks/$task-id'
+    | '/tasks/$task-id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/sign-in'
@@ -676,16 +678,10 @@ export interface FileRouteTypes {
     | '/attachments/shared-with-me'
     | '/documents/create'
     | '/flights/create'
-    | '/settings/account'
-    | '/settings/appearance'
-    | '/settings/notifications'
     | '/tasks/create'
-    | '/apps'
     | '/attachments'
     | '/documents'
     | '/flights'
-    | '/help-center'
-    | '/settings'
     | '/tasks'
     | '/documents/$document-id/edit'
     | '/flights/$flight-id/edit'
@@ -696,7 +692,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
-    | '/_authenticated/settings'
+    | '/_authenticated/attachments'
+    | '/_authenticated/documents'
+    | '/_authenticated/flights'
+    | '/_authenticated/tasks'
     | '/(auth)/sign-in'
     | '/(auth)/sign-out'
     | '/(errors)/401'
@@ -705,19 +704,14 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/tasks/$task-id'
     | '/_authenticated/attachments/shared-with-me'
     | '/_authenticated/documents/create'
     | '/_authenticated/flights/create'
-    | '/_authenticated/settings/account'
-    | '/_authenticated/settings/appearance'
-    | '/_authenticated/settings/notifications'
     | '/_authenticated/tasks/create'
-    | '/_authenticated/apps/'
     | '/_authenticated/attachments/'
     | '/_authenticated/documents/'
     | '/_authenticated/flights/'
-    | '/_authenticated/help-center/'
-    | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/documents/$document-id/edit'
     | '/_authenticated/flights/$flight-id/edit'
@@ -773,34 +767,48 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
-        "/_authenticated/settings",
-        "/_authenticated/",
-        "/_authenticated/attachments/shared-with-me",
-        "/_authenticated/documents/create",
-        "/_authenticated/flights/create",
-        "/_authenticated/tasks/create",
-        "/_authenticated/apps/",
-        "/_authenticated/attachments/",
-        "/_authenticated/documents/",
-        "/_authenticated/flights/",
-        "/_authenticated/help-center/",
-        "/_authenticated/tasks/",
-        "/_authenticated/documents/$document-id/edit",
-        "/_authenticated/flights/$flight-id/edit",
-        "/_authenticated/tasks/$task-id/edit",
-        "/_authenticated/documents/$document-id/",
-        "/_authenticated/flights/$flight-id/",
-        "/_authenticated/tasks/$task-id/"
+        "/_authenticated/attachments",
+        "/_authenticated/documents",
+        "/_authenticated/flights",
+        "/_authenticated/tasks",
+        "/_authenticated/"
       ]
     },
-    "/_authenticated/settings": {
-      "filePath": "_authenticated/settings/route.tsx",
+    "/_authenticated/attachments": {
+      "filePath": "_authenticated/attachments/route.tsx",
       "parent": "/_authenticated",
       "children": [
-        "/_authenticated/settings/account",
-        "/_authenticated/settings/appearance",
-        "/_authenticated/settings/notifications",
-        "/_authenticated/settings/"
+        "/_authenticated/attachments/shared-with-me",
+        "/_authenticated/attachments/"
+      ]
+    },
+    "/_authenticated/documents": {
+      "filePath": "_authenticated/documents/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/documents/create",
+        "/_authenticated/documents/",
+        "/_authenticated/documents/$document-id/edit",
+        "/_authenticated/documents/$document-id/"
+      ]
+    },
+    "/_authenticated/flights": {
+      "filePath": "_authenticated/flights/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/flights/create",
+        "/_authenticated/flights/",
+        "/_authenticated/flights/$flight-id/edit",
+        "/_authenticated/flights/$flight-id/"
+      ]
+    },
+    "/_authenticated/tasks": {
+      "filePath": "_authenticated/tasks/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/tasks/$task-id",
+        "/_authenticated/tasks/create",
+        "/_authenticated/tasks/"
       ]
     },
     "/(auth)/sign-in": {
@@ -828,85 +836,69 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/index.tsx",
       "parent": "/_authenticated"
     },
+    "/_authenticated/tasks/$task-id": {
+      "filePath": "_authenticated/tasks/$task-id/route.tsx",
+      "parent": "/_authenticated/tasks",
+      "children": [
+        "/_authenticated/tasks/$task-id/edit",
+        "/_authenticated/tasks/$task-id/"
+      ]
+    },
     "/_authenticated/attachments/shared-with-me": {
       "filePath": "_authenticated/attachments/shared-with-me.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/attachments"
     },
     "/_authenticated/documents/create": {
       "filePath": "_authenticated/documents/create.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/documents"
     },
     "/_authenticated/flights/create": {
       "filePath": "_authenticated/flights/create.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/settings/account": {
-      "filePath": "_authenticated/settings/account.tsx",
-      "parent": "/_authenticated/settings"
-    },
-    "/_authenticated/settings/appearance": {
-      "filePath": "_authenticated/settings/appearance.tsx",
-      "parent": "/_authenticated/settings"
-    },
-    "/_authenticated/settings/notifications": {
-      "filePath": "_authenticated/settings/notifications.tsx",
-      "parent": "/_authenticated/settings"
+      "parent": "/_authenticated/flights"
     },
     "/_authenticated/tasks/create": {
       "filePath": "_authenticated/tasks/create.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/apps/": {
-      "filePath": "_authenticated/apps/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/tasks"
     },
     "/_authenticated/attachments/": {
       "filePath": "_authenticated/attachments/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/attachments"
     },
     "/_authenticated/documents/": {
       "filePath": "_authenticated/documents/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/documents"
     },
     "/_authenticated/flights/": {
-      "filePath": "_authenticated/flights/index.ts",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/help-center/": {
-      "filePath": "_authenticated/help-center/index.tsx",
-      "parent": "/_authenticated"
-    },
-    "/_authenticated/settings/": {
-      "filePath": "_authenticated/settings/index.tsx",
-      "parent": "/_authenticated/settings"
+      "filePath": "_authenticated/flights/index.tsx",
+      "parent": "/_authenticated/flights"
     },
     "/_authenticated/tasks/": {
       "filePath": "_authenticated/tasks/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/tasks"
     },
     "/_authenticated/documents/$document-id/edit": {
       "filePath": "_authenticated/documents/$document-id/edit.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/documents"
     },
     "/_authenticated/flights/$flight-id/edit": {
       "filePath": "_authenticated/flights/$flight-id/edit.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/flights"
     },
     "/_authenticated/tasks/$task-id/edit": {
       "filePath": "_authenticated/tasks/$task-id/edit.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/tasks/$task-id"
     },
     "/_authenticated/documents/$document-id/": {
       "filePath": "_authenticated/documents/$document-id/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/documents"
     },
     "/_authenticated/flights/$flight-id/": {
       "filePath": "_authenticated/flights/$flight-id/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/flights"
     },
     "/_authenticated/tasks/$task-id/": {
       "filePath": "_authenticated/tasks/$task-id/index.tsx",
-      "parent": "/_authenticated"
+      "parent": "/_authenticated/tasks/$task-id"
     }
   }
 }

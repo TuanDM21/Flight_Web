@@ -3,14 +3,20 @@ import { format } from 'date-fns'
 import { Link } from '@tanstack/react-router'
 import { ColumnDef } from '@tanstack/react-table'
 import { dateFormatPatterns } from '@/config/date'
-import { Calendar, FileType, ScrollText, IdCard, Clock } from 'lucide-react'
+import { Calendar, Clock, FileType, IdCard, ScrollText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header'
-import { DocumentRowActions } from '../components/document-row-actions'
-import { DocumentItem } from '../types'
+import { DocumentItem } from '@/features/documents/types'
+import { TaskDocumentRowActions } from '../components/task-document-row-actions'
 
-export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
+interface UseTaskDocumentColumnsProps {
+  taskId: number
+}
+
+export function useTaskDocumentColumns({
+  taskId,
+}: UseTaskDocumentColumnsProps): ColumnDef<DocumentItem>[] {
   return useMemo(
     () => [
       {
@@ -129,6 +135,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           variant: 'date',
           icon: Calendar,
         },
+        enableColumnFilter: true,
       },
       {
         id: 'updatedAt',
@@ -150,6 +157,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           variant: 'date',
           icon: Clock,
         },
+        enableColumnFilter: true,
       },
       {
         id: 'actions',
@@ -157,7 +165,7 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
           <DataTableColumnHeader column={column} title='Hành động' />
         ),
         cell: ({ row }) => {
-          return <DocumentRowActions row={row} />
+          return <TaskDocumentRowActions row={row} taskId={taskId} />
         },
         size: 20,
         meta: {
@@ -165,6 +173,6 @@ export function useDocumentColumns(): ColumnDef<DocumentItem>[] {
         },
       },
     ],
-    []
+    [taskId]
   )
 }

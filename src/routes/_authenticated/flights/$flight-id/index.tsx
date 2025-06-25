@@ -6,10 +6,16 @@ import { getFlightDetailQueryOptions } from '@/features/flights/hooks/use-flight
 export const Route = createFileRoute('/_authenticated/flights/$flight-id/')({
   component: FlightDetailPage,
   pendingComponent: PageDetailSkeleton,
-  loader: ({ context: { queryClient }, params: { 'flight-id': flightId } }) => {
-    return queryClient.ensureQueryData(
+  loader: async ({
+    context: { queryClient },
+    params: { 'flight-id': flightId },
+  }) => {
+    await queryClient.ensureQueryData(
       getFlightDetailQueryOptions(Number(flightId))
     )
+    return {
+      crumb: `Chuyến bay #${flightId}`,
+    }
   },
 })
 

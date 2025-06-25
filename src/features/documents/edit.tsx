@@ -43,7 +43,7 @@ import { SelectAttachmentsDialog } from './components/select-attachments-dialog'
 import { getDocumentDetailQueryOptions } from './hooks/use-document-detail'
 import { useUnlinkAttachmentsFromDocument } from './hooks/use-unlink-attachments-from-document'
 import { useUpdateDocument } from './hooks/use-update-document'
-import { createDocumentSchema } from './schema'
+import { editDocumentSchema } from './schema'
 import { CreateDocumentForm, DocumentAttachment } from './types'
 
 export default function EditDocumentPage() {
@@ -60,7 +60,7 @@ export default function EditDocumentPage() {
   const selectAttachmentsDialog = AppDialog.useDialog()
 
   const form = useForm<CreateDocumentForm>({
-    resolver: zodResolver(createDocumentSchema),
+    resolver: zodResolver(editDocumentSchema),
     defaultValues: async () => {
       const files =
         (currentDocument.attachments?.length ?? 0) > 0
@@ -153,29 +153,38 @@ export default function EditDocumentPage() {
 
   const handleSelectAttachments = React.useCallback(
     async (attachments: Required<DocumentAttachment>[]) => {
-      selectAttachmentsDialog.close()
-      const selectedFiles =
-        (attachments.length ?? 0) > 0
-          ? await Promise.all(
-              attachments.map(async (att) => {
-                const file = await convertToFile(att)
-                Object.assign(file, {
-                  __uploaded: true,
-                })
-                return file
-              }) ?? []
-            )
-          : []
-      const allSelectedFiles = [
-        ...(form.getValues('files') ?? []),
-        ...selectedFiles,
-      ]
-      const allSelectedAttachments = [
-        ...(form.getValues('attachments') ?? []),
-        ...attachments,
-      ]
-      form.setValue('files', allSelectedFiles)
-      form.setValue('attachments', allSelectedAttachments)
+      const selectAttachmentsPromise = (async () => {
+        selectAttachmentsDialog.close()
+        const selectedFiles =
+          (attachments.length ?? 0) > 0
+            ? await Promise.all(
+                attachments.map(async (att) => {
+                  const file = await convertToFile(att)
+                  Object.assign(file, {
+                    __uploaded: true,
+                  })
+                  return file
+                }) ?? []
+              )
+            : []
+        const allSelectedFiles = [
+          ...(form.getValues('files') ?? []),
+          ...selectedFiles,
+        ]
+        const allSelectedAttachments = [
+          ...(form.getValues('attachments') ?? []),
+          ...attachments,
+        ]
+        form.setValue('files', allSelectedFiles)
+        form.setValue('attachments', allSelectedAttachments)
+        return attachments.length
+      })()
+
+      toast.promise(selectAttachmentsPromise, {
+        loading: 'Đang thêm tệp đính kèm...',
+        success: (count) => `Đã thêm ${count} tệp đính kèm thành công!`,
+        error: 'Không thể thêm tệp đính kèm',
+      })
     },
     [form, selectAttachmentsDialog]
   )

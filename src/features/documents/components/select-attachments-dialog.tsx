@@ -6,7 +6,6 @@ import { AppDialogInstance } from '@/hooks/use-dialog-instance'
 import { Button } from '@/components/ui/button'
 import {
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -87,9 +86,6 @@ function SelectAttachmentsContent({
     <>
       <DialogHeader className='text-left'>
         <DialogTitle>Chọn tệp đính kèm</DialogTitle>
-        <DialogDescription>
-          Chọn một hoặc nhiều tệp đính kèm từ danh sách bên dưới
-        </DialogDescription>
       </DialogHeader>
       <div className='flex-1 overflow-auto'>
         {noAttachments ? (
@@ -129,9 +125,6 @@ export function SelectAttachmentsDialog({
             <div className='flex h-full flex-col'>
               <DialogHeader className='text-left'>
                 <DialogTitle>Chọn tệp đính kèm</DialogTitle>
-                <DialogDescription>
-                  Chọn một hoặc nhiều tệp đính kèm từ danh sách bên dưới
-                </DialogDescription>
               </DialogHeader>
               <div className='flex-1 overflow-auto'>
                 <DataTableSkeleton

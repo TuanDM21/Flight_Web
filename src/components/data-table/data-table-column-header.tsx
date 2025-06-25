@@ -50,24 +50,24 @@ export function DataTableColumnHeader<TData, TValue>({
         {column.getCanSort() && (
           <>
             <DropdownMenuCheckboxItem
-              className='[&_svg]:text-muted-foreground relative pr-8 pl-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
+              className='[&_svg]:text-muted-foreground relative px-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
               checked={column.getIsSorted() === 'asc'}
               onClick={() => {
                 column.toggleSorting(false)
               }}
             >
               <ChevronUp />
-              Asc
+              Tăng dần
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-              className='[&_svg]:text-muted-foreground relative pr-8 pl-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
+              className='[&_svg]:text-muted-foreground relative px-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
               checked={column.getIsSorted() === 'desc'}
               onClick={() => {
                 column.toggleSorting(true)
               }}
             >
               <ChevronDown />
-              Desc
+              Giảm dần
             </DropdownMenuCheckboxItem>
             {column.getIsSorted() && (
               <DropdownMenuItem
@@ -77,21 +77,21 @@ export function DataTableColumnHeader<TData, TValue>({
                 }}
               >
                 <X />
-                Reset
+                Đặt lại
               </DropdownMenuItem>
             )}
           </>
         )}
         {column.getCanHide() && (
           <DropdownMenuCheckboxItem
-            className='[&_svg]:text-muted-foreground relative pr-8 pl-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
+            className='[&_svg]:text-muted-foreground relative px-2 [&>span:first-child]:right-2 [&>span:first-child]:left-auto'
             checked={!column.getIsVisible()}
             onClick={() => {
               column.toggleVisibility(false)
             }}
           >
             <EyeOff />
-            Hide
+            Ẩn
           </DropdownMenuCheckboxItem>
         )}
       </DropdownMenuContent>

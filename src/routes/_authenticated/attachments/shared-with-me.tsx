@@ -7,8 +7,11 @@ export const Route = createFileRoute(
   '/_authenticated/attachments/shared-with-me'
 )({
   component: SharedWithMeAttachmentsPage,
-  loader: ({ context: { queryClient } }) => {
-    return queryClient.ensureQueryData(sharedWithMeAttachmentsQueryOptions())
+  loader: async ({ context: { queryClient } }) => {
+    await queryClient.ensureQueryData(sharedWithMeAttachmentsQueryOptions())
+    return {
+      crumb: 'Được chia sẻ',
+    }
   },
   pendingComponent: MyAttachmentsSkeleton,
 })

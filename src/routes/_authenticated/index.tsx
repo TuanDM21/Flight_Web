@@ -1,6 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
-import Dashboard from '@/features/dashboard'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_authenticated/')({
-  component: Dashboard,
+  loader: async ({ context }) => {
+    if (!context.auth.isAuthenticated) {
+      throw redirect({
+        to: '/sign-in',
+        search: {
+          redirect: location.href,
+        },
+      })
+    } else {
+      redirect({
+        to: '/tasks',
+        throw: true,
+      })
+    }
+  },
 })

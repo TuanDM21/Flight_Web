@@ -25,66 +25,71 @@ export function DataTable<TData>({
   ...props
 }: DataTableProps<TData>) {
   return (
-    <div className={cn('flex w-full flex-col gap-2.5', className)} {...props}>
+    <div
+      className={cn('flex h-full w-full flex-col gap-2.5', className)}
+      {...props}
+    >
       {children}
-      <div className='rounded-md border'>
-        <Table className='w-full'>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    colSpan={header.colSpan}
-                    style={{
-                      ...getCommonPinningStyles({ column: header.column }),
-                    }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.length > 0 ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
+      <div className='overflow-hidden rounded-md border'>
+        <div className='max-h-full overflow-y-auto'>
+          <Table className='w-full'>
+            <TableHeader className='bg-background sticky top-0 z-10'>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
                       style={{
-                        ...getCommonPinningStyles({ column: cell.column }),
+                        ...getCommonPinningStyles({ column: header.column }),
                       }}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={table.getAllColumns().length}
-                  className='h-24 text-center'
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.length > 0 ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        style={{
+                          ...getCommonPinningStyles({ column: cell.column }),
+                        }}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={table.getAllColumns().length}
+                    className='h-24 text-center'
+                  >
+                    Không có dữ liệu
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
       <div className='flex flex-col gap-2.5'>
         <DataTablePagination table={table} />

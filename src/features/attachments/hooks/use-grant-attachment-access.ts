@@ -2,39 +2,20 @@ import { useQueryClient } from '@tanstack/react-query'
 import $queryClient from '@/api'
 import { BaseApiResponse } from '@/types/response'
 import { attachmentKeysFactory } from '@/api/query-key-factory'
-
-interface FileShareUser {
-  id: number
-  attachmentId: number
-  fileName: string
-  filePath: string
-  fileSize: number
-  sharedBy?: {
-    id: number
-    name: string
-    email: string
-  }
-  sharedWith?: {
-    id: number
-    name: string
-    email: string
-  }
-  sharedAt: string
-  note?: string
-  active: boolean
-  permission?: string
-  expired?: boolean
-  expiresAt?: string
-}
+import { useAuth } from '@/context/auth-context'
+import { UserItem } from '@/features/users/types'
+import { AttachmentItem, SharedAttachmentUserItem } from '../types'
 
 interface OptimisticGrantContext {
   attachmentId: number
   userIds: number[]
-  previousSharedUsers?: BaseApiResponse<FileShareUser[]>
+  previousSharedUsers?: BaseApiResponse<SharedAttachmentUserItem[]>
+  previousMyFiles?: BaseApiResponse<AttachmentItem[]>
 }
 
 export const useGrantAttachmentAccess = () => {
   const queryClient = useQueryClient()
+  const { user: currentUser } = useAuth()
 
   return $queryClient.useMutation('post', '/api/attachments/share', {
     onMutate: async (variables): Promise<OptimisticGrantContext> => {
@@ -48,17 +29,101 @@ export const useGrantAttachmentAccess = () => {
 
       // Snapshot the previous shared users
       const previousSharedUsers = queryClient.getQueryData<
-        BaseApiResponse<FileShareUser[]>
+        BaseApiResponse<SharedAttachmentUserItem[]>
       >(attachmentKeysFactory.usersSharedWithAttachments(attachmentId))
 
-      // Note: We can't optimistically add users without knowing their details
-      // This is a limitation - we'd need user data to create placeholder entries
-      // For now, we'll just invalidate the cache immediately after success
+      // Get all users to find the ones being shared with
+      const allUsers = queryClient.getQueryData<BaseApiResponse<UserItem[]>>([
+        'get',
+        '/api/users',
+      ])
+
+      // Snapshot my files to update share count
+      const previousMyFiles = queryClient.getQueryData<
+        BaseApiResponse<AttachmentItem[]>
+      >(attachmentKeysFactory.myAttachments())
+
+      // Optimistically update the cache with new shared users
+      if (previousSharedUsers && allUsers?.data && currentUser) {
+        const usersToShare = allUsers.data.filter((user) =>
+          userIds.includes(user.id!)
+        )
+
+        const newSharedUsers: SharedAttachmentUserItem[] = usersToShare.map(
+          (user) => ({
+            id: Date.now() + user.id!, // Temporary ID for optimistic update
+            attachmentId,
+            fileName: undefined, // Will be filled by server
+            filePath: undefined, // Will be filled by server
+            fileSize: undefined, // Will be filled by server
+            sharedBy: {
+              id: currentUser.id!,
+              name: currentUser.name!,
+              email: currentUser.email!,
+              roleName: currentUser.roleName!,
+              teamName: currentUser.teamName || '',
+              unitName: currentUser.unitName || '',
+              roleId: currentUser.roleId || 0,
+              teamId: currentUser.teamId || 0,
+              unitId: currentUser.unitId || 0,
+              canCreateActivity: currentUser.canCreateActivity,
+              permissions: currentUser.permissions,
+            },
+            sharedWith: {
+              id: user.id!,
+              name: user.name!,
+              email: user.email!,
+              roleName: user.roleName!,
+              teamName: user.teamName || '',
+              unitName: user.unitName || '',
+              roleId: user.roleId || 0,
+              teamId: user.teamId || 0,
+              unitId: user.unitId || 0,
+              canCreateActivity: user.canCreateActivity,
+              permissions: user.permissions,
+            },
+            sharedAt: new Date().toISOString(),
+            note: undefined,
+            sharedCount: undefined,
+            active: true,
+          })
+        )
+
+        queryClient.setQueryData<BaseApiResponse<SharedAttachmentUserItem[]>>(
+          attachmentKeysFactory.usersSharedWithAttachments(attachmentId),
+          {
+            ...previousSharedUsers,
+            data: [...(previousSharedUsers.data || []), ...newSharedUsers],
+          }
+        )
+      }
+
+      // Optimistically update share count in myFiles
+      if (previousMyFiles?.data) {
+        const updatedMyFiles = previousMyFiles.data.map((file) => {
+          if (file.id === attachmentId) {
+            return {
+              ...file,
+              sharedCount: (file.sharedCount || 0) + userIds.length,
+            }
+          }
+          return file
+        })
+
+        queryClient.setQueryData<BaseApiResponse<AttachmentItem[]>>(
+          attachmentKeysFactory.myAttachments(),
+          {
+            ...previousMyFiles,
+            data: updatedMyFiles,
+          }
+        )
+      }
 
       return {
         attachmentId,
         userIds,
         previousSharedUsers,
+        previousMyFiles,
       }
     },
     onError: (_error, _variables, context) => {
@@ -74,6 +139,14 @@ export const useGrantAttachmentAccess = () => {
           typedContext.previousSharedUsers
         )
       }
+
+      // Rollback myFiles share count
+      if (typedContext.previousMyFiles) {
+        queryClient.setQueryData(
+          attachmentKeysFactory.myAttachments(),
+          typedContext.previousMyFiles
+        )
+      }
     },
     onSettled: (_data, _error, variables, _context) => {
       const { attachmentId } = variables.body
@@ -87,6 +160,11 @@ export const useGrantAttachmentAccess = () => {
       // Invalidate shared with me in case new users can now see shared files
       queryClient.invalidateQueries({
         queryKey: attachmentKeysFactory.sharedWithMe(),
+      })
+
+      // Invalidate myFiles to update the actual share count
+      queryClient.invalidateQueries({
+        queryKey: attachmentKeysFactory.myAttachments(),
       })
     },
   })
