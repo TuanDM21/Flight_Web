@@ -7,7 +7,6 @@ import { CommandSearchProvider } from '@/context/command-search-context'
 import { Button } from '@/components/ui/button'
 import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { CommandSearch } from '@/components/command-search'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import { Header } from '@/components/layout/header'
 import { NavigationBreadcrumb } from '@/components/navigation-breadcrumb'
@@ -57,7 +56,6 @@ function RouteComponent() {
             <NavigationBreadcrumb />
 
             <div className='ml-auto flex items-center gap-4'>
-              <CommandSearch />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className='flex items-center gap-2'>

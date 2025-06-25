@@ -17,11 +17,6 @@ fetchClient.use({
       request.headers.set('Authorization', `Bearer ${token}`)
     }
   },
-  onResponse: ({ response }) => {
-    if (!response.ok) {
-      throw FetchError.fromResponse(response)
-    }
-  },
   onError: ({ error, request }) => {
     const message = error instanceof Error ? error.message : 'Unknown error'
     return FetchError.networkError(new Error(message), request)
